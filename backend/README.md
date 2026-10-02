@@ -30,6 +30,8 @@ installation does not call paid providers or download models. The verified
 installation target is Linux x86_64; other platforms have not been tested.
 
 Container startup is documented in the [Compose guide](../infra/README.md).
+The [developer workflow](../infra/development.md) collects setup, host-run
+development commands, checks and migration/ingestion availability.
 Migrations remain a later checklist task; quality scripts are documented below.
 Framework imports do not establish application readiness.
 

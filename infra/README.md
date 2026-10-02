@@ -1,5 +1,8 @@
 # Local Compose scaffold
 
+For locked host setup, development servers, checks and pending commands, see
+the [developer workflow](development.md).
+
 [compose.yaml](../compose.yaml) starts four local services. This is a working
 startup scaffold: culinary tools, migrations, ingestion, recommendations, the
 API proxy and the full user interface remain their later checklist tasks.

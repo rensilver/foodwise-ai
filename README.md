@@ -14,6 +14,9 @@ Locked installation and quality commands are documented in the
 package READMEs; [Compose setup and verification](infra/README.md) are runnable.
 P01-07 adds [GitHub Actions CI and local reproduction](infra/ci.md), including
 real PostgreSQL/pgvector checks and offline provider/model fixtures.
+P01-08 adds injectable services, typed errors and redacted JSON logging.
+Start with the [developer workflow](infra/development.md) for locked setup,
+local development, checks and command availability.
 Recommendation features remain planned.
 
 For this machine's memory constraints, see the [measured host assessment](infra/memory-assessment.md)

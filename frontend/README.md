@@ -7,8 +7,11 @@ implemented. The private package in [package.json](package.json) uses the same
 name. P01-05 adds a minimal English startup page, product metadata and
 `/health/live`; recommendations and catalog interfaces remain planned.
 
-The folders reserve the approved Next.js App Router layout. P01-02 pins Node
-24.19.0 in the root [.nvmrc](../.nvmrc) and pnpm 12.8.1 in
+The folders reserve the approved Next.js App Router layout.
+See the [developer workflow](../infra/development.md) for setup, local servers
+and checks across both packages.
+
+P01-02 pins Node 24.19.0 in the root [.nvmrc](../.nvmrc) and pnpm 12.8.1 in
 [package.json](package.json). The manifest and [pnpm-lock.yaml](pnpm-lock.yaml)
 lock Next.js 16.3.8, React 19.3.0, Tailwind CSS 4.3.3, TypeScript 5.9.3,
 matching React/Node type definitions, and the Radix/utilities used by shadcn/ui.
