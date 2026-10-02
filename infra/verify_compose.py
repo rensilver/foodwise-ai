@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--build", action="store_true", help="Build the locked service images first.")
+    parser.add_argument("--low-memory", action="store_true", help="Verify the optional low-memory Compose configuration and report memory usage.")
     args = parser.parse_args()
     suffix = secrets.token_hex(6)
     project = f"foodwise-p01-05-{suffix}"
@@ -40,6 +41,8 @@ def main() -> None:
     env_file.chmod(0o600)
     override.write_text('services:\n  frontend:\n    ports: !override ["127.0.0.1::3000"]\n  backend:\n    ports: !override ["127.0.0.1::8000"]\n')
     base = ["docker", "compose", "--env-file", str(env_file), "--project-name", project, "-f", str(ROOT / "compose.yaml")]
+    if args.low_memory:
+        base += ["-f", str(ROOT / "compose.low-memory.yaml")]
     compose = base + ["-f", str(override)]
     test_env = os.environ | values
 
@@ -70,11 +73,28 @@ def main() -> None:
             assert not config["services"][name].get("ports"), "Private service has a published port"
         for name in ("backend", "frontend"):
             assert all(port["host_ip"] == "127.0.0.1" for port in config["services"][name]["ports"])
-        assert not config["services"]["frontend"].get("environment"), "Backend environment reached frontend"
-        assert set(config["services"]["mcp"]["environment"]) == {"DATABASE_URL", "MEDIA_ROOT"}
+        frontend_environment = config["services"]["frontend"].get("environment", {})
+        mcp_environment = set(config["services"]["mcp"]["environment"])
+        runtime_settings = {"WEB_CONCURRENCY", "OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS", "TOKENIZERS_PARALLELISM"}
+        limits = {"db": 256, "backend": 512, "mcp": 512, "frontend": 384}
+        if args.low_memory:
+            assert frontend_environment == {"NODE_OPTIONS": "--max-old-space-size=256"}
+            assert mcp_environment == {"DATABASE_URL", "MEDIA_ROOT"} | runtime_settings
+            for name, mib in limits.items():
+                service = config["services"][name]
+                assert int(service["mem_limit"]) == int(service["memswap_limit"]) == mib * 1024**2
+                assert service["restart"] == "on-failure:3"
+            for name in ("mcp", "backend"):
+                assert config["services"][name]["environment"]["WEB_CONCURRENCY"] == "1"
+        else:
+            assert not frontend_environment, "Backend environment reached frontend"
+            assert mcp_environment == {"DATABASE_URL", "MEDIA_ROOT"}
         print("Compose configuration: four services, localhost ports, isolated environments.", flush=True)
         if args.build:
-            run(base + ["build", "backend", "frontend"], timeout=1200)
+            # Keep the two image builds from competing for host RAM.
+            for service in ("backend", "frontend"):
+                print(f"Building {service} separately from the other service image.", flush=True)
+                run(base + ["build", service], timeout=1200)
             print("Locked container builds passed.", flush=True)
         run(compose + ["up", "-d", "--wait", "--wait-timeout", "180"], timeout=210)
         raw_status = run(compose + ["ps", "--format", "json"])
@@ -89,6 +109,16 @@ def main() -> None:
         assert page_status == 200 and b"foodwise-ai" in page
         assert all(value.encode() not in page for value in values.values() if value)
         assert fetch(backend_url + "/api/v1/health/ready")[0] == 200
+        if args.low_memory:
+            for name, mib in limits.items():
+                container = run(compose + ["ps", "-q", name]).strip()
+                info = json.loads(run(["docker", "inspect", container]))[0]
+                assert info["HostConfig"]["Memory"] == info["HostConfig"]["MemorySwap"] == mib * 1024**2
+                assert not info["State"]["OOMKilled"] and info["RestartCount"] == 0
+                # Read cgroup accounting, which includes charged cache, separately
+                # from Docker stats (which subtracts inactive file cache on Linux).
+                measurement = run(compose + ["exec", "-T", name, "cat", "/sys/fs/cgroup/memory.current"]).strip()
+                print(f"{name}: cgroup memory {int(measurement) / 1024**2:.1f} MiB; limit {mib} MiB; swap disabled.", flush=True)
         execute("backend", """
 import asyncio
 from fastmcp import Client
@@ -120,6 +150,17 @@ with psycopg.connect(dsn) as connection:
 Path(os.environ['MEDIA_ROOT'], 'compose-persistence-probe').write_text('persistent')
 """
         versions = json.loads(execute("backend", db_code))
+        if args.low_memory:
+            execute("backend", """
+import os
+import psycopg
+expected = {'shared_buffers': '64MB', 'work_mem': '2MB', 'maintenance_work_mem': '32MB', 'autovacuum_work_mem': '16MB', 'max_connections': '20', 'max_parallel_workers_per_gather': '0'}
+with psycopg.connect(os.environ['DATABASE_URL'].replace('postgresql+psycopg://', 'postgresql://', 1)) as connection:
+    with connection.cursor() as cursor:
+        for name, value in expected.items():
+            cursor.execute('SELECT current_setting(%s)', (name,))
+            assert cursor.fetchone() == (value,), name
+""")
         print(f"Verified database versions: PostgreSQL {versions['postgresql']}, pgvector {versions['pgvector']}.", flush=True)
         execute("mcp", """
 import os
@@ -157,6 +198,12 @@ assert Path(os.environ['MEDIA_ROOT'], 'compose-persistence-probe').read_text() =
         assert response_status == 503 and json.loads(body)["dependencies"]["database"] == "unavailable"
         assert all(value.encode() not in body for value in values.values() if value)
         print("Dependency outages return redacted 503 readiness while liveness remains 200.", flush=True)
+        if args.low_memory:
+            for name in limits:
+                container = run(compose + ["ps", "-a", "-q", name]).strip()
+                info = json.loads(run(["docker", "inspect", container]))[0]
+                assert not info["State"]["OOMKilled"] and info["RestartCount"] == 0
+            print("Low-memory limits passed all scaffold smoke scenarios without OOM kills or automatic restarts.", flush=True)
     except Exception:
         try:
             diagnostics = run(compose + ["logs", "--tail", "40", "db", "mcp", "backend", "frontend"])

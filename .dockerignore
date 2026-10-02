@@ -14,6 +14,7 @@ data/synthetic_recipe_images
 data/synthetic-recipe-images.zip
 .venv
 **/.venv
+.local-tmp
 node_modules
 **/node_modules
 .next

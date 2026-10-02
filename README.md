@@ -14,6 +14,9 @@ Locked installation and quality commands are documented in the
 package READMEs; [Compose setup and verification](infra/README.md) are runnable.
 Recommendation features and CI remain planned.
 
+For this machine's memory constraints, see the [measured host assessment](infra/memory-assessment.md)
+and [optional low-memory Compose setup](infra/README.md#running-with-limited-ram).
+
 | Location | Purpose |
 | --- | --- |
 | [backend/](backend/README.md) | Python package boundaries, migrations, and backend tests. |

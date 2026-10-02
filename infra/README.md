@@ -115,3 +115,77 @@ The pinned FastMCP client/server currently returns `Method not found` for
 protocol ping during this smoke test. Compose uses the custom HTTP readiness
 route. Initialization and tool/resource discovery are checked separately;
 complete transport compatibility, including ping, remains Phase 6 work.
+
+## Running with limited RAM
+
+[compose.low-memory.yaml](../compose.low-memory.yaml) is an optional override
+for the current Phase 1 scaffold. Use both files on every Compose command;
+using only the base file removes the limits when containers are recreated.
+
+| Service | RAM ceiling | Adjustment |
+| --- | --- | --- |
+| PostgreSQL | 256 MiB | 64 MB shared buffers, 2 MB query work memory, 32 MB maintenance memory, 16 MB autovacuum memory, 20 connections, no parallel query workers. |
+| FastAPI | 512 MiB | One Uvicorn worker; one thread per configured OpenMP/BLAS library. |
+| FastMCP | 512 MiB | Same Python settings. |
+| Next.js | 384 MiB | Production server with a 256 MiB V8 old-space heap ceiling. |
+
+The combined container RAM ceilings are 1,664 MiB (1.625 GiB), excluding
+Docker, the desktop, IDE and image builds. These are maximum limits, not
+reservations or predictions of consumption. The override sets
+`memswap_limit` equal to `mem_limit`, so these containers cannot consume host
+swap; exhausted limits can cause an OOM kill. Automatic failure restarts are
+bounded to three attempts. See [Docker's memory limit semantics](https://docs.docker.com/reference/compose-file/services/#memswap_limit).
+This protects against unbounded container growth but cannot prevent unrelated
+host applications or builds from exhausting system RAM.
+
+With the existing local `.env` completed, run from the repository root:
+
+```bash
+docker compose -f compose.yaml -f compose.low-memory.yaml config --quiet
+docker compose -f compose.yaml -f compose.low-memory.yaml up -d --no-build --wait --wait-timeout 180
+docker compose -f compose.yaml -f compose.low-memory.yaml ps
+docker stats --no-stream
+```
+
+If images need building, first make room in RAM and build each image
+separately, before starting the stack:
+
+```bash
+docker compose -f compose.yaml -f compose.low-memory.yaml build backend
+docker compose -f compose.yaml -f compose.low-memory.yaml build frontend
+```
+
+The frontend override supplies `FOODWISE_BUILD_NODE_OPTIONS` to its Dockerfile
+to cap each build Node process's old-space heap at 1,024 MiB. The production
+container's smaller `NODE_OPTIONS` is separate. A Node heap limit does not cap
+total process memory or the sum of build workers; service limits do not apply
+to Docker builds. Sequential builds reduce competition for RAM. Prefer the
+production server over running an additional Next.js development server.
+
+For isolated validation using synthetic credentials and cached images:
+
+```bash
+python infra/verify_compose.py --low-memory
+```
+
+Add `--build` to verify sequential builds too. The low-memory smoke checks
+resolved and enforced limits, actual PostgreSQL settings, cgroup v2 memory
+usage, and absence of OOM kills/automatic restarts, as well as the existing
+health, discovery, persistence and outage contracts. It uses cgroup v2
+accounting on the verified Linux host; other cgroup layouts are unverified.
+
+The [host assessment](memory-assessment.md) records measured hardware and
+verification limits. The scaffold does not load pretrained embedding models.
+When MiniLM/CLIP retrieval is implemented, measure model loading and inference
+peaks before reusing these ceilings. Plan one owner for each resident model,
+CPU inference, small batches and bounded embedding jobs. Groq's six agent
+roles use remote inference; they do not require six local LLM instances.
+
+This host's `/tmp` is a 3.3 GiB tmpfs, so large temporary files consume
+RAM/swap. Keep model caches, media and installation/build scratch files on
+the disk-backed workspace or another disk directory. For host-run tools,
+create a workspace `.local-tmp/` directory and pass its absolute path as
+`TMPDIR` only to commands that need it; keep that directory Git-ignored.
+The default Compose media volume already uses disk-backed Docker storage.
+Increasing disk-backed swap may provide emergency headroom, but swap is
+slower than RAM and does not replace reducing the active workload.
