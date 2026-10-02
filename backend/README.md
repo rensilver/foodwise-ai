@@ -1,8 +1,9 @@
 # Backend scaffold
 
 The application package is `src/food_recommender`. P01-03 adds validated
-configuration in the infrastructure package; the other packages still contain
-only docstrings. P01-02 pins Python 3.12.14 in
+configuration in the infrastructure package. P01-05 adds FastAPI and FastMCP
+startup factories and local health probes; the domain/application/agent and
+retrieval packages remain scaffolds. P01-02 pins Python 3.12.14 in
 [.python-version](.python-version), uv 0.12.5 in
 [pyproject.toml](pyproject.toml), and framework/provider dependencies in
 [uv.lock](uv.lock). Hatchling packages `src/food_recommender` for editable
@@ -27,8 +28,9 @@ Embedding model weights are separate downloads scheduled for retrieval work;
 installation does not call paid providers or download models. The verified
 installation target is Linux x86_64; other platforms have not been tested.
 
-Service startup, migrations, and quality scripts remain pending
-their checklist tasks. Framework imports do not establish application readiness.
+Container startup is documented in the [Compose guide](../infra/README.md).
+Migrations and shared quality scripts remain their later checklist tasks.
+Framework imports do not establish application readiness.
 
 ## Backend configuration
 
@@ -85,10 +87,11 @@ only if you do not already have local configuration. Keep an existing `.env`
 and add missing entries manually. Required credentials are deliberately blank:
 supply a fresh `GROQ_API_KEY` and your own `ADMIN_PASSWORD_HASH`. Leave
 `TAVILY_API_KEY` blank for unavailable live trends, or supply a fresh key.
-The example's PostgreSQL and MCP endpoints describe future host-run services;
-they do not start them. Add URL-encoded database credentials when required and
-select your absolute media directory. Compose hostnames and mounted media
-configuration arrive in P01-05.
+The example's PostgreSQL and MCP endpoints describe separately provisioned
+host-run services; they do not start them. Add URL-encoded database credentials
+when required and select your absolute media directory. Compose injects its
+internal URLs and mounted media root; its database/MCP ports are unpublished.
+Add its two database passwords as described in the infrastructure guide.
 
 Write PHC hashes as `ADMIN_PASSWORD_HASH='<your generated PHC hash>'` with
 single quotes to preserve `$` characters. Do not source the example as a shell
@@ -117,6 +120,23 @@ uv run --locked python -m unittest discover -s tests/unit -p 'test_config.py' -v
 These tests use synthetic credentials and temporary dotenv files. They use the
 standard library test runner until the pytest/quality scripts arrive in P01-06;
 pytest can also collect the unittest cases later.
+
+P01-05 adds `/api/v1/health/live` and `/api/v1/health/ready` to the FastAPI
+factory, and `/health/live` and `/health/ready` to the separate HTTP FastMCP
+factory. Readiness checks local PostgreSQL/pgvector, mounted media and (for
+FastAPI) MCP availability with bounded calls; failures return names/statuses
+without exception details. No provider calls or model downloads occur.
+Run all current offline backend contracts from `backend/`:
+
+```bash
+uv run --locked python -m unittest discover -s tests/unit -v
+```
+
+The scaffold factories are `food_recommender.api.main:create_app` and
+`food_recommender.mcp.server:create_app`. Compose runs them with Uvicorn
+`--factory` on ports 8000/8001. The API requires the validated backend settings;
+MCP validates only `DATABASE_URL` and `MEDIA_ROOT` and receives no provider/admin
+secrets. Tools/resources and recommendation endpoints remain later phases.
 
 | Package | Responsibility |
 | --- | --- |

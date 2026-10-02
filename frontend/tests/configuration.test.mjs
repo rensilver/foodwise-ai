@@ -12,6 +12,7 @@ const secret = "synthetic-private-canary";
 const privateEnvironment = {
   GROQ_API_KEY: secret, TAVILY_API_KEY: secret, DATABASE_URL: secret,
   ADMIN_PASSWORD_HASH: secret, MEDIA_ROOT: secret, MCP_SERVER_URL: secret,
+  POSTGRES_PASSWORD: secret, FOODWISE_DB_PASSWORD: secret,
 };
 
 function loadConfiguration(extraEnv = {}, directory = root, development = false) {

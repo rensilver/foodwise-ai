@@ -1,6 +1,7 @@
 const backendVariables = [
   "GROQ_API_KEY", "GROQ_MODEL", "GROQ_VISION_MODEL", "TAVILY_API_KEY",
   "DATABASE_URL", "MCP_SERVER_URL", "MEDIA_ROOT", "ADMIN_PASSWORD_HASH",
+  "POSTGRES_PASSWORD", "FOODWISE_DB_PASSWORD",
 ];
 
 /** Backend configuration must never enter the frontend process. */
@@ -24,5 +25,5 @@ export default function nextConfig() {
     );
   }
   // Never spread process.env or expose backend settings through `env` here.
-  return {};
+  return { output: "standalone" };
 }

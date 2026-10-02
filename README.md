@@ -7,9 +7,11 @@ image retrieval, PostgreSQL/pgvector, Groq, MCP, and live food trend search.
 Phase 0 is verified, the P01-01 project layout is scaffolded, and P01-02 pins
 the runtimes and backend/frontend dependency graphs. P01-03 adds validated
 backend configuration; P01-04 adds safe examples, setup diagnostics and a
-frontend public-environment guard. Locked installation and configuration test commands
-are documented in the package READMEs. Application startup and quality
-commands will be added as their Phase 1 tasks are completed.
+frontend public-environment guard. P01-05 adds a four-service local Compose
+scaffold with persistent PostgreSQL/media storage and health checks.
+Locked installation and configuration test commands are documented in the
+package READMEs; [Compose setup and verification](infra/README.md) are runnable.
+Recommendation features and shared quality tooling remain planned.
 
 | Location | Purpose |
 | --- | --- |

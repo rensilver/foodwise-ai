@@ -4,7 +4,8 @@ The product name is **foodwise-ai**, with this exact spelling and casing.
 [product.ts](src/lib/product.ts) exports `PRODUCT_NAME` for UI headings,
 navigation labels, and browser/page metadata when those interfaces are
 implemented. The private package in [package.json](package.json) uses the same
-name. The frontend currently contains no application pages or layout metadata.
+name. P01-05 adds a minimal English startup page, product metadata and
+`/health/live`; recommendations and catalog interfaces remain planned.
 
 The folders reserve the approved Next.js App Router layout. P01-02 pins Node
 24.19.0 in the root [.nvmrc](../.nvmrc) and pnpm 12.8.1 in
@@ -34,8 +35,12 @@ Installation was verified on Linux x86_64. See the official
 [Next.js installation guide](https://nextjs.org/docs/app/getting-started/installation)
 and [pnpm installation guide](https://pnpm.io/installation) for tool setup.
 
-Strict TypeScript configuration and quality scripts remain scheduled in
-P01-06. Application pages and startup commands are pending.
+P01-05 adds the strict TypeScript configuration required by the startup page,
+and enables Next.js standalone output for the container. Shared quality scripts
+remain P01-06. From `frontend/`, run `pnpm dev` for a localhost development
+server or `pnpm build` for a production build. The
+[Compose guide](../infra/README.md) starts the standalone production server
+and documents health checks and synthetic-configuration verification.
 
 | Location | Responsibility |
 | --- | --- |
@@ -55,7 +60,8 @@ Provider secrets and database access stay on the server.
 
 P01-04 adds [next.config.mjs](next.config.mjs), which rejects all
 `NEXT_PUBLIC_*` variables during development and production configuration
-loading. It also rejects all eight backend configuration names, including
+loading. It also rejects the backend configuration names and both Compose
+database password names, including
 unprefixed values: client components can read those during server rendering
 and expose them in HTML. The scaffold needs no public environment settings. The guard runs
 after Next.js loads frontend dotenv files and never prints variable values.
@@ -80,7 +86,8 @@ The tests use synthetic values, exercise Next.js configuration/dotenv loading,
 and confirm that a build with backend canaries fails before rendering. A
 temporary minimal application built with a clean environment then verifies
 browser JavaScript and HTML contain no private canary. Temporary fixtures are deleted afterward; these
-checks do not start the planned application or call external providers.
+checks do not call external providers. The separate Compose smoke test boots
+the committed startup application with synthetic configuration.
 The Node test runner needs subprocess support. Shared quality scripts remain
 P01-06, and full application bundle checks must be repeated as UI/proxy code
 is implemented.

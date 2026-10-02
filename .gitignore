@@ -20,3 +20,4 @@ node_modules/
 htmlcov/
 playwright-report/
 test-results/
+*.tsbuildinfo
