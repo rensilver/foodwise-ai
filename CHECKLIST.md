@@ -39,7 +39,7 @@ The first release is local, English-language, and includes all six agents, multi
 
 **Verification:** clean dependency install, service boot, lint/type checks and CI dry run without paid providers.
 
-- [ ] P01-01 Scaffold the approved backend package, frontend feature folders, evaluation directory and infrastructure configuration without moving course artifacts.
+- [x] P01-01 Scaffold the approved backend package, frontend feature folders, evaluation directory and infrastructure configuration without moving course artifacts.
 - [ ] P01-02 Pin Python 3.12 and compatible Node/pnpm versions; resolve and commit `uv.lock` and `pnpm-lock.yaml` with compatible framework/provider packages.
 - [ ] P01-03 Add validated configuration for Groq text/vision models, Tavily, PostgreSQL, MCP, media and local administrator password hash; preserve the configured Groq text-model default.
 - [ ] P01-04 Add safe `.env.example` entries and actionable missing-configuration messages; ensure no secrets reach `NEXT_PUBLIC_*` or client bundles.
@@ -51,7 +51,7 @@ The first release is local, English-language, and includes all six agents, multi
 
 **Exit criterion:** a clean checkout can install locked dependencies and start healthy local scaffolds; configured quality checks run without Groq/Tavily calls.
 
-**Evidence / blockers:** _Pending._
+**Evidence / blockers:** P01-01 verified on 2026-10-02: [repository overview](README.md), [backend](backend/README.md), [frontend](frontend/README.md), [evaluation](evaluation/README.md), and [infrastructure](infra/README.md) document the scaffold and boundaries. Added project metadata, all eight backend subpackages, frontend feature folders, migration/test/evaluation placeholders, root Docker build exclusions, and development-cache Git ignores. Direct imports of all nine Python packages passed without external dependencies; TOML/JSON parsing, 16 placeholder directories, 46 local Markdown links, code fences, 134 unique checklist IDs, and the AGENTS.md size limit passed. All 34 available Phase 0 artifact hashes are unchanged. `python scripts/scan_secrets.py` scanned 44 source files with zero findings; `git diff --check` passed. Imports were checked using the host Python 3.13.13, not a configured Python 3.12 environment. Dependency installation/locks, runtime pins, service startup, Compose, and quality tooling remain pending P01-02 through P01-09; the Phase 1 exit gate is open.
 
 ## Phase 2 — Domain contracts and PostgreSQL persistence
 

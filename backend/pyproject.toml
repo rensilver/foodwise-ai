@@ -1,0 +1,9 @@
+[project]
+name = "foodwise-ai-backend"
+version = "0.1.0"
+description = "Local restaurant and recipe recommendation backend."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = []
+
+# P01-02 will configure the build backend, resolve dependencies, and add uv.lock.
