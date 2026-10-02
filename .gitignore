@@ -12,6 +12,7 @@ __pycache__/
 *.pyc
 .venv/
 node_modules/
+.pnpm-store/
 .next/
 .pytest_cache/
 .mypy_cache/

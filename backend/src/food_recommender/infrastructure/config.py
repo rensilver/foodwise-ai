@@ -13,7 +13,6 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy.engine import make_url
 from sqlalchemy.exc import ArgumentError
 
-
 DEFAULT_GROQ_MODEL = "qwen/qwen3.8-27b"
 _SETUP_GUIDANCE = {
     "GROQ_API_KEY": "Set a fresh Groq API key without whitespace or controls.",
@@ -70,7 +69,9 @@ class Settings(BaseSettings):
     groq_vision_model: str = Field(
         default=DEFAULT_GROQ_MODEL, validation_alias="GROQ_VISION_MODEL"
     )
-    tavily_api_key: SecretStr | None = Field(default=None, validation_alias="TAVILY_API_KEY")
+    tavily_api_key: SecretStr | None = Field(
+        default=None, validation_alias="TAVILY_API_KEY"
+    )
     database_url: SecretStr = Field(validation_alias="DATABASE_URL")
     mcp_server_url: AnyHttpUrl = Field(validation_alias="MCP_SERVER_URL")
     media_root: Path = Field(validation_alias="MEDIA_ROOT")
@@ -91,7 +92,9 @@ class Settings(BaseSettings):
             if not raw or any(
                 character.isspace() or ord(character) < 32 for character in raw
             ):
-                raise ValueError("must be a nonempty token without whitespace or controls")
+                raise ValueError(
+                    "must be a nonempty token without whitespace or controls"
+                )
         return value
 
     @field_validator("groq_model", "groq_vision_model")
@@ -132,8 +135,11 @@ class Settings(BaseSettings):
     @classmethod
     def validate_mcp_url(cls, value: AnyHttpUrl) -> AnyHttpUrl:
         if (
-            value.username or value.password or value.query
-            or value.fragment or value.port == 0
+            value.username
+            or value.password
+            or value.query
+            or value.fragment
+            or value.port == 0
         ):
             raise ValueError(
                 "must be an HTTP(S) endpoint without credentials, query or fragment"
@@ -144,8 +150,10 @@ class Settings(BaseSettings):
     @classmethod
     def validate_media_root(cls, value: Path) -> Path:
         if (
-            not value.is_absolute() or value == Path(value.anchor)
-            or ".." in value.parts or "\x00" in str(value)
+            not value.is_absolute()
+            or value == Path(value.anchor)
+            or ".." in value.parts
+            or "\x00" in str(value)
         ):
             raise ValueError(
                 "must be an absolute non-root path without traversal or NUL bytes"
@@ -174,7 +182,9 @@ class Settings(BaseSettings):
                     encoded + "=" * (-len(encoded) % 4), validate=True
                 )
             except ValueError:
-                raise ValueError("Argon2id salt and digest must be valid base64") from None
+                raise ValueError(
+                    "Argon2id salt and digest must be valid base64"
+                ) from None
             if (
                 not minimum <= len(decoded) <= 64
                 or base64.b64encode(decoded).decode().rstrip("=") != encoded
@@ -201,26 +211,38 @@ def load_settings(*, env_file: Path | None = None) -> Settings:
     try:
         return Settings(_env_file=env_file)
     except ValidationError as error:
-        issues = error.errors(include_input=False, include_context=False, include_url=False)
-        lines = ["Invalid backend configuration. See .env.example and backend/README.md:"]
+        issues = error.errors(
+            include_input=False, include_context=False, include_url=False
+        )
+        lines = [
+            "Invalid backend configuration. See .env.example and backend/README.md:"
+        ]
         for issue in issues:
             field = ".".join(str(part) for part in issue["loc"])
-            guidance = _SETUP_GUIDANCE.get(field, "Check this setting's documented format.")
+            guidance = _SETUP_GUIDANCE.get(
+                field, "Check this setting's documented format."
+            )
             lines.append(f"- {field} ({issue['type']}): {guidance}")
         raise ConfigurationError("\n".join(lines)) from None
 
 
 def main() -> int:
     """Offline syntax check; never prints configuration values or contacts services."""
-    parser = ArgumentParser(description="Validate backend configuration without service calls.")
-    parser.add_argument("--env-file", type=Path, help="Explicit local dotenv file to read.")
+    parser = ArgumentParser(
+        description="Validate backend configuration without service calls."
+    )
+    parser.add_argument(
+        "--env-file", type=Path, help="Explicit local dotenv file to read."
+    )
     arguments = parser.parse_args()
     try:
         settings = load_settings(env_file=arguments.env_file)
     except ConfigurationError as error:
         print(str(error), file=sys.stderr)
         return 2
-    print("Configuration valid. Service readiness and provider access have not been checked.")
+    print(
+        "Configuration valid. Service readiness and provider access have not been checked."
+    )
     if settings.tavily_api_key is None:
         print("Live trends unavailable: set TAVILY_API_KEY to enable trend search.")
     return 0

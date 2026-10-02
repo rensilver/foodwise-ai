@@ -29,7 +29,7 @@ installation does not call paid providers or download models. The verified
 installation target is Linux x86_64; other platforms have not been tested.
 
 Container startup is documented in the [Compose guide](../infra/README.md).
-Migrations and shared quality scripts remain their later checklist tasks.
+Migrations remain a later checklist task; quality scripts are documented below.
 Framework imports do not establish application readiness.
 
 ## Backend configuration
@@ -111,26 +111,16 @@ and reports unavailable trends when Tavily is unconfigured. It performs no
 service calls, media writes or model downloads. A valid configuration does
 not establish database/MCP readiness or provider/model access.
 
-Run the offline configuration contracts from `backend/` after locked installation:
-
-```bash
-uv run --locked python -m unittest discover -s tests/unit -p 'test_config.py' -v
-```
-
-These tests use synthetic credentials and temporary dotenv files. They use the
-standard library test runner until the pytest/quality scripts arrive in P01-06;
-pytest can also collect the unittest cases later.
+The offline configuration contracts use synthetic credentials and temporary
+dotenv files. The pytest suite below collects both the existing unittest cases
+and native async tests.
 
 P01-05 adds `/api/v1/health/live` and `/api/v1/health/ready` to the FastAPI
 factory, and `/health/live` and `/health/ready` to the separate HTTP FastMCP
 factory. Readiness checks local PostgreSQL/pgvector, mounted media and (for
 FastAPI) MCP availability with bounded calls; failures return names/statuses
 without exception details. No provider calls or model downloads occur.
-Run all current offline backend contracts from `backend/`:
-
-```bash
-uv run --locked python -m unittest discover -s tests/unit -v
-```
+Run all current offline backend contracts with `make test` from `backend/`.
 
 The scaffold factories are `food_recommender.api.main:create_app` and
 `food_recommender.mcp.server:create_app`. Compose runs them with Uvicorn
@@ -155,6 +145,40 @@ and retrieval services. Course notebooks are reference material, outside this
 runtime package.
 
 `migrations/versions` reserves the Alembic revision location for Phase 2.
-`tests/unit` contains the configuration contracts; `tests/integration` and
-`tests/contract` reserve later suites. Shared test tooling and scripts remain
-scheduled in P01-06.
+`tests/unit` contains the configuration and service-health contracts;
+`tests/integration` and `tests/contract` reserve later suites.
+
+## Quality scripts (P01-06)
+
+Run these commands from **`backend/`**, after `uv sync --locked`. The default
+sync installs the locked `dev` dependency group: Ruff 0.16.10, mypy 2.4.0,
+pytest 9.1.1 and pytest-asyncio 1.4.0. Production images use `--no-dev`.
+The [Makefile](Makefile) requires GNU Make; each target also shows its direct
+`uv run --locked` command, usable without Make.
+
+| Command | Check or action |
+| --- | --- |
+| `make lint` | Ruff lint on `src` and `tests`, including imports and Python 3.12 syntax. |
+| `make format-check` | Check Ruff formatting without changing files. |
+| `make format` | Apply Ruff formatting to `src` and `tests`. |
+| `make typecheck` | Strict mypy on all runtime packages, with Pydantic's plugin. |
+| `make test` | Discover all tests under `tests`, including unittest and explicit async tests. |
+| `make check` | Run lint, formatting check, typecheck and tests; fail on the first failed target. |
+
+For a focused test without Make, run:
+
+```bash
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run --locked pytest -p pytest_asyncio.plugin tests/unit/test_service_health.py
+```
+
+The test target disables automatic third-party pytest plugins and explicitly
+loads pytest-asyncio, avoiding unrelated provider/telemetry plugins installed
+with runtime SDKs. Async tests use `@pytest.mark.asyncio`; async fixtures should
+use `@pytest_asyncio.fixture`. Strict mode and function-scoped event loops keep
+each test independent. Unknown pytest settings and markers are errors.
+See the [pytest-asyncio configuration reference](https://pytest-asyncio.readthedocs.io/en/stable/reference/configuration.html).
+
+Current tests need no `.env`, database, MCP process, Groq/Tavily calls or model
+weights. HTTP contracts use in-process ASGI transports and injected/mocked
+readiness boundaries. Real database tests and CI remain P01-07; this suite
+does not establish real PostgreSQL retrieval or recommendation behavior.

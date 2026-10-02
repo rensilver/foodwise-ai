@@ -36,8 +36,8 @@ Installation was verified on Linux x86_64. See the official
 and [pnpm installation guide](https://pnpm.io/installation) for tool setup.
 
 P01-05 adds the strict TypeScript configuration required by the startup page,
-and enables Next.js standalone output for the container. Shared quality scripts
-remain P01-06. From `frontend/`, run `pnpm dev` for a localhost development
+and enables Next.js standalone output for the container. From `frontend/`,
+run `pnpm dev` for a localhost development
 server or `pnpm build` for a production build. The
 [Compose guide](../infra/README.md) starts the standalone production server
 and documents health checks and synthetic-configuration verification.
@@ -76,11 +76,8 @@ separate process environments for backend and frontend. Future proxy configurati
 belongs on the Next.js server. If a public setting becomes necessary later,
 add an explicit reviewed allowlist and tests before enabling it.
 
-Run the offline configuration checks from `frontend/` after locked installation:
-
-```bash
-node --test tests/configuration.test.mjs
-```
+Run the offline configuration checks with `pnpm test:config` from `frontend/`
+after locked installation.
 
 The tests use synthetic values, exercise Next.js configuration/dotenv loading,
 and confirm that a build with backend canaries fails before rendering. A
@@ -88,6 +85,61 @@ temporary minimal application built with a clean environment then verifies
 browser JavaScript and HTML contain no private canary. Temporary fixtures are deleted afterward; these
 checks do not call external providers. The separate Compose smoke test boots
 the committed startup application with synthetic configuration.
-The Node test runner needs subprocess support. Shared quality scripts remain
-P01-06, and full application bundle checks must be repeated as UI/proxy code
-is implemented.
+The Node test runner needs subprocess support. Full application bundle checks
+must be repeated as UI/proxy code is implemented.
+
+## Quality scripts (P01-06)
+
+All commands below run from **`frontend/`**, using the pinned Node/pnpm versions
+after `pnpm install --frozen-lockfile`.
+
+| Command | Check or action |
+| --- | --- |
+| `pnpm lint` | ESLint flat configuration with Next.js Core Web Vitals and TypeScript rules; warnings fail. |
+| `pnpm lint:fix` | Apply ESLint's available fixes. |
+| `pnpm typecheck` | Strict TypeScript check of application code, test code and test configurations. |
+| `pnpm test:unit` | Vitest component/unit tests with jsdom and Testing Library. |
+| `pnpm test:watch` | Watch component/unit tests during development. |
+| `pnpm test:config` | Node configuration/security contracts, including an isolated production build. |
+| `pnpm test` | Run component/unit and configuration suites once. |
+| `pnpm check` | Run lint, typecheck and both test suites, stopping on failure. |
+| `pnpm test:e2e:install` | Download the Chromium version required by the locked Playwright package. |
+| `pnpm test:e2e` | Build the app, start a local production server and run Chromium journeys. |
+| `pnpm test:e2e:ui` | Run browser tests with Playwright's interactive UI. |
+
+[ESLint configuration](eslint.config.mjs) covers source, tests and configuration
+files, excluding generated Next.js files and browser reports. ESLint 9.39.5
+matches the supported peers of Next.js 16.3.8's React/import/accessibility
+plugins; recheck those peers before upgrading to ESLint 10.
+See the [Next.js ESLint guide](https://nextjs.org/docs/app/api-reference/config/eslint).
+The [pnpm build policy](pnpm-workspace.yaml) disables only the locked
+`unrs-resolver@1.12.2` fallback postinstall downloader; ESLint resolves imports
+using the package's locked optional native binding. Unreviewed dependency
+scripts still fail installation.
+
+[Vitest configuration](vitest.config.mts) discovers only
+`tests/components/**/*.test.tsx` and `tests/unit/**/*.test.ts`. The
+[setup file](tests/setup.ts) registers DOM assertions and cleans rendered
+components after each test. React's JSX transform uses Vite's React plugin.
+Vitest covers synchronous components; use Playwright for async Server
+Components as described in the [Next.js Vitest guide](https://nextjs.org/docs/app/guides/testing/vitest).
+Node configuration tests and Playwright specs have separate runners.
+
+Install Chromium once before running browser tests. Linux machines may also
+need OS libraries: `pnpm exec playwright install-deps chromium` installs them
+and may require administrator privileges. See the
+[Playwright system requirements](https://playwright.dev/docs/intro#system-requirements).
+[Browser configuration](playwright.config.ts) builds the production app and
+uses the [startup script](scripts/start-e2e.mjs) to copy static/public assets
+and start the standalone server on `127.0.0.1:3100`, matching the container.
+It refuses to reuse an existing server,
+and shuts it down afterward. Keep that port free and run builds/browser tests
+sequentially: they share `.next`. Reports/traces under `test-results/` and
+`playwright-report/` are Git-ignored; view a retained failure trace with
+`pnpm exec playwright show-trace <trace.zip>`.
+
+These suites need no backend service, `.env`, credentials or model downloads.
+They verify the startup page, product metadata, liveness and configuration
+isolation. The browser installation downloads browser binaries; test runs make
+no paid provider calls. CI and full accessible application journeys remain
+later checklist tasks.

@@ -8,10 +8,11 @@ Phase 0 is verified, the P01-01 project layout is scaffolded, and P01-02 pins
 the runtimes and backend/frontend dependency graphs. P01-03 adds validated
 backend configuration; P01-04 adds safe examples, setup diagnostics and a
 frontend public-environment guard. P01-05 adds a four-service local Compose
-scaffold with persistent PostgreSQL/media storage and health checks.
-Locked installation and configuration test commands are documented in the
+scaffold with persistent PostgreSQL/media storage and health checks. P01-06 adds
+locked lint, formatting, type checking and Python/component/browser test tooling.
+Locked installation and quality commands are documented in the
 package READMEs; [Compose setup and verification](infra/README.md) are runnable.
-Recommendation features and shared quality tooling remain planned.
+Recommendation features and CI remain planned.
 
 | Location | Purpose |
 | --- | --- |
