@@ -129,6 +129,24 @@ Install Chromium once before running browser tests. Linux machines may also
 need OS libraries: `pnpm exec playwright install-deps chromium` installs them
 and may require administrator privileges. See the
 [Playwright system requirements](https://playwright.dev/docs/intro#system-requirements).
+
+On hosts with limited RAM and a RAM-backed `/tmp`, keep browser downloads and
+scratch files in the ignored, disk-backed workspace directory. Run from
+`frontend/` in the same shell for installation and testing:
+
+```bash
+mkdir -p ../.local-tmp/playwright ../.local-tmp/scratch
+export PLAYWRIGHT_BROWSERS_PATH="$PWD/../.local-tmp/playwright"
+export TMPDIR="$PWD/../.local-tmp/scratch"
+pnpm test:e2e:install
+pnpm test:e2e
+```
+
+Set those paths again in later shells to reuse the downloaded browser.
+Playwright selects the revision required by its locked package; repeat the
+installation after an upgrade. See the
+[memory guide](../infra/README.md#running-with-limited-ram) for host limits.
+
 [Browser configuration](playwright.config.ts) builds the production app and
 uses the [startup script](scripts/start-e2e.mjs) to copy static/public assets
 and start the standalone server on `127.0.0.1:3100`, matching the container.
@@ -143,3 +161,10 @@ They verify the startup page, product metadata, liveness and configuration
 isolation. The browser installation downloads browser binaries; test runs make
 no paid provider calls. CI and full accessible application journeys remain
 later checklist tasks.
+
+P01-06-02 passed on 2026-10-02 with Node 24.19.0, pnpm 12.8.1 and locked
+Playwright 1.63.0: Chromium/Headless Shell revision 1243 (153.0.8010.12)
+installed successfully, and `pnpm test:e2e` passed the production startup
+journey (one test, 28.3 seconds including build/server startup). Existing Linux
+libraries were sufficient. This verifies the scaffold; full application
+journeys remain planned.
