@@ -57,16 +57,18 @@ The administrator hash policy accepts memory costs of 19,456–262,144 KiB,
 2–10 iterations and 1–16 parallel lanes, with a 16–64 byte salt and a 32–64
 byte digest in canonical unpadded base64. Its minimum costs follow the
 [OWASP Argon2id guidance](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#argon2id).
-Validation checks encoding and bounded costs; password generation/verification
-and administrator sessions are future authentication work.
+Validation checks encoding and bounded costs. Generate a unique password hash
+locally with an Argon2id PHC-capable tool using those costs and keep the password
+separate; password verification and administrator sessions are future
+authentication work. This project does not ship a default administrator password.
 
 Settings are immutable and loaded afresh on each call. Startup can load them
 once and inject them into adapters when the composition roots are implemented.
 Provider keys, the database URL and administrator hash use `SecretStr`, which
 masks their representations and JSON serialization. Adapters must explicitly
 call `get_secret_value()` when supplying a credential to its dependency.
-`load_settings()` raises `ConfigurationError` containing field names and error
-types without supplied values. If directly inspecting a Pydantic
+`load_settings()` raises `ConfigurationError` containing field names, error
+types and field-specific corrective guidance without supplied values. If directly inspecting a Pydantic
 `ValidationError`, use `errors(include_input=False, include_context=False)`;
 Pydantic's hidden-input setting protects the textual error only. This is a
 backend configuration model and must never be returned through an API.
@@ -75,7 +77,36 @@ Loading makes no provider calls, database/MCP connections, directory writes or
 model downloads. It does not verify credential validity, model capabilities,
 service readiness or media permissions. Capability checks remain explicitly
 opt-in future work; providers/models are never switched automatically.
-Configuration examples and fuller setup diagnostics remain P01-04.
+
+### Local setup and offline diagnostics
+
+Use the root [.env.example](../.env.example) as the template for a root `.env`
+only if you do not already have local configuration. Keep an existing `.env`
+and add missing entries manually. Required credentials are deliberately blank:
+supply a fresh `GROQ_API_KEY` and your own `ADMIN_PASSWORD_HASH`. Leave
+`TAVILY_API_KEY` blank for unavailable live trends, or supply a fresh key.
+The example's PostgreSQL and MCP endpoints describe future host-run services;
+they do not start them. Add URL-encoded database credentials when required and
+select your absolute media directory. Compose hostnames and mounted media
+configuration arrive in P01-05.
+
+Write PHC hashes as `ADMIN_PASSWORD_HASH='<your generated PHC hash>'` with
+single quotes to preserve `$` characters. Do not source the example as a shell
+script; use the explicit dotenv loader. Provider keys and hashes must never
+appear in `NEXT_PUBLIC_*`, Next.js `env` configuration, API responses or logs.
+
+From `backend/`, validate a selected local file without printing its values:
+
+```bash
+uv run --locked python -m food_recommender.infrastructure.config --env-file ../.env
+```
+
+To validate settings supplied entirely through the process environment, omit
+`--env-file`. The command returns `0` for valid syntax and `2` for invalid or
+missing configuration, prints corrective instructions without a traceback,
+and reports unavailable trends when Tavily is unconfigured. It performs no
+service calls, media writes or model downloads. A valid configuration does
+not establish database/MCP readiness or provider/model access.
 
 Run the offline configuration contracts from `backend/` after locked installation:
 

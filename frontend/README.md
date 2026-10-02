@@ -52,3 +52,35 @@ P01-06. Application pages and startup commands are pending.
 FastAPI owns application behavior. The frontend uses its API through a
 same-origin proxy; generated contracts will come from OpenAPI in P08-10.
 Provider secrets and database access stay on the server.
+
+P01-04 adds [next.config.mjs](next.config.mjs), which rejects all
+`NEXT_PUBLIC_*` variables during development and production configuration
+loading. It also rejects all eight backend configuration names, including
+unprefixed values: client components can read those during server rendering
+and expose them in HTML. The scaffold needs no public environment settings. The guard runs
+after Next.js loads frontend dotenv files and never prints variable values.
+It also leaves Next.js `env` empty: that option can expose values in browser
+bundles even without a public prefix. See the official
+[environment-variable guide](https://nextjs.org/docs/app/guides/environment-variables)
+and [Next.js env option](https://nextjs.org/docs/app/api-reference/config/next-config-js/env).
+
+Keep the root `.env` for the backend; do not copy it into the frontend, export
+its settings into the frontend process or inject them into client code. Use
+separate process environments for backend and frontend. Future proxy configuration
+belongs on the Next.js server. If a public setting becomes necessary later,
+add an explicit reviewed allowlist and tests before enabling it.
+
+Run the offline configuration checks from `frontend/` after locked installation:
+
+```bash
+node --test tests/configuration.test.mjs
+```
+
+The tests use synthetic values, exercise Next.js configuration/dotenv loading,
+and confirm that a build with backend canaries fails before rendering. A
+temporary minimal application built with a clean environment then verifies
+browser JavaScript and HTML contain no private canary. Temporary fixtures are deleted afterward; these
+checks do not start the planned application or call external providers.
+The Node test runner needs subprocess support. Shared quality scripts remain
+P01-06, and full application bundle checks must be repeated as UI/proxy code
+is implemented.

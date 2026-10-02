@@ -175,6 +175,60 @@ class SettingsTests(unittest.TestCase):
                 load_settings(env_file=Path(directory) / "absent.env")
         self.assertIn("ENV_FILE", str(caught.exception))
 
+    def test_missing_configuration_has_field_specific_setup_guidance(self) -> None:
+        with patch.dict(os.environ, {}, clear=True):
+            with self.assertRaises(ConfigurationError) as caught:
+                load_settings()
+        message = str(caught.exception)
+        for guidance in (
+            "fresh Groq API key", "PostgreSQL connection URL", "HTTP(S) MCP endpoint",
+            "absolute media directory", "Argon2id v19 password hash", ".env.example",
+        ):
+            self.assertIn(guidance, message)
+
+    def test_invalid_configuration_has_safe_corrective_guidance(self) -> None:
+        with patch.dict(os.environ, environment() | {"GROQ_MODEL": "private bad model"}, clear=True):
+            with self.assertRaises(ConfigurationError) as caught:
+                load_settings()
+        self.assertIn("model identifier", str(caught.exception))
+        self.assertNotIn("private bad model", str(caught.exception))
+
+    def test_configuration_cli_reports_only_status_and_safe_guidance(self) -> None:
+        command = [sys.executable, "-m", "food_recommender.infrastructure.config"]
+        for values, expected_status in ((environment(), 0), ({}, 2)):
+            with self.subTest(status=expected_status):
+                result = subprocess.run(command, env=values, capture_output=True, text=True, timeout=10)
+                self.assertEqual(result.returncode, expected_status, result.stderr)
+                output = result.stdout + result.stderr
+                for value in environment().values():
+                    self.assertNotIn(value, output)
+                self.assertNotIn("Traceback", output)
+                if expected_status == 0:
+                    self.assertIn("Configuration valid", output)
+                    self.assertIn("Live trends unavailable", output)
+                else:
+                    self.assertIn("GROQ_API_KEY", output)
+                    self.assertIn(".env.example", output)
+
+    def test_example_requires_only_local_secrets_and_preserves_model_defaults(self) -> None:
+        env_file = Path(__file__).resolve().parents[3] / ".env.example"
+        with patch.dict(os.environ, {}, clear=True):
+            with self.assertRaises(ConfigurationError) as caught:
+                load_settings(env_file=env_file)
+        message = str(caught.exception)
+        for field in ("GROQ_API_KEY", "ADMIN_PASSWORD_HASH"):
+            self.assertIn(field, message)
+        for field in ("DATABASE_URL", "MCP_SERVER_URL", "MEDIA_ROOT"):
+            self.assertNotIn(field, message)
+        with patch.dict(os.environ, {
+            "GROQ_API_KEY": environment()["GROQ_API_KEY"],
+            "ADMIN_PASSWORD_HASH": encoded_hash(),
+        }, clear=True):
+            settings = load_settings(env_file=env_file)
+        self.assertEqual(settings.groq_model, "qwen/qwen3.8-27b")
+        self.assertEqual(settings.groq_vision_model, settings.groq_model)
+        self.assertIsNone(settings.tavily_api_key)
+
     def test_loading_is_not_cached_and_settings_are_frozen(self) -> None:
         with patch.dict(os.environ, environment(), clear=True):
             first = load_settings()

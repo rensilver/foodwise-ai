@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import base64
 import re
+import sys
+from argparse import ArgumentParser
 from pathlib import Path
 
 from pydantic import AnyHttpUrl, Field, SecretStr, ValidationError, field_validator
@@ -13,6 +15,29 @@ from sqlalchemy.exc import ArgumentError
 
 
 DEFAULT_GROQ_MODEL = "qwen/qwen3.8-27b"
+_SETUP_GUIDANCE = {
+    "GROQ_API_KEY": "Set a fresh Groq API key without whitespace or controls.",
+    "GROQ_MODEL": "Set a model identifier without whitespace; default: qwen/qwen3.8-27b.",
+    "GROQ_VISION_MODEL": (
+        "Set a vision model identifier without whitespace; default: qwen/qwen3.8-27b."
+    ),
+    "TAVILY_API_KEY": (
+        "Set a fresh Tavily API key without whitespace or leave it blank "
+        "for unavailable live trends."
+    ),
+    "DATABASE_URL": (
+        "Set a PostgreSQL connection URL with user, host, database and a valid port; "
+        "use postgresql:// or postgresql+psycopg://."
+    ),
+    "MCP_SERVER_URL": "Set an HTTP(S) MCP endpoint without credentials, query or fragment.",
+    "MEDIA_ROOT": (
+        "Set an absolute media directory other than the filesystem root, without traversal."
+    ),
+    "ADMIN_PASSWORD_HASH": (
+        "Set an Argon2id v19 password hash with m=19456..262144, t=2..10, p=1..16, "
+        "a 16..64-byte salt and 32..64-byte digest; quote it in dotenv files."
+    ),
+}
 _ARGON2ID = re.compile(
     r"\$argon2id\$v=19\$m=([0-9]{1,6}),t=([0-9]{1,2}),p=([0-9]{1,2})"
     r"\$([A-Za-z0-9+/]{22,86})\$([A-Za-z0-9+/]{43,86})"
@@ -169,13 +194,37 @@ def load_settings(*, env_file: Path | None = None) -> Settings:
     ValidationError.errors(); hide_input_in_errors only protects its text form.
     """
     if env_file is not None and not env_file.is_file():
-        raise ConfigurationError("Invalid backend configuration: ENV_FILE (missing file)")
+        raise ConfigurationError(
+            "Invalid backend configuration: ENV_FILE (missing file). "
+            "Copy .env.example to a local .env and select that file explicitly."
+        )
     try:
         return Settings(_env_file=env_file)
     except ValidationError as error:
         issues = error.errors(include_input=False, include_context=False, include_url=False)
-        summary = "; ".join(
-            f"{'.'.join(str(part) for part in issue['loc'])} ({issue['type']})"
-            for issue in issues
-        )
-        raise ConfigurationError(f"Invalid backend configuration: {summary}") from None
+        lines = ["Invalid backend configuration. See .env.example and backend/README.md:"]
+        for issue in issues:
+            field = ".".join(str(part) for part in issue["loc"])
+            guidance = _SETUP_GUIDANCE.get(field, "Check this setting's documented format.")
+            lines.append(f"- {field} ({issue['type']}): {guidance}")
+        raise ConfigurationError("\n".join(lines)) from None
+
+
+def main() -> int:
+    """Offline syntax check; never prints configuration values or contacts services."""
+    parser = ArgumentParser(description="Validate backend configuration without service calls.")
+    parser.add_argument("--env-file", type=Path, help="Explicit local dotenv file to read.")
+    arguments = parser.parse_args()
+    try:
+        settings = load_settings(env_file=arguments.env_file)
+    except ConfigurationError as error:
+        print(str(error), file=sys.stderr)
+        return 2
+    print("Configuration valid. Service readiness and provider access have not been checked.")
+    if settings.tavily_api_key is None:
+        print("Live trends unavailable: set TAVILY_API_KEY to enable trend search.")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
