@@ -1,0 +1,173 @@
+# foodwise-ai frontend
+
+The product name is **foodwise-ai**, with this exact spelling and casing.
+[product.ts](src/lib/product.ts) exports `PRODUCT_NAME` for UI headings,
+navigation labels, and browser/page metadata when those interfaces are
+implemented. The private package in [package.json](package.json) uses the same
+name. P01-05 adds a minimal English startup page, product metadata and
+`/health/live`; recommendations and catalog interfaces remain planned.
+
+The folders reserve the approved Next.js App Router layout.
+See the [developer workflow](../infra/development.md) for setup, local servers
+and checks across both packages.
+
+P01-02 pins Node 24.19.0 in the root [.nvmrc](../.nvmrc) and pnpm 12.8.1 in
+[package.json](package.json). The manifest and [pnpm-lock.yaml](pnpm-lock.yaml)
+lock Next.js 16.3.8, React 19.3.0, Tailwind CSS 4.3.3, TypeScript 5.9.3,
+matching React/Node type definitions, and the Radix/utilities used by shadcn/ui.
+The shadcn components themselves will be generated into the repository during
+UI work. Node type definitions follow the runtime's major version (24).
+
+Use Node 24.19.0 and pnpm 12.8.1. If using nvm, run `nvm install` and `nvm use`
+at the repository root; install pnpm with `npm install --global pnpm@12.8.1`.
+Then run from `frontend/`:
+
+```bash
+pnpm install --frozen-lockfile
+pnpm exec next --version
+pnpm exec tsc --version
+```
+
+[pnpm-workspace.yaml](pnpm-workspace.yaml) enforces runtime versions, exact new
+dependency declarations, and compatible peers using the current
+[pnpm settings format](https://pnpm.io/settings). It also retains pnpm's explicit
+version exceptions for the resolved Node types and Lucide release-age checks.
+pnpm 12 records its package-manager dependency in the first YAML document of
+the lockfile and the application graph in the second.
+Installation was verified on Linux x86_64. See the official
+[Next.js installation guide](https://nextjs.org/docs/app/getting-started/installation)
+and [pnpm installation guide](https://pnpm.io/installation) for tool setup.
+
+P01-05 adds the strict TypeScript configuration required by the startup page,
+and enables Next.js standalone output for the container. From `frontend/`,
+run `pnpm dev` for a localhost development
+server or `pnpm build` for a production build. The
+[Compose guide](../infra/README.md) starts the standalone production server
+and documents health checks and synthetic-configuration verification.
+
+| Location | Responsibility |
+| --- | --- |
+| `src/app` | Pages, layouts, and the same-origin API proxy. |
+| `src/features/chat` | Conversation UI, follow-ups, progress, and image upload controls. |
+| `src/features/preferences` | Explicit preferences and hard dietary constraint controls. |
+| `src/features/recommendations` | Result cards, details, citations, and limitations. |
+| `src/features/catalog` | Catalog browsing and administrator previews and CRUD forms. |
+| `src/components` | Shared accessible presentation components. |
+| `src/lib` | Generated OpenAPI types, API clients, and shared utilities. |
+| `tests/components` | Component and accessibility tests. |
+| `tests/e2e` | Playwright browser journeys. |
+
+FastAPI owns application behavior. The frontend uses its API through a
+same-origin proxy; generated contracts will come from OpenAPI in P08-10.
+Provider secrets and database access stay on the server.
+
+P01-04 adds [next.config.mjs](next.config.mjs), which rejects all
+`NEXT_PUBLIC_*` variables during development and production configuration
+loading. It also rejects the backend configuration names and both Compose
+database password names, including
+unprefixed values: client components can read those during server rendering
+and expose them in HTML. The scaffold needs no public environment settings. The guard runs
+after Next.js loads frontend dotenv files and never prints variable values.
+It also leaves Next.js `env` empty: that option can expose values in browser
+bundles even without a public prefix. See the official
+[environment-variable guide](https://nextjs.org/docs/app/guides/environment-variables)
+and [Next.js env option](https://nextjs.org/docs/app/api-reference/config/next-config-js/env).
+
+Keep the root `.env` for the backend; do not copy it into the frontend, export
+its settings into the frontend process or inject them into client code. Use
+separate process environments for backend and frontend. Future proxy configuration
+belongs on the Next.js server. If a public setting becomes necessary later,
+add an explicit reviewed allowlist and tests before enabling it.
+
+Run the offline configuration checks with `pnpm test:config` from `frontend/`
+after locked installation.
+
+The tests use synthetic values, exercise Next.js configuration/dotenv loading,
+and confirm that a build with backend canaries fails before rendering. A
+temporary minimal application built with a clean environment then verifies
+browser JavaScript and HTML contain no private canary. Temporary fixtures are deleted afterward; these
+checks do not call external providers. The separate Compose smoke test boots
+the committed startup application with synthetic configuration.
+The Node test runner needs subprocess support. Full application bundle checks
+must be repeated as UI/proxy code is implemented.
+
+## Quality scripts (P01-06)
+
+All commands below run from **`frontend/`**, using the pinned Node/pnpm versions
+after `pnpm install --frozen-lockfile`.
+
+| Command | Check or action |
+| --- | --- |
+| `pnpm lint` | ESLint flat configuration with Next.js Core Web Vitals and TypeScript rules; warnings fail. |
+| `pnpm lint:fix` | Apply ESLint's available fixes. |
+| `pnpm typecheck` | Strict TypeScript check of application code, test code and test configurations. |
+| `pnpm test:unit` | Vitest component/unit tests with jsdom and Testing Library. |
+| `pnpm test:watch` | Watch component/unit tests during development. |
+| `pnpm test:config` | Node configuration/security contracts, including an isolated production build. |
+| `pnpm test` | Run component/unit and configuration suites once. |
+| `pnpm check` | Run lint, typecheck and both test suites, stopping on failure. |
+| `pnpm test:e2e:install` | Download the Chromium version required by the locked Playwright package. |
+| `pnpm test:e2e` | Build the app, start a local production server and run Chromium journeys. |
+| `pnpm test:e2e:ui` | Run browser tests with Playwright's interactive UI. |
+
+[ESLint configuration](eslint.config.mjs) covers source, tests and configuration
+files, excluding generated Next.js files and browser reports. ESLint 9.39.5
+matches the supported peers of Next.js 16.3.8's React/import/accessibility
+plugins; recheck those peers before upgrading to ESLint 10.
+See the [Next.js ESLint guide](https://nextjs.org/docs/app/api-reference/config/eslint).
+The [pnpm build policy](pnpm-workspace.yaml) disables only the locked
+`unrs-resolver@1.12.2` fallback postinstall downloader; ESLint resolves imports
+using the package's locked optional native binding. Unreviewed dependency
+scripts still fail installation.
+
+[Vitest configuration](vitest.config.mts) discovers only
+`tests/components/**/*.test.tsx` and `tests/unit/**/*.test.ts`. The
+[setup file](tests/setup.ts) registers DOM assertions and cleans rendered
+components after each test. React's JSX transform uses Vite's React plugin.
+Vitest covers synchronous components; use Playwright for async Server
+Components as described in the [Next.js Vitest guide](https://nextjs.org/docs/app/guides/testing/vitest).
+Node configuration tests and Playwright specs have separate runners.
+
+Install Chromium once before running browser tests. Linux machines may also
+need OS libraries: `pnpm exec playwright install-deps chromium` installs them
+and may require administrator privileges. See the
+[Playwright system requirements](https://playwright.dev/docs/intro#system-requirements).
+
+On hosts with limited RAM and a RAM-backed `/tmp`, keep browser downloads and
+scratch files in the ignored, disk-backed workspace directory. Run from
+`frontend/` in the same shell for installation and testing:
+
+```bash
+mkdir -p ../.local-tmp/playwright ../.local-tmp/scratch
+export PLAYWRIGHT_BROWSERS_PATH="$PWD/../.local-tmp/playwright"
+export TMPDIR="$PWD/../.local-tmp/scratch"
+pnpm test:e2e:install
+pnpm test:e2e
+```
+
+Set those paths again in later shells to reuse the downloaded browser.
+Playwright selects the revision required by its locked package; repeat the
+installation after an upgrade. See the
+[memory guide](../infra/README.md#running-with-limited-ram) for host limits.
+
+[Browser configuration](playwright.config.ts) builds the production app and
+uses the [startup script](scripts/start-e2e.mjs) to copy static/public assets
+and start the standalone server on `127.0.0.1:3100`, matching the container.
+It refuses to reuse an existing server,
+and shuts it down afterward. Keep that port free and run builds/browser tests
+sequentially: they share `.next`. Reports/traces under `test-results/` and
+`playwright-report/` are Git-ignored; view a retained failure trace with
+`pnpm exec playwright show-trace <trace.zip>`.
+
+These suites need no backend service, `.env`, credentials or model downloads.
+They verify the startup page, product metadata, liveness and configuration
+isolation. The browser installation downloads browser binaries; test runs make
+no paid provider calls. [CI](../infra/ci.md) runs these checks and the Chromium
+startup journey; full accessible application journeys remain later tasks.
+
+P01-06-02 passed on 2026-10-02 with Node 24.19.0, pnpm 12.8.1 and locked
+Playwright 1.63.0: Chromium/Headless Shell revision 1243 (153.0.8010.12)
+installed successfully, and `pnpm test:e2e` passed the production startup
+journey (one test, 28.3 seconds including build/server startup). Existing Linux
+libraries were sufficient. This verifies the scaffold; full application
+journeys remain planned.

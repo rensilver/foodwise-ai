@@ -1,0 +1,12 @@
+engineStrict: true
+saveExact: true
+strictPeerDependencies: true
+
+# ESLint's resolver uses its locked optional platform binary directly.
+# Disable the redundant fallback downloader rather than running its postinstall.
+allowBuilds:
+  'unrs-resolver@1.12.2': false
+
+minimumReleaseAgeExclude:
+  - '@types/node@24.19.1'
+  - lucide-react@1.50.0

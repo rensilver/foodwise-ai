@@ -1,0 +1,53 @@
+# Opt-in settings for the Phase 1 scaffold on hosts with about 8 GB RAM.
+# These limits require reassessment when local embedding models are added.
+services:
+  db:
+    mem_limit: 256m
+    memswap_limit: 256m
+    restart: "on-failure:3"
+    command:
+      - postgres
+      - -c
+      - shared_buffers=64MB
+      - -c
+      - work_mem=2MB
+      - -c
+      - maintenance_work_mem=32MB
+      - -c
+      - autovacuum_work_mem=16MB
+      - -c
+      - max_connections=20
+      - -c
+      - max_parallel_workers_per_gather=0
+
+  backend:
+    mem_limit: 512m
+    memswap_limit: 512m
+    restart: "on-failure:3"
+    environment:
+      WEB_CONCURRENCY: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      TOKENIZERS_PARALLELISM: "false"
+
+  mcp:
+    mem_limit: 512m
+    memswap_limit: 512m
+    restart: "on-failure:3"
+    environment:
+      WEB_CONCURRENCY: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      TOKENIZERS_PARALLELISM: "false"
+
+  frontend:
+    mem_limit: 384m
+    memswap_limit: 384m
+    restart: "on-failure:3"
+    environment:
+      NODE_OPTIONS: --max-old-space-size=256
+    build:
+      args:
+        FOODWISE_BUILD_NODE_OPTIONS: --max-old-space-size=1024
