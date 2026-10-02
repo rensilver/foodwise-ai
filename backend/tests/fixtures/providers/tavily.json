@@ -1,0 +1,12 @@
+{
+  "query": "fixture culinary concept",
+  "results": [
+    {
+      "title": "Synthetic search fixture",
+      "url": "https://example.test/fixture",
+      "content": "Synthetic culinary evidence for interface tests only.",
+      "score": 1.0
+    }
+  ],
+  "response_time": 0.0
+}

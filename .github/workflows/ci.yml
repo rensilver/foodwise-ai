@@ -1,0 +1,93 @@
+name: Quality checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      HF_HUB_OFFLINE: "1"
+      TRANSFORMERS_OFFLINE: "1"
+      TOKENIZERS_PARALLELISM: "false"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      TEST_MODEL_ROOT: ${{ github.workspace }}/.local-tmp/test-models
+      TEST_DATABASE_ADMIN_URL: postgresql://postgres:synthetic-ci-database-password@127.0.0.1:5432/foodwise_test
+      TEST_DATABASE_URL: postgresql://foodwise_test_app:synthetic-ci-application-password@127.0.0.1:5432/foodwise_test
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16@sha256:a36250871de0833b8757561c72f2477ef1ddd1101afa4e617fb552e0de514c6b
+        env:
+          POSTGRES_DB: foodwise_test
+          POSTGRES_PASSWORD: synthetic-ci-database-password
+        ports:
+          - 127.0.0.1:5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d foodwise_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
+        with:
+          version: "0.12.5"
+          python-version: "3.12.14"
+          working-directory: backend
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+      - name: Install locked dependencies
+        run: uv sync --locked
+      - name: Provision local model fixtures
+        run: make provision-test-models
+      - name: Initialize disposable database
+        run: uv run --locked python scripts/bootstrap_test_database.py
+      - name: Backend lint, format, types and all tests
+        run: make check
+      - name: Redacting source scan
+        run: uv run --locked python ../scripts/scan_secrets.py
+
+  frontend:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: frontend
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      NODE_OPTIONS: --max-old-space-size=1024
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.local-tmp/playwright
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version-file: .nvmrc
+      - name: Install pinned pnpm
+        run: npm install --global pnpm@12.8.1
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Frontend lint, types, components and configuration
+        run: pnpm check
+      - name: Install Chromium and Linux libraries
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Production Chromium journey
+        run: pnpm test:e2e

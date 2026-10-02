@@ -1,0 +1,14 @@
+{
+  "id": "fixture-completion",
+  "object": "chat.completion",
+  "created": 0,
+  "model": "qwen/qwen3.8-27b",
+  "choices": [
+    {
+      "index": 0,
+      "message": {"role": "assistant", "content": "{\"status\":\"fixture\"}"},
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {"prompt_tokens": 1, "completion_tokens": 1, "total_tokens": 2}
+}

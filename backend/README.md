@@ -146,7 +146,8 @@ runtime package.
 
 `migrations/versions` reserves the Alembic revision location for Phase 2.
 `tests/unit` contains the configuration and service-health contracts;
-`tests/integration` and `tests/contract` reserve later suites.
+`tests/integration` contains real PostgreSQL/pgvector foundation checks;
+`tests/contract` contains offline provider SDK and local model-fixture checks.
 
 ## Quality scripts (P01-06)
 
@@ -158,12 +159,14 @@ The [Makefile](Makefile) requires GNU Make; each target also shows its direct
 
 | Command | Check or action |
 | --- | --- |
-| `make lint` | Ruff lint on `src` and `tests`, including imports and Python 3.12 syntax. |
+| `make lint` | Ruff lint on `src`, `tests` and `scripts`, including imports and Python 3.12 syntax. |
 | `make format-check` | Check Ruff formatting without changing files. |
-| `make format` | Apply Ruff formatting to `src` and `tests`. |
+| `make format` | Apply Ruff formatting to `src`, `tests` and `scripts`. |
 | `make typecheck` | Strict mypy on all runtime packages, with Pydantic's plugin. |
 | `make test` | Discover all tests under `tests`, including unittest and explicit async tests. |
 | `make check` | Run lint, formatting check, typecheck and tests; fail on the first failed target. |
+| `make test-integration` | Run real database contracts; requires the disposable `TEST_DATABASE_URL`. |
+| `make provision-test-models` | Generate seeded local CPU fixtures; requires an ignored `TEST_MODEL_ROOT`. |
 
 For a focused test without Make, run:
 
@@ -178,7 +181,11 @@ use `@pytest_asyncio.fixture`. Strict mode and function-scoped event loops keep
 each test independent. Unknown pytest settings and markers are errors.
 See the [pytest-asyncio configuration reference](https://pytest-asyncio.readthedocs.io/en/stable/reference/configuration.html).
 
-Current tests need no `.env`, database, MCP process, Groq/Tavily calls or model
-weights. HTTP contracts use in-process ASGI transports and injected/mocked
-readiness boundaries. Real database tests and CI remain P01-07; this suite
-does not establish real PostgreSQL retrieval or recommendation behavior.
+Unit/provider contracts need no `.env`, database, MCP process, paid provider
+calls or pretrained weights. HTTP contracts use in-process ASGI transports,
+fake SDK responses and injected/mocked readiness boundaries. The PostgreSQL
+and seeded-model suites run when their test settings are supplied; otherwise
+ordinary local runs skip them explicitly. CI requires both and rejects missing
+settings. See the [CI guide](../infra/ci.md) for the complete disposable-database
+setup, local fixture provisioning, checks and cleanup. These foundation tests
+do not establish application retrieval or recommendation behavior.

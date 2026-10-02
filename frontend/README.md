@@ -159,8 +159,8 @@ sequentially: they share `.next`. Reports/traces under `test-results/` and
 These suites need no backend service, `.env`, credentials or model downloads.
 They verify the startup page, product metadata, liveness and configuration
 isolation. The browser installation downloads browser binaries; test runs make
-no paid provider calls. CI and full accessible application journeys remain
-later checklist tasks.
+no paid provider calls. [CI](../infra/ci.md) runs these checks and the Chromium
+startup journey; full accessible application journeys remain later tasks.
 
 P01-06-02 passed on 2026-10-02 with Node 24.19.0, pnpm 12.8.1 and locked
 Playwright 1.63.0: Chromium/Headless Shell revision 1243 (153.0.8010.12)

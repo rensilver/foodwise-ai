@@ -12,7 +12,9 @@ scaffold with persistent PostgreSQL/media storage and health checks. P01-06 adds
 locked lint, formatting, type checking and Python/component/browser test tooling.
 Locked installation and quality commands are documented in the
 package READMEs; [Compose setup and verification](infra/README.md) are runnable.
-Recommendation features and CI remain planned.
+P01-07 adds [GitHub Actions CI and local reproduction](infra/ci.md), including
+real PostgreSQL/pgvector checks and offline provider/model fixtures.
+Recommendation features remain planned.
 
 For this machine's memory constraints, see the [measured host assessment](infra/memory-assessment.md)
 and [optional low-memory Compose setup](infra/README.md#running-with-limited-ram).
