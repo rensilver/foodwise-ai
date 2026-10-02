@@ -1,4 +1,10 @@
-# Frontend scaffold
+# foodwise-ai frontend
+
+The product name is **foodwise-ai**, with this exact spelling and casing.
+[product.ts](src/lib/product.ts) exports `PRODUCT_NAME` for UI headings,
+navigation labels, and browser/page metadata when those interfaces are
+implemented. The private package in [package.json](package.json) uses the same
+name. The frontend currently contains no application pages or layout metadata.
 
 The folders reserve the approved Next.js App Router layout. P01-02 pins Node
 24.19.0 in the root [.nvmrc](../.nvmrc) and pnpm 12.8.1 in

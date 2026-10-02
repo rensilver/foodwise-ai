@@ -1,4 +1,4 @@
-# Foodwise AI
+# foodwise-ai
 
 An English-language, local restaurant and recipe recommender based on the IBM
 capstone. The planned application combines six LangGraph agents, cited text and

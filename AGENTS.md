@@ -4,6 +4,8 @@
 
 Build an English-language, local portfolio restaurant/recipe recommender from the IBM capstone: six LangGraph agents, multi-source RAG, PostgreSQL/pgvector, Groq, MCP, live trend search, FastAPI, and Next.js.
 
+**Product name:** use `foodwise-ai` with this exact spelling and casing in frontend branding and page metadata. Import `PRODUCT_NAME` from `frontend/src/lib/product.ts` for product labels and titles.
+
 V1 includes follow-ups, preferences, image upload/search, cited recommendations and local CRUD. Defer public hosting, multi-user accounts, social-media connectors, verified nutrition and large-scale indexing.
 
 **Status:** Phase 0 baseline is verified in this repository. Sanitized course notebooks/scripts, PDFs, the recovered ZIP and 109 recipe images remain local and Git-ignored. Source reports are committed. The application below remains planned. See [CHECKLIST.md](CHECKLIST.md) for blockers.
