@@ -1,0 +1,309 @@
+# Food Recommendation Capstone — Development Checklist
+
+## How to use this tracker
+
+The architecture and implementation rules live in [AGENTS.md](AGENTS.md). This checklist tracks the planned application, not completion of the course exercises. All implementation items start unchecked: existing notebook output does not establish that the new application works.
+
+Use stable task IDs when recording work. Mark an item `[x]` only after its behavior is implemented and the stated checks pass. Preserve the user's marks. Record commands/results, relevant artifact paths, and unresolved limitations in each phase's evidence field; never include keys, raw personal profiles, or credentials. A parent phase is complete only when its exit criterion is satisfied. Do not mark a phase complete because a degraded demonstration ran.
+
+The first release is local, English-language, and includes all six agents, multimodal retrieval, live trends and local CRUD. See the deferred section for work outside v1. Independent scaffolding can continue while source recovery or owner-led credential rotation is pending; blocked tasks remain visible.
+
+## Phase 0 — Baseline, credentials, and source recovery
+
+**Prerequisites:** reviewed AGENTS.md and preserved existing user changes.
+
+**Outputs:** sanitized working sources, source manifest/reconciliation report, validated media inventory.
+
+**Verification:** safe secret scan, source counts/relationships, archive integrity and image identity checks.
+
+- [ ] P00-01 Record a baseline manifest of all 35 existing artifacts, their hashes and intended runtime/reference roles; preserve course originals and attribution.
+- [ ] P00-02 Have the credential owner revoke/rotate the exposed Groq credential; record completion without capturing its value or testing the old key.
+- [ ] P00-03 Remove credential literals from both workflow notebook copies and inspect stored outputs for leaked secrets.
+- [ ] P00-04 Ignore real environment files, add safe configuration examples, and remove the tracked environment file from Git's index while preserving the local file.
+- [ ] P00-05 Run a redacting secret scanner over the working tree and identify historical exposure; document any history remediation separately without automatically rewriting Git history.
+- [ ] P00-06 Validate the baseline: 204 unique restaurant IDs, 109 recipe IDs, ten review IDs, one synthetic user, nine review image references/captions, and no orphan review links.
+- [ ] P00-07 Map all 210 raw restaurant paragraphs to existing/new/unresolved records; review duplicates and omissions, preserve existing IDs, and document every discrepancy.
+- [ ] P00-08 Recover the empty recipe ZIP using the notebook's source URL; verify bytes, ZIP integrity, bounded safe extraction and decoded image formats.
+- [ ] P00-09 Build the `recipe{id}.png` media manifest; check numeric IDs, duplicates, missing/extra files and image-to-recipe associations without list-order pairing.
+- [ ] P00-10 Confirm usable recipe imagery for the full multimodal release; keep inaccessible review URLs and unlinked placeholder imagery explicitly documented.
+
+**Exit criterion:** source coverage is reconciled or explicitly quarantined, recipe imagery is available and mapped, and exposed credentials are revoked with safe working-tree configuration. Any remaining blocker stays open for the release gate.
+
+**Evidence / blockers:** _Pending._
+
+## Phase 1 — Project foundation and developer workflow
+
+**Prerequisites:** baseline recorded; unresolved Phase 0 external blockers may remain visible.
+
+**Outputs:** backend/frontend scaffolds, locked dependencies, Compose configuration and quality scripts.
+
+**Verification:** clean dependency install, service boot, lint/type checks and CI dry run without paid providers.
+
+- [ ] P01-01 Scaffold the approved backend package, frontend feature folders, evaluation directory and infrastructure configuration without moving course artifacts.
+- [ ] P01-02 Pin Python 3.12 and compatible Node/pnpm versions; resolve and commit `uv.lock` and `pnpm-lock.yaml` with compatible framework/provider packages.
+- [ ] P01-03 Add validated configuration for Groq text/vision models, Tavily, PostgreSQL, MCP, media and local administrator password hash; preserve the configured Groq text-model default.
+- [ ] P01-04 Add safe `.env.example` entries and actionable missing-configuration messages; ensure no secrets reach `NEXT_PUBLIC_*` or client bundles.
+- [ ] P01-05 Define PostgreSQL/pgvector, backend, FastMCP and Next.js Compose services, volumes and health checks; publish required ports only on localhost.
+- [ ] P01-06 Add Ruff, mypy, pytest/async testing, ESLint, TypeScript checks, Vitest/Testing Library and Playwright scripts with documented working directories.
+- [ ] P01-07 Create CI for backend/frontend checks and real PostgreSQL/pgvector integration tests, using fake external providers and pre-provisioned model fixtures.
+- [ ] P01-08 Add dependency injection/composition roots, structured redacted logging, and shared typed error conventions.
+- [ ] P01-09 Document runnable setup, test, formatting, migration, ingestion and development commands as each is implemented; distinguish placeholders from working commands.
+
+**Exit criterion:** a clean checkout can install locked dependencies and start healthy local scaffolds; configured quality checks run without Groq/Tavily calls.
+
+**Evidence / blockers:** _Pending._
+
+## Phase 2 — Domain contracts and PostgreSQL persistence
+
+**Prerequisites:** Phase 1 and reviewed source mappings from Phase 0.
+
+**Outputs:** typed domain/API concepts, migrations, repository adapters and transaction boundaries.
+
+**Verification:** real database tests for constraints, migrations, identity, ownership and transaction failure.
+
+- [ ] P02-01 Define typed preferences, explicit/inferred constraints, candidate evidence, expert outcomes, recommendations, citations and progress events.
+- [ ] P02-02 Model restaurants, recipes and reviews with stable identities, source-ID uniqueness and valid foreign keys; keep unknown fields nullable.
+- [ ] P02-03 Add source-record, document and media provenance including content hashes, timestamps, raw payloads and generation/import attribution.
+- [ ] P02-04 Create separate text `vector(384)` and image `vector(512)` storage with embedding model/revision/input hashes; enable pgvector through migration.
+- [ ] P02-05 Add PostgreSQL full-text fields and ordinary filter indexes; keep exact vector search as the initial implementation.
+- [ ] P02-06 Add conversations, profiles, session ownership and trend cache persistence; initialize PostgreSQL checkpoint tables through the supported LangGraph path.
+- [ ] P02-07 Implement repository and transaction ports/adapters, optimistic record versions and atomic catalog/document/vector writes.
+- [ ] P02-08 Test fresh migrations, rollback on failed writes, duplicate-ID rejection, foreign-key enforcement, version conflicts and session isolation.
+- [ ] P02-09 Define and test deletion of conversation-owned messages/checkpoints/uploads without deleting shared catalog data.
+
+**Exit criterion:** typed domain rules and persistence contracts are independently testable; migrations and integrity/ownership tests pass against PostgreSQL/pgvector.
+
+**Evidence / blockers:** _Pending._
+
+## Phase 3 — Validated ingestion and media preparation
+
+**Prerequisites:** Phase 2; reconciled data and recovered imagery from Phase 0 for full acceptance.
+
+**Outputs:** resumable ingestion CLI, canonical seed catalog, source reports and media manifest.
+
+**Verification:** import all baseline inputs, rerun unchanged imports and inject malformed/partial inputs.
+
+- [ ] P03-01 Implement source adapters that preserve raw attributes and map legacy IDs, cuisine/location fields and recipe time strings into canonical records.
+- [ ] P03-02 Merge base and augmented recipe/review records by identity; verify that enrichment does not create duplicate entities or overwrite authoritative fields silently.
+- [ ] P03-03 Parse legacy string-encoded image lists safely, validate element types and reject malformed or oversized values with source-specific errors.
+- [ ] P03-04 Implement source mappings for raw restaurant paragraphs and stable IDs for accepted additions; report unresolved records without breaking existing review relationships.
+- [ ] P03-05 Add Groq-backed structured extraction with Pydantic validation, no more than two repair attempts, quarantine on failure and administrator preview output.
+- [ ] P03-06 Reuse supplied captions with provenance; add separate vision inference for new images and avoid unnecessary recaptioning.
+- [ ] P03-07 Implement image download validation, private-address/redirect restrictions, safe ZIP extraction, decoding, generated storage paths and ID-based recipe associations.
+- [ ] P03-08 Add content-hash upserts, manifests and resumable progress; report imported/unchanged/rejected/unresolved totals and avoid destructive index resets.
+- [ ] P03-09 Test empty/corrupt archives, missing/duplicate images, unsafe paths, absent captions, interrupted imports, malformed JSON and repeated runs.
+- [ ] P03-10 Import and reconcile the complete seed corpus; record final counts and changes from the original 204/109/10 baseline.
+
+**Exit criterion:** accepted records and available media are traceable, imports are idempotent/resumable, and every rejected or unresolved source item is reported.
+
+**Evidence / blockers:** _Pending._
+
+## Phase 4 — Multi-source text retrieval baseline
+
+**Prerequisites:** Phases 2–3.
+
+**Outputs:** real restaurant/recipe/review retrievers, lexical/dense fusion and evidence contracts.
+
+**Verification:** deterministic fixtures and labeled source-backed queries against PostgreSQL.
+
+- [ ] P04-01 Construct retrieval documents containing restaurant descriptions, ambiance, signatures and shortcomings; recipe ingredients/directions/captions; and scoped review evidence.
+- [ ] P04-02 Implement token-aware chunking and provenance offsets; preserve complete canonical ingredients for dietary checks even when retrieval uses excerpts.
+- [ ] P04-03 Generate normalized MiniLM 384-dimensional embeddings on CPU with hashes, revision checks and batched upserts.
+- [ ] P04-04 Implement parameterized PostgreSQL full-text and exact cosine search with applicable metadata filters and validated result limits.
+- [ ] P04-05 Implement explicit hard-constraint handling and supported/conflicting/unknown evidence states; never classify missing dietary evidence as compliant.
+- [ ] P04-06 Add restaurant/recipe/review source routing, reciprocal rank fusion with `k=60`, entity-level deduplication and up to 20 candidates per requested category.
+- [ ] P04-07 Return typed evidence, original scores, source IDs and explicit no-result versus dependency-error outcomes.
+- [ ] P04-08 Test exact filters, names, null metadata, IDs, empty/one-result queries, duplicate chunks, incompatible embedding dimensions/revisions and scoped reviews.
+- [ ] P04-09 Create initial labeled text queries and record retrieval metrics before agent reasoning or later ranking changes.
+
+**Exit criterion:** real PostgreSQL retrieval returns reproducible, constrained, cited candidates; no simulated LLM-generated search results remain in the new runtime.
+
+**Evidence / blockers:** _Pending._
+
+## Phase 5 — Multimodal retrieval and fusion
+
+**Prerequisites:** Phase 4 and validated image corpus from Phases 0/3.
+
+**Outputs:** CLIP image index, image queries, entity-level late fusion and evaluation comparisons.
+
+**Verification:** image-to-image/text-to-image fixtures, missing-modality cases and weight experiments.
+
+- [ ] P05-01 Generate normalized 512-dimensional CLIP image embeddings with verified model identity and actual entity/media links.
+- [ ] P05-02 Implement CLIP text-to-image and image-to-image search using the matching model/revision; reject unsupported or mismatched inputs.
+- [ ] P05-03 Resolve query images through authorized media IDs rather than caller-supplied paths or arbitrary URLs.
+- [ ] P05-04 Add normalized text/image late fusion, initially `0.6/0.4`, and aggregate maximum evidence per entity/modality while retaining component scores.
+- [ ] P05-05 Implement deterministic ties, empty/equal score handling, duplicate image protection and weight renormalization when an entire modality is unavailable.
+- [ ] P05-06 Rank restaurants and recipes separately and prove that unrelated recipe imagery is never attributed to restaurant menu items.
+- [ ] P05-07 Test expected image/recipe associations, partial imagery, malformed uploads, exact filters, image-only queries and text-plus-image queries.
+- [ ] P05-08 Compare text-only, balanced, text-heavy and image-heavy results on labeled queries; record relevance/diversity and latency tradeoffs.
+
+**Exit criterion:** text and image queries work with correctly associated real media, constraints remain intact, and fusion behavior is measured and explainable.
+
+**Evidence / blockers:** _Pending._
+
+## Phase 6 — MCP services and live food trends
+
+**Prerequisites:** Phase 5 and provider/configuration ports from Phase 1.
+
+**Outputs:** FastMCP server/client, typed read-only tools/resources, bounded Tavily search and cache.
+
+**Verification:** protocol tests on both transports, fake-provider failure tests and explicit live search smoke test.
+
+- [ ] P06-01 Implement `get_restaurant_info`, `recommend_by_vibe` and `get_review` using shared application services with explicit ambiguity/no-match results.
+- [ ] P06-02 Add `search_restaurants`, `search_recipes` and `search_images` with constrained schemas, bounded limits and evidence-rich results.
+- [ ] P06-03 Expose culinary-map, dataset-manifest and source-provenance resources without exposing arbitrary files or private session content.
+- [ ] P06-04 Implement Streamable HTTP for Compose, stdio for local demos, connection lifecycle management and stderr logging for stdio.
+- [ ] P06-05 Discover tool schemas at runtime, apply per-agent allowlists and validate arguments/results; reject arbitrary tool/server selection.
+- [ ] P06-06 Add `search_food_trends` backed by Tavily with two searches/run, five results/search, a 90-day window and a 24-hour cache TTL.
+- [ ] P06-07 Store URLs, excerpts, available publication dates and retrieval times; sanitize search queries to avoid sending private profiles/reviews/restrictions.
+- [ ] P06-08 Enforce freshness at cache read and citation time; unknown publication dates cannot substantiate current trends.
+- [ ] P06-09 Handle timeout, rate limits, no results, stale cache and missing credentials as explicit unavailable trend evidence.
+- [ ] P06-10 Test tool/resource discovery, protocol errors, connection reuse, limits, path/SQL/tool injection, both transports and prohibited mutation capabilities.
+- [ ] P06-11 Verify that Groq inference stays in the application, no sampling callback is required, and filesystem restrictions do not depend on roots alone.
+- [ ] P06-12 Run an explicitly enabled Tavily smoke test with a fresh key and record dated evidence plus request usage; keep offline tests independent of it.
+
+**Exit criterion:** the app can discover and call real retrieval/trend tools through MCP, and both live and unavailable-trend behavior are demonstrated.
+
+**Evidence / blockers:** _Pending._
+
+## Phase 7 — Six-agent hybrid LangGraph workflow
+
+**Prerequisites:** Phases 4–6, shared typed contracts and PostgreSQL checkpoints.
+
+**Outputs:** six real graph agents, persisted conversational state, bounded retrieval refinement and validated synthesis.
+
+**Verification:** deterministic graph/provider tests and explicitly enabled end-to-end Groq smoke test.
+
+- [ ] P07-01 Implement a configurable Groq adapter for structured outputs and tool selection as separate calls; validate text/vision capabilities with fresh credentials in opt-in setup.
+- [ ] P07-02 Implement the User Profile Generator for restaurant/recipe/both intent, explicit and inferred preferences, optional scoped demo reviews and clarification.
+- [ ] P07-03 Preserve restrictions across follow-ups, apply explicit corrections, and handle contradictory statements without silently resetting the profile.
+- [ ] P07-04 Implement the RAG Retriever's source plan, evidence sufficiency checks and at most two refinements after initial retrieval; preserve hard constraints.
+- [ ] P07-05 Implement the Food Trend Analyst with dated MCP evidence, candidate associations and explicit unavailable outcomes.
+- [ ] P07-06 Implement the Food Style Expert for all candidates with supported cuisine/flavor/preparation assessments and unavailable-analysis behavior.
+- [ ] P07-07 Implement the Nutrition Expert with deterministic ingredient checks, supported/conflicting/unknown assessments and strict exclusion behavior.
+- [ ] P07-08 Implement the Recommendation Expert for up to five results/category, all expert outcomes, explanations and validated candidate/source references.
+- [ ] P07-09 Wire a real `StateGraph`: sequential profile/retrieval, asynchronous fan-out, explicit all-branches join and exactly one synthesis invocation.
+- [ ] P07-10 Return partial state updates, isolate branch output keys and reset transient analysis between turns; avoid shared mutable state and first-five truncation.
+- [ ] P07-11 Add PostgreSQL thread checkpoints, UUID run/conversation IDs, one active run/conversation, session isolation and explicit cancellation handling.
+- [ ] P07-12 Enforce timeouts, concurrency, transport/schema retry limits and the run deadline; record stage latency, usage and exhaustion without leaking prompts or keys.
+- [ ] P07-13 Test actual branch overlap, join completion, branch failures, invalid JSON, unknown IDs/citations, insufficient results, checkpoint continuity and conflicting concurrent turns.
+- [ ] P07-14 Run an opt-in full graph smoke test through real MCP/pgvector/Groq/Tavily with a known seed query; record outcome, limits and usage.
+
+**Exit criterion:** all six roles operate on real retrieved data, synthesis waits for branch outcomes, follow-ups persist correctly, and failures cannot fabricate compliant results.
+
+**Evidence / blockers:** _Pending._
+
+## Phase 8 — FastAPI contracts and application behavior
+
+**Prerequisites:** Phase 7 plus repository/media services.
+
+**Outputs:** versioned API, SSE, catalog administration, media/session ownership and generated API schema.
+
+**Verification:** HTTP integration tests with real database and fake provider boundaries.
+
+- [ ] P08-01 Implement `/api/v1` conversation creation, history and deletion with browser-session ownership and conversation-data cleanup.
+- [ ] P08-02 Implement message submission with text/preferences/media IDs and typed SSE progress, clarification, recommendations, error and terminal done events.
+- [ ] P08-03 Add heartbeats, buffering controls and client-disconnect cancellation; commit completed responses before final events and prevent automatic POST replay.
+- [ ] P08-04 Implement paginated restaurant/recipe browse and detail endpoints with validated filters and source-backed fields.
+- [ ] P08-05 Implement authorized media upload/read with 10 MiB/20-megapixel limits, JPEG/PNG/WebP decoding, generated filenames and metadata stripping.
+- [ ] P08-06 Implement local administrator login/logout, hashed password verification, HttpOnly SameSite cookies, expiry, CSRF/origin checks and limited access.
+- [ ] P08-07 Implement extraction previews and explicit catalog create/update/delete operations; validate IDs, versions and delete intent on the server.
+- [ ] P08-08 Prepare embeddings before final writes, atomically commit catalog/retrieval changes, and return conflicts without partially changing data.
+- [ ] P08-09 Implement liveness/readiness and structured errors; keep stack traces and paid provider calls out of health responses.
+- [ ] P08-10 Generate frontend TypeScript contracts from OpenAPI and add a check for schema/type drift.
+- [ ] P08-11 Test HTTP/SSE contracts, pre/post-stream errors, session isolation, cancellation, retries by clients, invalid uploads, auth/CSRF and CRUD failure atomicity.
+
+**Exit criterion:** the typed API supports the full recommendation/admin flow safely, updates retrieval data consistently, and has a verified frontend contract.
+
+**Evidence / blockers:** _Pending._
+
+## Phase 9 — Next.js frontend and administration
+
+**Prerequisites:** Phase 8 and frontend scaffold.
+
+**Outputs:** responsive chat/catalog/admin experience with accessible states and source-backed recommendations.
+
+**Verification:** component tests and browser journeys on desktop/mobile viewport sizes.
+
+- [ ] P09-01 Build App Router layouts/navigation and shared Tailwind/shadcn components with keyboard navigation, focus management and accessible labels.
+- [ ] P09-02 Add the same-origin API proxy and generated-type client; keep database/provider credentials on the server and preserve SSE streaming.
+- [ ] P09-03 Implement conversations/history/reset, text input, example prompts, clarification and follow-up messages.
+- [ ] P09-04 Add editable preference controls distinguishing hard dietary constraints from soft preferences without silently clearing prior restrictions.
+- [ ] P09-05 Implement image upload/preview/removal using media IDs, client-side guidance and server validation errors.
+- [ ] P09-06 Show meaningful progress and cancellation; handle disconnected streams by loading conversation state rather than replaying inference.
+- [ ] P09-07 Render restaurant/recipe cards, images, explanations, source excerpts/dates and explicit unknown/degraded states using sanitized content.
+- [ ] P09-08 Provide catalog browse/detail views and label the synthetic course data accurately; avoid unsupported live availability or nutrition claims.
+- [ ] P09-09 Add local admin sign-in, extraction preview, create/edit forms, version-conflict handling and confirmed deletion.
+- [ ] P09-10 Test pending, empty, error, trend-unavailable and partial-image states plus mobile layout and keyboard-only journeys.
+- [ ] P09-11 Run Playwright journeys for text/image recommendations, retained preferences, citations and CRUD; verify changes become searchable.
+
+**Exit criterion:** a nontechnical user can request/refine recommendations and an administrator can maintain the catalog without mock results or placeholder writes.
+
+**Evidence / blockers:** _Pending._
+
+## Phase 10 — Evaluation, reliability, and hardening
+
+**Prerequisites:** Phases 0–9, including a representative full dataset.
+
+**Outputs:** versioned evaluation set/reports, tested guardrails and measured limitations.
+
+**Verification:** automated acceptance suite, labeled retrieval evaluation and recorded local performance runs.
+
+- [ ] P10-01 Build source-backed evaluation fixtures for the four PDF personas: health-conscious, adventurous, budget-conscious and family with allergies.
+- [ ] P10-02 Add text/image queries, follow-up corrections, restrictive/no-match cases, missing dietary evidence, and expected abstention/clarification outcomes.
+- [ ] P10-03 Label relevant entity IDs and supporting source evidence; record dataset, model, prompt and embedding revisions with reports.
+- [ ] P10-04 Measure Recall@20, nDCG@5 and diversity; compare text, multimodal and fusion settings against the initial baseline before selecting tuned defaults.
+- [ ] P10-05 Require zero fabricated recommendation/citation IDs and zero hard-constraint violations in deterministic acceptance fixtures.
+- [ ] P10-06 Verify no allergen guarantees, invented nutrient quantities, unverified restaurant facts or unsupported current-trend claims appear in results.
+- [ ] P10-07 Test prompt injection in reviews, captions, web excerpts and MCP responses; prove it cannot enable new tools, expose secrets or mutate the catalog.
+- [ ] P10-08 Test 429/Retry-After, malformed schema output, missing credentials, model capability mismatch, database/MCP downtime and stale/unavailable trend evidence.
+- [ ] P10-09 Test request deadlines, provider concurrency, cancellation, concurrent conversations, per-conversation run exclusion and checkpoint isolation.
+- [ ] P10-10 Recheck upload/archive/network restrictions, admin/session/CSRF behavior, sanitized rendering and redacted logs; scan source and built assets for secrets.
+- [ ] P10-11 Measure stage/end-to-end latency, local embedding resource use, token usage and search calls; report machine details and cold/warm behavior.
+- [ ] P10-12 Run all offline unit/integration/contract/browser checks and explicit live smoke tests separately; record every skipped or blocked check honestly.
+
+**Exit criterion:** acceptance fixtures satisfy grounding/constraint invariants, required failure cases pass, and quality/performance results are reproducible without unsupported claims.
+
+**Evidence / blockers:** _Pending._
+
+## Phase 11 — Local release and demonstration
+
+**Prerequisites:** all v1 gates from Phases 0–10 satisfied; no hidden credential/media/live-integration blocker.
+
+**Outputs:** reproducible local release, operational notes, demonstration evidence and limitations.
+
+**Verification:** clean-checkout rehearsal, restore test and complete user/admin demonstrations.
+
+- [ ] P11-01 Rehearse setup from a clean checkout with documented fresh credentials, pinned dependencies, model downloads, media recovery and Compose startup.
+- [ ] P11-02 Verify database migrations, idempotent seed ingestion, readiness behavior and persistence across service restarts.
+- [ ] P11-03 Back up and restore PostgreSQL plus media; verify catalog links, vectors and conversation/checkpoint behavior after restore.
+- [ ] P11-04 Demonstrate real text and image retrieval, all six agents, live dated trends, citations and conversational refinements.
+- [ ] P11-05 Demonstrate administrator preview/create/edit/delete with atomic searchable updates and cancellation/conflict/error handling.
+- [ ] P11-06 Capture sanitized screenshots/demo steps for the portfolio; map course screenshot requirements separately where still relevant without claiming replacement-stack screenshots meet course grading rules.
+- [ ] P11-07 Publish local setup/troubleshooting instructions and measured limits: synthetic catalog, sparse histories, unknown dietary evidence, provider requirements and unavailable capabilities.
+- [ ] P11-08 Confirm the complete-release gate: validated imagery, real RAG, six-agent graph, live search integration, frontend/admin usability and passing acceptance tests.
+- [ ] P11-09 Review all checklist marks and evidence with the user; preserve unresolved/deferred items and document the final tested versions.
+
+**Exit criterion:** another developer can reproduce the full local application and its demonstrated behavior; degraded modes are documented, not used to conceal missing release requirements.
+
+**Evidence / blockers:** _Pending._
+
+## Deferred — Outside the first release
+
+These are not requirements to check off for v1 and are not authorization to deploy or integrate external accounts.
+
+- [ ] D-01 Plan public hosting, TLS, production secrets, deployment operations and provider spend controls before exposing the app publicly.
+- [ ] D-02 Add multi-user authentication, authorization, private histories, retention/consent controls and account deletion.
+- [ ] D-03 Add explicitly authorized social-media or other personal-history connectors with source provenance and privacy boundaries.
+- [ ] D-04 Integrate a verified nutrition/allergen data source; distinguish measured nutrition from model-generated assessment.
+- [ ] D-05 Benchmark HNSW/iterative filtered scans against exact retrieval on a larger labeled corpus before adopting approximate search.
+
+## Documentation maintenance checks
+
+Use these checks when changing the plan; they do not imply application completion.
+
+- [ ] DOC-01 Keep all 35 baseline source artifacts represented in AGENTS.md and distinguish existing experiments from planned runtime behavior.
+- [ ] DOC-02 Keep phase IDs, prerequisites, architecture defaults, interfaces and release gates aligned across both documents.
+- [ ] DOC-03 Verify relative links/anchors, Markdown/code fences, unique checkbox IDs and the AGENTS.md instruction-size budget.
+- [ ] DOC-04 Check that documentation contains no credentials and that provider/version claims link to official references.
+- [ ] DOC-05 Preserve user-maintained progress and update evidence only for checks actually performed.
