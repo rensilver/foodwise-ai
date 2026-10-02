@@ -6,13 +6,13 @@ Build an English-language, local portfolio restaurant/recipe recommender from th
 
 V1 includes follow-ups, preferences, image upload/search, cited recommendations and local CRUD. Defer public hosting, multi-user accounts, social-media connectors, verified nutrition and large-scale indexing.
 
-**Status:** references, experiments and seed data exist; the application below is planned. This documentation task adds only this file and [CHECKLIST.md](CHECKLIST.md), without credential remediation, image recovery or application implementation.
+**Status:** Phase 0 baseline is verified in this repository. Sanitized course notebooks/scripts, PDFs, the recovered ZIP and 109 recipe images remain local and Git-ignored. Source reports are committed. The application below remains planned. See [CHECKLIST.md](CHECKLIST.md) for blockers.
 
-Start Codex from `11_capstone_project` for instruction discovery. Read these instructions and the relevant checklist phase. Preserve course directories, user changes and completion marks. Implement the requested scope; the roadmap does not authorize every phase. Mark completion only with verification evidence.
+Start Codex from this repository root. Read these instructions and the relevant checklist phase. Preserve course directories, user changes and completion marks. Implement the requested scope; the roadmap does not authorize every phase. Mark completion only with verification evidence.
 
 ## Source inventory and lessons
 
-Baseline on 2026-10-02: 12 PDFs, 12 notebooks, two scripts, one environment file, eight data artifacts. Paths are relative. Course instructions inform architecture but must not enter the runtime culinary knowledge base.
+Original baseline on 2026-10-02: 12 PDFs, 12 notebooks, two scripts, one excluded environment file, eight data artifacts. This repository has local sanitized copies and a recovered nonempty ZIP; the old environment file is omitted. Paths are relative. Course instructions inform architecture but must not enter the runtime culinary knowledge base.
 
 ### Assignment PDFs
 
@@ -49,7 +49,7 @@ Baseline on 2026-10-02: 12 PDFs, 12 notebooks, two scripts, one environment file
 | [Original chatbot](03_agents/originals/M3L3_Build_Chatbot_Interface.ipynb) | OpenAI variant and incomplete exercises; same mock integration concept. |
 | [Restaurant management](01_build_a_structured_generative_ai_application/restaurant_data_management.py) | JSON CLI CRUD, Pydantic and WatsonX repair. Replace length-based IDs, relative-path storage, and silent load failures. |
 | [MCP client](04_mcp/client.py) | Anthropic sampling, stdio discovery, three lookup demos; referenced `server.py` is absent. |
-| `03_agents/.env` | Tracked configuration with `GROQ_API_KEY` and `GROQ_MODEL`. Never reproduce its secret value. |
+| `03_agents/.env` | Tracked in the original repository only; intentionally excluded here. Never reproduce its secret value. |
 
 ### Data artifacts
 
@@ -62,11 +62,11 @@ Baseline on 2026-10-02: 12 PDFs, 12 notebooks, two scripts, one environment file
 | [Synthetic-User-Reviews.json](data/Synthetic-User-Reviews.json) | Ten reviews from one synthetic user; `images` is a string-encoded list. |
 | [augmented_user_review.json](data/augmented_user_review.json) | Same review identities plus captions; nine image references and nine captions, no orphan restaurant references. |
 | [review_image_placeholder.jpeg](data/review_image_placeholder.jpeg) | One food image, not a recipe image corpus or proof of an entity association. |
-| [synthetic-recipe-images.zip](data/synthetic-recipe-images.zip) | Zero bytes; currently unusable. Recover from the source URL recorded in the notebooks and verify before extraction. |
+| `synthetic-recipe-images.zip` | Original ZIP was zero bytes; local recovered ZIP has 109 safe, matching PNGs mapped to recipes by `recipe{id}.png`. Archive and images remain Git-ignored. |
 
 Use content-based personalization, not collaborative filtering. Social-media histories, measured nutrients, comprehensive restaurant allergens and live trends are absent; preserve unknowns.
 
-**Blockers:** revoke/rotate exposed Groq credentials and clean notebook source/outputs before publication; never test or reuse the old key. Restore images and reconcile raw/structured records. Preserve IDs; the count difference does not prove exactly six unique missing restaurants.
+**Blockers:** owner reports exposed Groq key revoked/replaced; original Git history still needs separate publication review. Six raw paragraphs lack structured records and 16 same-name/location pairs need entity review. Preserve IDs. Local media must be restored separately on clean checkout.
 
 ## Target architecture and package boundaries
 

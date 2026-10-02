@@ -1,0 +1,250 @@
+{
+  "baseline_artifacts": 35,
+  "records": [
+    {
+      "path": "docs/01_Assignment Overview: Structure Unstructured Restaurant Data with an LLM.pdf",
+      "role": "course_reference",
+      "status": "present",
+      "bytes": 123568,
+      "sha256": "5bd4a0f355137b6f1d627f1ecd9cc86a6ba6ef5c8322bbc1b73fc6d42e88311a"
+    },
+    {
+      "path": "docs/02_Assignment Overview_ Process Multimodal Data with LLMs.pdf",
+      "role": "course_reference",
+      "status": "present",
+      "bytes": 107064,
+      "sha256": "c7c4d03017259293aa2f52fb845d8516564732196cde11272f4a26f23e760648"
+    },
+    {
+      "path": "docs/03_Assignment Overview_ Build a Command-Line Data Management UI for Restaurant Data.pdf",
+      "role": "course_reference",
+      "status": "present",
+      "bytes": 128280,
+      "sha256": "40d7487d0aeb0ca122ac922c0793ed0fcaf2b2d5c0c9f59cdaeaf97f0fe80444"
+    },
+    {
+      "path": "docs/04_Assignment Overview_ Construct a Multimodal Vector Index.pdf",
+      "role": "course_reference",
+      "status": "present",
+      "bytes": 233383,
+      "sha256": "2a966a440ac70ea4ae4c3886bdf7ffb561a7d2878150c30ad2bd7ca1ffb8d2ab"
+    },
+    {
+      "path": "docs/05_Assignment Overview_ Similarity Retrieval with Metadata Filtering.pdf",
+      "role": "course_reference",
+      "status": "present",
+      "bytes": 236765,
+      "sha256": "1c1e3734436bc8c235271dd933f980d1b61578e5ec91118aeddf00f243cf8410"
+    },
+    {
+      "path": "docs/06_Assignment Overview_ Multimodal Similarity Fusion and Retrieval Ranking.pdf",
+      "role": "course_reference",
+      "status": "present",
+      "bytes": 358824,
+      "sha256": "c3900cc534d6add2046128f257262b1f0468c883a0bc50a48e7e678b8ab1c12f"
+    },
+    {
+      "path": "docs/07_Assignment Overview_ Design Specialized Agents for a Recommendation System.pdf",
+      "role": "course_reference",
+      "status": "present",
+      "bytes": 195642,
+      "sha256": "63a4dc0d754da12509b26ca8ab953e7538a4420a14b7c20fe1d4bf9f8a144bf6"
+    },
+    {
+      "path": "docs/08_Assignment Overview_ Implement and Test a Multi-Agent Recommendation System.pdf",
+      "role": "course_reference",
+      "status": "present",
+      "bytes": 294548,
+      "sha256": "25c04a4392358893ee6e1dfbe0a97db27c47c94fe6401b7bdb96239096f28778"
+    },
+    {
+      "path": "docs/09_Reading_ Assignment Overview_ Build a Chatbot Interface for the Recommendation System.pdf",
+      "role": "course_reference",
+      "status": "present",
+      "bytes": 343376,
+      "sha256": "57de552f04d12ad134851b1f43b852ea347fa547bfaf3aa0c53a3f29308eb4d5"
+    },
+    {
+      "path": "docs/10_Assignment Overview_ Build an MCP Server.pdf",
+      "role": "course_reference",
+      "status": "present",
+      "bytes": 88151,
+      "sha256": "8635efdecd6d85e01aee88b17f35ad0821fec18f79a996142db9aea43e0f01e3"
+    },
+    {
+      "path": "docs/11_Assignment Overview_ Build an MCP Client.pdf",
+      "role": "course_reference",
+      "status": "present",
+      "bytes": 124626,
+      "sha256": "173b4951c3d38b8895ab865696a54ba19c353f57b75a6feb7e80fcef8bff39ef"
+    },
+    {
+      "path": "docs/12_Assignment Overview_ Build a Full MCP Application.pdf",
+      "role": "course_reference",
+      "status": "present",
+      "bytes": 99895,
+      "sha256": "3c72e95f9161f9843014cbee9ae7e483284d93bed9ea942a5627ec2d1a6454f8"
+    },
+    {
+      "path": "01_build_a_structured_generative_ai_application/01_Extract Structured JSON from Restaurant Text Using LLMs-v1.ipynb",
+      "role": "course_experiment",
+      "status": "present",
+      "bytes": 78066,
+      "sha256": "87819da3e6aaa6621adfdded1c88621a462c04d5e4ab04139f4176261e117b9b"
+    },
+    {
+      "path": "01_build_a_structured_generative_ai_application/Structure Text and Multimodal Data with LLMs(1).ipynb",
+      "role": "course_experiment",
+      "status": "present",
+      "bytes": 40267,
+      "sha256": "a7b3e85f33436c766960b6c21b98905d94dee110fa7b944bccbc56fa0f35c8f7"
+    },
+    {
+      "path": "01_build_a_structured_generative_ai_application/M1L2_Process_Multimodal_Data_with_LLMs.ipynb",
+      "role": "course_experiment",
+      "status": "present",
+      "bytes": 592209,
+      "sha256": "60d4b56deb937eb9169810b1277a190d5cd2f0539322820807dffd3c94e26ab1"
+    },
+    {
+      "path": "02_design_a_multimodal_rag_system/M2L1_Lab.ipynb",
+      "role": "course_experiment",
+      "status": "present",
+      "bytes": 26692,
+      "sha256": "df8a627dd924ccc782a7d50fecad19aaeec22c4357d0575228fe08347a996280"
+    },
+    {
+      "path": "02_design_a_multimodal_rag_system/M2L2_Lab.ipynb",
+      "role": "course_experiment",
+      "status": "present",
+      "bytes": 285840,
+      "sha256": "c899f0f414b8bb084453d4a55ba10e762fbcc488a1f686aaa17f805a26db427c"
+    },
+    {
+      "path": "02_design_a_multimodal_rag_system/M2L3_Lab.ipynb",
+      "role": "course_experiment",
+      "status": "present",
+      "bytes": 28263,
+      "sha256": "c073ccba19bdfd732fc8c59f8d8961de7740648e5aea3f18d923fb448eeff493"
+    },
+    {
+      "path": "02_design_a_multimodal_rag_system/M2L3 DONE/M2L3_Lab.ipynb",
+      "role": "course_experiment",
+      "status": "present",
+      "bytes": 29978,
+      "sha256": "ec047fd3db77470a12e3dd09309cf3ea4c6932abf2626abfb6fc479df66f8595"
+    },
+    {
+      "path": "03_agents/M3L1_Design_Specialized_Agents.ipynb",
+      "role": "course_experiment",
+      "status": "present",
+      "bytes": 50359,
+      "sha256": "188c51a34096cbfc9b39ed7fe59bd2448ab4e30defa139074e36f3aecda09a25"
+    },
+    {
+      "path": "03_agents/M3L2_Implement_Multi_Agent_Systems.ipynb",
+      "role": "course_experiment",
+      "status": "present",
+      "bytes": 83281,
+      "sha256": "c11a8459a731d12395bf86303bd48c6e1cabaf0a17fc347b0b749122e56a2d0b",
+      "note": "local sanitized copy; original retained in source repository"
+    },
+    {
+      "path": "03_agents/originals/M3L2_Implement_Multi_Agent_Systems.ipynb",
+      "role": "course_experiment",
+      "status": "present",
+      "bytes": 83596,
+      "sha256": "b927e412f96bb779df526ca54cfb903294dd77f435ca7b702e183853dd9364f4",
+      "note": "local sanitized copy; original retained in source repository"
+    },
+    {
+      "path": "03_agents/M3L3_Build_Chatbot_Interface.ipynb",
+      "role": "course_experiment",
+      "status": "present",
+      "bytes": 38502,
+      "sha256": "83b32f9aa9621cb15afefe707465bca9d5487e3a441e6411845522e7cfe77faa"
+    },
+    {
+      "path": "03_agents/originals/M3L3_Build_Chatbot_Interface.ipynb",
+      "role": "course_experiment",
+      "status": "present",
+      "bytes": 35349,
+      "sha256": "d0991025f7bb585869e687066e9bfa4ce9a0bb0fb28fe4e33c0cf78e58a7cf0b"
+    },
+    {
+      "path": "01_build_a_structured_generative_ai_application/restaurant_data_management.py",
+      "role": "course_experiment",
+      "status": "present",
+      "bytes": 12222,
+      "sha256": "ee85f532b129694fec6f30560017b2a2dec47322a7d0eaf7d9cbd957e5474451"
+    },
+    {
+      "path": "04_mcp/client.py",
+      "role": "course_experiment",
+      "status": "present",
+      "bytes": 5835,
+      "sha256": "20e0462572862726e50c86178bff91ad771b3c6061f23edea08627efe5d0deae"
+    },
+    {
+      "path": "data/California-Culinary-Map.txt",
+      "role": "seed_data",
+      "status": "present",
+      "bytes": 74679,
+      "sha256": "501b18be28d84e4f749004c54f4ae0853c55062d39ba528a20e772069d3c87b8"
+    },
+    {
+      "path": "data/structured_restaurant_data.json",
+      "role": "seed_data",
+      "status": "present",
+      "bytes": 104835,
+      "sha256": "6d48ecf65b000cb99a6500286adaf9ba84e4e506266f8a58ac52cc6e3d696051"
+    },
+    {
+      "path": "data/Recipes.json",
+      "role": "seed_data",
+      "status": "present",
+      "bytes": 66320,
+      "sha256": "e91a9fb7631acf18887b202617592cf6a9e956428ff655fc5c7401078bc857c8"
+    },
+    {
+      "path": "data/augmented_food_recipe.json",
+      "role": "seed_data",
+      "status": "present",
+      "bytes": 135838,
+      "sha256": "ee60db4b3685733604185fe46f4725dc532d03f011c3dfa5529155ef9762eb92"
+    },
+    {
+      "path": "data/Synthetic-User-Reviews.json",
+      "role": "seed_data",
+      "status": "present",
+      "bytes": 5815,
+      "sha256": "ccf1917579a59393691e27ae874d8b69955c8a4a71a0d980981a03571c85ad21"
+    },
+    {
+      "path": "data/augmented_user_review.json",
+      "role": "seed_data",
+      "status": "present",
+      "bytes": 8505,
+      "sha256": "4c997ce2469e528293d143224e63794604d2a233bc27b731806490847c7398d1"
+    },
+    {
+      "path": "data/review_image_placeholder.jpeg",
+      "role": "seed_data",
+      "status": "present",
+      "bytes": 2089275,
+      "sha256": "ac3a7f326cc65ee3176b8b3c6339737b5f2414301a64870296109bf3228768d0"
+    },
+    {
+      "path": "data/synthetic-recipe-images.zip",
+      "role": "seed_data",
+      "status": "present",
+      "bytes": 215139852,
+      "sha256": "2dbc15a307070267c0eea1e45642f53a2e13182a9b797e1f6a027d5c3a5cb68b"
+    },
+    {
+      "path": "03_agents/.env",
+      "role": "credential_excluded",
+      "status": "excluded; hash intentionally omitted"
+    }
+  ]
+}

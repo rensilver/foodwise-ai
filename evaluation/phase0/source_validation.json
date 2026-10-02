@@ -1,0 +1,13 @@
+{
+  "restaurant_records": 204,
+  "restaurant_ids_unique": true,
+  "null_vibes": 3,
+  "recipe_records": 109,
+  "augmented_recipe_ids_match": true,
+  "review_records": 10,
+  "augmented_review_ids_match": true,
+  "synthetic_users": 1,
+  "review_image_references": 9,
+  "review_image_captions": 9,
+  "orphan_review_links": 0
+}

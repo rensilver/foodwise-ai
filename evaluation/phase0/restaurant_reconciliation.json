@@ -1,0 +1,2166 @@
+{
+  "source_paragraphs": 210,
+  "mapped": 204,
+  "unresolved": 6,
+  "potential_duplicate_groups": [
+    {
+      "name": "Indigo Palms",
+      "location": "Palm Springs",
+      "itemIds": [
+        1000120,
+        1000167
+      ],
+      "price_ranges": [
+        2,
+        3
+      ],
+      "ratings": [
+        4.2,
+        4.2
+      ],
+      "note": "Same normalized name and location; preserve both source IDs pending entity review."
+    },
+    {
+      "name": "The Golden Artichoke",
+      "location": "Castroville",
+      "itemIds": [
+        1000132,
+        1000165
+      ],
+      "price_ranges": [
+        1,
+        4
+      ],
+      "ratings": [
+        3.8,
+        3.8
+      ],
+      "note": "Same normalized name and location; preserve both source IDs pending entity review."
+    },
+    {
+      "name": "The Velvet Poppy",
+      "location": "San Luis Obispo",
+      "itemIds": [
+        1000133,
+        1000166
+      ],
+      "price_ranges": [
+        3,
+        1
+      ],
+      "ratings": [
+        4.5,
+        4.5
+      ],
+      "note": "Same normalized name and location; preserve both source IDs pending entity review."
+    },
+    {
+      "name": "Iron & Silk",
+      "location": "Oakland",
+      "itemIds": [
+        1000134,
+        1000173
+      ],
+      "price_ranges": [
+        3,
+        3
+      ],
+      "ratings": [
+        4.7,
+        4.7
+      ],
+      "note": "Same normalized name and location; preserve both source IDs pending entity review."
+    },
+    {
+      "name": "The Blue Agave",
+      "location": "Healdsburg",
+      "itemIds": [
+        1000135,
+        1000174
+      ],
+      "price_ranges": [
+        4,
+        3
+      ],
+      "ratings": [
+        4.4,
+        4.4
+      ],
+      "note": "Same normalized name and location; preserve both source IDs pending entity review."
+    },
+    {
+      "name": "The Silent Pebble",
+      "location": "Carmel-by-the-Sea",
+      "itemIds": [
+        1000136,
+        1000176
+      ],
+      "price_ranges": [
+        2,
+        2
+      ],
+      "ratings": [
+        4.8,
+        4.9
+      ],
+      "note": "Same normalized name and location; preserve both source IDs pending entity review."
+    },
+    {
+      "name": "The Painted Pony",
+      "location": "Temescal (Oakland)",
+      "itemIds": [
+        1000148,
+        1000184
+      ],
+      "price_ranges": [
+        1,
+        2
+      ],
+      "ratings": [
+        4.2,
+        4.2
+      ],
+      "note": "Same normalized name and location; preserve both source IDs pending entity review."
+    },
+    {
+      "name": "The Glass Onion",
+      "location": "Davis",
+      "itemIds": [
+        1000149,
+        1000185
+      ],
+      "price_ranges": [
+        2,
+        2
+      ],
+      "ratings": [
+        4.3,
+        4.3
+      ],
+      "note": "Same normalized name and location; preserve both source IDs pending entity review."
+    },
+    {
+      "name": "Sea & Stone",
+      "location": "La Jolla",
+      "itemIds": [
+        1000150,
+        1000180
+      ],
+      "price_ranges": [
+        2,
+        1
+      ],
+      "ratings": [
+        4.9,
+        4.9
+      ],
+      "note": "Same normalized name and location; preserve both source IDs pending entity review."
+    },
+    {
+      "name": "The Neon Koi",
+      "location": "Japantown (San Jose)",
+      "itemIds": [
+        1000152,
+        1000181
+      ],
+      "price_ranges": [
+        3,
+        2
+      ],
+      "ratings": [
+        4.0,
+        4.0
+      ],
+      "note": "Same normalized name and location; preserve both source IDs pending entity review."
+    },
+    {
+      "name": "The Salted Fig",
+      "location": "Redlands",
+      "itemIds": [
+        1000154,
+        1000183
+      ],
+      "price_ranges": [
+        4,
+        2
+      ],
+      "ratings": [
+        4.2,
+        4.2
+      ],
+      "note": "Same normalized name and location; preserve both source IDs pending entity review."
+    },
+    {
+      "name": "The Brass Pelican",
+      "location": "Oxnard",
+      "itemIds": [
+        1000155,
+        1000177
+      ],
+      "price_ranges": [
+        2,
+        3
+      ],
+      "ratings": [
+        3.9,
+        3.9
+      ],
+      "note": "Same normalized name and location; preserve both source IDs pending entity review."
+    },
+    {
+      "name": "The Velvet Orchard",
+      "location": "Ojai",
+      "itemIds": [
+        1000156,
+        1000178
+      ],
+      "price_ranges": [
+        1,
+        4
+      ],
+      "ratings": [
+        4.6,
+        4.6
+      ],
+      "note": "Same normalized name and location; preserve both source IDs pending entity review."
+    },
+    {
+      "name": "The Gilded Rose",
+      "location": "Pasadena",
+      "itemIds": [
+        1000157,
+        1000179
+      ],
+      "price_ranges": [
+        4,
+        4
+      ],
+      "ratings": [
+        4.1,
+        4.1
+      ],
+      "note": "Same normalized name and location; preserve both source IDs pending entity review."
+    },
+    {
+      "name": "Taco de la Tierra",
+      "location": "Indio",
+      "itemIds": [
+        1000158,
+        1000171
+      ],
+      "price_ranges": [
+        4,
+        2
+      ],
+      "ratings": [
+        4.7,
+        4.6
+      ],
+      "note": "Same normalized name and location; preserve both source IDs pending entity review."
+    },
+    {
+      "name": "The Silver Spoon",
+      "location": "San Francisco (Pacific Heights)",
+      "itemIds": [
+        1000160,
+        1000172
+      ],
+      "price_ranges": [
+        3,
+        4
+      ],
+      "ratings": [
+        4.8,
+        4.8
+      ],
+      "note": "Same normalized name and location; preserve both source IDs pending entity review."
+    }
+  ],
+  "notes": "Unresolved rows require review and new stable IDs during ingestion; repeated names can denote distinct restaurants.",
+  "rows": [
+    {
+      "paragraph": 1,
+      "source_sha256": "877108deacada531605f8a3ac79cc1a15b7fd60863bf0422e307384b2d0a830b",
+      "source_excerpt": "**The Gilded Artichoke** brings a **bohemian chic** energy to the hills of **Silver Lake**, operating as an **upscale bistro** that prioritizes **Farm-to-Table Californian** ingred",
+      "status": "mapped",
+      "itemId": 1000001,
+      "name": "The Gilded Artichoke",
+      "match_score": 120
+    },
+    {
+      "paragraph": 2,
+      "source_sha256": "cf22761189e866be24e34a729c6c65b989af1add1aebf0831e2e28ba5b19efab",
+      "source_excerpt": "Down in **Santa Monica**, **Mar de Cortez** serves as a **sun-drenched**, **casual taqueria** specializing in **Baja-style seafood**. With a **4.2/5** rating, it captures the salt-",
+      "status": "mapped",
+      "itemId": 1000002,
+      "name": "Mar de Cortez",
+      "match_score": 120
+    },
+    {
+      "paragraph": 3,
+      "source_sha256": "ccffe9e4bb97faabe05aee8187a78a132f8f6352eb18a9c1091bfaaf7d83c74e",
+      "source_excerpt": "**Iron & Embers** anchors the **Arts District** in **DTLA** as a **moody**, **industrial American steakhouse**. This **fine dining** establishment earns a **4.8/5** for its commitm",
+      "status": "mapped",
+      "itemId": 1000003,
+      "name": "Iron & Embers",
+      "match_score": 108
+    },
+    {
+      "paragraph": 4,
+      "source_sha256": "b68fed2fe81115a48db29eb29582b0ce86f200097bafbb85ee4609c3eecd3b05",
+      "source_excerpt": "For a more **zen and minimalist** experience, **Sakura Garden** in **Little Tokyo** offers an **intimate** **Japanese Kaiseki-lite** menu. Rated at **4.9/5**, this quiet escape foc",
+      "status": "mapped",
+      "itemId": 1000004,
+      "name": "Sakura Garden",
+      "match_score": 117
+    },
+    {
+      "paragraph": 5,
+      "source_sha256": "18bee4e4d563f26b2f29c02fa8339d95acb53f81cac29a59ce154e594ebd2d35",
+      "source_excerpt": "**Pasta & Prose** brings **glamour** to **West Hollywood** as a **lively** **modern Italian** **trattoria**. Holding a **4.3/5** rating, the restaurant is a \"see-and-be-seen\" hub w",
+      "status": "mapped",
+      "itemId": 1000005,
+      "name": "Pasta & Prose",
+      "match_score": 120
+    },
+    {
+      "paragraph": 6,
+      "source_sha256": "9608c318c491fcdcf33520656d29558e5e2d42405eaa41111894d84f7b805418",
+      "source_excerpt": "In the heart of **Glendale**, **The Golden Hummus** is a **warm**, **family-style** **modern Lebanese** eatery. It earns a **4.6/5** for its communal atmosphere and standout signat",
+      "status": "mapped",
+      "itemId": 1000006,
+      "name": "The Golden Hummus",
+      "match_score": 117
+    },
+    {
+      "paragraph": 7,
+      "source_sha256": "3338aace539c13b555618309d1b023cd83071dd468276e93e2b1ed1d0bb67fa3",
+      "source_excerpt": "**Velvet & Vine** in **Pasadena** is a **romantic** **French-Mediterranean** **wine bar** that provides a **sophisticated** backdrop for evening dates. Rated **4.1/5**, this small-",
+      "status": "mapped",
+      "itemId": 1000007,
+      "name": "Velvet & Vine",
+      "match_score": 117
+    },
+    {
+      "paragraph": 8,
+      "source_sha256": "c7bd146a03cd8a2386d0a9c0e5302b06e63309d6ded958a728b807445b09e3c1",
+      "source_excerpt": "**The Neon Noodle Bar** brings a **cyberpunk**, **funky** vibe to the **San Gabriel Valley**, functioning as a **fast-casual** **Sichuan street food** spot. With a **4.4/5** rating",
+      "status": "mapped",
+      "itemId": 1000008,
+      "name": "The Neon Noodle Bar",
+      "match_score": 120
+    },
+    {
+      "paragraph": 9,
+      "source_sha256": "4510a1491e5c78039d758015be49079ee80f0557eba1ba6aa20a01d1fd826c62",
+      "source_excerpt": "**The Morning Echo** in **Echo Park** defines the **relaxed**, **hipster** **brunch** scene as an **elevated cafe**. Scoring a **4.0/5**, it is the neighborhood's go-to for a slow ",
+      "status": "mapped",
+      "itemId": 1000009,
+      "name": "The Morning Echo",
+      "match_score": 117
+    },
+    {
+      "paragraph": 10,
+      "source_sha256": "bddc4c96ea53217d2905e9b3fdff185779b45531f30edde5e4f046a9eaf5287a",
+      "source_excerpt": "**Sapphire Soul** in **Inglewood** is a **vibrant** **Southern soul food fusion** **restaurant** that balances tradition with modern LA flair. Its **4.7/5** rating is well-deserved",
+      "status": "mapped",
+      "itemId": 1000010,
+      "name": "Sapphire Soul",
+      "match_score": 117
+    },
+    {
+      "paragraph": 11,
+      "source_sha256": "ee5a4c53101904fee6433561bbaf21b162e791402669b0022adb10ae0ba2b58d",
+      "source_excerpt": "**The Emerald Garden** in **Culver City** is a **lush**, **Vietnamese bistro** that feels like a tropical escape hidden in the city. Earning a **4.6/5**, the kitchen turns out a ma",
+      "status": "mapped",
+      "itemId": 1000011,
+      "name": "The Emerald Garden",
+      "match_score": 117
+    },
+    {
+      "paragraph": 12,
+      "source_sha256": "bc7233dd9b1c2d9c91a3f13159133859b22ab8136e86bbca580f5c683276980c",
+      "source_excerpt": "**Salt & Sand** offers an **upscale**, **breezy** **coastal Italian** experience in **Manhattan Beach**. This **casual-fine dining** spot is rated **4.3/5** for its ability to blen",
+      "status": "mapped",
+      "itemId": 1000012,
+      "name": "Salt & Sand",
+      "match_score": 117
+    },
+    {
+      "paragraph": 13,
+      "source_sha256": "6e35c5f0cb4cc337a5d06159c810701b0a92bcd05cade9d00155b90920f32537",
+      "source_excerpt": "**Guerrero Kitchen** in **Boyle Heights** is a **vibrant**, **community-focused** **Oaxacan** **family eatery**. With a **4.8/5** rating, it is a local treasure known for a 24-ingr",
+      "status": "mapped",
+      "itemId": 1000013,
+      "name": "Guerrero Kitchen",
+      "match_score": 117
+    },
+    {
+      "paragraph": 14,
+      "source_sha256": "c1e0eac98531e0c59b49f753a51de89b36a4c930016a12406502e36eb2cd2f57",
+      "source_excerpt": "**The Velvet Lounge** in **Beverly Hills** operates as a **sultry**, **old-Hollywood** **Continental** **supper club**. Rated **4.1/5**, it leans into nostalgia with tableside stea",
+      "status": "mapped",
+      "itemId": 1000014,
+      "name": "The Velvet Lounge",
+      "match_score": 120
+    },
+    {
+      "paragraph": 15,
+      "source_sha256": "1f80cd6dc3f1320f1fdfd3c8aa9b8adb93716aca0dbda2903abfebea10909d36",
+      "source_excerpt": "**Seoul Soul** in **Koreatown** is a **high-energy**, **industrial** **Korean BBQ** **hotspot**. Scoring a **4.5/5**, it combines premium wagyu cuts with a loud, rhythmic atmospher",
+      "status": "mapped",
+      "itemId": 1000015,
+      "name": "Seoul Soul",
+      "match_score": 114
+    },
+    {
+      "paragraph": 16,
+      "source_sha256": "02f2daa0cb7535596d524986a4e04fc4c0ac53d668dafd3c8bac08eb944337f8",
+      "source_excerpt": "**The Blue Fig** in **Los Feliz** is a **bohemian and relaxed** **Eastern Mediterranean** **cafe** that feels like a hidden neighborhood sanctuary. With a rating of **4.4/5**, it i",
+      "status": "mapped",
+      "itemId": 1000016,
+      "name": "The Blue Fig",
+      "match_score": 120
+    },
+    {
+      "paragraph": 17,
+      "source_sha256": "0fe80167ebdf348b1499cec0ce7cb25fc917136d776d6bb922280ea9555db616",
+      "source_excerpt": "**The Vinyl Bird** brings a **retro, vinyl-spinning** energy to the heart of **Highland Park**, functioning as a **Fried Chicken** **shack** with a serious cult following. Rated **",
+      "status": "mapped",
+      "itemId": 1000017,
+      "name": "The Vinyl Bird",
+      "match_score": 114
+    },
+    {
+      "paragraph": 18,
+      "source_sha256": "e0cf51716bdfdf6646fe876f25a01daec05c07042cf991f16c3fd8d127977715",
+      "source_excerpt": "**The Obsidian Room** in **Downtown LA** offers a **minimalist and dark-chic** **Experimental Japanese** **omakase bar** experience. It earns a high **4.9/5** for its innovative dr",
+      "status": "mapped",
+      "itemId": 1000018,
+      "name": "The Obsidian Room",
+      "match_score": 114
+    },
+    {
+      "paragraph": 19,
+      "source_sha256": "5ae99a213381a21b69e772f119ca09941827d518b3820ce79a133fdfa0864ba3",
+      "source_excerpt": "**The Green Leaf** provides a **plant-based** **gastropub** experience in **Venice Beach** with an **earthy, sun-soaked** vibe. While it scores a **3.9/5**, diners rave about the j",
+      "status": "mapped",
+      "itemId": 1000019,
+      "name": "The Green Leaf",
+      "match_score": 120
+    },
+    {
+      "paragraph": 20,
+      "source_sha256": "6e1d1aee8368123f8de02376416cc44d25b07bc9ee3a0c212c6fc859d3602753",
+      "source_excerpt": "**The Copper Pot** in **Pasadena** is a **warm and sophisticated** **Modern Indian** **dining room**. Holding a **4.7/5** rating, the restaurant reimagines classics through dishes ",
+      "status": "mapped",
+      "itemId": 1000020,
+      "name": "The Copper Pot",
+      "match_score": 120
+    },
+    {
+      "paragraph": 21,
+      "source_sha256": "0e45a880a96a0cb39ac0ad03a08e1851b65de0295f846c8f9d54d8b022177a52",
+      "source_excerpt": "**The Rustic Olive** in **Sherman Oaks** is a **cozy and candlelit** **Traditional Italian** **trattoria** that feels like a warm embrace. It earns a **4.4/5** for its authentic ha",
+      "status": "mapped",
+      "itemId": 1000021,
+      "name": "The Rustic Olive",
+      "match_score": 117
+    },
+    {
+      "paragraph": 22,
+      "source_sha256": "10a0ccab10825b04c61127d76e9103425edd8eade63724d6609dd2baa7dd1283",
+      "source_excerpt": "**Noche de Luz** brings a **sultry, dim-lit** **Spanish Tapas** **wine bar** concept to **Silver Lake**. Rated **4.5/5**, the kitchen focuses on small plates with big impact, speci",
+      "status": "mapped",
+      "itemId": 1000022,
+      "name": "Noche de Luz",
+      "match_score": 120
+    },
+    {
+      "paragraph": 23,
+      "source_sha256": "6c40660d1c9c4cd3212c2a7cea29dff28a76e303e65657820fbf364da248f00d",
+      "source_excerpt": "**The Silk Road** in **Glendale** is an **opulent and regal** **Persian** **fine-dining** establishment. With a **4.8/5** rating, it is a masterclass in spice and texture, featurin",
+      "status": "mapped",
+      "itemId": 1000023,
+      "name": "The Silk Road",
+      "match_score": 120
+    },
+    {
+      "paragraph": 24,
+      "source_sha256": "4783e86066e4f150e309ff43c44854e0bd32bfdac8c6cfbf533ad3d52bd1b6e1",
+      "source_excerpt": "**Waffle & Wick** in **Long Beach** is a **bright and industrial** **Breakfast & Brunch** **loft** that specializes in creative comfort food. Earning a **4.1/5**, it draws a lively",
+      "status": "mapped",
+      "itemId": 1000024,
+      "name": "Waffle & Wick",
+      "match_score": 120
+    },
+    {
+      "paragraph": 25,
+      "source_sha256": "97003f3582a3b2e596bb7ebfa8be6cb01977072035fe957e9fcfcd880bb2ae6e",
+      "source_excerpt": "**The Golden Pagoda** in **Chinatown** is a **bustling and traditional** **Dim Sum** **parlor** that remains a cornerstone of the neighborhood. Rated **4.3/5**, the experience is d",
+      "status": "mapped",
+      "itemId": 1000025,
+      "name": "The Golden Pagoda",
+      "match_score": 120
+    },
+    {
+      "paragraph": 26,
+      "source_sha256": "9df80e9d96ca7908e1581f61871da0509399fc1349096faa427fb8c936fffb42",
+      "source_excerpt": "**Surfside Grill** in **Malibu** is a **rugged, oceanfront** **American Seafood** **shack** where the view is just as important as the menu. It scores a **4.0/5**, primarily for it",
+      "status": "unresolved_structured_record",
+      "itemId": null,
+      "name": null
+    },
+    {
+      "paragraph": 27,
+      "source_sha256": "e842db6735880e196069645d39894f1fb65c3d50c8bc71ec9ae8c90eb18ba92c",
+      "source_excerpt": "**The Iron Skillet** in **Compton** is a **homestyle and welcoming** **Soul Food** **kitchen** that tastes like a Sunday afternoon. With a **4.7/5** rating, it is famous for its te",
+      "status": "mapped",
+      "itemId": 1000026,
+      "name": "The Iron Skillet",
+      "match_score": 120
+    },
+    {
+      "paragraph": 28,
+      "source_sha256": "e0631f514d3656ed73954ddc907e4526fb0663ff605f9d32c038e1c2f548d882",
+      "source_excerpt": "**The Neon Crane** in **Westwood** is a **trendy and neon-lit** **Sushi** **fusion spot** catering to a younger, high-energy crowd. Rated **4.2/5**, the menu features playful items",
+      "status": "mapped",
+      "itemId": 1000027,
+      "name": "The Neon Crane",
+      "match_score": 120
+    },
+    {
+      "paragraph": 29,
+      "source_sha256": "dbd2b84de4853fd0afedc531637d68637114ee5256bed132cc754e7712a11236",
+      "source_excerpt": "**The Thirsty Cactus** in **North Hollywood** is a **festive and eclectic** **Tex-Mex** **cantina** built for big groups. While it rates a **3.8/5**, it is a local favorite for its",
+      "status": "mapped",
+      "itemId": 1000028,
+      "name": "The Thirsty Cactus",
+      "match_score": 120
+    },
+    {
+      "paragraph": 30,
+      "source_sha256": "246b1c8c2aa0481601eedcca5dc0cbc9ebf897c60149d50a3dadb77c5bf1ad0e",
+      "source_excerpt": "**The Stone Hearth** in **Topanga** is a **mystical and woodland** **New American** **eatery** tucked away in the canyon. It achieves a **4.6/5** for its rustic, fire-driven menu—s",
+      "status": "mapped",
+      "itemId": 1000029,
+      "name": "The Stone Hearth",
+      "match_score": 114
+    },
+    {
+      "paragraph": 31,
+      "source_sha256": "610d2eaee23973fc885e6a22cc03a1cc0f3be742c8bc4e66af2addb15ce97326",
+      "source_excerpt": "**The Spice Alchemist** in **Alhambra** is a **vibrant and modern** **Szechuan** **eatery** that pushes the boundaries of traditional heat. With a **4.5/5** rating, this spot is fa",
+      "status": "mapped",
+      "itemId": 1000030,
+      "name": "The Spice Alchemist",
+      "match_score": 117
+    },
+    {
+      "paragraph": 32,
+      "source_sha256": "68aef901f2f2778439cc0313bd5b07d24cbd171428f230dde47385d6dafcc7e9",
+      "source_excerpt": "**Maritime Provisions** in **San Pedro** offers a **salty and industrial** **American Seafood** **wharf-style kitchen** right by the docks. Rated **4.2/5**, it captures the essence",
+      "status": "mapped",
+      "itemId": 1000031,
+      "name": "Maritime Provisions",
+      "match_score": 120
+    },
+    {
+      "paragraph": 33,
+      "source_sha256": "95344cccc55c597d4914388e38f2a3ddeabb3b11a16a6fcae8332aaef1c74b66",
+      "source_excerpt": "**The Lavender Husk** in **Abbot Kinney** is a **chic and airy** **Modern Vegan** **bistro** that treats vegetables with the reverence of fine meat. Scoring a **4.4/5**, its stando",
+      "status": "mapped",
+      "itemId": 1000032,
+      "name": "The Lavender Husk",
+      "match_score": 117
+    },
+    {
+      "paragraph": 34,
+      "source_sha256": "75980ec88539c2927bcc1e1cfd7b4d00c10a2d12bdb257f72709e6dfb172d3e8",
+      "source_excerpt": "**Little Sicily** in **San Pedro** is a **homestyle and bustling** **Italian-American** **deli** that has been a local staple for decades. It earns a **4.6/5** for its \"Godfather\" ",
+      "status": "mapped",
+      "itemId": 1000033,
+      "name": "Little Sicily",
+      "match_score": 120
+    },
+    {
+      "paragraph": 35,
+      "source_sha256": "0bec2f2f5086750897a5ade321d3761c36089a933ad64e1283896bdc5dfc3e8c",
+      "source_excerpt": "**The Saffron Loom** in **Tehrangeles (Westwood)** is an **elegant and aromatic** **Persian** **tea house and grill**. Rated **4.7/5**, the restaurant is known for its tahdig—the c",
+      "status": "mapped",
+      "itemId": 1000034,
+      "name": "The Saffron Loom",
+      "match_score": 117
+    },
+    {
+      "paragraph": 36,
+      "source_sha256": "678b4f989aed520b188fec7b48bd178c9d8a6cca99940828c24f3d0043df1366",
+      "source_excerpt": "**Cielito Lindo Lounge** in **East LA** is a **festive and soulful** **Contemporary Mexican** **cantina**. With a **4.3/5** rating, it bridges the gap between old-school flavors an",
+      "status": "mapped",
+      "itemId": 1000035,
+      "name": "Cielito Lindo Lounge",
+      "match_score": 117
+    },
+    {
+      "paragraph": 37,
+      "source_sha256": "35ee3a23bd8e5ab1e032185774849f26e217c94608edf040ead49cf8f105687c",
+      "source_excerpt": "**The Brass Monkey** in **Koreatown** is a **dim-lit and high-energy** **Korean-American** **gastropub** that excels in late-night comfort. Scoring a **4.1/5**, it is the go-to for",
+      "status": "mapped",
+      "itemId": 1000036,
+      "name": "The Brass Monkey",
+      "match_score": 114
+    },
+    {
+      "paragraph": 38,
+      "source_sha256": "de9e18e125ae51454c83c27ab36db7b99722c7e4437d51d90404849302bc0549",
+      "source_excerpt": "**Willow & Ash** in **Eagle Rock** is a **cozy and rustic** **New American** **smokehouse** that feels like a mountain cabin. Rated **4.5/5**, the kitchen focuses on low-and-slow b",
+      "status": "mapped",
+      "itemId": 1000037,
+      "name": "Willow & Ash",
+      "match_score": 120
+    },
+    {
+      "paragraph": 39,
+      "source_sha256": "3c8dde26b5f461dbf8d5f44cd0442de075e0f162b5a62a10099296c781eafbe5",
+      "source_excerpt": "**The Marigold Room** in **Little India (Artesia)** is a **bright and ornate** **South Indian** **vegetarian restaurant**. It earns a **4.4/5** for its paper-thin, three-foot-long ",
+      "status": "mapped",
+      "itemId": 1000038,
+      "name": "The Marigold Room",
+      "match_score": 117
+    },
+    {
+      "paragraph": 40,
+      "source_sha256": "ef6616c91a0be6829c1f5fc9044d350c621f95aea5046a31243e692e959cb0be",
+      "source_excerpt": "**Pacific Peak** in **Burbank** is a **retro-futuristic** **American** **diner** that leans into its proximity to the film studios. Rated **3.9/5**, it’s more about the vibe than t",
+      "status": "mapped",
+      "itemId": 1000039,
+      "name": "Pacific Peak",
+      "match_score": 120
+    },
+    {
+      "paragraph": 41,
+      "source_sha256": "a7502841b67c19640512ec5c9ab65b99b8034b6627fb484cf75413fe5d6603f3",
+      "source_excerpt": "**The Blue Ribbon** in **South Pasadena** is a **quaint and charming** **French** **creperie** tucked into a quiet side street. With a **4.5/5** rating, it is beloved for its buckw",
+      "status": "mapped",
+      "itemId": 1000040,
+      "name": "The Blue Ribbon",
+      "match_score": 120
+    },
+    {
+      "paragraph": 42,
+      "source_sha256": "9f1e39de2236f07894f02f01766c8c29a29b2f4dec03cbb5c036cc4c92a32fe2",
+      "source_excerpt": "**Saltwood Smoke** in **Torrance** is an **industrial and casual** **Texas-style BBQ** **pit**. Scoring a **4.7/5**, this spot is serious about its craft, serving moist brisket on ",
+      "status": "mapped",
+      "itemId": 1000041,
+      "name": "Saltwood Smoke",
+      "match_score": 117
+    },
+    {
+      "paragraph": 43,
+      "source_sha256": "dcb8f8f572791cc609130e63f4a7da882b6635fa7aaaca9fe71adc12df58f9d5",
+      "source_excerpt": "**The Urban Orchard** in **Mid-Wilshire** is a **sleek and professional** **New American** **business lunch spot**. Rated **4.0/5**, it caters to the museum and office crowd with i",
+      "status": "mapped",
+      "itemId": 1000042,
+      "name": "The Urban Orchard",
+      "match_score": 120
+    },
+    {
+      "paragraph": 44,
+      "source_sha256": "1300c25a5b37c069ac8cdb4c8742cf2906c0880e253c16187df44f454017c051",
+      "source_excerpt": "**Taco Nocturna** in **Whittier** is a **moody and artistic** **Mexican** **night-market stall** that has moved into a permanent brick-and-mortar space. It earns a **4.3/5** for it",
+      "status": "mapped",
+      "itemId": 1000043,
+      "name": "Taco Nocturna",
+      "match_score": 120
+    },
+    {
+      "paragraph": 45,
+      "source_sha256": "25c25b7202a7d33dc5720f6517797eb455cf5a5ce4e2ec069990471729bbd4af",
+      "source_excerpt": "**The Golden Gyoza** in **Gardena** is a **minimalist and fast-paced** **Japanese** **dumpling house**. Rated **4.6/5**, the menu is hyper-focused on its namesake gyoza, which are ",
+      "status": "mapped",
+      "itemId": 1000044,
+      "name": "The Golden Gyoza",
+      "match_score": 114
+    },
+    {
+      "paragraph": 46,
+      "source_sha256": "4f84a6205e7467ac08ffea4483b69f07895bdff6012bf882a06d7f8172bb141e",
+      "source_excerpt": "**Breeze & Barrel** in **Redondo Beach** is a **sophisticated and nautical** **Seafood** **lounge**. With a **4.2/5** rating, it offers a refined take on the beach bar, featuring a",
+      "status": "mapped",
+      "itemId": 1000045,
+      "name": "Breeze & Barrel",
+      "match_score": 120
+    },
+    {
+      "paragraph": 47,
+      "source_sha256": "9c24a800f4b1825c9b44a02a559aac144b4347619bf19a450bb5356c54b8eee4",
+      "source_excerpt": "**The Matcha Manor** in **Sawtelle Japantown** is a **whimsical and pastel** **Japanese Dessert** **cafe**. Scoring a **4.1/5**, it is a social media favorite for its towering matc",
+      "status": "mapped",
+      "itemId": 1000046,
+      "name": "The Matcha Manor",
+      "match_score": 120
+    },
+    {
+      "paragraph": 48,
+      "source_sha256": "ab860c8c5814eac152f241bacfd8bfa0fff339cd5bda8e0a2755be84a923686e",
+      "source_excerpt": "**Iron Root** in **Northridge** is a **hearty and traditional** **German** **beer hall**. Rated **4.4/5**, it brings a taste of Bavaria to the Valley with its oversized pretzels, s",
+      "status": "mapped",
+      "itemId": 1000047,
+      "name": "Iron Root",
+      "match_score": 123
+    },
+    {
+      "paragraph": 49,
+      "source_sha256": "e55a2559ef0b0202603ea53b4c23542f504c0e63800f8e3659222b1a22382d76",
+      "source_excerpt": "**The Velvet Apron** in **Bel Air** is an **exclusive and hushed** **French-Californian** **fine dining** room. It earns a **4.8/5** for its impeccable service and tasting menu, wh",
+      "status": "mapped",
+      "itemId": 1000048,
+      "name": "The Velvet Apron",
+      "match_score": 117
+    },
+    {
+      "paragraph": 50,
+      "source_sha256": "9850ffad06f6716040bcbf2696e3be9d17fcda86078b3ea6c92d5a2f13654743",
+      "source_excerpt": "**The Neon Noodle Bar** (a spin-off) in **Monterey Park** is a **fast and funky** **Hong Kong** **cafe**. Rated **4.0/5**, it’s a high-energy spot for \"instant\" noodle gourmet bowl",
+      "status": "mapped",
+      "itemId": 1000049,
+      "name": "The Neon Noodle Bar",
+      "match_score": 120
+    },
+    {
+      "paragraph": 51,
+      "source_sha256": "17a42ae494d6c4ce4e43571ce32610155011e419f0ac4395dceb3a2a2c8043b6",
+      "source_excerpt": "**The Copper Tandoor** in **Studio City** is a **refined and glowing** **Modern Indian** **grill** that reimagines the suburban dining experience. With a **4.6/5** rating, it is fa",
+      "status": "mapped",
+      "itemId": 1000050,
+      "name": "The Copper Tandoor",
+      "match_score": 120
+    },
+    {
+      "paragraph": 52,
+      "source_sha256": "227c9968e7fdb31be8c20d7116a02de0e5e0040436709b34dd30318b36a21bc3",
+      "source_excerpt": "**Miso Hungry** in **Sawtelle** is a **quirky and cramped** **Japanese** **ramen den** that feels like a discovery. Rated **4.4/5**, it draws consistent lines for its 18-hour tonko",
+      "status": "mapped",
+      "itemId": 1000051,
+      "name": "Miso Hungry",
+      "match_score": 114
+    },
+    {
+      "paragraph": 53,
+      "source_sha256": "4f75af7f08ab4e21526d99f76ac6e3977b5b9d26e34fe9b3810bf960e564fd91",
+      "source_excerpt": "**The Olive Grove** in **Tarzana** is a **tranquil and airy** **Greek** **taverna** that transports diners to the Mediterranean. Scoring a **4.3/5**, the kitchen excels at charred ",
+      "status": "mapped",
+      "itemId": 1000052,
+      "name": "The Olive Grove",
+      "match_score": 120
+    },
+    {
+      "paragraph": 54,
+      "source_sha256": "5198433727dc364255bf022b47a5c574be3258ac925c267aebc0f24a8e54d320",
+      "source_excerpt": "**Smoke & Silk** in **Cerritos** is a **modern and sleek** **Chinese BBQ** **house** that elevates traditional Cantonese meats. Rated **4.5/5**, its honey-glazed char siu is a mast",
+      "status": "mapped",
+      "itemId": 1000053,
+      "name": "Smoke & Silk",
+      "match_score": 120
+    },
+    {
+      "paragraph": 55,
+      "source_sha256": "51668d1aea6c5276628b1a575d4faf8e8d1ef3878c47c66ca060dc4a6da5d631",
+      "source_excerpt": "**The Blue Agave** in **Santa Monica** is a **breezy and upscale** **Oaxacan-Fusion** **kitchen** located just steps from the sand. Earning a **4.1/5**, it is the go-to for grassho",
+      "status": "mapped",
+      "itemId": 1000054,
+      "name": "The Blue Agave",
+      "match_score": 120
+    },
+    {
+      "paragraph": 56,
+      "source_sha256": "1d5214607d8290c9b4ec26ace21f056985b51553dba7172accbff6b47c5af114",
+      "source_excerpt": "**Grain & Grapes** in **Claremont** is a **warm and intellectual** **New American** **wine bar** nestled near the colleges. Rated **4.2/5**, it focuses on locally sourced cheese bo",
+      "status": "mapped",
+      "itemId": 1000055,
+      "name": "Grain & Grapes",
+      "match_score": 120
+    },
+    {
+      "paragraph": 57,
+      "source_sha256": "58ac4c38dabb9d1a71a500bbf459c6ee232d028648e35a5f1bc8671193205fc5",
+      "source_excerpt": "**The Salty Pig** in **Huntington Beach** is a **rowdy and rustic** **Gastropub** specializing in all things pork. Scoring a **3.9/5**, it is a paradise for lovers of bacon-wrapped",
+      "status": "mapped",
+      "itemId": 1000056,
+      "name": "The Salty Pig",
+      "match_score": 120
+    },
+    {
+      "paragraph": 58,
+      "source_sha256": "6d96d147779ef6369847eabd909cf8a0cb71f3c1c14d9bd1befefdd40f9c0f8a",
+      "source_excerpt": "**Kimchi Kingdom** in **Gardena** is a **no-nonsense and traditional** **Korean** **comfort food spot**. With a **4.7/5** rating, it is beloved for its bubbling silken tofu soup (s",
+      "status": "unresolved_structured_record",
+      "itemId": null,
+      "name": null
+    },
+    {
+      "paragraph": 59,
+      "source_sha256": "df857370ca0e37ee82af40334b3bf2c76a98c7da6ebf5cddee162d14939d6e4f",
+      "source_excerpt": "**The Velvet Bean** in **Larchmont Village** is a **sophisticated and cozy** **European-style** **cafe**. Rated **4.4/5**, it is known for its meticulous pour-overs and lavender-in",
+      "status": "mapped",
+      "itemId": 1000057,
+      "name": "The Velvet Bean",
+      "match_score": 120
+    },
+    {
+      "paragraph": 60,
+      "source_sha256": "62491025c1be959ce921a1f56b9a37c2c65ed0b7e3c724cc19a2bc72f2ddf722",
+      "source_excerpt": "**Taco Tradición** in **East Los Angeles** is a **vibrant and historic** **Mexican** **taqueria** that has stayed true to its roots for generations. Earning a **4.8/5**, its al pas",
+      "status": "mapped",
+      "itemId": 1000058,
+      "name": "Taco Tradición",
+      "match_score": 114
+    },
+    {
+      "paragraph": 61,
+      "source_sha256": "69ad6b53dadcd12819c13c45e2283c518092e5f6e1ba67240c6a4f569ce823e5",
+      "source_excerpt": "**The Gilded Lily** in **West Hollywood** is a **glamorous and theatrical** **French-Vietnamese** **fusion lounge**. Rated **4.2/5**, it pairs high-concept plates like shaking beef",
+      "status": "mapped",
+      "itemId": 1000059,
+      "name": "The Gilded Lily",
+      "match_score": 117
+    },
+    {
+      "paragraph": 62,
+      "source_sha256": "4534b5cb875ddc84973edc34835ceeca4bff11dad09e9e38e658545352b68f94",
+      "source_excerpt": "**Urban Harvest** in **Pasadena** is a **clean and minimalist** **Plant-Based** **deli** that caters to the weekend farmer’s market crowd. Scoring a **4.0/5**, it is celebrated for",
+      "status": "mapped",
+      "itemId": 1000060,
+      "name": "Urban Harvest",
+      "match_score": 120
+    },
+    {
+      "paragraph": 63,
+      "source_sha256": "50c1e89a22abdfbc3a87faf0ef6c9cbc84c6a54cb7bbfd37bb39d3e45afebb1d",
+      "source_excerpt": "**The Iron Wok** in **Rowland Heights** is an **energetic and industrial** **Taiwanese** **street food hall**. Rated **4.5/5**, it earns high marks for its crispy salt-and-pepper c",
+      "status": "mapped",
+      "itemId": 1000061,
+      "name": "The Iron Wok",
+      "match_score": 120
+    },
+    {
+      "paragraph": 64,
+      "source_sha256": "1bc1ceacd72e8811de53fd75348f374084712d487c10731fdae216ce32c996ae",
+      "source_excerpt": "**Midnight in Milan** in **Downtown LA** is a **sultry and fashionable** **Northern Italian** **ristorante**. With a **4.6/5** rating, it offers an elevated take on risotto and vea",
+      "status": "mapped",
+      "itemId": 1000062,
+      "name": "Midnight in Milan",
+      "match_score": 120
+    },
+    {
+      "paragraph": 65,
+      "source_sha256": "764eaf925e81c05ee32435f4f1077ff5c18c7e26fc00d0ac411f2a3735c5e4ed",
+      "source_excerpt": "**The Cedar Room** in **Encino** is a **dark and masculine** **American** **chophouse** that feels like a private club. Rated **4.3/5**, it specializes in thick-cut prime rib and l",
+      "status": "mapped",
+      "itemId": 1000063,
+      "name": "The Cedar Room",
+      "match_score": 120
+    },
+    {
+      "paragraph": 66,
+      "source_sha256": "d370de626311a8dc8323dbd3dae7b9d409eb449c2fd27dfc10bbf75a6b9f1792",
+      "source_excerpt": "**Pho Highland** in **Highland Park** is a **bright and trendy** **Vietnamese** **noodle shop** that blends tradition with a hipster sensibility. Scoring a **4.2/5**, it offers a c",
+      "status": "mapped",
+      "itemId": 1000064,
+      "name": "Pho Highland",
+      "match_score": 120
+    },
+    {
+      "paragraph": 67,
+      "source_sha256": "6a5a617e025f5116407fa7eb1c3d537513cc5ad5339332fa591df28faa9a329f",
+      "source_excerpt": "**The Golden Hook** in **Redondo Beach** is a **casual and sun-bleached** **Seafood** **market and grill**. Rated **4.4/5**, it is the place for locally caught yellowtail collars a",
+      "status": "mapped",
+      "itemId": 1000065,
+      "name": "The Golden Hook",
+      "match_score": 120
+    },
+    {
+      "paragraph": 68,
+      "source_sha256": "c50f1cebfc84f50698a6c95ec6bf78aec25463c673492258004e34ae40af1420",
+      "source_excerpt": "**Saffron & Sage** in **Culver City** is a **modern and airy** **Middle Eastern** **grill**. Earning a **4.5/5**, it is famous for its pomegranate-glazed kebabs and house-made labn",
+      "status": "mapped",
+      "itemId": 1000066,
+      "name": "Saffron & Sage",
+      "match_score": 120
+    },
+    {
+      "paragraph": 69,
+      "source_sha256": "79800cc74e66096be58fe999b7db8d19a552fd9c0c04d568e08a9aa9fdd40223",
+      "source_excerpt": "**The Sugar Mill** in **Glendale** is a **whimsical and over-the-top** **Dessert** **boutique**. Rated **3.8/5**, it is an Instagrammer's dream, known for milkshakes topped with en",
+      "status": "mapped",
+      "itemId": 1000067,
+      "name": "The Sugar Mill",
+      "match_score": 120
+    },
+    {
+      "paragraph": 70,
+      "source_sha256": "42aa24d03ec46227143911d03ba5a3dc8793eca99a719b1775888a9d63104787",
+      "source_excerpt": "**Blue Bayou** in **Long Beach** is a **moody and soulful** **Cajun & Creole** **kitchen**. Scoring a **4.6/5**, it brings the flavors of New Orleans to the West Coast with its dar",
+      "status": "mapped",
+      "itemId": 1000068,
+      "name": "Blue Bayou",
+      "match_score": 120
+    },
+    {
+      "paragraph": 71,
+      "source_sha256": "18c6f6b5e794e2915641a468a23b19464bd0d85b3df233db2f2f8874839fa846",
+      "source_excerpt": "**The Glass Onion** in **Silver Lake** is a **retro and eccentric** **New American** **eatery** that celebrates the neighborhood’s artistic roots. Rated **4.3/5**, the menu feature",
+      "status": "mapped",
+      "itemId": 1000069,
+      "name": "The Glass Onion",
+      "match_score": 120
+    },
+    {
+      "paragraph": 72,
+      "source_sha256": "14f65a3e1a4f1d70e2a72c88ab5767065d0edccab330e7148167e06b7f5de317",
+      "source_excerpt": "**The Rustic Crust** in **Altadena** is a **family-friendly and cozy** **Wood-Fired** **pizzeria**. Earning a **4.7/5**, it is a local treasure for its thin, blistered sourdough cr",
+      "status": "mapped",
+      "itemId": 1000070,
+      "name": "The Rustic Crust",
+      "match_score": 120
+    },
+    {
+      "paragraph": 73,
+      "source_sha256": "d63381215db73b96f6349741702683b6265480100df64e474f4568c2d4fb223a",
+      "source_excerpt": "**Siren’s Call** in **Malibu** is an **exclusive and romantic** **Seafood** **fine-dining** establishment perched on the cliffs. Rated **4.5/5**, it offers a high-end tasting menu ",
+      "status": "mapped",
+      "itemId": 1000071,
+      "name": "Siren’s Call",
+      "match_score": 120
+    },
+    {
+      "paragraph": 74,
+      "source_sha256": "c4209543fed0d5b20a7094bac9e8fd031563cdc1d38ab56a2de6a4274af29cb1",
+      "source_excerpt": "**The Noodle Nest** in **San Gabriel** is a **quiet and minimalist** **Hand-Pulled Noodle** **shop**. Scoring a **4.6/5**, it focuses on the craft of the dough, offering thick, che",
+      "status": "mapped",
+      "itemId": 1000072,
+      "name": "The Noodle Nest",
+      "match_score": 120
+    },
+    {
+      "paragraph": 75,
+      "source_sha256": "f68e59c7c0e4b8cec685b11ec30a17a7e82f365e6b8fe259c37965bce346320b",
+      "source_excerpt": "**The Velvet Vine** in **Los Feliz** is a **charming and dim-lit** **French** **wine bar and bistro**. Rated **4.1/5**, it is beloved for its steak frites and extensive list of nat",
+      "status": "mapped",
+      "itemId": 1000073,
+      "name": "The Velvet Vine",
+      "match_score": 120
+    },
+    {
+      "paragraph": 76,
+      "source_sha256": "e48c3ae5ff37a5c103c0213357afd58b1687f1a17674f8a7e7423e93512a16b8",
+      "source_excerpt": "**The Hearth & Hive** in **Eagle Rock** is a **rustic and sun-drenched** **New American** **kitchen** that celebrates local honey and grains. Rated **4.4/5**, it is famous for its ",
+      "status": "mapped",
+      "itemId": 1000074,
+      "name": "The Hearth & Hive",
+      "match_score": 120
+    },
+    {
+      "paragraph": 77,
+      "source_sha256": "a05fbbb802548e2e478d060e54621b7ef86d274a52e4a84a86f6924708541e47",
+      "source_excerpt": "**Sakura Skies** in **Torrance** is a **serene and traditional** **Japanese** **izakaya** that caters to the city's deep-rooted Nikkei community. Earning a **4.7/5**, it excels in ",
+      "status": "mapped",
+      "itemId": 1000075,
+      "name": "Sakura Skies",
+      "match_score": 120
+    },
+    {
+      "paragraph": 78,
+      "source_sha256": "4407b11e571c37f6e357b32bd83c6f6d906a78ed640a83aee6225fb503aa8c37",
+      "source_excerpt": "**The Midnight Mule** in **Echo Park** is a **gritty and electric** **Fusion Tapas** **lounge** located just steps from the lake. Rated **4.0/5**, it is the neighborhood’s go-to fo",
+      "status": "mapped",
+      "itemId": 1000076,
+      "name": "The Midnight Mule",
+      "match_score": 120
+    },
+    {
+      "paragraph": 79,
+      "source_sha256": "f4e8e7402c06f058e38930385400f013c38f2946160d77fe2696cbaffa63e912",
+      "source_excerpt": "**The Golden Vine** in **Temecula** (the eastern fringe of Greater LA) is a **stately and scenic** **Italian** **winery restaurant**. Scoring a **4.5/5**, it offers handmade lobste",
+      "status": "mapped",
+      "itemId": 1000077,
+      "name": "The Golden Vine",
+      "match_score": 120
+    },
+    {
+      "paragraph": 80,
+      "source_sha256": "1649f4a8ae20ec3ca3c6b357bfc6ed0da8032819230ef179fc87a09b9a91dc88",
+      "source_excerpt": "**Taco Tesoro** in **Whittier** is a **vibrant and minimalist** **Mexican** **street-food boutique**. Rated **4.6/5**, it specializes in \"suadero\" tacos that are slow-confit to per",
+      "status": "mapped",
+      "itemId": 1000078,
+      "name": "Taco Tesoro",
+      "match_score": 117
+    },
+    {
+      "paragraph": 81,
+      "source_sha256": "d4b5fde8541df6472cdde02773f64b2459cf20552cb5b6ba4cde6be455d1ab3f",
+      "source_excerpt": "**The Ivory Room** in **Beverly Hills** is an **opulent and hushed** **Continental** **steakhouse** that feels like a step back into the 1940s. With a **4.2/5** rating, it focuses ",
+      "status": "mapped",
+      "itemId": 1000079,
+      "name": "The Ivory Room",
+      "match_score": 117
+    },
+    {
+      "paragraph": 82,
+      "source_sha256": "cd9abce91a56f80fe03eac90bcc20e041d882cbb0ee70bf871baa750360c82ad",
+      "source_excerpt": "**The Blue Lotus** in **Westminster** is an **ornate and bustling** **Vietnamese** **banquet hall**. Scoring a **4.3/5**, it is renowned for its \"Seven Courses of Beef\" and crisp s",
+      "status": "mapped",
+      "itemId": 1000080,
+      "name": "The Blue Lotus",
+      "match_score": 120
+    },
+    {
+      "paragraph": 83,
+      "source_sha256": "ff307faedb258f9c7b29413a52cded08744257b8e6826b25cd462b8314823d44",
+      "source_excerpt": "**Common Thread** in **Arts District (DTLA)** is an **industrial and high-concept** **New American** **tasting room**. Rated **4.8/5**, the chef-driven menu changes weekly, featuri",
+      "status": "mapped",
+      "itemId": 1000081,
+      "name": "Common Thread",
+      "match_score": 117
+    },
+    {
+      "paragraph": 84,
+      "source_sha256": "1da148248210a240e6665703ec9e44b4e13094fd96f98fbd200ea2e7d98404b0",
+      "source_excerpt": "**The Salted Lemon** in **Sherman Oaks** is a **bright and breezy** **Mediterranean** **cafe** that brings a touch of the Amalfi Coast to the Valley. Earning a **4.1/5**, it is a l",
+      "status": "mapped",
+      "itemId": 1000082,
+      "name": "The Salted Lemon",
+      "match_score": 120
+    },
+    {
+      "paragraph": 85,
+      "source_sha256": "58e5181efe3e944f6e922c8db8d91cc8ab689222236b7679eeebaee80e079642",
+      "source_excerpt": "**Mariscos El Faro** in **Wilmington** is a **vibrant and no-nonsense** **Mexican Seafood** **truck-turned-cafe**. Rated **4.7/5**, it is a destination for its \"Aguachile Verde\" an",
+      "status": "mapped",
+      "itemId": 1000083,
+      "name": "Mariscos El Faro",
+      "match_score": 120
+    },
+    {
+      "paragraph": 86,
+      "source_sha256": "2670a75f4c1f3bc1787a5c47bbdb084aa75daa52eeb0026af7c58a2b25683d98",
+      "source_excerpt": "**The Velvet Raven** in **Burbank** is a **moody and theatrical** **Gastropub** with a slight gothic edge. Scoring a **3.9/5**, it is beloved by the local studio crowd for its \"Dea",
+      "status": "mapped",
+      "itemId": 1000084,
+      "name": "The Velvet Raven",
+      "match_score": 120
+    },
+    {
+      "paragraph": 87,
+      "source_sha256": "a75dbf37895d3a132ccba0c7d5751a268e1e61b8628b1583c40de8242ef402c4",
+      "source_excerpt": "**Ginger & Gold** in **Monterey Park** is a **sleek and modern** **Cantonese** **seafood house**. Rated **4.5/5**, it excels in ginger-scallion lobster and honey-glazed walnut shri",
+      "status": "mapped",
+      "itemId": 1000085,
+      "name": "Ginger & Gold",
+      "match_score": 120
+    },
+    {
+      "paragraph": 88,
+      "source_sha256": "26b5f2eecdbf0b8a153d3c2eed2cdbde3c1e1d73b82a6a9167c071f6fcf8ad99",
+      "source_excerpt": "**The Rustic Rye** in **South Pasadena** is a **cozy and nostalgic** **American** **bakery and bistro**. Earning a **4.4/5**, it is famous for its sourdough boules and short-rib po",
+      "status": "mapped",
+      "itemId": 1000086,
+      "name": "The Rustic Rye",
+      "match_score": 120
+    },
+    {
+      "paragraph": 89,
+      "source_sha256": "31ac8927eada389e234875fa0382cb3883951228f1c60b2122ac73852e8ed767",
+      "source_excerpt": "**Saffron Sunset** in **Malibu** is a **bohemian and elevated** **Persian-Californian** **fusion spot**. Rated **4.2/5**, it pairs traditional kebabs with local organic produce, of",
+      "status": "mapped",
+      "itemId": 1000087,
+      "name": "Saffron Sunset",
+      "match_score": 114
+    },
+    {
+      "paragraph": 90,
+      "source_sha256": "f8a72a67215329898a778bf9785141a4a6dbf53e2166e7f55b958170372df5dc",
+      "source_excerpt": "**The Iron Kettle** in **Fullerton** is a **warm and traditional** **Korean** **soup house**. Scoring a **4.6/5**, it specializes in \"Sulungtang\" (ox bone soup) that is simmered fo",
+      "status": "mapped",
+      "itemId": 1000088,
+      "name": "The Iron Kettle",
+      "match_score": 117
+    },
+    {
+      "paragraph": 91,
+      "source_sha256": "7514d0fd2f1121a583b7892cd1441eb95391c817163cf2193d7bc2b4afe10d4f",
+      "source_excerpt": "**The Glass House** in **Culver City** is a **stunning and transparent** **Plant-Based** **fine-dining** restaurant. Rated **4.5/5**, the menu features \"scallops\" made from king oy",
+      "status": "mapped",
+      "itemId": 1000089,
+      "name": "The Glass House",
+      "match_score": 120
+    },
+    {
+      "paragraph": 92,
+      "source_sha256": "c5860ad2996a9a035cff6f4a232f0c9b6f3a34598c8653826d8338e08ecbcf70",
+      "source_excerpt": "**Taco de Oro** in **Pacoima** is a **historic and colorful** **Mexican** **staple** that has been family-run for over forty years. Earning a **4.8/5**, its crispy hard-shell tacos",
+      "status": "mapped",
+      "itemId": 1000090,
+      "name": "Taco de Oro",
+      "match_score": 120
+    },
+    {
+      "paragraph": 93,
+      "source_sha256": "21bd13dc031242f473e4cbab44dce45cd8a79eecf8607f7857dc5be1eb12b257",
+      "source_excerpt": "**The Copper Whisk** in **Long Beach** is an **energetic and eclectic** **Breakfast & Brunch** **spot**. Rated **4.3/5**, it is known for its red velvet pancakes and spicy chorizo ",
+      "status": "unresolved_structured_record",
+      "itemId": null,
+      "name": null
+    },
+    {
+      "paragraph": 94,
+      "source_sha256": "88c47772a54a2ffb15cbaa2370faa77aa9f47f5afb819c23779e902dd0818283",
+      "source_excerpt": "**The Silk Parasol** in **San Gabriel** is a **refined and quiet** **Taiwanese** **tea house**. Scoring a **4.4/5**, it offers delicate small plates like minced pork over rice and ",
+      "status": "mapped",
+      "itemId": 1000091,
+      "name": "The Silk Parasol",
+      "match_score": 120
+    },
+    {
+      "paragraph": 95,
+      "source_sha256": "f4403cc9f3780b15f6dfd74ca1f825b0e825a37cd3dc18556ea1c4a459db89df",
+      "source_excerpt": "**The Harbor Light** in **San Pedro** is a **classic and rugged** **American** **seafood grill**. Rated **4.0/5**, it is the place for fried clams and cold beer, offering a weather",
+      "status": "mapped",
+      "itemId": 1000092,
+      "name": "The Harbor Light",
+      "match_score": 120
+    },
+    {
+      "paragraph": 96,
+      "source_sha256": "4073ee7637c64f4ab720332e11a42625c944bc55376fcf9a002344062c2f6ef8",
+      "source_excerpt": "**The Painted Plate** in **Arts District (DTLA)** is a **vibrant and artistic** **Modern Mexican** **bistro**. Earning a **4.5/5**, it features hibiscus-glazed duck and blue corn t",
+      "status": "mapped",
+      "itemId": 1000093,
+      "name": "The Painted Plate",
+      "match_score": 120
+    },
+    {
+      "paragraph": 97,
+      "source_sha256": "59203545e6df4034dc9ea90f579a0adcb460b737e1923a30330af7c2c24b7dbc",
+      "source_excerpt": "**The Wild Fig** in **Agoura Hills** is a **tranquil and upscale** **Middle Eastern** **dining room**. Rated **4.3/5**, it is celebrated for its lamb shank and pomegranate walnut s",
+      "status": "mapped",
+      "itemId": 1000094,
+      "name": "The Wild Fig",
+      "match_score": 120
+    },
+    {
+      "paragraph": 98,
+      "source_sha256": "ac0dabc6a33dc44970ecc852aab68d7ff44e623e2e23ca5a1438d709a39dc263",
+      "source_excerpt": "**The Neon Noodle** in **Koreatown** (a sister shop to the SGV location) is a **high-energy and industrial** **Ramen** **bar**. Scoring a **4.2/5**, it focuses on a spicy black gar",
+      "status": "mapped",
+      "itemId": 1000095,
+      "name": "The Neon Noodle",
+      "match_score": 117
+    },
+    {
+      "paragraph": 99,
+      "source_sha256": "38f92c0b82cb169fcb99f460fec91fdc01955e101e2c98d82aa1b585610f0e2f",
+      "source_excerpt": "**The Stone Orchard** in **La Cañada Flintridge** is an **elegant and historic** **Californian** **estate restaurant**. Rated **4.6/5**, it offers a refined garden-to-table experie",
+      "status": "mapped",
+      "itemId": 1000096,
+      "name": "The Stone Orchard",
+      "match_score": 114
+    },
+    {
+      "paragraph": 100,
+      "source_sha256": "da3596c445d0be5d8b9c5d618b463c77a3a15c050cd56f27d4f8937bc4d464fa",
+      "source_excerpt": "**The Last Crumb** in **Silver Lake** completes our list as a **tiny and hip** **Pastry & Espresso** **window**. Rated **4.5/5**, it may be small, but its sea-salt chocolate chip c",
+      "status": "mapped",
+      "itemId": 1000097,
+      "name": "The Last Crumb",
+      "match_score": 120
+    },
+    {
+      "paragraph": 101,
+      "source_sha256": "87f35422006a7f4022faf2cb2da296a8bbf93fe3d83bd73d53e96ebde53543aa",
+      "source_excerpt": "**The Velvet Shroom** in **Mid-Wilshire** is a **moody and organic** **Modern Vegetarian** **bistro** that elevates fungi to fine-art status. Rated **4.4/5**, it is famous for its ",
+      "status": "mapped",
+      "itemId": 1000098,
+      "name": "The Velvet Shroom",
+      "match_score": 120
+    },
+    {
+      "paragraph": 102,
+      "source_sha256": "860145e3e4fc95b758237eb9b3c4d54cb1b6dc66ebafd4ba4230cef90c61a1e6",
+      "source_excerpt": "**Metropolis Grill** in **DTLA** is a **high-octane and industrial** **American** **brasserie** located in the heart of the Financial District. Earning a **4.1/5**, it serves up a ",
+      "status": "mapped",
+      "itemId": 1000099,
+      "name": "Metropolis Grill",
+      "match_score": 120
+    },
+    {
+      "paragraph": 103,
+      "source_sha256": "4a3f030d4a49d74edf58e71dcf75b158b312a88b2faa00d9a7911d717d8af46a",
+      "source_excerpt": "**The Golden Saffron** in **Tehrangeles** (Westwood) is an **opulent and aromatic** **Persian** **fine-dining** room. Rated **4.7/5**, the kitchen excels in crispy tahdig and succu",
+      "status": "mapped",
+      "itemId": 1000100,
+      "name": "The Golden Saffron",
+      "match_score": 120
+    },
+    {
+      "paragraph": 104,
+      "source_sha256": "4d9b57fcf5eb180288867a5b9082ef52a77b16f251cf61c96ee4a44682a7fbb1",
+      "source_excerpt": "**Pico Provisions** in **Picfair Village** is a **charming and sun-soaked** **New American** **corner cafe**. Scoring a **4.3/5**, it is the neighborhood’s secret for house-cured l",
+      "status": "mapped",
+      "itemId": 1000101,
+      "name": "Pico Provisions",
+      "match_score": 120
+    },
+    {
+      "paragraph": 105,
+      "source_sha256": "f2d9760de13475d4e0e582216370ad72aa2cb47065315d64e6642e2570304de7",
+      "source_excerpt": "**The Neon Mezcal** in **Koreatown** is a **vibrant and loud** **Mexican-Korean Fusion** **cantina**. Rated **4.5/5**, the menu features standout items like gochujang-glazed pork b",
+      "status": "mapped",
+      "itemId": 1000102,
+      "name": "The Neon Mezcal",
+      "match_score": 120
+    },
+    {
+      "paragraph": 106,
+      "source_sha256": "90081b1bce5f7b772c5ec310a75eaf6815710fc1db370cf1bb24bde025f0df3e",
+      "source_excerpt": "**Silver Lake Ramen Loft** in **Silver Lake** is a **minimalist and hip** **Japanese** **noodle shop** perched above Sunset Boulevard. Earning a **4.2/5**, it offers a creamy spicy",
+      "status": "mapped",
+      "itemId": 1000103,
+      "name": "Silver Lake Ramen Loft",
+      "match_score": 117
+    },
+    {
+      "paragraph": 107,
+      "source_sha256": "e54b7739c76150d9702d72cddba7c21250da8bae7934f23db7840d45c29410fa",
+      "source_excerpt": "**The Brass Cleaver** in **Beverly Grove** is a **masculine and sophisticated** **Modern Steakhouse** that focuses on rare wagyu cuts. Rated **4.6/5**, it provides a high-end exper",
+      "status": "mapped",
+      "itemId": 1000104,
+      "name": "The Brass Cleaver",
+      "match_score": 126
+    },
+    {
+      "paragraph": 108,
+      "source_sha256": "87599cf412bc67fa9c5ab55a849293dec029e89bff454bdadfce67119a8adb4b",
+      "source_excerpt": "**Larchmont Lavender** in **Larchmont Village** is a **dainty and fragrant** **French-style** **bakery and tea room**. Scoring a **4.0/5**, it is beloved for its lavender-infused m",
+      "status": "mapped",
+      "itemId": 1000105,
+      "name": "Larchmont Lavender",
+      "match_score": 120
+    },
+    {
+      "paragraph": 109,
+      "source_sha256": "413acca09169796a2debc202f9577b8d91c4107557b714916df1c49729a5ef5c",
+      "source_excerpt": "**The Iron Lotus** in **Chinatown** is a **moody and contemporary** **Dim Sum** **house** that reimagines traditional carts as a high-concept small-plates experience. Rated **4.4/5",
+      "status": "unresolved_structured_record",
+      "itemId": null,
+      "name": null
+    },
+    {
+      "paragraph": 110,
+      "source_sha256": "09b31b98874bbab8344e3096b5828209487c391c0f57a63a2a828453cee991b8",
+      "source_excerpt": "**Boyle Heights BBQ** in **Boyle Heights** is a **vibrant and soulful** **Central Texas-style** **pit** with a Mexican twist. Earning a **4.8/5**, it is famous for its brisket-stuf",
+      "status": "mapped",
+      "itemId": 1000106,
+      "name": "Boyle Heights BBQ",
+      "match_score": 120
+    },
+    {
+      "paragraph": 111,
+      "source_sha256": "15ba7d870e114e164cd94c7f3dcbe92736ffe09c4e438232dcb651de72169ea7",
+      "source_excerpt": "**The Cedar Plank** in **Studio City** is a **warm and rustic** **Pacific Northwest** **seafood grill**. Rated **4.5/5**, it brings the flavors of Oregon to the Valley with its nam",
+      "status": "mapped",
+      "itemId": 1000107,
+      "name": "The Cedar Plank",
+      "match_score": 120
+    },
+    {
+      "paragraph": 112,
+      "source_sha256": "ffb91ecca190cc4f30c703c7549e56937b40c92cac48e4c833f1a13cedcb9387",
+      "source_excerpt": "**Mala Market** in **Alhambra** is an **energetic and no-nonsense** **Szechuan** **noodle stall** that specializes in the \"mala\" numbing sensation. Scoring a **4.6/5**, it is a des",
+      "status": "mapped",
+      "itemId": 1000108,
+      "name": "Mala Market",
+      "match_score": 114
+    },
+    {
+      "paragraph": 113,
+      "source_sha256": "9c006cefa7c67c94f8fefd09eebc0fce21cb0a12c659ff0856f77ffaacc8d99a",
+      "source_excerpt": "**The Green Gable** in **Pasadena** is a **stately and historic** **English-style** **tea house and bistro**. Rated **4.3/5**, it offers a refined afternoon tea service alongside m",
+      "status": "mapped",
+      "itemId": 1000109,
+      "name": "The Green Gable",
+      "match_score": 114
+    },
+    {
+      "paragraph": 114,
+      "source_sha256": "d6734dd84f914654e29f42709a831a85c6770ccdf337425ef401ffda2ab6584b",
+      "source_excerpt": "**Ventura Velvet** in **Sherman Oaks** is a **sultry and dim-lit** **Italian** **wine bar** that specializes in rare Mediterranean vintages and small-batch cheeses. Earning a **4.2",
+      "status": "mapped",
+      "itemId": 1000110,
+      "name": "Ventura Velvet",
+      "match_score": 114
+    },
+    {
+      "paragraph": 115,
+      "source_sha256": "1d7926184b91f43735efab7c43f4e1ebdd4e653fdd14bcb9cdbe06d3b6ec36ed",
+      "source_excerpt": "**The Golden Gyoza** in **Northridge** is a **fast-casual and bright** **Japanese** **dumpling bar** that has become a staple for the local college crowd. Rated **4.1/5**, the pan-",
+      "status": "mapped",
+      "itemId": 1000111,
+      "name": "The Golden Gyoza",
+      "match_score": 117
+    },
+    {
+      "paragraph": 116,
+      "source_sha256": "e3e8a08db3f9d27199ccfb940da12e54f9c24d39996facc57a07c84db3c61227",
+      "source_excerpt": "**Agave & Oak** in **Glendale** is a **sophisticated and airy** **Modern Mexican** **dining room**. Scoring a **4.5/5**, it excels in complex moles and high-end tequila flights, pr",
+      "status": "mapped",
+      "itemId": 1000112,
+      "name": "Agave & Oak",
+      "match_score": 120
+    },
+    {
+      "paragraph": 117,
+      "source_sha256": "d10c746bf727e857d3363acb5d40c1d51f82f322da41304b06296ef86354f950",
+      "source_excerpt": "**The Rustic Rye** in **Burbank** is a **nostalgic and hearty** **European-style** **deli and bakery**. Rated **4.4/5**, it is famous for its pastrami on house-baked rye and thick-",
+      "status": "mapped",
+      "itemId": 1000113,
+      "name": "The Rustic Rye",
+      "match_score": 120
+    },
+    {
+      "paragraph": 118,
+      "source_sha256": "5248ae5c72f9315528cdd998de06b5c5ef9706f968839a47f372191f5e6bb03f",
+      "source_excerpt": "**Saffron Peak** in **Eagle Rock** is a **vibrant and eclectic** **Himalayan-Fusion** **kitchen**. Earning a **4.6/5**, it combines Nepalese momos with local Californian produce, o",
+      "status": "mapped",
+      "itemId": 1000114,
+      "name": "Saffron Peak",
+      "match_score": 120
+    },
+    {
+      "paragraph": 119,
+      "source_sha256": "bf32fb9e5aec95d9db7ebc63e28182de3ca2cbec415b1ff58357fcde8d4d855f",
+      "source_excerpt": "**The Stone Hearth** in **Topanga Canyon** is a **mystical and woodland** **New American** **eatery** tucked into the mountains. Rated **4.7/5**, the kitchen focuses on foraged mus",
+      "status": "mapped",
+      "itemId": 1000115,
+      "name": "The Stone Hearth",
+      "match_score": 114
+    },
+    {
+      "paragraph": 120,
+      "source_sha256": "56be5d41e4ecdb0159bb791c0a69d99ae49cfab1a572dc31ba89ed3099640ec9",
+      "source_excerpt": "**The Neon Noodle** in **Van Nuys** is a **cyberpunk and high-energy** **Thai** **street food spot**. Scoring a **3.9/5**, it is known more for its wild vibe and spicy \"drunken noo",
+      "status": "mapped",
+      "itemId": 1000116,
+      "name": "The Neon Noodle",
+      "match_score": 117
+    },
+    {
+      "paragraph": 121,
+      "source_sha256": "f092552e86e7eae7e3985c519ae37c3a322655ee34282b70fdc17b847936b4f0",
+      "source_excerpt": "**The Fog & Finch** in the **Outer Richmond (San Francisco)** is a **moody and intimate** **Modern British** **gastropub** that thrives in the neighborhood's perpetual mist. Rated ",
+      "status": "mapped",
+      "itemId": 1000117,
+      "name": "The Fog & Finch",
+      "match_score": 120
+    },
+    {
+      "paragraph": 122,
+      "source_sha256": "99ea387fa5deeb236783ca26a4a962c90c93df7ea3b08da5a8621351e486e0b6",
+      "source_excerpt": "**Citrus & Adobe** in **Old Town San Diego** is a **vibrant and sun-drenched** **Baja-Mediterranean** **kitchen** that feels like a coastal getaway. Earning a **4.3/5**, it wins ov",
+      "status": "mapped",
+      "itemId": 1000118,
+      "name": "Citrus & Adobe",
+      "match_score": 120
+    },
+    {
+      "paragraph": 123,
+      "source_sha256": "2991fe6ee0e7d6f7bc6e59eef7b5fb7186b939e34440386221b18fc1408e2a5e",
+      "source_excerpt": "**The Glass Harvest** in **Napa Valley** is a **stunning and transparent** **Farm-to-Table** **fine-dining** destination situated directly within a working vineyard. Rated **4.8/5*",
+      "status": "mapped",
+      "itemId": 1000119,
+      "name": "The Glass Harvest",
+      "match_score": 117
+    },
+    {
+      "paragraph": 124,
+      "source_sha256": "fe739a8847975f622407a1f27abb609109a21132eedb36502e6159f538052888",
+      "source_excerpt": "**Indigo Palms** in **Palm Springs** is a **retro-glam and mid-century** **Desert Modern** **bistro** that captures the peak of Rat Pack aesthetics. Scoring a **4.2/5**, it special",
+      "status": "mapped",
+      "itemId": 1000120,
+      "name": "Indigo Palms",
+      "match_score": 117
+    },
+    {
+      "paragraph": 125,
+      "source_sha256": "8cd00b2118f3d4e46b72cf201a34e6597e3ac950a3367373c360bbca6b478aee",
+      "source_excerpt": "**The Iron Redwood** in **Big Sur** is a **rugged and spiritual** **New American** **eatery** perched precariously on a cliffside overlooking Highway 1. Rated **4.7/5**, the kitche",
+      "status": "mapped",
+      "itemId": 1000121,
+      "name": "The Iron Redwood",
+      "match_score": 114
+    },
+    {
+      "paragraph": 126,
+      "source_sha256": "8ca8a1ae08d4b7a9d2b27027cd9ed23aa15a7f157bd55bc4c0f46afd53a3ec8a",
+      "source_excerpt": "**The Saffron Cable** in **Nob Hill (San Francisco)** is a **sophisticated and narrow** **Modern Indian** **dining room** that reimagines classic street food for an upscale palate.",
+      "status": "mapped",
+      "itemId": 1000122,
+      "name": "The Saffron Cable",
+      "match_score": 120
+    },
+    {
+      "paragraph": 127,
+      "source_sha256": "75f08eb59e28f216db66370aa785cdfc33f31faf3a803f4527682988f8c8f927",
+      "source_excerpt": "**Mission Bloom** in the **Mission District (San Francisco)** is a **vibrant and high-energy** **Oaxacan** **taqueria** that doubles as a contemporary art gallery. Rated **4.4/5**,",
+      "status": "mapped",
+      "itemId": 1000123,
+      "name": "Mission Bloom",
+      "match_score": 120
+    },
+    {
+      "paragraph": 128,
+      "source_sha256": "4ad88020ad41c5a0bf9adc783f43800a5bb9a234c59f7838b62bc307c67fb979",
+      "source_excerpt": "**The Gilded Grape** in **Santa Barbara** is a **breezy and elegant** **Coastal French** **bistro** located in the historic El Presidio area. Scoring a **4.1/5**, it offers a maste",
+      "status": "mapped",
+      "itemId": 1000124,
+      "name": "The Gilded Grape",
+      "match_score": 120
+    },
+    {
+      "paragraph": 129,
+      "source_sha256": "595edf7a2e1fa79007b2a712a80135d1f41355085ef983a2d1fc8c732614edbc",
+      "source_excerpt": "**The Copper Anchor** in **Monterey** is a **salty and traditional** **Seafood** **grill** right on Cannery Row. Rated **4.0/5**, it leans into the history of the area with thick c",
+      "status": "mapped",
+      "itemId": 1000125,
+      "name": "The Copper Anchor",
+      "match_score": 120
+    },
+    {
+      "paragraph": 130,
+      "source_sha256": "44878427fba2f522b193077ea9cb109a2d41a8122a561766f43a314ad1b79ccf",
+      "source_excerpt": "**Alpine Hearth** in **Truckee (Lake Tahoe)** is a **warm and sturdy** **Mountain-Style** **steakhouse** that provides the ultimate post-ski comfort. Earning a **4.6/5**, it is kno",
+      "status": "mapped",
+      "itemId": 1000126,
+      "name": "Alpine Hearth",
+      "match_score": 117
+    },
+    {
+      "paragraph": 131,
+      "source_sha256": "e59f2fe2503b8017dfdee49aa8d6e0ee7bdcc4f247b6a90811e3c2edb0231678",
+      "source_excerpt": "**The Velvet Olive** in **Los Gatos** is a **sophisticated and hushed** **Modern Italian** **trattoria** catering to the Silicon Valley elite. Rated **4.5/5**, the kitchen excels i",
+      "status": "mapped",
+      "itemId": 1000127,
+      "name": "The Velvet Olive",
+      "match_score": 120
+    },
+    {
+      "paragraph": 132,
+      "source_sha256": "8f56d82dee2f7c4fbf75df7acae535c98eeb50e81f0c22d9323558ae8a1b9818",
+      "source_excerpt": "**Salt & Sage** in **Newport Beach** is a **chic and nautical** **Californian** **lounge** that overlooks the luxury yacht slips. Scoring a **4.3/5**, it is the place to see and be",
+      "status": "mapped",
+      "itemId": 1000128,
+      "name": "Salt & Sage",
+      "match_score": 117
+    },
+    {
+      "paragraph": 133,
+      "source_sha256": "00919271866532edc5dd601661f6d736808aae896c65de3f94b57650786d3703",
+      "source_excerpt": "**The Neon Noodle** in **Sacramento** is a **funky and industrial** **Fusion Ramen** **shop** located in the heart of the Midtown district. Rated **4.1/5**, it pairs traditional to",
+      "status": "mapped",
+      "itemId": 1000129,
+      "name": "The Neon Noodle",
+      "match_score": 114
+    },
+    {
+      "paragraph": 134,
+      "source_sha256": "65dffaefcbc409309733d2c6ee67f8c501f5dbec29aac9fea945d54f4b1797c5",
+      "source_excerpt": "**Canyon Canteen** in **Ojai** is a **relaxed and earthy** **Plant-Based** **cafe** that epitomizes the town’s spiritual vibe. Earning a **4.4/5**, it is beloved for its \"Pink Mome",
+      "status": "mapped",
+      "itemId": 1000130,
+      "name": "Canyon Canteen",
+      "match_score": 120
+    },
+    {
+      "paragraph": 135,
+      "source_sha256": "4a92678455e919bee73bdc75eaee5e14b56e069c2002d319ffee4f8bda7acdfb",
+      "source_excerpt": "**The Marble Arch** in **Laguna Beach** is a **theatrical and upscale** **Mediterranean** **restaurant** built into the side of a sea cave. Rated **4.9/5**, it offers a sensory-ove",
+      "status": "mapped",
+      "itemId": 1000131,
+      "name": "The Marble Arch",
+      "match_score": 114
+    },
+    {
+      "paragraph": 136,
+      "source_sha256": "74855b1eef3f43de4cae3e52393729c16ecb0c5d65a390561337614740b2d2bb",
+      "source_excerpt": "**The Golden Artichoke** in **Castroville** is a **quirky and historic** **Farm-Stop** **deli** that pays homage to the vegetable capital of the world. Scoring a **3.8/5**, it isn'",
+      "status": "mapped",
+      "itemId": 1000132,
+      "name": "The Golden Artichoke",
+      "match_score": 120
+    },
+    {
+      "paragraph": 137,
+      "source_sha256": "748f06c2477ef51e7757d024dd42d27599153a0d9e35331c89157b391bc42287",
+      "source_excerpt": "**The Velvet Poppy** in **San Luis Obispo** is a **charming and eclectic** **Central Coast** **bistro** that feels like a secret garden. Rated **4.5/5**, the menu features local tr",
+      "status": "mapped",
+      "itemId": 1000133,
+      "name": "The Velvet Poppy",
+      "match_score": 120
+    },
+    {
+      "paragraph": 138,
+      "source_sha256": "dcf0c7f172817bc8ee715965b8f08a2e2a38858c068da4bd5ba557a4411ec4fb",
+      "source_excerpt": "**Iron & Silk** in **Oakland** is a **gritty and stylish** **Japanese-African Fusion** **gastropub** located in the Uptown area. Earning a **4.7/5**, it serves up innovative dishes",
+      "status": "mapped",
+      "itemId": 1000134,
+      "name": "Iron & Silk",
+      "match_score": 120
+    },
+    {
+      "paragraph": 139,
+      "source_sha256": "fadf0702341f68262c7f00bde111448cf5d0351a142a287f6ac55029c110fb77",
+      "source_excerpt": "**The Blue Agave** in **Healdsburg** is a **breezy and upscale** **Mexican** **fine-dining** room located on the town square. Rated **4.4/5**, it specializes in duck mole and high-",
+      "status": "mapped",
+      "itemId": 1000135,
+      "name": "The Blue Agave",
+      "match_score": 120
+    },
+    {
+      "paragraph": 140,
+      "source_sha256": "cce7d78c049594fa5275bcfa2f003d6abf77650fb245db1f7f893b4d120edcac",
+      "source_excerpt": "**The Silent Pebble** in **Carmel-by-the-Sea** is a **zen and minimalist** **Japanese** **tea house and sushi bar**. Scoring a **4.8/5**, it offers a hyper-curated omakase experien",
+      "status": "mapped",
+      "itemId": 1000136,
+      "name": "The Silent Pebble",
+      "match_score": 117
+    },
+    {
+      "paragraph": 141,
+      "source_sha256": "9a2fb408c22b11e52da6e468c59b01719a7fc659f715f8f84a23a6b0568f5949",
+      "source_excerpt": "**The Foghorn** in **Half Moon Bay** is a **rugged and cozy** **American Seafood** **shack** perched right on the edge of the bluffs. Rated **4.4/5**, it is a sanctuary for those s",
+      "status": "mapped",
+      "itemId": 1000137,
+      "name": "The Foghorn",
+      "match_score": 120
+    },
+    {
+      "paragraph": 142,
+      "source_sha256": "2ec27563205bda072433df238d4f9011a97c59ed745027cd1d9e7dfc472d7dfb",
+      "source_excerpt": "**Saffron & Salt** in **Solana Beach** is a **breezy and modern** **Middle Eastern** **bistro** that perfectly captures the relaxed North County San Diego vibe. Scoring a **4.5/5**",
+      "status": "mapped",
+      "itemId": 1000138,
+      "name": "Saffron & Salt",
+      "match_score": 120
+    },
+    {
+      "paragraph": 143,
+      "source_sha256": "a749bd5c03ee26abb17371a762db511dca1b61c495946483846aa04b97970cfa",
+      "source_excerpt": "**The Redwood Room** in **Eureka** is a **stately and moody** **Northern Californian** **steakhouse** housed in a historic timber-era mansion. Rated **4.3/5**, it specializes in gr",
+      "status": "mapped",
+      "itemId": 1000139,
+      "name": "The Redwood Room",
+      "match_score": 114
+    },
+    {
+      "paragraph": 144,
+      "source_sha256": "a9729f0202d8a5887682fdfb488f016c65f66caf33727ebae8050d23ef8d8fd1",
+      "source_excerpt": "**Cactus Flower** in **Joshua Tree** is a **minimalist and eclectic** **High-Desert** **cafe** that caters to the artistic wandering souls of the Mojave. Earning a **4.1/5**, it is",
+      "status": "mapped",
+      "itemId": 1000140,
+      "name": "Cactus Flower",
+      "match_score": 120
+    },
+    {
+      "paragraph": 145,
+      "source_sha256": "942864ad2dfd971b434c24841309714af182d663b0c59b4bda3fc99d580d1fbb",
+      "source_excerpt": "**The Golden Gate Lounge** in **Sausalito** is a **sophisticated and nautical** **Continental** **bistro** with unparalleled views across the bay. Rated **4.2/5**, it leans into th",
+      "status": "mapped",
+      "itemId": 1000141,
+      "name": "The Golden Gate Lounge",
+      "match_score": 120
+    },
+    {
+      "paragraph": 146,
+      "source_sha256": "d33a05b0fc66bf98f3d1ebe3ea2453908a0d4a773dba760b465072f7c35e0363",
+      "source_excerpt": "**The Mission Hearth** in **San Juan Capistrano** is a **rustic and spiritual** **Spanish-Californian** **eatery** located in a restored adobe. Scoring a **4.6/5**, it features woo",
+      "status": "mapped",
+      "itemId": 1000142,
+      "name": "The Mission Hearth",
+      "match_score": 120
+    },
+    {
+      "paragraph": 147,
+      "source_sha256": "d7343cba6a8063e76e405286f83c5b157c5b3b76c09327b5f4c21318279b2de5",
+      "source_excerpt": "**Velvet & Vine** in **Napa** is a **moody and upscale** **French-Italian** **wine bar** located in a converted riverfront warehouse. Rated **4.7/5**, the small-plates menu focuses",
+      "status": "mapped",
+      "itemId": 1000143,
+      "name": "Velvet & Vine",
+      "match_score": 120
+    },
+    {
+      "paragraph": 148,
+      "source_sha256": "c0e47c3269c93f56161a5edb25b176cc44cc5e661b6750fb8542d555234b28c9",
+      "source_excerpt": "**The Blue Heron** in **Lake Tahoe (South Shore)** is a **warm and expansive** **Mountain-Style** **gastropub** that overlooks the water. Earning a **4.0/5**, it is a local favorit",
+      "status": "mapped",
+      "itemId": 1000144,
+      "name": "The Blue Heron",
+      "match_score": 120
+    },
+    {
+      "paragraph": 149,
+      "source_sha256": "e17f2a7169a5942fa635db4dab9104e12eca1ada3186192ba7a014b0ed1b88c3",
+      "source_excerpt": "**The Marble Fountain** in **Montebello** is a **bright and traditional** **Armenian** **bakery and grill** that feels like a community hub. Rated **4.5/5**, it earns high marks fo",
+      "status": "mapped",
+      "itemId": 1000145,
+      "name": "The Marble Fountain",
+      "match_score": 120
+    },
+    {
+      "paragraph": 150,
+      "source_sha256": "5de905147b6e6e8edccbd86d8da8313cb47505f14d54ae8d25d64741ff30c1c6",
+      "source_excerpt": "**Iron & Agave** in **Temecula** is a **sleek and industrial** **Mexican-Fusion** **kitchen** situated among the rolling wineries. Scoring a **4.4/5**, it specializes in short-rib ",
+      "status": "mapped",
+      "itemId": 1000146,
+      "name": "Iron & Agave",
+      "match_score": 120
+    },
+    {
+      "paragraph": 151,
+      "source_sha256": "832bd87c640a54f3034294b6a1e819408c8de51897ad81744ab99d067e215780",
+      "source_excerpt": "**The Silk Noodle** in **Irvine** is a **minimalist and efficient** **Taiwanese** **beef noodle house** that prioritizes precision and depth of flavor. Rated **4.6/5**, the 12-hour",
+      "status": "mapped",
+      "itemId": 1000147,
+      "name": "The Silk Noodle",
+      "match_score": 114
+    },
+    {
+      "paragraph": 152,
+      "source_sha256": "a03e6b8940cd6a605f8b5201eb935889a18f8e2cf8e2f12bf6987bd2b5a9102c",
+      "source_excerpt": "**The Painted Pony** in **Temescal (Oakland)** is a **vibrant and funky** **Southwestern** **cantina** that celebrates bold spices. Earning a **4.2/5**, it is beloved for its blue ",
+      "status": "mapped",
+      "itemId": 1000148,
+      "name": "The Painted Pony",
+      "match_score": 120
+    },
+    {
+      "paragraph": 153,
+      "source_sha256": "d7ac167ff5d6857ba49b56a5b189d355e8cf0947bb9b0dab6d38a239296a6f96",
+      "source_excerpt": "**The Glass Onion** in **Davis** is a **relaxed and academic** **Farm-to-Table** **bistro** that draws heavily from the nearby university's agricultural bounty. Rated **4.3/5**, th",
+      "status": "mapped",
+      "itemId": 1000149,
+      "name": "The Glass Onion",
+      "match_score": 120
+    },
+    {
+      "paragraph": 154,
+      "source_sha256": "663bb60da157eb82f0336dbaa06339b143748f35a691d12b759ce37234f0cbf5",
+      "source_excerpt": "**Sea & Stone** in **La Jolla** is an **opulent and romantic** **Seafood** **fine-dining** room built into the cliffs. Scoring a **4.9/5**, it offers a world-class tasting menu fea",
+      "status": "mapped",
+      "itemId": 1000150,
+      "name": "Sea & Stone",
+      "match_score": 120
+    },
+    {
+      "paragraph": 155,
+      "source_sha256": "70c2844d4dd5ccb6eb8d42d166f70434cdea9c6d0bf85d2c9c458841fd9fb370",
+      "source_excerpt": "**The Copper Pot** in **Sacramento** is a **homestyle and welcoming** **Southern** **kitchen** located in the historic Oak Park neighborhood. Rated **4.4/5**, it serves up incredib",
+      "status": "mapped",
+      "itemId": 1000151,
+      "name": "The Copper Pot",
+      "match_score": 120
+    },
+    {
+      "paragraph": 156,
+      "source_sha256": "fbcc0e16f464564cf13c4a611e18e104f73ff18443a07b0b616657408cf6fd12",
+      "source_excerpt": "**The Neon Koi** in **Japantown (San Jose)** is a **cyberpunk and high-energy** **Sushi** **fusion spot**. Earning a **4.0/5**, it focuses on creative rolls and sake-bombs, providi",
+      "status": "mapped",
+      "itemId": 1000152,
+      "name": "The Neon Koi",
+      "match_score": 120
+    },
+    {
+      "paragraph": 157,
+      "source_sha256": "cc9e3671e3f8f3d3d2e606a22c193876c6dd31df1f65f9cc048528b64e59a235",
+      "source_excerpt": "**The Rustic Olive** in **Healdsburg** is a **charming and sophisticated** **Northern Italian** **trattoria** located on a quiet vineyard-lined road. Rated **4.5/5**, it specialize",
+      "status": "mapped",
+      "itemId": 1000153,
+      "name": "The Rustic Olive",
+      "match_score": 120
+    },
+    {
+      "paragraph": 158,
+      "source_sha256": "88711f52c81c7568994d16ea601c1b91d79b0ed7fcb340d65fd050503b6c289a",
+      "source_excerpt": "**The Salted Fig** in **Redlands** is a **quaint and historic** **New American** **cafe** located in the city’s heritage district. Scoring a **4.2/5**, it is known for its citrus-i",
+      "status": "mapped",
+      "itemId": 1000154,
+      "name": "The Salted Fig",
+      "match_score": 120
+    },
+    {
+      "paragraph": 159,
+      "source_sha256": "734b22470506b7f718fda70ede14cfba411ef59538963e3031b1c1ac2de978a8",
+      "source_excerpt": "**The Brass Pelican** in **Oxnard** is a **salty and no-nonsense** **Seafood** **shack** right on the harbor docks. Rated **3.9/5**, it isn't fancy, but the fish-and-chips and loca",
+      "status": "mapped",
+      "itemId": 1000155,
+      "name": "The Brass Pelican",
+      "match_score": 120
+    },
+    {
+      "paragraph": 160,
+      "source_sha256": "6e73971b3ddf60ee1e88d49c57561e1003a369cd12ae282d105c89453fe6931d",
+      "source_excerpt": "**The Velvet Orchard** in **Ojai** is a **dreamy and ethereal** **Plant-Based** **dining room** that feels like a hidden garden. Earning a **4.6/5**, the menu features walnut-crust",
+      "status": "mapped",
+      "itemId": 1000156,
+      "name": "The Velvet Orchard",
+      "match_score": 120
+    },
+    {
+      "paragraph": 161,
+      "source_sha256": "72a02f6a7d32b553c2c9cf1f7437e3cd5ddb32a7b8d122ae813eeb9fe9152d46",
+      "source_excerpt": "**The Gilded Rose** in **Pasadena** is a **glamorous and theatrical** **Afternoon Tea** **salon** that leans into Victorian excess. Rated **4.1/5**, it offers three tiers of finger",
+      "status": "mapped",
+      "itemId": 1000157,
+      "name": "The Gilded Rose",
+      "match_score": 120
+    },
+    {
+      "paragraph": 162,
+      "source_sha256": "debb70a3b8462f34438de10b8b94264eea52b0d311bdf46d6810320d338fa414",
+      "source_excerpt": "**Taco de la Tierra** in **Indio** is a **vibrant and traditional** **Mexican** **eatery** that has been a staple of the desert for decades. Scoring a **4.7/5**, its slow-cooked ca",
+      "status": "mapped",
+      "itemId": 1000158,
+      "name": "Taco de la Tierra",
+      "match_score": 120
+    },
+    {
+      "paragraph": 163,
+      "source_sha256": "26786014a03d467fdca731868db9a81139ebfae2a643e58e8d7eb862e7fff916",
+      "source_excerpt": "**The Indigo Peak** in **Yosemite (Mariposa)** is a **sturdy and rustic** **High-Country** **grill** for the adventurous traveler. Rated **4.4/5**, the bison burgers and berry cobb",
+      "status": "mapped",
+      "itemId": 1000159,
+      "name": "The Indigo Peak",
+      "match_score": 120
+    },
+    {
+      "paragraph": 164,
+      "source_sha256": "eed6de7916013624049b7520b27daa2204af62cb341e0dd8b673054bb733d1fc",
+      "source_excerpt": "**The Silver Spoon** in **San Francisco (Pacific Heights)** is an **elegant and hushed** **Contemporary French** **dining room**. Earning a **4.8/5**, it offers a hyper-refined men",
+      "status": "mapped",
+      "itemId": 1000160,
+      "name": "The Silver Spoon",
+      "match_score": 117
+    },
+    {
+      "paragraph": 165,
+      "source_sha256": "2c898d90e820ef1bfcfa6db5c74b1a94813442554f8b1c957396071a21c656c5",
+      "source_excerpt": "**The Neon Noodle** in **Anaheim** is a **festive and high-energy** **Japanese-Vietnamese** **fusion cafe** located near the resort district. Rated **4.2/5**, it attracts a tourist",
+      "status": "mapped",
+      "itemId": 1000161,
+      "name": "The Neon Noodle",
+      "match_score": 120
+    },
+    {
+      "paragraph": 166,
+      "source_sha256": "09c2e67d3d802b154311c0fa0ef7acdcf46e4e89e977221df6d49e86162d0d05",
+      "source_excerpt": "**Mandalay Moon** in **The Inner Richmond (San Francisco)** is a **bustling and historic** **Burmese** **staple** that has anchored the neighborhood for decades. Rated **4.6/5**, i",
+      "status": "mapped",
+      "itemId": 1000162,
+      "name": "Mandalay Moon",
+      "match_score": 114
+    },
+    {
+      "paragraph": 167,
+      "source_sha256": "37763e028f0c5a293ed3aeb2172600deb4dc138f330a56cf607152fc34ea0c09",
+      "source_excerpt": "**The Iron Forge** in **Truckee** is a **sturdy and warm** **Mountain-Style** **steakhouse** built for the après-ski crowd. Scoring a **4.5/5**, it specializes in bison ribeye and ",
+      "status": "mapped",
+      "itemId": 1000163,
+      "name": "The Iron Forge",
+      "match_score": 120
+    },
+    {
+      "paragraph": 168,
+      "source_sha256": "95e273d658c71094c338a7471d5178fe361e4053f27af6c19542a5fac168616b",
+      "source_excerpt": "**Saffron Cable** in **Nob Hill (San Francisco)** is a **sophisticated and narrow** **Modern Indian** **gem** that overlooks the passing cable cars. Rated **4.4/5**, it is famous f",
+      "status": "mapped",
+      "itemId": 1000164,
+      "name": "Saffron Cable",
+      "match_score": 120
+    },
+    {
+      "paragraph": 169,
+      "source_sha256": "a345e3c8f2d42a674b9503f9dddf9278df7f97e77f16f97fd5e21d1fbd400b34",
+      "source_excerpt": "**The Golden Artichoke** in **Castroville** is a **quirky and nostalgic** **Roadside** **deli** in the artichoke capital of the world. Earning a **3.8/5**, it’s a mandatory pit sto",
+      "status": "mapped",
+      "itemId": 1000165,
+      "name": "The Golden Artichoke",
+      "match_score": 120
+    },
+    {
+      "paragraph": 170,
+      "source_sha256": "913024a0c7e2d6da80adfa3f3dabdb7f96ea285192c2389274ff3c3737396138",
+      "source_excerpt": "**The Velvet Poppy** in **San Luis Obispo** is a **charming and eclectic** **Central Coast** **bistro** tucked into a historic brick alleyway. Rated **4.5/5**, it wins over locals ",
+      "status": "mapped",
+      "itemId": 1000166,
+      "name": "The Velvet Poppy",
+      "match_score": 120
+    },
+    {
+      "paragraph": 171,
+      "source_sha256": "9a90b1861866e177cb854dec73d7bd67d61e36995406024c24cb08885b056c1f",
+      "source_excerpt": "**Indigo Palms** in **Palm Springs** is a **retro-glam and mid-century** **Desert Modern** **eatery** that feels like a Slim Aarons photograph come to life. Scoring a **4.2/5**, it",
+      "status": "mapped",
+      "itemId": 1000167,
+      "name": "Indigo Palms",
+      "match_score": 120
+    },
+    {
+      "paragraph": 172,
+      "source_sha256": "ee82e1b18681ebb425ef7705dfa760d59fd617c6fc316fb3d7ad627e640e91e7",
+      "source_excerpt": "**The Fog & Finch** in **Half Moon Bay** is a **moody and intimate** **Seafood** **gastropub** that thrives in the coastal mist. Rated **4.7/5**, the kitchen focuses on hyper-local",
+      "status": "mapped",
+      "itemId": 1000168,
+      "name": "The Fog & Finch",
+      "match_score": 114
+    },
+    {
+      "paragraph": 173,
+      "source_sha256": "f481b97dd5b882865540cd53750f96cc4619128657b3964fa2fa2acdf29116e4",
+      "source_excerpt": "**Tower Terrace** in **Sacramento** is a **lush and vibrant** **International** **landmark** located right next to the historic Tower Theatre. Earning a **4.3/5**, it is a communit",
+      "status": "mapped",
+      "itemId": 1000169,
+      "name": "Tower Terrace",
+      "match_score": 114
+    },
+    {
+      "paragraph": 174,
+      "source_sha256": "3569e247f6857ba03da7627ed42b95b9e46d34e0193df42b6bd6a8ae87e1ed46",
+      "source_excerpt": "**The Glass Harvest** in **Napa** is a **stunning and transparent** **Farm-to-Table** **fine-dining** destination situated directly in the vines. Rated **4.8/5**, the multi-course ",
+      "status": "mapped",
+      "itemId": 1000170,
+      "name": "The Glass Harvest",
+      "match_score": 114
+    },
+    {
+      "paragraph": 175,
+      "source_sha256": "4e9a057ba2878c2c92639cef0b9ee2bc5575762aa48787501ff51b27805c0098",
+      "source_excerpt": "**Taco de la Tierra** in **Indio** is a **vibrant and traditional** **Mexican** **canteen** that has fed the Coachella Valley for generations. Scoring a **4.6/5**, its slow-cooked ",
+      "status": "mapped",
+      "itemId": 1000171,
+      "name": "Taco de la Tierra",
+      "match_score": 120
+    },
+    {
+      "paragraph": 176,
+      "source_sha256": "d1fb5efb7842c8ac2cb23c4d7f333dd2b94b04f89fc666359d7f448e059d2a90",
+      "source_excerpt": "**The Silver Spoon** in **San Francisco (Pacific Heights)** is an **elegant and hushed** **Contemporary French** **dining room**. Rated **4.8/5**, it caters to the city’s elite wit",
+      "status": "mapped",
+      "itemId": 1000172,
+      "name": "The Silver Spoon",
+      "match_score": 120
+    },
+    {
+      "paragraph": 177,
+      "source_sha256": "466e9432f6bff2f79fd7197c5e99e8b5e8288030b2fa4fe84ebbba1641da3963",
+      "source_excerpt": "**Iron & Silk** in **Oakland** is a **gritty and stylish** **Japanese-African Fusion** **lounge** in the Uptown district. Earning a **4.7/5**, it serves up innovative soul-food-ins",
+      "status": "mapped",
+      "itemId": 1000173,
+      "name": "Iron & Silk",
+      "match_score": 117
+    },
+    {
+      "paragraph": 178,
+      "source_sha256": "6fb7154a0491779daa92c0895f5d37aec29f5206dfd73ab60f64689b6453cce3",
+      "source_excerpt": "**The Blue Agave** in **Healdsburg** is a **breezy and upscale** **Mexican** **fine-dining** room located right on the town square. Rated **4.4/5**, it specializes in duck mole and",
+      "status": "mapped",
+      "itemId": 1000174,
+      "name": "The Blue Agave",
+      "match_score": 120
+    },
+    {
+      "paragraph": 179,
+      "source_sha256": "5b0d9671ebc8283cdad37db69cc6bc7a6231a5235ac88c5287ea4836180e4b40",
+      "source_excerpt": "**Alpine Hearth** in **South Lake Tahoe** is a **warm and expansive** **Mountain-Style** **grill** with a view of the marina. Scoring a **4.0/5**, it’s the place for hearty venison",
+      "status": "mapped",
+      "itemId": 1000175,
+      "name": "Alpine Hearth",
+      "match_score": 120
+    },
+    {
+      "paragraph": 180,
+      "source_sha256": "e756d87f0b5e73f6e294c3278e49e4fc1495199a48be71f0270ea2a85900ee19",
+      "source_excerpt": "**The Silent Pebble** in **Carmel-by-the-Sea** is a **zen and minimalist** **Japanese** **sushi bar** where the ocean is the only decoration. Rated **4.9/5**, it offers a hyper-cur",
+      "status": "mapped",
+      "itemId": 1000176,
+      "name": "The Silent Pebble",
+      "match_score": 114
+    },
+    {
+      "paragraph": 181,
+      "source_sha256": "202fb7601f8c0837f4aef24697bcec2e931fa67512351ad41a6db48dbd40a5f5",
+      "source_excerpt": "**The Brass Pelican** in **Oxnard** is a **salty and no-nonsense** **Seafood** **shack** right on the harbor docks. Earning a **3.9/5**, it isn't fancy, but the fish-and-chips are ",
+      "status": "mapped",
+      "itemId": 1000177,
+      "name": "The Brass Pelican",
+      "match_score": 114
+    },
+    {
+      "paragraph": 182,
+      "source_sha256": "11533c56eb5c7e87371a4ee57a56682f5e0a82e8e0252ea69678eb0d7c1589c0",
+      "source_excerpt": "**The Velvet Orchard** in **Ojai** is a **dreamy and ethereal** **Plant-Based** **dining room** that feels like a spiritual retreat. Rated **4.6/5**, the menu features walnut-crust",
+      "status": "mapped",
+      "itemId": 1000178,
+      "name": "The Velvet Orchard",
+      "match_score": 120
+    },
+    {
+      "paragraph": 183,
+      "source_sha256": "863937323fbc89d86e9ddb59ab2fedee9f197bed59269c1d81ea7be0547f511a",
+      "source_excerpt": "**The Gilded Rose** in **Pasadena** is a **glamorous and theatrical** **Afternoon Tea** **salon** that leans into Victorian excess. Scoring a **4.1/5**, it offers gold-leafed pastr",
+      "status": "mapped",
+      "itemId": 1000179,
+      "name": "The Gilded Rose",
+      "match_score": 120
+    },
+    {
+      "paragraph": 184,
+      "source_sha256": "064bd6b5315a73d1aae74433e5b3d5ec17057984b56147b93c335b911ea6c67d",
+      "source_excerpt": "**Sea & Stone** in **La Jolla** is an **opulent and romantic** **Seafood** **fine-dining** room built directly into the sea cliffs. Rated **4.9/5**, it offers a world-class tasting",
+      "status": "mapped",
+      "itemId": 1000180,
+      "name": "Sea & Stone",
+      "match_score": 120
+    },
+    {
+      "paragraph": 185,
+      "source_sha256": "7506a66226f7ef78ed0a9a38239542f956f88af5928c1c3d070c6bd0e700549c",
+      "source_excerpt": "**The Copper Pot** in **Sacramento (Oak Park)** is a **homestyle and welcoming** **Southern** **kitchen** that tastes like home. Earning a **4.4/5**, it serves up incredible fried ",
+      "status": "unresolved_structured_record",
+      "itemId": null,
+      "name": null
+    },
+    {
+      "paragraph": 186,
+      "source_sha256": "d3d898cedf5e9d416bf88be1d3e2caaf240fbeada9de62f8b7a7a4a8d1571892",
+      "source_excerpt": "**The Neon Koi** in **Japantown (San Jose)** is a **cyberpunk and high-energy** **Sushi** **fusion spot**. Rated **4.0/5**, it focuses on creative rolls and sake-bombs, providing a",
+      "status": "mapped",
+      "itemId": 1000181,
+      "name": "The Neon Koi",
+      "match_score": 114
+    },
+    {
+      "paragraph": 187,
+      "source_sha256": "706c914316f039513114ee12262583fd3039f6e46141790f948d49d501940a8f",
+      "source_excerpt": "**The Rustic Olive** in **St. Helena** is a **charming and sophisticated** **Northern Italian** **trattoria** on a quiet, vineyard-lined road. Scoring a **4.5/5**, it specializes i",
+      "status": "mapped",
+      "itemId": 1000182,
+      "name": "The Rustic Olive",
+      "match_score": 120
+    },
+    {
+      "paragraph": 188,
+      "source_sha256": "353696f7d65884de06f4667eb47cd3f35aa5a71d760caff591baf88a62a7d013",
+      "source_excerpt": "**The Salted Fig** in **Redlands** is a **quaint and historic** **New American** **cafe** in the heritage district. Rated **4.2/5**, it is known for its citrus-infused salads and d",
+      "status": "mapped",
+      "itemId": 1000183,
+      "name": "The Salted Fig",
+      "match_score": 120
+    },
+    {
+      "paragraph": 189,
+      "source_sha256": "2bcf3569be01c80e8cb187388dcd7e86793dbf86b1a9b0da7ed51059cb8dbd68",
+      "source_excerpt": "**The Painted Pony** in **Temescal (Oakland)** is a **vibrant and funky** **Southwestern** **cantina** that celebrates bold spices. Earning a **4.2/5**, it is beloved for its blue ",
+      "status": "mapped",
+      "itemId": 1000184,
+      "name": "The Painted Pony",
+      "match_score": 120
+    },
+    {
+      "paragraph": 190,
+      "source_sha256": "36ae5278ca46ba157bc44de405056b9d343aa77ba5c72510c26f85f0e4efecc1",
+      "source_excerpt": "**The Glass Onion** in **Davis** is a **relaxed and academic** **Farm-to-Table** **bistro** drawing from the nearby university's bounty. Rated **4.3/5**, the seasonal vegetable ris",
+      "status": "mapped",
+      "itemId": 1000185,
+      "name": "The Glass Onion",
+      "match_score": 117
+    },
+    {
+      "paragraph": 191,
+      "source_sha256": "f2c4ee9a58a3b5cd0781932c43b7af378aaf74126c65c79e877ab7c5ca9a7950",
+      "source_excerpt": "**The French Laundry** in **Yountville** is an **iconic and legendary** **French** **institution** that serves as the crown jewel of Napa Valley. Rated **5.0/5**, this three-Michel",
+      "status": "mapped",
+      "itemId": 1000186,
+      "name": "The French Laundry",
+      "match_score": 114
+    },
+    {
+      "paragraph": 192,
+      "source_sha256": "313da17fa4a5e5d74f0169fe445a523b9ee8d3f2875436be6dabd048c9788e78",
+      "source_excerpt": "**Jack’s Grill** in **Redding** is a **time-capsule and unapologetic** **American** **steakhouse** that hasn't changed much since opening in 1938. Scoring a **4.3/5**, it’s famous ",
+      "status": "mapped",
+      "itemId": 1000187,
+      "name": "Jack's Grill",
+      "match_score": 120
+    },
+    {
+      "paragraph": 193,
+      "source_sha256": "12e5c884d1eb6652a5729696d0c648cfb9cac06ccdddac42252d47d36cb34e06",
+      "source_excerpt": "**Peasant’s Feast** in **Solvang** is a **modern and soulful** **Californian** **bistro** that brings a contemporary edge to a town known for Danish kitsch. Rated **4.6/5**, it is ",
+      "status": "mapped",
+      "itemId": 1000188,
+      "name": "Peasant's Feast",
+      "match_score": 120
+    },
+    {
+      "paragraph": 194,
+      "source_sha256": "26683b686dde800a999b8de5bd398adeac94d35ced3ad21a564135ce2c0c862b",
+      "source_excerpt": "**Café Beaujolais** in **Mendocino** is a **refined and historic** **French-Californian** **classic** housed in a bright yellow 1893 Victorian. Scoring a **4.7/5**, it excels in Li",
+      "status": "mapped",
+      "itemId": 1000189,
+      "name": "Café Beaujolais",
+      "match_score": 120
+    },
+    {
+      "paragraph": 195,
+      "source_sha256": "8b3da04b21614cdafaf22ef144dd42f07efc02b82e7e8826650dcb7938e2b7f2",
+      "source_excerpt": "**Mulvaney’s B&L** in **Sacramento** is a **vibrant and robust** **New American** **eatery** located in a converted 19th-century firehouse. Rated **4.5/5**, it is the heartbeat of ",
+      "status": "mapped",
+      "itemId": 1000190,
+      "name": "Mulvaney's B&L",
+      "match_score": 114
+    },
+    {
+      "paragraph": 196,
+      "source_sha256": "2923bf52e174046f543c8b17761387cb7a59f6e506f20716bd7942c5785b162f",
+      "source_excerpt": "**Paula’s Pancake House** in **Solvang** is a **bustling and cheerful** **Danish-American** **breakfast spot** that defines a morning in the valley. Earning a **4.2/5**, it is a ri",
+      "status": "mapped",
+      "itemId": 1000191,
+      "name": "Paula’s Pancake House",
+      "match_score": 107
+    },
+    {
+      "paragraph": 197,
+      "source_sha256": "ca5ffbd524a20c3465f053b3fa6ad75e79e1a22ccd80b97a332ea313a867005b",
+      "source_excerpt": "**Granzella’s** in **Williams** is a **quirky and expansive** **Italian-American** **pit stop** that has become a mandatory I-5 ritual. Rated **4.0/5**, it is part deli, part taxid",
+      "status": "mapped",
+      "itemId": 1000192,
+      "name": "Granzella’s",
+      "match_score": 120
+    },
+    {
+      "paragraph": 198,
+      "source_sha256": "a59d399d161bc13af7fcc9ed160c336e5840291d3062a53f81a57f1141b5d842",
+      "source_excerpt": "**Mosaic Restaurant** in **Redding** is a **sleek and modern** **Californian** **grill** located right by the architectural marvel of the Sundial Bridge. Scoring a **4.4/5**, it fe",
+      "status": "mapped",
+      "itemId": 1000193,
+      "name": "Mosaic Restaurant",
+      "match_score": 120
+    },
+    {
+      "paragraph": 199,
+      "source_sha256": "a568e3147952bfada340a37d44470799191bf74fa692d9fd6835ebd0bf855cbe",
+      "source_excerpt": "**Workshop Kitchen + Bar** in **Palm Springs** is an **industrial and high-concept** **New American** **powerhouse** in a converted 1920s theater. Rated **4.5/5**, the menu feature",
+      "status": "mapped",
+      "itemId": 1000194,
+      "name": "Workshop Kitchen + Bar",
+      "match_score": 120
+    },
+    {
+      "paragraph": 200,
+      "source_sha256": "53343fd24d52398b0377ef34434f5712b8981b536e67f6ffdc202cba7870942f",
+      "source_excerpt": "**Chez Panisse** in **Berkeley** is the **revolutionary and timeless** **Californian** **kitchen** that birthed the farm-to-table movement. Completing our list with a **4.8/5**, Al",
+      "status": "mapped",
+      "itemId": 1000195,
+      "name": "Chez Panisse",
+      "match_score": 120
+    },
+    {
+      "paragraph": 201,
+      "source_sha256": "543dccbaa6ce171d0b8c03de70e9d6a160f79a966d042bbe4bae7a5424d18de9",
+      "source_excerpt": "The Neon Lotus is a vibrant modern Korean fusion spot located in the heart of Koreatown that manages to feel like a scene pulled straight from a futuristic film. This casual fine-d",
+      "status": "mapped",
+      "itemId": 1000196,
+      "name": "The Neon Lotus",
+      "match_score": 117
+    },
+    {
+      "paragraph": 202,
+      "source_sha256": "87bd8fb7914517e7b2b5a9f07d6c206c14a802160aa45e878d56bbb1535f46aa",
+      "source_excerpt": "Saffron & Sage brings an upscale Persian dining experience to North Brand Boulevard in Glendale, where the environment is one of quiet elegance. The space features intricate gold-l",
+      "status": "mapped",
+      "itemId": 1000197,
+      "name": "Saffron & Sage",
+      "match_score": 107
+    },
+    {
+      "paragraph": 203,
+      "source_sha256": "f7e7a67a74bf6f189f6a7faeac8a874a13903d24d371628e06b7c5343072e195",
+      "source_excerpt": "Cactus Flower is a trendy vegan Mexican bistro situated in the hills of Echo Park, offering a boho-chic escape filled with hanging succulents and reclaimed wood tables. The relaxed",
+      "status": "mapped",
+      "itemId": 1000198,
+      "name": "Cactus Flower",
+      "match_score": 120
+    },
+    {
+      "paragraph": 204,
+      "source_sha256": "730527e443d4640af26d593da816b581c75faec331fc7e043a698052fa17d76d",
+      "source_excerpt": "Iron Griddle in Torrance is an industrial-style Japanese BBQ house that excels in an interactive all-you-can-eat format. The interior features exposed brick and heavy-duty ventilat",
+      "status": "mapped",
+      "itemId": 1000199,
+      "name": "Iron Griddle",
+      "match_score": 117
+    },
+    {
+      "paragraph": 205,
+      "source_sha256": "edd4b99f207156a747a4d609ae55908b94a79e6d12e554e06d81b2690a6b85b8",
+      "source_excerpt": "The Salty Pelican is a charming beachfront cafe located along the Santa Monica boardwalk, offering a casual and airy environment defined by blue-and-white nautical themes. It serve",
+      "status": "unresolved_structured_record",
+      "itemId": null,
+      "name": null
+    },
+    {
+      "paragraph": 206,
+      "source_sha256": "57f33ffe64e0bf09e6d43ed6354697e10639ecd6621d22e687922ec319252051",
+      "source_excerpt": "Velvet Dragon offers a modern take on traditional Dim Sum in the historic center of Chinatown, functioning as a minimalist and social casual eatery. The interior features bright re",
+      "status": "mapped",
+      "itemId": 1000200,
+      "name": "Velvet Dragon",
+      "match_score": 120
+    },
+    {
+      "paragraph": 207,
+      "source_sha256": "b5227cbca8338afa7c11360fcedd9b7a07c563625b1cc488f5012bb729e1c106",
+      "source_excerpt": "Maple & Moss is an organic farm-to-table brunch cafe nestled in a quiet, leafy corner of Pasadena. The environment is lush and light-filled, boasting an indoor garden and floor-to-",
+      "status": "mapped",
+      "itemId": 1000201,
+      "name": "Maple & Moss",
+      "match_score": 120
+    },
+    {
+      "paragraph": 208,
+      "source_sha256": "84e343bd8d9aaaf582fa5ef7d3963396386e0e249010667cae762dda2d5e0630",
+      "source_excerpt": "Taco Cloud is a high-concept fast-food stand located in Boyle Heights that has gained a cult following for its \"cloud-style\" fluffy flour tortillas. The environment is no-frills an",
+      "status": "mapped",
+      "itemId": 1000202,
+      "name": "Taco Cloud",
+      "match_score": 120
+    },
+    {
+      "paragraph": 209,
+      "source_sha256": "3340a4eda2d3c351c3a7bc3b8edecaf18d2fb6234a0a1c15741e8b6b2c202918",
+      "source_excerpt": "The Pasta Project in Silver Lake is a minimalist and intimate Italian bistro located directly on Sunset Boulevard. The restaurant features an open kitchen where diners can watch ch",
+      "status": "mapped",
+      "itemId": 1000203,
+      "name": "The Pasta Project",
+      "match_score": 114
+    },
+    {
+      "paragraph": 210,
+      "source_sha256": "2403ea0df29fcc413d2e70a4dedcefe93eb33a248e6cdee23c1c91334e42aa33",
+      "source_excerpt": "Blue Velvet is a classic American speakeasy and bistro hidden behind an unmarked door in West Hollywood, offering a moody and romantic retreat for the initiated. With its dark leat",
+      "status": "mapped",
+      "itemId": 1000204,
+      "name": "Blue Velvet",
+      "match_score": 114
+    }
+  ]
+}

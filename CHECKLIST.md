@@ -16,20 +16,20 @@ The first release is local, English-language, and includes all six agents, multi
 
 **Verification:** safe secret scan, source counts/relationships, archive integrity and image identity checks.
 
-- [ ] P00-01 Record a baseline manifest of all 35 existing artifacts, their hashes and intended runtime/reference roles; preserve course originals and attribution.
-- [ ] P00-02 Have the credential owner revoke/rotate the exposed Groq credential; record completion without capturing its value or testing the old key.
-- [ ] P00-03 Remove credential literals from both workflow notebook copies and inspect stored outputs for leaked secrets.
-- [ ] P00-04 Ignore real environment files, add safe configuration examples, and remove the tracked environment file from Git's index while preserving the local file.
-- [ ] P00-05 Run a redacting secret scanner over the working tree and identify historical exposure; document any history remediation separately without automatically rewriting Git history.
-- [ ] P00-06 Validate the baseline: 204 unique restaurant IDs, 109 recipe IDs, ten review IDs, one synthetic user, nine review image references/captions, and no orphan review links.
-- [ ] P00-07 Map all 210 raw restaurant paragraphs to existing/new/unresolved records; review duplicates and omissions, preserve existing IDs, and document every discrepancy.
-- [ ] P00-08 Recover the empty recipe ZIP using the notebook's source URL; verify bytes, ZIP integrity, bounded safe extraction and decoded image formats.
-- [ ] P00-09 Build the `recipe{id}.png` media manifest; check numeric IDs, duplicates, missing/extra files and image-to-recipe associations without list-order pairing.
-- [ ] P00-10 Confirm usable recipe imagery for the full multimodal release; keep inaccessible review URLs and unlinked placeholder imagery explicitly documented.
+- [x] P00-01 Record all 35 original artifact slots, hashes for available nonsecret copies, roles and exclusions; preserve course originals and attribution.
+- [x] P00-02 Have the credential owner revoke/rotate the exposed Groq credential; record completion without capturing its value or testing the old key.
+- [x] P00-03 Remove credential literals from both workflow notebook copies and inspect stored outputs for leaked secrets.
+- [x] P00-04 Ignore real environment files, add safe configuration examples, and remove any tracked environment file from this repository's Git index while preserving the local file.
+- [x] P00-05 Run a redacting secret scanner over the working tree and identify historical exposure; document any history remediation separately without automatically rewriting Git history.
+- [x] P00-06 Validate the baseline: 204 unique restaurant IDs, 109 recipe IDs, ten review IDs, one synthetic user, nine review image references/captions, and no orphan review links.
+- [x] P00-07 Map all 210 raw restaurant paragraphs to existing/new/unresolved records; review duplicates and omissions, preserve existing IDs, and document every discrepancy.
+- [x] P00-08 Validate the owner-recovered recipe ZIP against notebook naming; verify bytes, ZIP integrity, bounded safe member paths and decoded image formats.
+- [x] P00-09 Build the `recipe{id}.png` media manifest; check numeric IDs, duplicates, missing/extra files and image-to-recipe associations without list-order pairing.
+- [x] P00-10 Confirm usable recipe imagery for the full multimodal release; keep unrecovered review URLs and unlinked placeholder imagery explicitly documented.
 
 **Exit criterion:** source coverage is reconciled or explicitly quarantined, recipe imagery is available and mapped, and exposed credentials are revoked with safe working-tree configuration. Any remaining blocker stays open for the release gate.
 
-**Evidence / blockers:** _Pending._
+**Evidence / blockers:** See [Phase 0 report](evaluation/phase0/README.md) and its JSON manifests. `python scripts/phase0_audit.py` verified 204/109/10 source records, aligned 204 of 210 restaurant paragraphs, decoded 109 unique ID-matched PNGs (215,942,257 bytes), and verified the owner-recovered ZIP's paths, bounds, CRCs and byte-for-byte image hashes. Six paragraphs have no structured record; 16 same-name/location pairs need entity review. `python scripts/scan_secrets.py` found zero patterns in local source copies. The owner confirmed old Groq key revocation/replacement on 2026-10-02. Original-repository credential history still needs publication review. The ZIP, images, PDFs and four course folders are local and Git-ignored, so clean-checkout recovery must be documented later.
 
 ## Phase 1 — Project foundation and developer workflow
 
