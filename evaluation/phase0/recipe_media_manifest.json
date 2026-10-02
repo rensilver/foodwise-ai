@@ -1,0 +1,1009 @@
+{
+  "recipe_count": 109,
+  "decoded_images": 109,
+  "missing_recipe_ids": [],
+  "duplicate_recipe_ids": [],
+  "duplicate_image_hashes": [],
+  "failures": [],
+  "archive": {
+    "status": "validated",
+    "filename": "synthetic-recipe-images.zip",
+    "bytes": 215139852,
+    "sha256": "2dbc15a307070267c0eea1e45642f53a2e13182a9b797e1f6a027d5c3a5cb68b",
+    "image_members": 109,
+    "uncompressed_bytes": 215942257,
+    "checks": [
+      "ZIP structure",
+      "bounded members and expansion",
+      "safe paths",
+      "regular files",
+      "CRC",
+      "byte-for-byte SHA-256 match to decoded PNGs"
+    ]
+  },
+  "review_images": "nine URL references are not recovered local files",
+  "placeholder": "review_image_placeholder.jpeg is unlinked to any source entity",
+  "rows": [
+    {
+      "recipe_id": 1,
+      "filename": "recipe1.png",
+      "bytes": 1813464,
+      "sha256": "c597c7be029a34cdf0f4d6fc47b39aeef4d5c0ef47369bef8e4ab8a6597b6def",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 10,
+      "filename": "recipe10.png",
+      "bytes": 1873833,
+      "sha256": "34c14fdf7fc521f7577ecba9efc0305faa408e33dbe4a32b411bd2caf76795f1",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 100,
+      "filename": "recipe100.png",
+      "bytes": 1885853,
+      "sha256": "2c0c30fff059f3ef2403a5ea160d72e405b5e09d333a79ee24d01030dc02b175",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 101,
+      "filename": "recipe101.png",
+      "bytes": 2124442,
+      "sha256": "6b2b846178d8664dff4d48f8a3fb24b2399ac3c4559028fa94a2d6b7ed4dc6bc",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 102,
+      "filename": "recipe102.png",
+      "bytes": 2189267,
+      "sha256": "cb619b8cec213b3556a95c27adc16a70bea0c4ff7f69782e18725f4670c3e503",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 103,
+      "filename": "recipe103.png",
+      "bytes": 1957692,
+      "sha256": "8da5db8e393328dd39b542dcb3c9a8b2944bb37ddd131546d02bbfaf735b1e24",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 104,
+      "filename": "recipe104.png",
+      "bytes": 1867065,
+      "sha256": "1dc1d1e9a5c50da89fb547645c9cb6ca9b964fe46247d2cbff2c8db0e1852d1a",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 105,
+      "filename": "recipe105.png",
+      "bytes": 1921885,
+      "sha256": "dfd8dc1e9861ec7f9cce650c98029e5be21d5320ab8673c5ca454233295365a6",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 106,
+      "filename": "recipe106.png",
+      "bytes": 1627796,
+      "sha256": "4b75f05eaf2f0dcb44d2dfcb65403f5df3c2dd182bf673d2e606b11e908a1395",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 107,
+      "filename": "recipe107.png",
+      "bytes": 1957560,
+      "sha256": "492f4d72a595ced058983954072ee9158d5bc3dcee4abaf7033d800e68f8be60",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 108,
+      "filename": "recipe108.png",
+      "bytes": 2094284,
+      "sha256": "5421d7acfef5ca8a32e4a2d47bf6a8e769fc36a77abf2648fa3f08e846b50e75",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 109,
+      "filename": "recipe109.png",
+      "bytes": 1814146,
+      "sha256": "4c03f70cf471db8455f035a5d2c42c216bdb2541a0a3fdf142d93ca898b648b3",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 11,
+      "filename": "recipe11.png",
+      "bytes": 2083275,
+      "sha256": "4161693f2a6efa54e9855a10caca06b956285c69063e7df4f75e43318a1da1b9",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 12,
+      "filename": "recipe12.png",
+      "bytes": 1977916,
+      "sha256": "9016b408def52658852714ae39811e919fa4b60408ed42d53d4103d05da9c126",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 13,
+      "filename": "recipe13.png",
+      "bytes": 1942797,
+      "sha256": "b3b97b633ac5bbf3af874e61f7bf12e0854ae390f8e807f0bfc9db7919f13c6e",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 14,
+      "filename": "recipe14.png",
+      "bytes": 2049668,
+      "sha256": "905f5090c94030b12a73f016e7d86eeca1b4970a490a028a8d379a32035919b4",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 15,
+      "filename": "recipe15.png",
+      "bytes": 1916137,
+      "sha256": "83a830948eb82e386ed836ba3ea33ce2b3fbc90e0315d27cc17dc90ad220ea78",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 16,
+      "filename": "recipe16.png",
+      "bytes": 2099096,
+      "sha256": "cbd90ed882d35b22e246f6e18df4596b93dafeddee369fe0a32f53e9e8e79300",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 17,
+      "filename": "recipe17.png",
+      "bytes": 1674521,
+      "sha256": "9efbf8f01de71e0ad4b45defb007af01b89628511e18b005eb5dd785f9352e1d",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 18,
+      "filename": "recipe18.png",
+      "bytes": 2033212,
+      "sha256": "abf428c30fee5f939b554d7ccdf4eb0fcb42c034e38d009f108dc98b616e4d70",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 19,
+      "filename": "recipe19.png",
+      "bytes": 1589820,
+      "sha256": "ea836c6d2f3f6c160a6f73af9d835191ed13454be2d104ccdf0b94f6da69fe83",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 2,
+      "filename": "recipe2.png",
+      "bytes": 2467203,
+      "sha256": "dbc8df5b44d448206324df8c6f679df455f41cf471716cc979af58400de0e53c",
+      "format": "PNG",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "recipe_id": 20,
+      "filename": "recipe20.png",
+      "bytes": 2232669,
+      "sha256": "55bc01a0826469f2cf114e476ca6582c805c0c15ade6b44c2a5f75a31639bda2",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 21,
+      "filename": "recipe21.png",
+      "bytes": 2169760,
+      "sha256": "046e209e52a03905010f66bda21fb1a33f81244a28769f2e2208f90239e0c833",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 22,
+      "filename": "recipe22.png",
+      "bytes": 1650353,
+      "sha256": "e33e3559ace9c1d96d22bd23315f31496b784572bb711dad5469c71a27e67167",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 23,
+      "filename": "recipe23.png",
+      "bytes": 1954402,
+      "sha256": "c1b3b14806f152b6706757bf32153cbc6e149f1c6448430f083996c54a447848",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 24,
+      "filename": "recipe24.png",
+      "bytes": 2126220,
+      "sha256": "75a65183c3cfad3ea5af67d6c6b1d466e9aa63dcc69e20a6a8517954289dc021",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 25,
+      "filename": "recipe25.png",
+      "bytes": 1933341,
+      "sha256": "a625bc3d177837a43518ff7681db69a233f3a3ff828f8580ac9f7e3883db7311",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 26,
+      "filename": "recipe26.png",
+      "bytes": 2039511,
+      "sha256": "e693c46c60e37bf13161c417fef65ebce7e4bd3d8c05fddfa98ed75be2706c4a",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 27,
+      "filename": "recipe27.png",
+      "bytes": 1610153,
+      "sha256": "995d62d1600b04de47f942e52fbc9b36c57a5d3f54d3c2e117414382e423dbdf",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 28,
+      "filename": "recipe28.png",
+      "bytes": 2200289,
+      "sha256": "45540615aa79709403ca6ed3d329bb568cbf7cff4925496ff552a5302d356435",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 29,
+      "filename": "recipe29.png",
+      "bytes": 2262383,
+      "sha256": "a7413e75d788af2014f0924f575765046d643d168ac12835d262c67ab0fe7359",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 3,
+      "filename": "recipe3.png",
+      "bytes": 2522697,
+      "sha256": "4a08d33b26e90f888a773c1b2e023b0b2f19485163abe0a09daed31cb28fba79",
+      "format": "PNG",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "recipe_id": 30,
+      "filename": "recipe30.png",
+      "bytes": 2120246,
+      "sha256": "cbecae9cdd9c052b3e4cda5840dc9d8568bf286fd6368d6cd8239677fbef544a",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 31,
+      "filename": "recipe31.png",
+      "bytes": 2153677,
+      "sha256": "bca8d5028de9badbdd6f43892aa3d30b053b8b6c4c031d89dc24e177b56c249a",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 32,
+      "filename": "recipe32.png",
+      "bytes": 2015927,
+      "sha256": "77ac99ea1ab4938aadaaadfbfdc6c42f631ee8e6597ee5bbfcc1aede374e103c",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 33,
+      "filename": "recipe33.png",
+      "bytes": 2145918,
+      "sha256": "4dd50403bf3fe8a909a67299424d66c3a725def16263175e057cd227ca358972",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 34,
+      "filename": "recipe34.png",
+      "bytes": 2250766,
+      "sha256": "7d0997b03a56f09349485331aad1f8ec331ef1fd7e25d5cbfbb5c6f9ca601de6",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 35,
+      "filename": "recipe35.png",
+      "bytes": 1738472,
+      "sha256": "00ed4cbae62825fa3d84222880aea3f9b110617fdffa5ad26d3bf7c333edc58a",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 36,
+      "filename": "recipe36.png",
+      "bytes": 1910320,
+      "sha256": "7af1e96b57c6d4e93fa6e7fac5eb5770848cf7b12621cebcc220030546d046d2",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 37,
+      "filename": "recipe37.png",
+      "bytes": 1984953,
+      "sha256": "034f572962c3c4216c11fc4552a79edfb59c5becfdf2bc167c908def374d279a",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 38,
+      "filename": "recipe38.png",
+      "bytes": 2020313,
+      "sha256": "6fb8192f162cb0361a67f6dcdc8c2e8243ad39dcd06bc85a285ac4d4ad737634",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 39,
+      "filename": "recipe39.png",
+      "bytes": 2016405,
+      "sha256": "4d42d1f4bd35d413d19dd6f4f89668e2fcb30b2607b19496cf5b0050e093f220",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 4,
+      "filename": "recipe4.png",
+      "bytes": 2754449,
+      "sha256": "054057379ee8c6bfad20d2ad5b6d99796d9f9a5d1eb9fca8347d5ba45eaa706e",
+      "format": "PNG",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "recipe_id": 40,
+      "filename": "recipe40.png",
+      "bytes": 2010158,
+      "sha256": "3383aa7125e1f93f2f74b6a525740a0208cadeb49b8ba8556df861a736dff391",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 41,
+      "filename": "recipe41.png",
+      "bytes": 1990048,
+      "sha256": "ce935da2d1ab7ce13d4e576d94fa195c1c3058dac072385b2994feedcb62502e",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 42,
+      "filename": "recipe42.png",
+      "bytes": 1913068,
+      "sha256": "07676f3cae8b7c849c7eeb21a37c848ee8ceb884ba635d092a020043e1c05c5b",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 43,
+      "filename": "recipe43.png",
+      "bytes": 1929297,
+      "sha256": "f3eddb85b26118523029a883ae9273d12e08cfbcc048b33ab72264e57008d3e5",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 44,
+      "filename": "recipe44.png",
+      "bytes": 1410126,
+      "sha256": "a7197d547f64bc192677c94e57eeff1f83508608308518f8602373fb96e45371",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 45,
+      "filename": "recipe45.png",
+      "bytes": 1804204,
+      "sha256": "2e1c2a80e38675ce07119865c8a45c1d40f9d925e983a72d89a39d470a069a9b",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 46,
+      "filename": "recipe46.png",
+      "bytes": 1815546,
+      "sha256": "44601f4a559f77b5fab0a80537a1d1b70872ddaf03a5705994c238b93cc5aac4",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 47,
+      "filename": "recipe47.png",
+      "bytes": 2284909,
+      "sha256": "39676bf9b3de0af20dec7c2e8cc3389f672a313e78bbda5ed55bfe56de8ec71d",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 48,
+      "filename": "recipe48.png",
+      "bytes": 2037633,
+      "sha256": "49f7e207df7e3c736b55e00c361dac52ce5cb3286dd5be90bd7988c29cc48070",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 49,
+      "filename": "recipe49.png",
+      "bytes": 2021961,
+      "sha256": "1337dc1a7f104c53ab4a310d32ce38d088650254b9a8ae20120f225a8b4bd42a",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 5,
+      "filename": "recipe5.png",
+      "bytes": 2462737,
+      "sha256": "3270042a18877672150d69f14a71cd28e841db13f88da0205f019d187dd2a16c",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "recipe_id": 50,
+      "filename": "recipe50.png",
+      "bytes": 1992799,
+      "sha256": "d575fc033fe91e56c1be92e1981c00cdc06784ef29b226c6ac37ea4b2cefb2f2",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 51,
+      "filename": "recipe51.png",
+      "bytes": 1998980,
+      "sha256": "71adfa83c96b520aee2dbbc9f87b523173a1e009f401676ba637615f33611a41",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 52,
+      "filename": "recipe52.png",
+      "bytes": 2102916,
+      "sha256": "0eb4dde456d1105465900e9ea93d5ebfa6a7c0d5dd0be0fb9f5b3255265d4ac9",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 53,
+      "filename": "recipe53.png",
+      "bytes": 2088441,
+      "sha256": "445bfec5f92a945a6a061b18c5e91a95f324e4eb012eb740a95d947ef56eba8f",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 54,
+      "filename": "recipe54.png",
+      "bytes": 2058614,
+      "sha256": "0a718d83378e13a55d0035a54f962b7ed28d2f0eeb7c8950fc7f506c8cb34c7b",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 55,
+      "filename": "recipe55.png",
+      "bytes": 1915377,
+      "sha256": "b282a5de0422c22f9fcdb83c66e2518e1130e61b2c3e10be32569cd43f172ba0",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 56,
+      "filename": "recipe56.png",
+      "bytes": 1968298,
+      "sha256": "53580074b62ac109ec0d29eea742e9ca83fae5e25c064a97f4a917f3dc57a834",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 57,
+      "filename": "recipe57.png",
+      "bytes": 1873074,
+      "sha256": "80c551ce575436eb8c3cf4854c933624e9d054bf18f3f431d0af310450e0160b",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 58,
+      "filename": "recipe58.png",
+      "bytes": 2026138,
+      "sha256": "788aebbfb92ff525526c01d66f6eee0e0b01fe55a00bb67bc541e23e4d5e4be8",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 59,
+      "filename": "recipe59.png",
+      "bytes": 1984380,
+      "sha256": "0c070091dddb808c0f0823fef6da22905153e8144e7af2dccdedfc8da64c038c",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 6,
+      "filename": "recipe6.png",
+      "bytes": 2086169,
+      "sha256": "deaee30ee512fa42651b1641d1cb04a6c564fc1206bf23f150757687e6cc9e57",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 60,
+      "filename": "recipe60.png",
+      "bytes": 1933094,
+      "sha256": "9ed1603fe391de758bad00df538d19511c2c330c9c77f1367b5fe490a6482968",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 61,
+      "filename": "recipe61.png",
+      "bytes": 1801334,
+      "sha256": "09b47966324ccf19f0ceb451aad8b02e31c67adff01388fb5a813b95fc6d80bb",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 62,
+      "filename": "recipe62.png",
+      "bytes": 1965860,
+      "sha256": "ea824742ec54bb5f6160b5166fa6d37a79acc7859f6b1b070be91fd8ac3cd453",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 63,
+      "filename": "recipe63.png",
+      "bytes": 1880252,
+      "sha256": "dfc51e37eee5b426e240177cbc2f782bc254d0d6155931b674ef6dd38711f9a8",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 64,
+      "filename": "recipe64.png",
+      "bytes": 1965353,
+      "sha256": "db46a3ef6492282bb8822bf181baa5687200a97321d3c0c319c4d0e8a3843272",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 65,
+      "filename": "recipe65.png",
+      "bytes": 1857118,
+      "sha256": "36bc1dd6b5fc5732e019fcb6aa364075e058c74945401c3f566d01c25d8a2099",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 66,
+      "filename": "recipe66.png",
+      "bytes": 2182688,
+      "sha256": "0c8ac4dd8cfcf0313fcce2b75e8208b7b0c4857dcfbdf69ed7db51e4ab513064",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 67,
+      "filename": "recipe67.png",
+      "bytes": 2075221,
+      "sha256": "fe7bbcf09d92940d9ddc5a471d403df23c0ae028ba7788a5feebba9630373097",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 68,
+      "filename": "recipe68.png",
+      "bytes": 1996319,
+      "sha256": "bf4573851cca8dce75d35f877abd45c6d4218800c8c1c669081443a0e38436af",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 69,
+      "filename": "recipe69.png",
+      "bytes": 2022822,
+      "sha256": "4270799ee2c8ee2e0e2db27595092aafd5169446dbc929a4f254b42c4e5e9dcc",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 7,
+      "filename": "recipe7.png",
+      "bytes": 2129136,
+      "sha256": "0ec1f83267ffd5238281a7c855bdc1f5d0f8dd36a94bb79ecd4aa1dff9a8a1a3",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 70,
+      "filename": "recipe70.png",
+      "bytes": 1465753,
+      "sha256": "f0f02b9483ea31e3281626806d23eba0a5ca41e52f6f650110de80c4e5ed4511",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 71,
+      "filename": "recipe71.png",
+      "bytes": 2166663,
+      "sha256": "97048b38130ac16ad554cd96ecdaf43e38c2ccf1192bab7be8a6ebe39192329e",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 72,
+      "filename": "recipe72.png",
+      "bytes": 1839570,
+      "sha256": "a9b39dcf75ceb7ba17dc525bfa3dc12d42024f351adfb46daff85a718793680e",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 73,
+      "filename": "recipe73.png",
+      "bytes": 2286263,
+      "sha256": "c7b2a05ef5b3e079f50e0b9bb6c5799998562c281ca2b3cf08dd832655c2993a",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 74,
+      "filename": "recipe74.png",
+      "bytes": 2066487,
+      "sha256": "8b2930e74abbeb8a14bae20bb357c48f7cdc8751b04c094edda21c8fbd7d3300",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 75,
+      "filename": "recipe75.png",
+      "bytes": 1824815,
+      "sha256": "d1e633b259d8da7fb01655417f0c662370a7fc0697e17d5eefbb0f07edbb1774",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 76,
+      "filename": "recipe76.png",
+      "bytes": 2151715,
+      "sha256": "5b808ded71d16783dcb0e73c505d159a4e427b14efa93220364c5e9be19e17c2",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 77,
+      "filename": "recipe77.png",
+      "bytes": 2035915,
+      "sha256": "48143f9fc9f3660a3372a6befdb2dfec63bc21b9345e4f15e1b50c7d7b33d087",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 78,
+      "filename": "recipe78.png",
+      "bytes": 1763118,
+      "sha256": "98e682184240aeca49d4bda6d5614c95bcb3855911ff4a8a3597ea5377f33b6f",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 79,
+      "filename": "recipe79.png",
+      "bytes": 1702189,
+      "sha256": "3fb1af5b7966c0951430cd064e02fcf7eb0af3e2b89ceccf8eeffcb2bf14a2fd",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 8,
+      "filename": "recipe8.png",
+      "bytes": 2003009,
+      "sha256": "a5f735c444a81bc2e06d8ed49c85ca19dc9eb737aa06b96c534bd2efd46b405f",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 80,
+      "filename": "recipe80.png",
+      "bytes": 2131556,
+      "sha256": "d1a1ea1b43f1d35eb013a57e456558048ddbdd028d56c60413dc8fe4d56f62c2",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 81,
+      "filename": "recipe81.png",
+      "bytes": 1884435,
+      "sha256": "7cc6e93289a4fcdbb88a07f6d43fde139f57d4f9fb7f2e7a892fe61da822a3d6",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 82,
+      "filename": "recipe82.png",
+      "bytes": 1674173,
+      "sha256": "dcd4a32fe1c92051fa26f0b02f1286c471fb0b3cd03a5fb70b547773cbb19d6f",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 83,
+      "filename": "recipe83.png",
+      "bytes": 1679254,
+      "sha256": "f3710688cadd72f2f1e21f58c2e9ea6bfa324e0ede8d09198998845dc77abc3d",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 84,
+      "filename": "recipe84.png",
+      "bytes": 1813844,
+      "sha256": "52ec608d2be7987139f0ca746c98dc93b065e86048cb0334fe435a20280d3acf",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 85,
+      "filename": "recipe85.png",
+      "bytes": 2033257,
+      "sha256": "e2559feba98d0352acb9db63708b8d165f3518d2c818133f49a651ecb4cb7c7b",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 86,
+      "filename": "recipe86.png",
+      "bytes": 1979676,
+      "sha256": "162e28756621c91454ae20e327e76ae25f5646c92cfe5cae1a953d3008295d31",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 87,
+      "filename": "recipe87.png",
+      "bytes": 2175371,
+      "sha256": "9fc76f5b48c6f781564740f12cdb7186a38df0d07c98452333a59a7fcf16997b",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 88,
+      "filename": "recipe88.png",
+      "bytes": 2126281,
+      "sha256": "af1c3c96d563f5d797b4d7eb577ed94e756c21b95e7c81942c80acd04bad0e91",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 89,
+      "filename": "recipe89.png",
+      "bytes": 1950969,
+      "sha256": "f6638fb2356a4a1c973b68eccbcd6757c329b43ef3afa6c277143f61c1ff8db7",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 9,
+      "filename": "recipe9.png",
+      "bytes": 2017238,
+      "sha256": "18d91d7f018204527d8f079a4a66fdf99eed0432321c12cffba961603c959b8e",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 90,
+      "filename": "recipe90.png",
+      "bytes": 1847366,
+      "sha256": "c7034e0f4702e7942227be08835d69c2b6f1072089c679a0f88e6d6d44703236",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 91,
+      "filename": "recipe91.png",
+      "bytes": 2022871,
+      "sha256": "18cad7ec0eec04d6bf21286003cae1828850b69a5a1d890ed20f9efc2bd09390",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 92,
+      "filename": "recipe92.png",
+      "bytes": 2179444,
+      "sha256": "c69edcb2456b25512e37bb6b9903e3e3171fe4fed21a547d6fb303bdab529c55",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 93,
+      "filename": "recipe93.png",
+      "bytes": 1116493,
+      "sha256": "88811df6409188e77553bcdc46eab49dc51237176e67c2ec6d9044dc3184271a",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 94,
+      "filename": "recipe94.png",
+      "bytes": 1959124,
+      "sha256": "6884d298dd4a692e5f232db49068be72931f38125ce96dcc75b09ae292f24eb5",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 95,
+      "filename": "recipe95.png",
+      "bytes": 2097570,
+      "sha256": "fa9a7848b7cef59ed3764a88163728becb1bab3ab8fde891e03bd88162529db1",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 96,
+      "filename": "recipe96.png",
+      "bytes": 1448264,
+      "sha256": "9eed28f652ff29ca16a170777ea1a9e14d4b0970a2f3d62099a4ac5045b3917e",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 97,
+      "filename": "recipe97.png",
+      "bytes": 2120591,
+      "sha256": "650cf3d112baa79944354b8352e52e0e2e886d58a4029fcbdc179d3061f170f6",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 98,
+      "filename": "recipe98.png",
+      "bytes": 2197775,
+      "sha256": "731479e3475f5791f941f0f35dd7fc87c9d810394f60d0c996c6884135d0ddc0",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "recipe_id": 99,
+      "filename": "recipe99.png",
+      "bytes": 1822982,
+      "sha256": "d9f00f2ddcd7cd896eafa9f5cf2754b01ae9c470f81b749208901d26fe69a2b3",
+      "format": "PNG",
+      "width": 1024,
+      "height": 1024
+    }
+  ]
+}
