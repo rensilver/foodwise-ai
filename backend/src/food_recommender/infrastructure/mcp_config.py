@@ -1,0 +1,26 @@
+"""Independent MCP process configuration, without provider/admin settings."""
+
+from pathlib import Path
+
+from pydantic import Field, SecretStr, field_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+from food_recommender.infrastructure.config import Settings
+
+
+class MCPSettings(BaseSettings):
+    model_config = SettingsConfigDict(
+        case_sensitive=True, extra="ignore", frozen=True, hide_input_in_errors=True
+    )
+    database_url: SecretStr = Field(validation_alias="DATABASE_URL")
+    media_root: Path = Field(validation_alias="MEDIA_ROOT")
+
+    @field_validator("database_url")
+    @classmethod
+    def validate_database(cls, value: SecretStr) -> SecretStr:
+        return Settings.validate_database_url(value)
+
+    @field_validator("media_root")
+    @classmethod
+    def validate_media(cls, value: Path) -> Path:
+        return Settings.validate_media_root(value)

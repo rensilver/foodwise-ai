@@ -20,7 +20,7 @@ class MCPScaffoldTests(unittest.TestCase):
         with TestClient(app, base_url="http://localhost:8001") as http:
             self.assertEqual(http.get("/health/live").status_code, 200)
             with patch(
-                "food_recommender.mcp.server.local_readiness",
+                "food_recommender.composition.local_readiness",
                 AsyncMock(return_value={"database": False, "media": True}),
             ):
                 response = http.get("/health/ready")

@@ -2,8 +2,9 @@
 
 The application package is `src/food_recommender`. P01-03 adds validated
 configuration in the infrastructure package. P01-05 adds FastAPI and FastMCP
-startup factories and local health probes; the domain/application/agent and
-retrieval packages remain scaffolds. P01-02 pins Python 3.12.14 in
+startup factories and local health probes. P01-08 adds composition roots,
+application readiness dependencies, typed failures and structured logging;
+domain/agent/retrieval behavior remains planned. P01-02 pins Python 3.12.14 in
 [.python-version](.python-version), uv 0.12.5 in
 [pyproject.toml](pyproject.toml), and framework/provider dependencies in
 [uv.lock](uv.lock). Hatchling packages `src/food_recommender` for editable
@@ -64,8 +65,9 @@ locally with an Argon2id PHC-capable tool using those costs and keep the passwor
 separate; password verification and administrator sessions are future
 authentication work. This project does not ship a default administrator password.
 
-Settings are immutable and loaded afresh on each call. Startup can load them
-once and inject them into adapters when the composition roots are implemented.
+Settings are immutable and loaded afresh on each call. Each process factory
+loads them once and injects them into its readiness adapter through the
+[composition roots](src/food_recommender/composition.py).
 Provider keys, the database URL and administrator hash use `SecretStr`, which
 masks their representations and JSON serialization. Adapters must explicitly
 call `get_secret_value()` when supplying a credential to its dependency.
@@ -143,6 +145,83 @@ Domain rules stay in `domain`; application use cases depend on ports. Frameworks
 and provider SDKs connect through adapters. FastAPI and FastMCP share application
 and retrieval services. Course notebooks are reference material, outside this
 runtime package.
+
+## Composition, errors and logging (P01-08)
+
+The [composition module](src/food_recommender/composition.py) builds immutable
+[Services](src/food_recommender/application/services.py) around the implemented
+`ReadinessProbe` port. Backend readiness owns the complete backend settings;
+MCP readiness receives only its independent database/media settings and checks
+media without writes. Construction performs no service connections or model
+loading. There are no placeholder repository/inference ports: introduce those
+when their application use cases exist.
+
+Both factories accept `settings`, `services` and `runtime` explicitly. The API
+also retains the original `probe` argument for existing callers. Routes obtain
+services through [get_services](src/food_recommender/api/dependencies.py);
+tests can set `app.dependency_overrides[get_services]` to a provider returning
+replacement services, following [FastAPI dependency overrides](https://fastapi.tiangolo.com/advanced/testing-dependencies/).
+MCP custom HTTP health routes use the services injected into its factory.
+`Runtime` accepts a logger, monotonic clock and UUID generator; supplying it
+avoids changing process logging in an embedding application or test.
+
+[ApplicationError and ErrorCode](src/food_recommender/application/errors.py)
+have no framework/provider imports. Raise `ApplicationError(code)` at a use-case
+boundary and preserve an adapter exception with `raise ... from error` when
+needed. Never use provider text or profile content as a public message. The
+shared [HTTP boundary](src/food_recommender/infrastructure/http.py) returns
+`{"error":{"code":...,"message":...,"retryable":...},"request_id":...}` using
+fixed messages and Pydantic schemas; the API exposes the unexpected readiness
+error schema in OpenAPI. API validation and HTTP exceptions use the same
+envelope without echoing inputs, exception details or stack traces.
+
+| Application code | Default HTTP status | Retryable |
+| --- | --- | --- |
+| `invalid_request` | 422 | No |
+| `not_found` | 404 | No |
+| `conflict` | 409 | No |
+| `dependency_unavailable` | 503 | Yes |
+| `internal_error` | 500 | No |
+
+Framework HTTP exceptions retain their HTTP status. Expected readiness failures
+retain the existing health payload containing dependency names/statuses.
+MCP protocol responses keep FastMCP's native JSON-RPC contract; this shared
+envelope handles unexpected HTTP failures before response headers start.
+Cancellation propagates, and failures after headers propagate instead of
+attempting a second response. Future SSE and culinary MCP tools must implement
+their own typed in-stream/tool error contracts when those features arrive.
+
+[Structured logging](src/food_recommender/infrastructure/observability.py)
+uses JSON lines on stderr. Default factory startup replaces existing root and
+registered SDK/Uvicorn handlers with the safe formatter; repeated configuration
+does not duplicate records. Imports do not configure logging. Keep future
+handlers behind this formatter and do not print request/provider payloads.
+Logs contain timestamp, level, allowlisted event names, UUID request/run IDs,
+error codes and finite nonnegative numeric metrics. Free-form messages,
+tracebacks, logger names, URLs, headers, bodies, paths and arbitrary extra
+fields are omitted. Unknown SDK/server events become `diagnostic`, which
+deliberately limits their troubleshooting detail to avoid secret leakage.
+This protects Python logging records; it does not sanitize arbitrary direct
+stdout/stderr writes from future dependencies.
+
+The pure ASGI middleware generates a fresh `X-Request-ID` regardless of the
+incoming header, logs status/duration for each HTTP request, and resets request
+and run context on completion, failure or cancellation. Concurrent async work
+inherits only its own request context. The formatter supports `run_id`,
+`retrieval_attempts`, `token_usage` and `search_calls` for future agents/providers;
+those counters are not measured by the health scaffold. Set/reset the `run_id`
+context around future orchestration, and supply typed codes/numeric metrics via
+logging `extra` rather than putting data into a message.
+
+Offline observable contracts are in
+[test_foundation.py](tests/unit/test_foundation.py). They cover dependency
+replacement, fixed public failures, synthetic private-data redaction, SDK/server
+logging, injected duration/IDs, cancellation and overlapping request contexts.
+Run them from `backend/` with:
+
+```bash
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run --locked pytest -p pytest_asyncio.plugin tests/unit/test_foundation.py
+```
 
 `migrations/versions` reserves the Alembic revision location for Phase 2.
 `tests/unit` contains the configuration and service-health contracts;
