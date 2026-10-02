@@ -5,8 +5,9 @@ capstone. The planned application combines six LangGraph agents, cited text and
 image retrieval, PostgreSQL/pgvector, Groq, MCP, and live food trend search.
 
 Phase 0 is verified, the P01-01 project layout is scaffolded, and P01-02 pins
-the runtimes and backend/frontend dependency graphs. Locked installation
-commands are documented in the package READMEs. Application startup and quality
+the runtimes and backend/frontend dependency graphs. P01-03 adds validated
+backend configuration. Locked installation and configuration test commands
+are documented in the package READMEs. Application startup and quality
 commands will be added as their Phase 1 tasks are completed.
 
 | Location | Purpose |
