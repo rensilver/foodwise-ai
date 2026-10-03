@@ -112,6 +112,10 @@ class MultimodalRetrieval:
         images: tuple[ImageHit, ...] = ()
         limitations = []
         failed = False
+        if media_id is not None and self.images is None:
+            raise ApplicationError(ErrorCode.DEPENDENCY_UNAVAILABLE)
+        if media_id is not None and weights.image == 0:
+            raise ValueError("Image query requires an active image modality")
         if use_images and weights.image > 0:
             if self.images is None:
                 failed = True
