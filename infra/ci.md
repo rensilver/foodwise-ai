@@ -128,5 +128,8 @@ Reuse the same `PLAYWRIGHT_BROWSERS_PATH` for installation and testing.
 Local workflow commands and static workflow validation are recorded in
 [CHECKLIST.md](../CHECKLIST.md). A hosted Actions run requires pushing the
 workflow to GitHub; local verification does not establish a hosted green run.
-Phase 2 persistence is verified. Full recommendation flows, pretrained retrieval
-and browser acceptance journeys remain their later tasks.
+Phases 2–4 persistence, ingestion and text retrieval are verified. Phase 4 adds
+deterministic retrieval/index contracts on this database service; an optional
+`TEST_MINILM_ROOT` exercises separately downloaded pinned pretrained weights.
+Normal CI needs no pretrained downloads. Agent recommendation flows, image
+retrieval and browser acceptance journeys remain their later tasks.

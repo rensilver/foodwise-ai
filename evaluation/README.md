@@ -1,7 +1,9 @@
 # Evaluation artifacts
 
 The [Phase 0 report](phase0/README.md) and manifests preserve the verified source
-and media baseline.
+and media baseline. [Phase 3](phase3/README.md) records seed acceptance;
+[Phase 4](phase4/README.md) supplies source-backed text labels and measured retrieval
+metrics before agent reasoning or multimodal ranking.
 
 The scaffold also reserves:
 

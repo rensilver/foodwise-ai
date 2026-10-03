@@ -21,6 +21,7 @@ from food_recommender.domain.experts import (
 )
 from food_recommender.domain.preferences import Preferences
 from food_recommender.domain.recommendations import RecommendationResult
+from food_recommender.retrieval.outcomes import TextRetrievalOutcome
 
 _CONFIG = ConfigDict(extra="forbid", strict=True, hide_input_in_errors=True)
 
@@ -77,4 +78,10 @@ recommendation_outcome_adapter: TypeAdapter[ExpertOutcome[RecommendationResult]]
 type PreferencesContract = Preferences
 preferences_adapter: TypeAdapter[Preferences] = TypeAdapter(
     PreferencesContract, config=_CONFIG
+)
+
+
+type TextRetrievalContract = TextRetrievalOutcome
+text_retrieval_adapter: TypeAdapter[TextRetrievalOutcome] = TypeAdapter(
+    TextRetrievalContract, config=_CONFIG
 )
