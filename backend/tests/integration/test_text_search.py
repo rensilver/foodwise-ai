@@ -128,3 +128,30 @@ async def test_review_scope_routes_to_actual_restaurant_and_exact_name(
         )
         == ()
     )
+
+
+@pytest.mark.asyncio
+async def test_shared_retrieval_ranks_categories_separately_and_excludes_unknown_hard_constraints(
+    seed_store, tmp_path
+):
+    from food_recommender.domain.preferences import Constraint
+    from food_recommender.domain.values import ConstraintKind, Origin, Strength
+    from food_recommender.retrieval.service import TextRetrieval
+
+    store, _ = seed_store
+    search, encoder = await populate(store, tmp_path)
+    service = TextRetrieval(search, encoder)
+    result = await service.retrieve(TextPlan("pizza", limit=1))
+    assert len(result) == 2
+    assert {r.evidence.entity.category for r in result} == {
+        Category.RESTAURANT,
+        Category.RECIPE,
+    }
+    assert all(r.evidence.citations and r.rrf_score > 0 for r in result)
+    restricted = TextPlan(
+        "pizza",
+        constraints=(
+            Constraint(ConstraintKind.ALLERGEN, "milk", Strength.HARD, Origin.EXPLICIT),
+        ),
+    )
+    assert await service.retrieve(restricted) == ()
