@@ -345,7 +345,7 @@ No paid-provider calls, model downloads or dependency changes occurred.
 
 **Verification:** import all baseline inputs, rerun unchanged imports and inject malformed/partial inputs.
 
-- [ ] P03-01 Implement source adapters that preserve raw attributes and map legacy IDs, cuisine/location fields and recipe time strings into canonical records.
+- [x] P03-01 Implement source adapters that preserve raw attributes and map legacy IDs, cuisine/location fields and recipe time strings into canonical records.
 - [ ] P03-02 Merge base and augmented recipe/review records by identity; verify that enrichment does not create duplicate entities or overwrite authoritative fields silently.
 - [ ] P03-03 Parse legacy string-encoded image lists safely, validate element types and reject malformed or oversized values with source-specific errors.
 - [ ] P03-04 Implement source mappings for raw restaurant paragraphs and stable IDs for accepted additions; report unresolved records without breaking existing review relationships.
@@ -358,7 +358,9 @@ No paid-provider calls, model downloads or dependency changes occurred.
 
 **Exit criterion:** accepted records and available media are traceable, imports are idempotent/resumable, and every rejected or unresolved source item is reported.
 
-**Evidence / blockers:** _Pending._
+**Evidence / blockers:**
+
+P03-01 verified on 2026-10-03: Legacy source adapters preserve raw payloads and separate ID namespaces, normalize cuisine/location, retain unknown metadata, parse recipe durations to ISO minutes, and validate review links/dates. Seven adapter tests, Ruff and strict mypy passed.
 
 ## Phase 4 — Multi-source text retrieval baseline
 
