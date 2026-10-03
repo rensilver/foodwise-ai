@@ -107,7 +107,7 @@ Phase 1 closure audit on 2026-10-03 against committed revision `8a6fd90`: **the 
 
 **Verification:** real database tests for constraints, migrations, identity, ownership and transaction failure.
 
-- [ ] P02-01 Define typed preferences, explicit/inferred constraints, candidate evidence, expert outcomes, recommendations, citations and progress events.
+- [x] P02-01 Define typed preferences, explicit/inferred constraints, candidate evidence, expert outcomes, recommendations, citations and progress events.
 - [ ] P02-02 Model restaurants, recipes and reviews with stable identities, source-ID uniqueness and valid foreign keys; keep unknown fields nullable.
 - [ ] P02-03 Add source-record, document and media provenance including content hashes, timestamps, raw payloads and generation/import attribution.
 - [ ] P02-04 Create separate text `vector(384)` and image `vector(512)` storage with embedding model/revision/input hashes; enable pgvector through migration.
@@ -119,7 +119,37 @@ Phase 1 closure audit on 2026-10-03 against committed revision `8a6fd90`: **the 
 
 **Exit criterion:** typed domain rules and persistence contracts are independently testable; migrations and integrity/ownership tests pass against PostgreSQL/pgvector.
 
-**Evidence / blockers:** _Pending._
+**Evidence / blockers:** P02-01 verified on 2026-10-03 with Python 3.12.14:
+[domain contracts](backend/src/food_recommender/domain/) define frozen standard-library
+types for preferences and constraint provenance/strength, category-qualified IDs,
+source-backed candidate evidence/citations, all six role results, explicit
+success/unavailable/failure outcomes, recommendations and the five UUID-scoped
+event types. [Application adapters](backend/src/food_recommender/application/contracts.py)
+validate untrusted JSON strictly, reject nested extra fields, preserve domain
+types and generate schemas without duplicating field definitions. Domain
+invariants bound retrieval to three attempts and 20 unique candidates/category,
+and recommendations to five unique items/category. Reference validation rejects
+unknown IDs, citations from other candidates and conflicting assessments; hard
+restrictions reject absent/unknown compliance. Dated web evidence is required
+for trend claims; source dates, absent modalities and missing metadata retain
+their unknown states. [Backend guidance](backend/README.md#shared-domain-contracts-p02-01)
+documents usage and remaining integration work.
+
+Red verification failed collection because the new contracts were absent.
+Round-trip checks then caught and corrected non-initializable discriminator
+fields and a domain/subclass equality mismatch; schema checks caught missing
+nested extra-field declarations. All 21 new
+[contract tests](backend/tests/unit/test_domain_contracts.py) passed.
+`make check` from `backend/` passed Ruff lint/formatting (37 files), strict mypy
+(27 runtime files), and 62 tests with five explicit database/model-fixture skips
+in 3.00 seconds. The first full run encountered existing local HTTP/subprocess
+sandbox failures and was interrupted; its automatically approved run outside
+the process sandbox passed. The source secret scanner reported zero findings
+across 79 files; documentation checks and `git diff --check` passed. No provider
+calls, model downloads or database connections occurred. Persistence, migrations,
+authoritative ingredient checks, trend freshness, graph/SSE integration and
+frontend contract generation remain later tasks. P02-02 onward and the Phase 2
+exit gate remain open; existing source-mapping/publication/media blockers remain.
 
 ## Phase 3 — Validated ingestion and media preparation
 

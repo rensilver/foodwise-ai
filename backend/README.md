@@ -3,8 +3,9 @@
 The application package is `src/food_recommender`. P01-03 adds validated
 configuration in the infrastructure package. P01-05 adds FastAPI and FastMCP
 startup factories and local health probes. P01-08 adds composition roots,
-application readiness dependencies, typed failures and structured logging;
-domain/agent/retrieval behavior remains planned. P01-02 pins Python 3.12.14 in
+application readiness dependencies, typed failures and structured logging.
+P02-01 adds shared domain contracts and boundary validation; agent execution,
+retrieval and persistence remain planned. P01-02 pins Python 3.12.14 in
 [.python-version](.python-version), uv 0.12.5 in
 [pyproject.toml](pyproject.toml), and framework/provider dependencies in
 [uv.lock](uv.lock). Hatchling packages `src/food_recommender` for editable
@@ -229,6 +230,53 @@ PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run --locked pytest -p pytest_asyncio.plugin
 `tests/unit` contains the configuration and service-health contracts;
 `tests/integration` contains real PostgreSQL/pgvector foundation checks;
 `tests/contract` contains offline provider SDK and local model-fixture checks.
+
+## Shared domain contracts (P02-01)
+
+The [domain package](src/food_recommender/domain/) contains frozen standard-library
+dataclasses and enums with no framework, provider or persistence imports.
+Collections use tuples. Typed callers construct these objects directly; parse
+untrusted JSON through the strict [application adapters](src/food_recommender/application/contracts.py).
+The adapters preserve domain types, reject extra fields at every nested level,
+and run the same domain invariants. Serialization alone does not validate data.
+
+| Contract | Behavior |
+| --- | --- |
+| `Preferences`, `Constraint`, `ProfileResult` | Preserve explicit/inferred origin and hard/soft strength. An inferred restriction cannot become hard without explicit user evidence. Location and price band remain nullable; empty collections represent no recorded values. Profile clarification is explicit. |
+| `EntityRef`, `CandidateEvidence`, `Citation` | Keep restaurant/recipe ID namespaces separate, require source-backed candidate evidence, retain modality scores/ranks and limitations, and distinguish imported/generated/source attribution. Catalog citations identify entity/source/record/document; web citations require HTTP(S) URLs and timezone-aware retrieval dates. Publication dates remain unknown when absent. |
+| Six role results and `ExpertOutcome[T]` | Cover profile, retrieval, trend, style, nutrition and recommendation outputs. Discriminated success/unavailable/failure outcomes keep an empty successful retrieval separate from a dependency failure. Style and nutrition assessments preserve supported/conflicting/unknown states. Trend claims require dated web evidence and candidate associations. |
+| `RetrievalResult`, `RecommendationResult` | Require unique category-qualified entities. Retrieval allows up to 20 candidates/category and one initial query plus two refinements. Recommendations allow up to five items/category; fewer or zero are valid. |
+| `validate_recommendations` | Check recommendation and nutrition citation IDs against each retrieved candidate's evidence. Reject unknown entities and conflicts; with `hard_constraints=True`, missing/unknown compliance is rejected. The caller supplies authoritative nutrition assessments. |
+| Five event types | Define `progress`, `clarification`, `recommendations`, `error`, and terminal `done`, with UUID conversation/run IDs. Progress contains a role and activity; errors use fixed codes without exception details. |
+
+Use `profile_adapter`, the six `*_outcome_adapter` objects, or `event_adapter`
+for `validate_json()` and `dump_json()`. Use `contract_json_schema(adapter)` to
+generate a schema that marks nested dataclasses with `additionalProperties: false`
+and exposes the event/outcome discriminator. Schemas are derived from domain
+fields rather than maintained as separate copies. For example:
+
+```python
+from food_recommender.application.contracts import profile_adapter
+
+profile = profile_adapter.validate_json(
+    '{"categories":["recipe"],"preferences":{"constraints":[]}}'
+)
+payload = profile_adapter.dump_json(profile)
+```
+
+This task defines and validates contracts. Ingredient classification, profile
+merging across follow-ups, dated trend freshness/cache policy, expert orchestration,
+evidence hydration for HTTP responses, SSE delivery/persistence and OpenAPI/frontend
+generation remain later tasks. A citation or supported assessment is not dietary
+certification; canonical ingredient checks must supply the restriction assessment.
+For validation failures, omit inputs/context when inspecting structured Pydantic
+errors, as described under configuration above.
+
+From `backend/`, run the offline contracts with:
+
+```bash
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run --locked pytest -p pytest_asyncio.plugin tests/unit/test_domain_contracts.py
+```
 
 ## Quality scripts (P01-06)
 
