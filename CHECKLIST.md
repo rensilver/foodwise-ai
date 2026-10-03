@@ -108,7 +108,7 @@ Phase 1 closure audit on 2026-10-03 against committed revision `8a6fd90`: **the 
 **Verification:** real database tests for constraints, migrations, identity, ownership and transaction failure.
 
 - [x] P02-01 Define typed preferences, explicit/inferred constraints, candidate evidence, expert outcomes, recommendations, citations and progress events.
-- [ ] P02-02 Model restaurants, recipes and reviews with stable identities, source-ID uniqueness and valid foreign keys; keep unknown fields nullable.
+- [x] P02-02 Model restaurants, recipes and reviews with stable identities, source-ID uniqueness and valid foreign keys; keep unknown fields nullable.
 - [ ] P02-03 Add source-record, document and media provenance including content hashes, timestamps, raw payloads and generation/import attribution.
 - [ ] P02-04 Create separate text `vector(384)` and image `vector(512)` storage with embedding model/revision/input hashes; enable pgvector through migration.
 - [ ] P02-05 Add PostgreSQL full-text fields and ordinary filter indexes; keep exact vector search as the initial implementation.
@@ -148,8 +148,48 @@ the process sandbox passed. The source secret scanner reported zero findings
 across 79 files; documentation checks and `git diff --check` passed. No provider
 calls, model downloads or database connections occurred. Persistence, migrations,
 authoritative ingredient checks, trend freshness, graph/SSE integration and
-frontend contract generation remain later tasks. P02-02 onward and the Phase 2
-exit gate remain open; existing source-mapping/publication/media blockers remain.
+frontend contract generation remain later tasks. Existing
+source-mapping/publication/media blockers remain.
+
+P02-02 verified on 2026-10-03 with Python 3.12.14, PostgreSQL 16.14 and
+pgvector 0.8.6. [Catalog mappings](backend/src/food_recommender/infrastructure/catalog.py)
+define restaurant/recipe/review tables with explicit string primary keys,
+separate type namespaces, unique logical-source/record pairs and a restrictive
+review-to-restaurant foreign key. Names and source IDs must be nonblank; database
+checks bound ratings, price bands, servings and coordinates. Raw cuisine/location
+and recipe time strings are retained alongside nullable normalized filters.
+Unavailable ingredients/allergens, nutrition, difficulty, availability, vibe and
+coordinates retain SQL `NULL`; arrays preserve known empty values separately.
+Synthetic review profile IDs are retained; profile ownership/FKs await P02-06.
+
+[Alembic configuration](backend/alembic.ini), the
+[migration environment](backend/migrations/env.py), revision template and
+[initial catalog migration](backend/migrations/versions/0001_catalog.py) support
+explicit PostgreSQL upgrades, offline SQL previews and dependency-ordered
+downgrades. Imports/startup perform no migration or connection. Ruff targets now
+include migration Python files. [Backend](backend/README.md#catalog-persistence-and-migrations-p02-02),
+[developer](infra/development.md#migration-ingestion-and-release-availability) and
+[CI](infra/ci.md) guides document the runnable commands and remaining scope.
+
+Red verification failed collection because the catalog mappings were absent.
+All 34 new tests passed: 30
+[real PostgreSQL catalog contracts](backend/tests/integration/test_catalog_models.py)
+and four [offline migration contracts](backend/tests/unit/test_catalog_migrations.py).
+Verification used a disposable container with synthetic credentials, the pinned
+PostgreSQL/pgvector image, a limited application role and no project volumes.
+Tests verify fresh upgrade/downgrade/re-upgrade, schema parity, duplicate rejection,
+foreign keys on insert/update/delete, SQL nulls and value/collection roundtrips;
+per-test migrations/writes roll back. Explicit `alembic upgrade head` and
+`alembic downgrade base` succeeded; `alembic check` found no new operations.
+The disposable test container was removed afterward. `make check` passed Ruff lint/formatting
+(42 files), strict mypy (28 runtime files) and all 101 tests with zero skips in
+10.20 seconds, using existing seeded CPU model fixtures and fake Groq/Tavily
+boundaries. Docker/test loopback access required automatically approved sandbox
+escalation. No owner configuration, application database, provider calls or model
+downloads were used. The source secret scanner reported zero findings across
+84 files; documentation checks validated 115 local links, balanced fences and
+unique checklist IDs, and `git diff --check` passed. P02-03 onward and the Phase 2
+exit gate remain open.
 
 ## Phase 3 — Validated ingestion and media preparation
 

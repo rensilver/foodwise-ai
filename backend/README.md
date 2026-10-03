@@ -4,8 +4,9 @@ The application package is `src/food_recommender`. P01-03 adds validated
 configuration in the infrastructure package. P01-05 adds FastAPI and FastMCP
 startup factories and local health probes. P01-08 adds composition roots,
 application readiness dependencies, typed failures and structured logging.
-P02-01 adds shared domain contracts and boundary validation; agent execution,
-retrieval and persistence remain planned. P01-02 pins Python 3.12.14 in
+P02-01 adds shared domain contracts and boundary validation. P02-02 adds catalog
+persistence models and the initial migration; agent execution, retrieval and
+repository adapters remain planned. P01-02 pins Python 3.12.14 in
 [.python-version](.python-version), uv 0.12.5 in
 [pyproject.toml](pyproject.toml), and framework/provider dependencies in
 [uv.lock](uv.lock). Hatchling packages `src/food_recommender` for editable
@@ -33,7 +34,7 @@ installation target is Linux x86_64; other platforms have not been tested.
 Container startup is documented in the [Compose guide](../infra/README.md).
 The [developer workflow](../infra/development.md) collects setup, host-run
 development commands, checks and migration/ingestion availability.
-Migrations remain a later checklist task; quality scripts are documented below.
+Catalog migration commands and quality scripts are documented below.
 Framework imports do not establish application readiness.
 
 ## Backend configuration
@@ -226,7 +227,7 @@ Run them from `backend/` with:
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run --locked pytest -p pytest_asyncio.plugin tests/unit/test_foundation.py
 ```
 
-`migrations/versions` reserves the Alembic revision location for Phase 2.
+`migrations/versions` contains the initial catalog Alembic revision.
 `tests/unit` contains the configuration and service-health contracts;
 `tests/integration` contains real PostgreSQL/pgvector foundation checks;
 `tests/contract` contains offline provider SDK and local model-fixture checks.
@@ -278,6 +279,80 @@ From `backend/`, run the offline contracts with:
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run --locked pytest -p pytest_asyncio.plugin tests/unit/test_domain_contracts.py
 ```
 
+## Catalog persistence and migrations (P02-02)
+
+The [catalog mappings](src/food_recommender/infrastructure/catalog.py) live in
+infrastructure, outside the framework-independent domain package. Importing
+them creates no engine or connection. The
+[initial revision](migrations/versions/0001_catalog.py) creates `restaurants`,
+`recipes` and `reviews`; no catalog data is imported or generated.
+
+Each table requires an explicit string primary key and a unique
+`(source_id, source_record_id)` pair. The table supplies the entity type, so
+restaurant `"1"` and recipe `"1"` can coexist. Preserve legacy IDs as strings.
+New entities need caller-assigned collision-free identities, rather than IDs
+derived from row counts. `source_id` denotes the logical dataset; base and
+augmented files belonging to that dataset share its identity. File/URL/hash
+provenance and merge adapters arrive in P02-03 and Phase 3.
+
+Review `restaurant_id` references only `restaurants.id`. PostgreSQL rejects
+missing targets and blocks deletion or ID changes while reviews reference a
+restaurant. `demo_profile_id` preserves the synthetic review user's source ID;
+profile/session ownership persistence arrives in P02-06. No ORM delete cascade
+or relationship loading is introduced here.
+
+Names, raw cuisine/location values and recipe time strings are retained alongside
+nullable normalized filters. Ratings are source catalog values in the range
+0–5, and price bands are 1–4. Unknown vibe, coordinates, difficulty, availability,
+nutrition, ingredients and allergen evidence remain SQL `NULL`, without defaults.
+Ordered ingredients/directions use text arrays. A null array differs from an
+explicit empty array; neither supplies dietary certification. Assign a new
+array or JSON value when updating these fields; in-place mutation tracking is
+not configured. Source attribution, dietary checks and validated writes remain
+later tasks.
+
+From `backend/`, preview the migration without a database connection:
+
+```bash
+uv run --locked alembic upgrade head --sql
+```
+
+To apply it, explicitly export `DATABASE_URL` for the intended PostgreSQL
+database, then run:
+
+```bash
+uv run --locked alembic upgrade head
+uv run --locked alembic current
+uv run --locked alembic check
+```
+
+The [migration environment](migrations/env.py) accepts `postgresql://` or
+`postgresql+psycopg://`, reads no dotenv file and needs no Groq/Tavily/admin
+configuration. Migrations are explicit operations; application startup does not
+run them. These commands currently run from the host checkout; the existing
+backend container does not package the Alembic files. The migration template
+supports later revisions without dynamically rebuilding schema from current
+models. `alembic downgrade base` removes the catalog tables and their data; use
+that rollback command only on a disposable database for verification.
+
+The [catalog integration tests](tests/integration/test_catalog_models.py) use
+the existing limited disposable `foodwise_test` role. Each test runs migrations
+and writes inside a transaction that rolls back. They check schema/model parity,
+upgrade/downgrade/re-upgrade, duplicate canonical/source IDs, foreign keys,
+nullable metadata, collection roundtrips and database value constraints.
+[Offline entry-point tests](tests/unit/test_catalog_migrations.py) verify SQL
+previews and explicit PostgreSQL configuration. With `TEST_DATABASE_URL` set as
+in the [CI reproduction guide](../infra/ci.md#reproduce-the-database-and-model-checks-locally),
+run:
+
+```bash
+make test-integration
+```
+
+Document/media provenance, vector/full-text storage, conversation persistence,
+repositories, optimistic versions and application transaction boundaries remain
+P02-03 onward. P02-02 does not satisfy the Phase 2 exit gate.
+
 ## Quality scripts (P01-06)
 
 Run these commands from **`backend/`**, after `uv sync --locked`. The default
@@ -288,9 +363,9 @@ The [Makefile](Makefile) requires GNU Make; each target also shows its direct
 
 | Command | Check or action |
 | --- | --- |
-| `make lint` | Ruff lint on `src`, `tests` and `scripts`, including imports and Python 3.12 syntax. |
+| `make lint` | Ruff lint on `src`, `tests`, `scripts` and `migrations`, including imports and Python 3.12 syntax. |
 | `make format-check` | Check Ruff formatting without changing files. |
-| `make format` | Apply Ruff formatting to `src`, `tests` and `scripts`. |
+| `make format` | Apply Ruff formatting to `src`, `tests`, `scripts` and `migrations`. |
 | `make typecheck` | Strict mypy on all runtime packages, with Pydantic's plugin. |
 | `make test` | Discover all tests under `tests`, including unittest and explicit async tests. |
 | `make check` | Run lint, formatting check, typecheck and tests; fail on the first failed target. |

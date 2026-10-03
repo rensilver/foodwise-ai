@@ -88,8 +88,14 @@ The [four database contracts](../backend/tests/integration/test_postgres.py)
 check versions/privileges, 384/512-dimensional adapter roundtrips and cosine
 ordering, rollback of a partially completed invalid vector write, and real
 async database/media readiness. Table creation and data changes roll back after
-each test. Application migrations, repositories and retrieval remain later
-phases.
+each test. P02-02 adds
+[catalog integration contracts](../backend/tests/integration/test_catalog_models.py)
+for real Alembic migrations, schema/model parity, canonical/source identity,
+review foreign keys and nullable metadata. Those tests apply migrations using
+an injected SQLAlchemy connection and roll back their tables/data on completion.
+The same CI database role runs both suites without additional privileges.
+Provenance/vector/conversation migrations, repositories and retrieval remain
+later tasks.
 
 For only the database suite, run `make test-integration` from `backend/` with
 `TEST_DATABASE_URL` still set. This target fails immediately if the setting is
@@ -110,5 +116,5 @@ Reuse the same `PLAYWRIGHT_BROWSERS_PATH` for installation and testing.
 Local workflow commands and static workflow validation are recorded in
 [CHECKLIST.md](../CHECKLIST.md). A hosted Actions run requires pushing the
 workflow to GitHub; local verification does not establish a hosted green run.
-Full recommendation flows, pretrained retrieval, migrations and acceptance
-journeys remain their later tasks.
+Full recommendation flows, pretrained retrieval, remaining persistence migrations
+and acceptance journeys remain their later tasks.

@@ -85,7 +85,8 @@ probes, logs, restart and shutdown commands. This machine should use its
 builds. Healthy scaffolds serve at `http://127.0.0.1:3000` and
 `http://127.0.0.1:8000`; database and MCP ports stay internal.
 `docker compose down` preserves named volumes. Preserve them when changing
-configuration; application migrations are not implemented yet.
+configuration. Catalog migrations are now explicit host-run operations; see
+the migration commands below.
 
 To verify Compose with isolated synthetic settings, from the repository root:
 
@@ -166,7 +167,7 @@ Run independent suites sequentially on this limited-memory host.
 | Working directory | Command | Result or prerequisite |
 | --- | --- | --- |
 | `backend/` | `make check` | Ruff lint/format check, strict mypy and pytest. |
-| `backend/` | `make test` | Offline suite; five database/model cases explicitly skip without their test settings. |
+| `backend/` | `make test` | Offline suite; database/model cases explicitly skip without their test settings. |
 | `backend/` | `make format` | Apply Ruff formatting. Recheck with `make check`. |
 | `backend/` | `make test-integration` | Real PostgreSQL contracts; requires an initialized disposable `TEST_DATABASE_URL`. |
 | `backend/` | `make provision-test-models` | Seeded local CPU fixtures; requires an ignored `TEST_MODEL_ROOT`. |
@@ -189,9 +190,9 @@ Builds and browser tests share `.next`; run them sequentially.
 
 The [CI reproduction guide](ci.md#reproduce-the-database-and-model-checks-locally)
 provides disposable database startup, limited-role initialization, model-fixture
-provisioning, test settings and cleanup. With both settings supplied, those five
-cases run; missing settings fail in CI. Fake providers and offline model
-fixtures keep these checks independent of paid credentials. Database bootstrap
+provisioning, test settings and cleanup. With both settings supplied, all
+database/model cases run; missing settings fail in CI. Fake providers and offline
+model fixtures keep these checks independent of paid credentials. Database bootstrap
 is exclusively for a fresh `foodwise_test` test service; it is not an
 application migration.
 
@@ -212,15 +213,34 @@ and loopback permissions; resolve sandbox denials before assessing results.
 
 | Operation | Current status | Planned checklist task |
 | --- | --- | --- |
-| Application migrations | Alembic is locked; only `backend/migrations/versions/.gitkeep` exists. There is no `alembic.ini`, migration environment or revision. No application migration command is runnable. | Phase 2, P02-02 through P02-08. |
+| Application migrations | P02-02 adds Alembic configuration and the initial restaurant/recipe/review revision. Explicit host-run commands are below. Provenance, vector/full-text and conversation schema remain planned. | P02-02 verified; P02-03 through P02-08 remain open. |
 | Culinary ingestion | The ingestion package is a scaffold; no import CLI or resumable importer exists. | Phase 3, P03-01 through P03-10. |
 | Source audit | `python scripts/phase0_audit.py` from the root is implemented. It requires local course/data/media artifacts and writes Phase 0 reports. It does not populate PostgreSQL. | Phase 0 evidence. |
 | Provider capability smoke tests | No live setup/smoke command exists. Health and offline tests do not validate Groq model access or dated Tavily evidence. | P06-12, P07-01 and P07-14. |
 | Full clean-checkout release | Local media/course recovery, application migrations, ingestion and acceptance flows remain required. | P11-01 through P11-09. |
 
-Add runnable migration/ingestion commands here when implementations and checks
-exist. Do not assume an Alembic upgrade is ready or treat test-database bootstrap
-or source auditing as culinary ingestion.
+From `backend/`, preview the implemented catalog migration without connecting:
+
+```bash
+uv run --locked alembic upgrade head --sql
+```
+
+For an intended PostgreSQL database, explicitly export `DATABASE_URL`, then run
+from `backend/`:
+
+```bash
+uv run --locked alembic upgrade head
+uv run --locked alembic current
+uv run --locked alembic check
+```
+
+Migrations read only the process environment and require no provider credentials;
+they do not load the root dotenv file or run automatically at application startup.
+The current backend image does not include the migration files; use the host
+checkout. See the [catalog migration guide](../backend/README.md#catalog-persistence-and-migrations-p02-02)
+for identity, nullable fields, rollback behavior and verification. These commands
+create empty catalog tables. Test-database bootstrap and source auditing do not
+perform culinary ingestion; no import command is implemented yet.
 
 A clean checkout includes scaffold source and seed JSON/text. The four course
 folders, assignment PDFs and recovered recipe ZIP/109 PNGs are Git-ignored;
