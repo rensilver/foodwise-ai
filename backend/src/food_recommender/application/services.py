@@ -1,7 +1,15 @@
 """Ports and dependencies for implemented application capabilities."""
 
+from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from typing import Protocol
+
+from food_recommender.application.persistence import (
+    CatalogService,
+    ConversationService,
+    MediaCleanupService,
+)
+from food_recommender.application.ports import UnitOfWork
 
 
 class ReadinessProbe(Protocol):
@@ -13,3 +21,8 @@ class ReadinessProbe(Protocol):
 @dataclass(frozen=True)
 class Services:
     readiness: ReadinessProbe
+    transactions: Callable[[], UnitOfWork] | None = None
+    close: Callable[[], Awaitable[None]] | None = None
+    catalog: CatalogService | None = None
+    conversations: ConversationService | None = None
+    media_cleanup: MediaCleanupService | None = None

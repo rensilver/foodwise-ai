@@ -27,6 +27,9 @@ def main() -> None:
         )
         connection.execute("REVOKE CREATE ON SCHEMA public FROM PUBLIC")
         connection.execute("GRANT USAGE, CREATE ON SCHEMA public TO foodwise_test_app")
+        connection.execute(
+            "CREATE SCHEMA foodwise_checkpoints AUTHORIZATION foodwise_test_app"
+        )
     print("Initialized disposable PostgreSQL/pgvector test database and limited role.")
 
 

@@ -1,13 +1,13 @@
 .PHONY: lint format format-check typecheck test test-integration provision-test-models check
 
 lint:
-	uv run --locked ruff check src tests scripts
+	uv run --locked ruff check src tests scripts migrations
 
 format:
-	uv run --locked ruff format src tests scripts
+	uv run --locked ruff format src tests scripts migrations
 
 format-check:
-	uv run --locked ruff format --check src tests scripts
+	uv run --locked ruff format --check src tests scripts migrations
 
 typecheck:
 	uv run --locked mypy

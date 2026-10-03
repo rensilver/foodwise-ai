@@ -17,7 +17,8 @@ real PostgreSQL/pgvector checks and offline provider/model fixtures.
 P01-08 adds injectable services, typed errors and redacted JSON logging.
 Start with the [developer workflow](infra/development.md) for locked setup,
 local development, checks and command availability.
-Recommendation features remain planned.
+Phase 2 persistence, transactional repositories and conversation cleanup are
+verified. Recommendation features remain planned.
 
 For this machine's memory constraints, see the [measured host assessment](infra/memory-assessment.md)
 and [optional low-memory Compose setup](infra/README.md#running-with-limited-ram).

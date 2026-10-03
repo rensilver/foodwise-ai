@@ -88,8 +88,26 @@ The [four database contracts](../backend/tests/integration/test_postgres.py)
 check versions/privileges, 384/512-dimensional adapter roundtrips and cosine
 ordering, rollback of a partially completed invalid vector write, and real
 async database/media readiness. Table creation and data changes roll back after
-each test. Application migrations, repositories and retrieval remain later
-phases.
+each test. P02-02 adds
+[catalog integration contracts](../backend/tests/integration/test_catalog_models.py)
+for real Alembic migrations, schema/model parity, canonical/source identity,
+review foreign keys and nullable metadata. Those tests apply migrations using
+an injected SQLAlchemy connection and roll back their tables/data on completion.
+The same CI database role runs both suites without additional privileges.
+P02-03 adds [provenance contracts](../backend/tests/integration/test_provenance_models.py)
+for source revisions, raw records, document/media associations, attribution,
+hashes/dates, duplicate rejection and rollback. The shared fixture uses the same
+limited role and transaction isolation; upgrade/downgrade checks preserve the
+existing catalog. P02-04/P02-05 add separate vector tables, lexical fields and filter indexes.
+P02-06 adds sessions/conversations/profiles/trend evidence and real LangGraph
+checkpoint persistence tests. Bootstrap precreates the isolated checkpoint
+schema for the limited role; tests use supported, idempotent saver setup.
+P02-07/P02-08 add real async repository transactions, expected-version races,
+rollback, cache and session-isolation acceptance. P02-09 adds supported checkpoint
+erasure, shared-upload lifetimes, durable cleanup and filesystem boundary tests.
+The committed race/deletion cases use unique fixture identities and clean them
+afterward; ordinary contracts remain transaction-isolated. Retrieval and
+agent execution remain later tasks.
 
 For only the database suite, run `make test-integration` from `backend/` with
 `TEST_DATABASE_URL` still set. This target fails immediately if the setting is
@@ -110,5 +128,5 @@ Reuse the same `PLAYWRIGHT_BROWSERS_PATH` for installation and testing.
 Local workflow commands and static workflow validation are recorded in
 [CHECKLIST.md](../CHECKLIST.md). A hosted Actions run requires pushing the
 workflow to GitHub; local verification does not establish a hosted green run.
-Full recommendation flows, pretrained retrieval, migrations and acceptance
-journeys remain their later tasks.
+Phase 2 persistence is verified. Full recommendation flows, pretrained retrieval
+and browser acceptance journeys remain their later tasks.

@@ -1,6 +1,7 @@
 """FastAPI startup scaffold; recommendation routes arrive in later phases."""
 
-from collections.abc import Awaitable, Callable
+from collections.abc import AsyncIterator, Awaitable, Callable
+from contextlib import asynccontextmanager
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, Request
@@ -37,7 +38,16 @@ def create_app(
         else build_backend_services(settings, probe=probe)
     )
     runtime = runtime if runtime is not None else Runtime(logger=configure_logging())
-    app = FastAPI(title="foodwise-ai", docs_url=None, redoc_url=None)
+
+    @asynccontextmanager
+    async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+        try:
+            yield
+        finally:
+            if services.close is not None:
+                await services.close()
+
+    app = FastAPI(title="foodwise-ai", docs_url=None, redoc_url=None, lifespan=lifespan)
     app.state.services = services
     app.add_middleware(
         TrustedHostMiddleware, allowed_hosts=["localhost", "127.0.0.1", "backend"]

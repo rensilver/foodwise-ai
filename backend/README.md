@@ -3,8 +3,11 @@
 The application package is `src/food_recommender`. P01-03 adds validated
 configuration in the infrastructure package. P01-05 adds FastAPI and FastMCP
 startup factories and local health probes. P01-08 adds composition roots,
-application readiness dependencies, typed failures and structured logging;
-domain/agent/retrieval behavior remains planned. P01-02 pins Python 3.12.14 in
+application readiness dependencies, typed failures and structured logging.
+Phase 2 adds shared domain contracts, catalog/provenance/vector/context
+migrations, async transactional repositories, optimistic versions, supported
+LangGraph checkpoints and retryable conversation/media deletion. Agent execution,
+retrieval, ingestion and HTTP domain routes remain planned. P01-02 pins Python 3.12.14 in
 [.python-version](.python-version), uv 0.12.5 in
 [pyproject.toml](pyproject.toml), and framework/provider dependencies in
 [uv.lock](uv.lock). Hatchling packages `src/food_recommender` for editable
@@ -32,7 +35,7 @@ installation target is Linux x86_64; other platforms have not been tested.
 Container startup is documented in the [Compose guide](../infra/README.md).
 The [developer workflow](../infra/development.md) collects setup, host-run
 development commands, checks and migration/ingestion availability.
-Migrations remain a later checklist task; quality scripts are documented below.
+Catalog migration commands and quality scripts are documented below.
 Framework imports do not establish application readiness.
 
 ## Backend configuration
@@ -225,10 +228,193 @@ Run them from `backend/` with:
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run --locked pytest -p pytest_asyncio.plugin tests/unit/test_foundation.py
 ```
 
-`migrations/versions` reserves the Alembic revision location for Phase 2.
+`migrations/versions` contains the catalog and provenance Alembic revisions.
 `tests/unit` contains the configuration and service-health contracts;
 `tests/integration` contains real PostgreSQL/pgvector foundation checks;
 `tests/contract` contains offline provider SDK and local model-fixture checks.
+
+## Shared domain contracts (P02-01)
+
+The [domain package](src/food_recommender/domain/) contains frozen standard-library
+dataclasses and enums with no framework, provider or persistence imports.
+Collections use tuples. Typed callers construct these objects directly; parse
+untrusted JSON through the strict [application adapters](src/food_recommender/application/contracts.py).
+The adapters preserve domain types, reject extra fields at every nested level,
+and run the same domain invariants. Serialization alone does not validate data.
+
+| Contract | Behavior |
+| --- | --- |
+| `Preferences`, `Constraint`, `ProfileResult` | Preserve explicit/inferred origin and hard/soft strength. An inferred restriction cannot become hard without explicit user evidence. Location and price band remain nullable; empty collections represent no recorded values. Profile clarification is explicit. |
+| `EntityRef`, `CandidateEvidence`, `Citation` | Keep restaurant/recipe ID namespaces separate, require source-backed candidate evidence, retain modality scores/ranks and limitations, and distinguish imported/generated/source attribution. Catalog citations identify entity/source/record/document; web citations require HTTP(S) URLs and timezone-aware retrieval dates. Publication dates remain unknown when absent. |
+| Six role results and `ExpertOutcome[T]` | Cover profile, retrieval, trend, style, nutrition and recommendation outputs. Discriminated success/unavailable/failure outcomes keep an empty successful retrieval separate from a dependency failure. Style and nutrition assessments preserve supported/conflicting/unknown states. Trend claims require dated web evidence and candidate associations. |
+| `RetrievalResult`, `RecommendationResult` | Require unique category-qualified entities. Retrieval allows up to 20 candidates/category and one initial query plus two refinements. Recommendations allow up to five items/category; fewer or zero are valid. |
+| `validate_recommendations` | Check recommendation and nutrition citation IDs against each retrieved candidate's evidence. Reject unknown entities and conflicts; with `hard_constraints=True`, missing/unknown compliance is rejected. The caller supplies authoritative nutrition assessments. |
+| Five event types | Define `progress`, `clarification`, `recommendations`, `error`, and terminal `done`, with UUID conversation/run IDs. Progress contains a role and activity; errors use fixed codes without exception details. |
+
+Use `profile_adapter`, the six `*_outcome_adapter` objects, or `event_adapter`
+for `validate_json()` and `dump_json()`. Use `contract_json_schema(adapter)` to
+generate a schema that marks nested dataclasses with `additionalProperties: false`
+and exposes the event/outcome discriminator. Schemas are derived from domain
+fields rather than maintained as separate copies. For example:
+
+```python
+from food_recommender.application.contracts import profile_adapter
+
+profile = profile_adapter.validate_json(
+    '{"categories":["recipe"],"preferences":{"constraints":[]}}'
+)
+payload = profile_adapter.dump_json(profile)
+```
+
+This task defines and validates contracts. Ingredient classification, profile
+merging across follow-ups, dated trend freshness/cache policy, expert orchestration,
+evidence hydration for HTTP responses, SSE delivery/persistence and OpenAPI/frontend
+generation remain later tasks. A citation or supported assessment is not dietary
+certification; canonical ingredient checks must supply the restriction assessment.
+For validation failures, omit inputs/context when inspecting structured Pydantic
+errors, as described under configuration above.
+
+From `backend/`, run the offline contracts with:
+
+```bash
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run --locked pytest -p pytest_asyncio.plugin tests/unit/test_domain_contracts.py
+```
+
+## Catalog persistence and migrations (P02-02)
+
+The [catalog mappings](src/food_recommender/infrastructure/catalog.py) live in
+infrastructure, outside the framework-independent domain package. Importing
+them creates no engine or connection. The
+[initial revision](migrations/versions/0001_catalog.py) creates `restaurants`,
+`recipes` and `reviews`; no catalog data is imported or generated.
+
+Each table requires an explicit string primary key and a unique
+`(source_id, source_record_id)` pair. The table supplies the entity type, so
+restaurant `"1"` and recipe `"1"` can coexist. Preserve legacy IDs as strings.
+New entities need caller-assigned collision-free identities, rather than IDs
+derived from row counts. `source_id` denotes the logical dataset; base and
+augmented files belonging to that dataset share its identity. File/URL/hash
+provenance is described below; merge adapters arrive in Phase 3.
+
+Review `restaurant_id` references only `restaurants.id`. PostgreSQL rejects
+missing targets and blocks deletion or ID changes while reviews reference a
+restaurant. `demo_profile_id` preserves the synthetic review user's source ID;
+profile/session ownership persistence arrives in P02-06. No ORM delete cascade
+or relationship loading is introduced here.
+
+Names, raw cuisine/location values and recipe time strings are retained alongside
+nullable normalized filters. Ratings are source catalog values in the range
+0–5, and price bands are 1–4. Unknown vibe, coordinates, difficulty, availability,
+nutrition, ingredients and allergen evidence remain SQL `NULL`, without defaults.
+Ordered ingredients/directions use text arrays. A null array differs from an
+explicit empty array; neither supplies dietary certification. Assign a new
+array or JSON value when updating these fields; in-place mutation tracking is
+not configured. Source attribution, dietary checks and validated writes remain
+later tasks.
+
+From `backend/`, preview the migration without a database connection:
+
+```bash
+uv run --locked alembic upgrade head --sql
+```
+
+To apply it, explicitly export `DATABASE_URL` for the intended PostgreSQL
+database, then run:
+
+```bash
+uv run --locked alembic upgrade head
+uv run --locked alembic current
+uv run --locked alembic check
+```
+
+The [migration environment](migrations/env.py) accepts `postgresql://` or
+`postgresql+psycopg://`, reads no dotenv file and needs no Groq/Tavily/admin
+configuration. Migrations are explicit operations; application startup does not
+run them. These commands currently run from the host checkout; the existing
+backend container does not package the Alembic files. The migration template
+supports later revisions without dynamically rebuilding schema from current
+models. `alembic downgrade base` removes the catalog tables and their data; use
+that rollback command only on a disposable database for verification.
+
+The [catalog integration tests](tests/integration/test_catalog_models.py) use
+the existing limited disposable `foodwise_test` role. Each test runs migrations
+and writes inside a transaction that rolls back. They check schema/model parity,
+upgrade/downgrade/re-upgrade, duplicate canonical/source IDs, foreign keys,
+nullable metadata, collection roundtrips and database value constraints.
+[Offline entry-point tests](tests/unit/test_catalog_migrations.py) verify SQL
+previews and explicit PostgreSQL configuration. With `TEST_DATABASE_URL` set as
+in the [CI reproduction guide](../infra/ci.md#reproduce-the-database-and-model-checks-locally),
+run:
+
+```bash
+make test-integration
+```
+
+P02-04 through P02-09 extend this foundation with vector/full-text storage,
+conversation persistence, repositories, optimistic versions and deletion; see
+the sections below and the verified Phase 2 exit gate in the checklist.
+
+## Source, document and media provenance (P02-03)
+
+The [provenance mappings](src/food_recommender/infrastructure/provenance.py) extend
+the catalog metadata. The migration environment imports
+`infrastructure.cleanup` to register the complete application metadata; imports
+perform no database or filesystem I/O. The
+[second revision](migrations/versions/0002_provenance.py) adds four empty tables
+without modifying existing catalog rows. The migration commands above apply
+both revisions. `alembic downgrade 0001_catalog` removes only provenance tables
+and their data; verify rollback only on a disposable database.
+
+| Table | Provenance contract |
+| --- | --- |
+| `sources` | A caller-assigned artifact ID, logical dataset ID, file/URL/admin locator, SHA-256 content hash, creation time, optional publication date and retrieval time. The logical dataset/locator kind/locator/hash tuple is unique, so changed file contents form a separate revision. |
+| `source_records` | Unique artifact/type/original-record identity, raw JSON payload and/or verbatim text, content hash, ingestion version and attribution. Optional restaurant/recipe/review foreign keys link at most one entity of the declared type; all-null links preserve unresolved input. |
+| `documents` | Source-record reference, kind, text, hash, ingestion version, attribution and optional half-open offsets in the parent text used for chunking. Optional media links must refer to the same source record. |
+| `media` | Source-record reference, unique private storage basename, optional original filename/URL, JPEG/PNG/WebP MIME type, positive byte size and dimensions, hash, ingestion version and attribution. Identical bytes can retain separate entity associations. |
+
+Catalog `source_id` means the logical dataset; `source_records.source_id` means
+the physical artifact row. A base JSON file and its augmented file have separate
+artifact/record rows that can link to the same canonical entity, preserving both
+raw payloads without duplicating that entity. Record IDs retain their original
+source namespace. Reviewed mappings and ingestion adapters must choose the
+correct entity association; foreign keys validate existence and entity type,
+not whether an image actually depicts that entity.
+
+Hashes are lowercase, 64-character SHA-256 hex strings. Database checks enforce
+their format; Phase 3 ingestion computes/verifies their contents. `created_at`
+defaults to the database transaction timestamp; all timestamp columns use
+timezone-aware PostgreSQL storage. Unknown publication/retrieval dates remain
+SQL `NULL`. Treat content revisions as append-only in ingestion; the schema
+does not make rows immutable. Assign new JSON values when updating raw payloads.
+
+Records, documents and media require explicit `source`, `imported` or `generated`
+attribution. New generated content requires a nonblank generator identity and
+input hash; generator revision stays nullable when unavailable. The ingestion
+version identifies the processing code/prompt version. Imported course captions
+can retain unknown generator details and must remain attributed as imported;
+caption text does not establish observed ingredients or allergen compliance.
+
+Foreign keys restrict parent deletion and ID changes. Application transactions
+must explicitly remove dependent documents/media before their source records.
+Storage keys contain no directory separators and are internal references, not
+public URLs. This revision stores catalog media metadata; file decoding, upload
+limits and upload storage remain Phase 3/8 work. P02-06/P02-09 below add session
+ownership, conversation cleanup and safe file deletion. Document construction and token-aware chunking remain
+Phase 4 work; ingestion must validate offsets against the actual parent text.
+P02-04 through P02-09 below implement vector/full-text storage and transactional
+repositories. HTTP validation and CRUD routes remain Phase 8.
+
+[Real PostgreSQL provenance contracts](tests/integration/test_provenance_models.py)
+cover base/augmented/revised artifacts, unresolved raw text, type namespaces,
+generated/imported attribution, dates/hashes, duplicate rejection, invalid
+values, cross-record media links, restrictive foreign keys, partial-write
+rollback and catalog-preserving upgrade/downgrade/re-upgrade. The
+[shared fixture](tests/integration/conftest.py) migrates and writes inside a
+rolled-back transaction. Run `make test-integration` with the disposable
+`TEST_DATABASE_URL` from the [CI guide](../infra/ci.md#reproduce-the-database-and-model-checks-locally).
+Offline migration tests also preview upgrades and downgrades without a
+database or provider configuration. The complete Phase 2 exit gate is recorded
+in the checklist.
 
 ## Quality scripts (P01-06)
 
@@ -240,9 +426,9 @@ The [Makefile](Makefile) requires GNU Make; each target also shows its direct
 
 | Command | Check or action |
 | --- | --- |
-| `make lint` | Ruff lint on `src`, `tests` and `scripts`, including imports and Python 3.12 syntax. |
+| `make lint` | Ruff lint on `src`, `tests`, `scripts` and `migrations`, including imports and Python 3.12 syntax. |
 | `make format-check` | Check Ruff formatting without changing files. |
-| `make format` | Apply Ruff formatting to `src`, `tests` and `scripts`. |
+| `make format` | Apply Ruff formatting to `src`, `tests`, `scripts` and `migrations`. |
 | `make typecheck` | Strict mypy on all runtime packages, with Pydantic's plugin. |
 | `make test` | Discover all tests under `tests`, including unittest and explicit async tests. |
 | `make check` | Run lint, formatting check, typecheck and tests; fail on the first failed target. |
@@ -270,3 +456,147 @@ ordinary local runs skip them explicitly. CI requires both and rejects missing
 settings. See the [CI guide](../infra/ci.md) for the complete disposable-database
 setup, local fixture provisioning, checks and cleanup. These foundation tests
 do not establish application retrieval or recommendation behavior.
+
+## Embedding storage (P02-04)
+
+Revision `0003_embeddings` runs `CREATE EXTENSION IF NOT EXISTS vector` and
+creates separate `text_embeddings` (`vector(384)`, MiniLM) and
+`image_embeddings` (`vector(512)`, CLIP) tables. Each row records a nonblank
+model revision, input SHA-256, dimension and creation time. Database checks
+require unit vectors (tolerance 0.001) and the configured model identity.
+Document/media deletion cascades to its vectors; the extension survives downgrade
+because other applications may use it. A database administrator must preinstall
+pgvector for a limited role, as the Compose/bootstrap scripts already do. Exact
+cosine search remains the baseline; embedding generation and retrieval services
+are Phase 4/5 work.
+
+## Search schema (P02-05)
+
+Revision `0004_search` adds a stored English `documents.search_vector` computed
+from its complete text on every write and a GIN index. Ordinary B-tree indexes
+cover normalized restaurant cuisine/location/price, location/price alone, recipe
+cuisine, profile-scoped reviews and document/media/entity links. No approximate
+vector index is created. Phase 4 builds the source-backed documents and query
+services over these fields.
+
+## Conversations, profiles, trends and checkpoints (P02-06)
+
+Revision `0005_context` adds UUID conversations tied to hashed-token browser
+sessions, messages, conversation-specific preferences and synthetic demo
+profiles. Legacy review profile IDs are backfilled before adding the foreign
+key. Catalog media retain source provenance; uploaded media instead require an
+owner session. Composite foreign keys limit conversation/upload links to the
+same session and permit sharing between that session's conversations. Media
+files and browser cookie handling are later application work.
+
+Trend cache rows store sanitized culinary queries/hashes, retrieval/expiry
+timestamps (maximum 24 hours), and up to five evidence records with excerpts,
+actual URLs and nullable publication dates. Unknown dates remain unknown;
+current-trend eligibility and query sanitization are Phase 6 services.
+
+Alembic owns application tables. LangGraph owns its tables in the separate
+`foodwise_checkpoints` schema through the supported
+[PostgreSQL saver setup](https://docs.langchain.com/oss/python/langgraph/persistence).
+New Compose/test databases create that schema during administrator bootstrap.
+For an existing application database, an administrator must first execute
+`CREATE SCHEMA foodwise_checkpoints AUTHORIZATION foodwise;`. Do not drop
+existing volumes to rerun bootstrap. Then, from `backend/` with an explicitly
+selected `DATABASE_URL`, run:
+
+```bash
+uv run --locked alembic upgrade head
+uv run --locked python scripts/setup_checkpoints.py
+```
+
+Setup is idempotent and uses autocommit for LangGraph's concurrent indexes.
+Ordinary factories and runtime saver opening never migrate. Use the conversation
+UUID string as the checkpoint thread ID. Checkpoint access is internal; future
+graph services must first authorize the session/conversation. Application
+downgrades retain library checkpoint tables. Downgrading below P02-06 while
+uploads exist is rejected instead of discarding upload data.
+
+## Repository transactions and optimistic versions (P02-07)
+
+Application [ports](src/food_recommender/application/ports.py) expose domain
+snapshots, conversation context and dated trend records.
+[Prepared catalog bundles](src/food_recommender/domain/catalog.py) check hashes,
+source/media associations, model compatibility, dimensions and normalization
+before the final transaction. Prepare full content and vectors outside the
+transaction; never call inference inside a write.
+
+[CatalogService](src/food_recommender/application/persistence.py) uses an injected
+unit-of-work factory. The async PostgreSQL adapter commits canonical data,
+source/raw provenance, documents, media and vectors together. Revision
+`0006_versions` adds positive versions; replace/delete use conditional writes
+with `expected_version`. Missing IDs, stale versions, duplicate identities and
+invalid foreign keys return typed failures. Raw source revisions survive updates
+and become unresolved on deletion. Restaurant deletion with linked reviews
+fails atomically. Source identity changes require reconciliation, not mutation.
+
+`PostgresUnitOfWork` rolls back by default; only explicit `commit()` persists.
+Exceptions and cancellation preserve old data. Read transactions also close
+without writes. Conversation/profile/message/media methods require the owner
+session and authorize before access. A profile save is a complete supplied
+snapshot; Phase 7 supplies follow-up merging rules. Trend reads exclude expired
+or future cache entries; publication-date eligibility remains Phase 6. Backend
+composition exposes `Services.transactions`, constructs no database connections
+until use and disposes its pool at shutdown. Routes are Phase 8 work.
+
+## Persistence integrity acceptance (P02-08)
+
+[Integrity tests](tests/integration/test_persistence_integrity.py) run against
+the disposable real PostgreSQL database, including two separate pooled
+connections competing for one expected version. Exactly one update commits.
+Failed replacements/foreign-key deletes and cancellation preserve complete
+previous data; duplicate IDs cannot create partial provenance/retrieval rows.
+Additional checks exercise upgrade of legacy synthetic profiles, session-scoped
+reads/writes, explicit-restriction roundtrips, cache expiry boundaries and failed
+cache refreshes. Existing suites cover fresh downgrade/upgrade/schema parity,
+nullable unknowns, source/media identity and normalized vector constraints.
+
+Run `make test-integration` with the documented `TEST_DATABASE_URL`. Tests
+require `foodwise_test` on loopback and never use the application database.
+The concurrency contract commits only its uniquely named fixture record and
+cleans it afterward; migrations are committed to the disposable test database.
+
+## Conversation erasure and media cleanup (P02-09)
+
+`ConversationService.delete(session_id, conversation_id)` authorizes and locks
+its owner conversation. One transaction removes messages, profile context,
+media associations and all LangGraph checkpoints/blobs/pending writes through
+the supported saver's `adelete_thread()` on the same psycopg connection. Failure
+rolls back all database deletion. Use the UUID conversation string as the graph
+thread ID. Future graph services must coordinate active-run exclusion and
+cancellation before deletion (P07-11); HTTP ownership/cookies are P08-01.
+
+Uploads referenced by another owner conversation remain. Unshared uploads and
+their image vectors are deleted; shared catalog data, provenance and other
+sessions survive. Revision `0007_cleanup` adds a durable file-cleanup outbox,
+also populated by catalog replacements/deletes. After committing database
+changes, the injected cleanup service removes unreferenced private files by
+validated basename. It uses descriptor-relative unlink, refuses a symlinked
+mount root and removes file symlinks themselves rather than their targets.
+Missing files are idempotent success; storage still referenced by media is kept.
+Failed removal stays queued and conversation deletion exposes `cleanup_pending`.
+
+Backend composition wires the services and a local media adapter. To retry one
+bounded batch (up to 100 jobs), explicitly select `DATABASE_URL` and `MEDIA_ROOT`
+and run from `backend/`:
+
+```bash
+uv run --locked python scripts/cleanup_media.py
+```
+
+The command emits only removed/retained/failed counts and exits nonzero if file
+cleanup fails. Repeat it to drain additional batches. It does not read dotenv
+files, initialize tables, decode uploads or call providers. Media filenames must
+be generated and immutable in the future upload/ingestion services.
+
+[Deletion tests](tests/integration/test_conversation_deletion.py) use real saver
+checkpoints, raw blobs, pending writes, database transactions and filesystem
+fixtures. They verify post-delete rollback, checkpoint failure rollback,
+unauthorized deletion, shared-upload lifetime, unrelated catalog preservation,
+retryable file failures and committed erasure after reopening connections.
+[Filesystem tests](tests/unit/test_media_cleanup.py) reject caller paths and
+symlinked roots. Phase 2 establishes persistence contracts; ingestion, retrieval,
+agent scheduling and the user/admin HTTP journeys remain their later phases.

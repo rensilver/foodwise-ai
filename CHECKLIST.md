@@ -107,19 +107,235 @@ Phase 1 closure audit on 2026-10-03 against committed revision `8a6fd90`: **the 
 
 **Verification:** real database tests for constraints, migrations, identity, ownership and transaction failure.
 
-- [ ] P02-01 Define typed preferences, explicit/inferred constraints, candidate evidence, expert outcomes, recommendations, citations and progress events.
-- [ ] P02-02 Model restaurants, recipes and reviews with stable identities, source-ID uniqueness and valid foreign keys; keep unknown fields nullable.
-- [ ] P02-03 Add source-record, document and media provenance including content hashes, timestamps, raw payloads and generation/import attribution.
-- [ ] P02-04 Create separate text `vector(384)` and image `vector(512)` storage with embedding model/revision/input hashes; enable pgvector through migration.
-- [ ] P02-05 Add PostgreSQL full-text fields and ordinary filter indexes; keep exact vector search as the initial implementation.
-- [ ] P02-06 Add conversations, profiles, session ownership and trend cache persistence; initialize PostgreSQL checkpoint tables through the supported LangGraph path.
-- [ ] P02-07 Implement repository and transaction ports/adapters, optimistic record versions and atomic catalog/document/vector writes.
-- [ ] P02-08 Test fresh migrations, rollback on failed writes, duplicate-ID rejection, foreign-key enforcement, version conflicts and session isolation.
-- [ ] P02-09 Define and test deletion of conversation-owned messages/checkpoints/uploads without deleting shared catalog data.
+- [x] P02-01 Define typed preferences, explicit/inferred constraints, candidate evidence, expert outcomes, recommendations, citations and progress events.
+- [x] P02-02 Model restaurants, recipes and reviews with stable identities, source-ID uniqueness and valid foreign keys; keep unknown fields nullable.
+- [x] P02-03 Add source-record, document and media provenance including content hashes, timestamps, raw payloads and generation/import attribution.
+- [x] P02-04 Create separate text `vector(384)` and image `vector(512)` storage with embedding model/revision/input hashes; enable pgvector through migration.
+- [x] P02-05 Add PostgreSQL full-text fields and ordinary filter indexes; keep exact vector search as the initial implementation.
+- [x] P02-06 Add conversations, profiles, session ownership and trend cache persistence; initialize PostgreSQL checkpoint tables through the supported LangGraph path.
+- [x] P02-07 Implement repository and transaction ports/adapters, optimistic record versions and atomic catalog/document/vector writes.
+- [x] P02-08 Test fresh migrations, rollback on failed writes, duplicate-ID rejection, foreign-key enforcement, version conflicts and session isolation.
+- [x] P02-09 Define and test deletion of conversation-owned messages/checkpoints/uploads without deleting shared catalog data.
 
 **Exit criterion:** typed domain rules and persistence contracts are independently testable; migrations and integrity/ownership tests pass against PostgreSQL/pgvector.
 
-**Evidence / blockers:** _Pending._
+**Evidence / blockers:** P02-01 verified on 2026-10-03 with Python 3.12.14:
+[domain contracts](backend/src/food_recommender/domain/) define frozen standard-library
+types for preferences and constraint provenance/strength, category-qualified IDs,
+source-backed candidate evidence/citations, all six role results, explicit
+success/unavailable/failure outcomes, recommendations and the five UUID-scoped
+event types. [Application adapters](backend/src/food_recommender/application/contracts.py)
+validate untrusted JSON strictly, reject nested extra fields, preserve domain
+types and generate schemas without duplicating field definitions. Domain
+invariants bound retrieval to three attempts and 20 unique candidates/category,
+and recommendations to five unique items/category. Reference validation rejects
+unknown IDs, citations from other candidates and conflicting assessments; hard
+restrictions reject absent/unknown compliance. Dated web evidence is required
+for trend claims; source dates, absent modalities and missing metadata retain
+their unknown states. [Backend guidance](backend/README.md#shared-domain-contracts-p02-01)
+documents usage and remaining integration work.
+
+Red verification failed collection because the new contracts were absent.
+Round-trip checks then caught and corrected non-initializable discriminator
+fields and a domain/subclass equality mismatch; schema checks caught missing
+nested extra-field declarations. All 21 new
+[contract tests](backend/tests/unit/test_domain_contracts.py) passed.
+`make check` from `backend/` passed Ruff lint/formatting (37 files), strict mypy
+(27 runtime files), and 62 tests with five explicit database/model-fixture skips
+in 3.00 seconds. The first full run encountered existing local HTTP/subprocess
+sandbox failures and was interrupted; its automatically approved run outside
+the process sandbox passed. The source secret scanner reported zero findings
+across 79 files; documentation checks and `git diff --check` passed. No provider
+calls, model downloads or database connections occurred. Persistence, migrations,
+authoritative ingredient checks, trend freshness, graph/SSE integration and
+frontend contract generation remain later tasks. Existing
+source-mapping/publication/media blockers remain.
+
+P02-02 verified on 2026-10-03 with Python 3.12.14, PostgreSQL 16.14 and
+pgvector 0.8.6. [Catalog mappings](backend/src/food_recommender/infrastructure/catalog.py)
+define restaurant/recipe/review tables with explicit string primary keys,
+separate type namespaces, unique logical-source/record pairs and a restrictive
+review-to-restaurant foreign key. Names and source IDs must be nonblank; database
+checks bound ratings, price bands, servings and coordinates. Raw cuisine/location
+and recipe time strings are retained alongside nullable normalized filters.
+Unavailable ingredients/allergens, nutrition, difficulty, availability, vibe and
+coordinates retain SQL `NULL`; arrays preserve known empty values separately.
+Synthetic review profile IDs are retained; profile ownership/FKs await P02-06.
+
+[Alembic configuration](backend/alembic.ini), the
+[migration environment](backend/migrations/env.py), revision template and
+[initial catalog migration](backend/migrations/versions/0001_catalog.py) support
+explicit PostgreSQL upgrades, offline SQL previews and dependency-ordered
+downgrades. Imports/startup perform no migration or connection. Ruff targets now
+include migration Python files. [Backend](backend/README.md#catalog-persistence-and-migrations-p02-02),
+[developer](infra/development.md#migration-ingestion-and-release-availability) and
+[CI](infra/ci.md) guides document the runnable commands and remaining scope.
+
+Red verification failed collection because the catalog mappings were absent.
+All 34 new tests passed: 30
+[real PostgreSQL catalog contracts](backend/tests/integration/test_catalog_models.py)
+and four [offline migration contracts](backend/tests/unit/test_catalog_migrations.py).
+Verification used a disposable container with synthetic credentials, the pinned
+PostgreSQL/pgvector image, a limited application role and no project volumes.
+Tests verify fresh upgrade/downgrade/re-upgrade, schema parity, duplicate rejection,
+foreign keys on insert/update/delete, SQL nulls and value/collection roundtrips;
+per-test migrations/writes roll back. Explicit `alembic upgrade head` and
+`alembic downgrade base` succeeded; `alembic check` found no new operations.
+The disposable test container was removed afterward. `make check` passed Ruff lint/formatting
+(42 files), strict mypy (28 runtime files) and all 101 tests with zero skips in
+10.20 seconds, using existing seeded CPU model fixtures and fake Groq/Tavily
+boundaries. Docker/test loopback access required automatically approved sandbox
+escalation. No owner configuration, application database, provider calls or model
+downloads were used. The source secret scanner reported zero findings across
+84 files; documentation checks validated 115 local links, balanced fences and
+unique checklist IDs, and `git diff --check` passed. P02-03 onward and the Phase 2
+exit gate remain open.
+
+P02-03 verified on 2026-10-03 with Python 3.12.14, PostgreSQL 16.14 and
+pgvector 0.8.6. [Provenance mappings](backend/src/food_recommender/infrastructure/provenance.py)
+add source artifacts, raw source records, documents and catalog media. Physical
+file/URL/admin revisions retain logical dataset IDs, original locators, SHA-256
+hashes, timezone-aware creation/retrieval timestamps and nullable publication
+dates. Records preserve raw JSON and/or verbatim text, ingestion versions and
+source/imported/generated attribution. Generated content requires a generator
+identity and input hash; unavailable generator revisions remain null. Base and
+augmented artifacts can link to the same canonical entity without duplication;
+unresolved records retain null entity links. Type checks and catalog foreign keys
+reject invalid associations. Documents retain optional chunk offsets; media
+retain original filenames/URLs, private storage basenames, MIME types, sizes and
+dimensions. Composite foreign keys reject document/image links across source
+records; parent deletion/ID changes are restrictive.
+
+[Revision 0002](backend/migrations/versions/0002_provenance.py) adds four tables
+without changing existing catalog rows; its downgrade removes only provenance.
+The migration environment registers the complete metadata without startup I/O.
+[Backend](backend/README.md#source-document-and-media-provenance-p02-03),
+[developer](infra/development.md#migration-ingestion-and-release-availability) and
+[CI](infra/ci.md) guides document identities, attribution, migration commands and
+remaining scope. Hash computation, source/entity reconciliation, document
+construction/chunking, media decoding/storage, session ownership and cleanup
+remain their later tasks; schema metadata alone does not verify image content
+or dietary compliance.
+
+Red verification failed collection because provenance mappings were absent.
+The first migration run caught an unqualified JSONB type emitted by Alembic;
+it was corrected before successful verification. All 52 new contracts passed:
+50 [real PostgreSQL provenance tests](backend/tests/integration/test_provenance_models.py)
+and two additional [offline migration previews](backend/tests/unit/test_catalog_migrations.py).
+They verify raw-data/attribution/date/hash roundtrips, source revisions, unresolved
+records, type namespaces, duplicate rejection, foreign keys, malformed metadata,
+cross-record image rejection, partial-write rollback and catalog-preserving
+upgrade/downgrade/re-upgrade. Catalog/provenance tests share a
+[transaction-isolated fixture](backend/tests/integration/conftest.py).
+`make check` passed Ruff lint/format (46 files), strict mypy (29 runtime files),
+and all 153 tests with zero skips in 14.85 seconds, including existing seeded
+CPU model fixtures and fake provider boundaries. Explicit Alembic upgrade/current,
+schema check and downgrade succeeded on a disposable pinned PostgreSQL/pgvector
+container with synthetic credentials and a limited application role;
+`alembic check` found no new operations. The container was removed afterward.
+Process/cache/Docker/loopback access required automatically approved sandbox
+escalation. The source scan reported zero findings across 88 files; documentation
+link/fence/checklist checks and `git diff --check` passed. No owner configuration,
+application database, provider calls, model downloads or dependency changes
+were used. P02-04 onward and the Phase 2 exit gate remain open.
+
+P02-04 verified on 2026-10-03: revision `0003_embeddings` enables pgvector
+and creates separate normalized text/image tables with model, revision, dimension,
+input hash, timestamps and cascading document/media foreign keys. Nine new real
+PostgreSQL tests cover exact cosine ordering, roundtrips, dimensions, duplicate
+model/revision identities, invalid metadata, norms and parent cleanup. The scoped
+catalog/provenance/vector/migration suite passed all 95 tests; strict mypy passed
+30 source files and Ruff lint/format passed. Migration downgrade deliberately
+retains the shared vector extension. No inference or model downloads occurred.
+
+P02-05 verified on 2026-10-03: revision `0004_search` adds a stored English
+`tsvector` derived from document text, a GIN lexical index and ordinary cuisine,
+location/price, scoped-review and provenance-link indexes. Two new database
+contracts verify stemming and automatic refresh after text updates, index
+definitions and absence of HNSW/IVFFlat. All 32 scoped search/catalog tests passed;
+strict mypy and Ruff lint/format passed. Exact vector search remains the baseline;
+query planning, document construction and retrieval are still Phase 4 tasks.
+
+P02-06 verified on 2026-10-03: revision `0005_context` adds hashed-token
+browser sessions, UUID conversations/messages, conversation profiles, demo-profile
+foreign keys (backfilled from existing reviews), owner-scoped upload associations
+and dated trend cache/evidence. Composite foreign keys prevent cross-session
+media links. Trend dates remain nullable; five-result bounds and a maximum 24-hour
+cache lifetime are database enforced. Bootstrap creates an isolated checkpoint
+schema owned by the limited role; the explicit `scripts/setup_checkpoints.py`
+uses `AsyncPostgresSaver.setup()` without copying its tables into Alembic.
+Six new database/checkpoint contracts pass, including setup twice, actual graph
+checkpoint roundtrips across reopened connections and distinct UUID threads.
+The context/catalog/provenance suite passed 86 tests; mypy and Ruff passed.
+Trend freshness/query privacy, graph scheduling and HTTP cookie handling remain
+their later phases. Session cleanup is P02-09.
+
+P02-07 verified on 2026-10-03: framework-independent prepared catalog
+snapshots and repository/unit-of-work ports now have async SQLAlchemy adapters.
+Revision `0006_versions` adds positive optimistic versions to all catalog tables.
+Catalog service transactions atomically write canonical rows, immutable source/raw
+provenance, documents/media and both vector modalities. Replacements check
+expected versions, preserve identities/raw revisions and replace retrieval rows;
+deletes retain raw provenance as unresolved. Default exit, exceptions and
+uncommitted success roll back. Database failures map to stable application codes.
+Session-scoped conversation/profile/message/media operations and expiry-aware
+trend-cache adapters share the transaction boundary. Backend composition wires
+a lazy engine/session factory and FastAPI shutdown disposes the pool.
+Four real repository tests and seven prepared-input tests passed; the scoped
+repository/catalog/lifecycle suite passed 48 tests. Ruff and strict mypy passed.
+File cleanup is completed in P02-09; HTTP CRUD and retrieval/ingestion remain
+later phases. No paid providers were called.
+
+P02-08 verified on 2026-10-03: eleven additional real PostgreSQL acceptance
+tests cover duplicate canonical/source IDs through application adapters, complete
+rollback of failed replacements, cancellation rollback, foreign-key rejection
+without partial retrieval cleanup, legacy-review profile backfill, positive
+versions, retained explicit restrictions and unauthorized message/media writes.
+A two-connection race proves one winner and one conflict for the same expected
+version. Cache tests prove inclusive retrieval/exclusive expiry boundaries,
+unknown publication-date preservation and atomic failed refresh rollback.
+Explicit `alembic upgrade head`, `alembic check` (no new operations) and supported
+checkpoint setup passed on the limited disposable test role. Full backend
+verification and conversation deletion evidence follow in P02-09.
+
+P02-09 and the Phase 2 exit gate verified on 2026-10-03. Conversation deletion
+locks and authorizes the owner, deletes messages/profile/media links, and invokes
+LangGraph's supported `adelete_thread()` on the same psycopg connection and
+transaction. All checkpoint namespaces, blobs and pending writes are removed
+atomically; checkpoint failure or later transaction failure preserves everything.
+Uploads shared by another conversation remain. Unshared uploads and their vectors
+are deleted with durable cleanup jobs in revision `0007_cleanup`; catalog rows,
+raw provenance, shared catalog media and other sessions remain untouched.
+
+Post-commit cleanup uses validated basenames and descriptor-relative unlink,
+never follows a symlink target, checks remaining media references and retains
+failed jobs for explicit retry. Backend composition wires catalog/conversation
+services and cleanup. `scripts/cleanup_media.py` processes up to 100 committed
+jobs per call without provider credentials. Conversation deletion reports
+`cleanup_pending` when cleanup needs retry. Active graph-run exclusion/cancellation
+and the HTTP delete endpoint remain P07-11/P08-01; no graph runner exists yet.
+
+Six new real database/filesystem/checkpoint tests verify erasure, rollback,
+ownership, shared-upload lifetime, failure/retry, catalog preservation and actual
+committed deletion after closing/reopening the pool. Ten filesystem unit tests
+cover path traversal, invalid roots, missing-file retries and root symlinks.
+The scoped deletion/catalog/repository/filesystem suite passed 49 tests before
+the final committed-deletion case. Final `make check` passed Ruff lint/format
+(70 files), strict mypy (38 runtime files) and all 208 tests with zero skips in
+14.45 seconds, including existing local CPU fixtures and fake provider boundaries.
+`alembic upgrade head`, explicit downgrade-to-base/re-upgrade, offline SQL
+preview and `alembic check` passed with no new operations. Supported checkpoint
+setup and the empty cleanup CLI passed. Documentation checks validated 187 local
+links, balanced fences, 134 unique checklist IDs and the instruction-size budget;
+`git diff --check` passed. The redacting scan reported zero findings across
+112 source files. Verification used PostgreSQL 16.14 and pgvector 0.8.6
+in a disposable pinned container with synthetic credentials and a limited role.
+The first deletion run exposed a fixture teardown lock; the test was interrupted,
+the teardown released its outer transaction before opening cleanup connections,
+and subsequent scoped/full runs passed. Existing course/data/media artifacts,
+owner configuration and original source/publication blockers were preserved.
+The disposable test container was removed after verification.
+No paid-provider calls, model downloads or dependency changes occurred.
 
 ## Phase 3 — Validated ingestion and media preparation
 
