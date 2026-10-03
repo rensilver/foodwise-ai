@@ -412,7 +412,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 
 - [x] P05-01 Generate normalized 512-dimensional CLIP image embeddings with verified model identity and actual entity/media links.
 - [x] P05-02 Implement CLIP text-to-image and image-to-image search using the matching model/revision; reject unsupported or mismatched inputs.
-- [ ] P05-03 Resolve query images through authorized media IDs rather than caller-supplied paths or arbitrary URLs.
+- [x] P05-03 Resolve query images through authorized media IDs rather than caller-supplied paths or arbitrary URLs.
 - [ ] P05-04 Add normalized text/image late fusion, initially `0.6/0.4`, and aggregate maximum evidence per entity/modality while retaining component scores.
 - [ ] P05-05 Implement deterministic ties, empty/equal score handling, duplicate image protection and weight renormalization when an entire modality is unavailable.
 - [ ] P05-06 Rank restaurants and recipes separately and prove that unrelated recipe imagery is never attributed to restaurant menu items.
@@ -421,7 +421,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 
 **Exit criterion:** text and image queries work with correctly associated real media, constraints remain intact, and fusion behavior is measured and explainable.
 
-**Evidence / blockers:** P05-01 verified 2026-10-03: pinned pretrained CPU CLIP (`3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268`), 118 linked media embeddings (109 recipe + nine scoped review images), normalized 512-dimensional vectors, hash-idempotent batches and source-backed association documents. Three indexing/validation tests passed on real PostgreSQL; Ruff/mypy passed. Real indexing rerun: 118 unchanged, zero embedded. P05-02: matching CLIP text/image encoders, exact cosine search, canonical ingredients, shared exact metadata filters, scoped review routing, source/media citations and typed stale-index failures; three query/search/pretrained tests passed. Remaining Phase 5 tasks in progress.
+**Evidence / blockers:** P05-01 verified 2026-10-03: pinned pretrained CPU CLIP (`3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268`), 118 linked media embeddings (109 recipe + nine scoped review images), normalized 512-dimensional vectors, hash-idempotent batches and source-backed association documents. Three indexing/validation tests passed on real PostgreSQL; Ruff/mypy passed. Real indexing rerun: 118 unchanged, zero embedded. P05-02: matching CLIP text/image encoders, exact cosine search, canonical ingredients, shared exact metadata filters, scoped review routing, source/media citations and typed stale-index failures; three query/search/pretrained tests passed. P05-03: query media IDs require session ownership (or explicitly application-enabled catalog access), hashes/decoding are checked, and paths, URLs and symlinks are rejected; two database contracts plus the query-service contract passed. Remaining Phase 5 tasks in progress.
 
 ## Phase 6 — MCP services and live food trends
 

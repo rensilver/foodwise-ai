@@ -1,6 +1,7 @@
 """CPU encoding is the only model dependency of text indexing/search."""
 
 from typing import Literal, Protocol
+from uuid import UUID
 
 from food_recommender.domain.values import Category
 from food_recommender.retrieval.models import ImageHit, TextHit, TextPlan
@@ -48,3 +49,9 @@ class ImageSearch(Protocol):
         model: str,
         revision: str,
     ) -> tuple[ImageHit, ...]: ...
+
+
+class QueryMedia(Protocol):
+    async def read(
+        self, media_id: str, session_id: UUID, *, allow_catalog: bool = False
+    ) -> bytes: ...

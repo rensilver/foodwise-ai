@@ -5,6 +5,7 @@ import asyncio
 import json
 import os
 from pathlib import Path
+from uuid import UUID
 
 from pydantic import TypeAdapter
 from sqlalchemy.ext.asyncio import async_sessionmaker
@@ -15,6 +16,7 @@ from food_recommender.infrastructure.image_index import ImageIndexer
 from food_recommender.infrastructure.image_search import PostgresImageSearch
 from food_recommender.infrastructure.media import LocalMediaFiles
 from food_recommender.infrastructure.persistence import create_database_engine
+from food_recommender.infrastructure.query_media import AuthorizedQueryMedia
 from food_recommender.retrieval.image_service import ImageRetrieval
 from food_recommender.retrieval.models import ImageHit, TextPlan
 
@@ -31,8 +33,20 @@ async def execute(args: argparse.Namespace) -> None:
                 sources=("recipe",),
                 cuisine=args.cuisine,
             )
-            hits = await ImageRetrieval(PostgresImageSearch(sessions), encoder).text(
-                plan
+            service = ImageRetrieval(
+                PostgresImageSearch(sessions),
+                encoder,
+                AuthorizedQueryMedia(
+                    sessions, LocalMediaFiles(Path(os.environ["MEDIA_ROOT"]))
+                ),
+                allow_catalog_queries=True,
+            )
+            if args.media_id and args.session_id is None:
+                raise ValueError("Image queries require --session-id")
+            hits = (
+                await service.image(plan, args.media_id, args.session_id)
+                if args.media_id
+                else await service.text(plan)
             )
             print(TypeAdapter(tuple[ImageHit, ...]).dump_json(hits, indent=2).decode())
             return
@@ -52,7 +66,9 @@ def main() -> None:
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("index")
     search = sub.add_parser("search")
-    search.add_argument("query")
+    search.add_argument("query", nargs="?", default="image query")
+    search.add_argument("--media-id")
+    search.add_argument("--session-id", type=UUID)
     search.add_argument("--cuisine")
     asyncio.run(execute(parser.parse_args()))
 
