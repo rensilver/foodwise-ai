@@ -348,7 +348,7 @@ No paid-provider calls, model downloads or dependency changes occurred.
 - [x] P03-01 Implement source adapters that preserve raw attributes and map legacy IDs, cuisine/location fields and recipe time strings into canonical records.
 - [x] P03-02 Merge base and augmented recipe/review records by identity; verify that enrichment does not create duplicate entities or overwrite authoritative fields silently.
 - [x] P03-03 Parse legacy string-encoded image lists safely, validate element types and reject malformed or oversized values with source-specific errors.
-- [ ] P03-04 Implement source mappings for raw restaurant paragraphs and stable IDs for accepted additions; report unresolved records without breaking existing review relationships.
+- [x] P03-04 Implement source mappings for raw restaurant paragraphs and stable IDs for accepted additions; report unresolved records without breaking existing review relationships.
 - [ ] P03-05 Add Groq-backed structured extraction with Pydantic validation, no more than two repair attempts, quarantine on failure and administrator preview output.
 - [ ] P03-06 Reuse supplied captions with provenance; add separate vision inference for new images and avoid unnecessary recaptioning.
 - [ ] P03-07 Implement image download validation, private-address/redirect restrictions, safe ZIP extraction, decoding, generated storage paths and ID-based recipe associations.
@@ -365,6 +365,8 @@ P03-01 verified on 2026-10-03: Legacy source adapters preserve raw payloads and 
 P03-02 verified on 2026-10-03: Identity joins retain both raw source payloads and reject duplicate IDs, orphan enrichments and authoritative-field conflicts. Six merge tests, Ruff and strict mypy passed; absent enrichment preserves base records.
 
 P03-03 verified on 2026-10-03: Bounded AST/literal parsing validates at most 20 distinct nonempty string references and rejects malformed, nested, executable-looking and oversized inputs with source/record errors. Twelve tests, Ruff and strict mypy passed.
+
+P03-04 verified on 2026-10-03: Hash-bound paragraph mappings account for every raw paragraph and validate all legacy IDs; accepted additions receive deterministic UUIDs without renumbering existing restaurants. Six reconciliation tests cover stale/incomplete mappings and stable acceptance; Ruff and strict mypy passed. Six additions and 16 duplicate-name groups remain for P03-10 source review.
 
 ## Phase 4 — Multi-source text retrieval baseline
 
