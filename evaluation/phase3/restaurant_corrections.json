@@ -1,0 +1,9 @@
+{
+  "1000003": {
+    "paragraph_sha256": "ccffe9e4bb97faabe05aee8187a78a132f8f6352eb18a9c1091bfaaf7d83c74e",
+    "field": "price_band",
+    "legacy_value": 5,
+    "value": 4,
+    "reason": "The structured JSON has an unsupported band 5; the original paragraph explicitly states $$$$."
+  }
+}

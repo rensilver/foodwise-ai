@@ -600,3 +600,56 @@ retryable file failures and committed erasure after reopening connections.
 [Filesystem tests](tests/unit/test_media_cleanup.py) reject caller paths and
 symlinked roots. Phase 2 establishes persistence contracts; ingestion, retrieval,
 agent scheduling and the user/admin HTTP journeys remain their later phases.
+
+## Seed ingestion (Phase 3)
+
+Run imports explicitly after `uv run --locked alembic upgrade head`, from
+`backend/`. Imports use `DATABASE_URL` and an absolute `MEDIA_ROOT`; they do not
+require or call Groq/Tavily. An explicit `--env-file` before the subcommand can
+load local configuration without printing it. Environment values take precedence.
+
+```bash
+uv run --locked python -m food_recommender.ingestion.cli import
+```
+
+The default inputs are the five committed JSON artifacts, raw culinary map,
+Phase 0 paragraph mapping, and separately recovered recipe ZIP. Use
+`--data-root`, `--mapping`, `--accepted`, `--corrections`, `--recipe-zip`, `--media-root`, and
+`--report` to select explicit local inputs. `--download-review-images` permits
+bounded downloads from the approved course host; otherwise only previously
+cached review images are used and missing imagery is reported. Recover the ZIP
+separately on clean checkouts; the placeholder image is never substituted.
+
+The ignored `.local-tmp/ingestion/manifest.json` records every entity's hash,
+status, media provenance, source hashes, paragraph mappings and unresolved
+items. `downloads/` beside the report caches course images. Storage keys are
+private generated basenames; source IDs and raw payloads remain in PostgreSQL.
+Caption text is imported enrichment, not proof of ingredients or dietary safety.
+Recipe durations use ISO minute strings while retaining original raw strings.
+The committed acceptance ledger adds six source-backed restaurants with stable UUIDs. The correction ledger maps the unsupported legacy band 5 for `1000003` to band 4 using the hash-verified raw paragraph; the original value remains in provenance. Invalid or stale correction evidence is rejected. Other unsupported values remain unknown and reported.
+
+Each item and its ingestion checkpoint commit atomically. Rerun the same command
+after interruption: committed items become `unchanged`, pending items resume,
+and changed items advance their version. Source revisions remain traceable;
+only stale retrieval rows for changed entities are invalidated. Administrator
+edits and deletions conflict rather than being overwritten or resurrected. Removed media enters the existing
+durable cleanup queue. No startup import, table wipe, or global index reset is
+performed. A completed import may still contain reported unresolved items;
+rejected items or configuration/dependency failures exit with status 2.
+
+For a provider-backed administrator preview, explicitly enable Groq by supplying
+a fresh key and the configured model, then write the result to ignored storage:
+
+```bash
+uv run --locked python -m food_recommender.ingestion.cli preview \
+  --category restaurant --input /absolute/path/description.txt \
+  --output ../.local-tmp/ingestion/preview.json
+```
+
+A preview validates fields without catalog writes. Import extraction services
+allow two repairs and quarantine invalid output with source references. Vision
+inference has a separate injected model and content/model/version cache; supplied
+captions bypass inference. The configured model never changes automatically.
+The adapter follows [Groq structured outputs](https://console.groq.com/docs/structured-outputs)
+and [vision input guidance](https://console.groq.com/docs/vision); live capability
+checks remain explicit opt-in work, independent of offline ingestion tests.

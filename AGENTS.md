@@ -8,7 +8,7 @@ Build an English-language, local portfolio restaurant/recipe recommender from th
 
 V1 includes follow-ups, preferences, image upload/search, cited recommendations and local CRUD. Defer public hosting, multi-user accounts, social-media connectors, verified nutrition and large-scale indexing.
 
-**Status:** Phase 0 baseline, Phase 1 foundation and Phase 2 persistence are verified in this repository. Sanitized course notebooks/scripts, PDFs, the recovered ZIP and 109 recipe images remain local and Git-ignored. Source reports are committed. Ingestion, retrieval, agents and application interfaces below remain planned. See [CHECKLIST.md](CHECKLIST.md) for evidence and blockers.
+**Status:** Phase 0 baseline, Phase 1 foundation, Phase 2 persistence and Phase 3 ingestion/media are verified in this repository. Sanitized course notebooks/scripts, PDFs, the recovered ZIP and 109 recipe images remain local and Git-ignored. Source reports are committed. Retrieval, agents and application interfaces below remain planned. See [CHECKLIST.md](CHECKLIST.md) for evidence and blockers.
 
 Start Codex from this repository root. Read these instructions and the relevant checklist phase. Preserve course directories, user changes and completion marks. Implement the requested scope; the roadmap does not authorize every phase. Mark completion only with verification evidence.
 
@@ -68,7 +68,7 @@ Original baseline on 2026-10-02: 12 PDFs, 12 notebooks, two scripts, one exclude
 
 Use content-based personalization, not collaborative filtering. Social-media histories, measured nutrients, comprehensive restaurant allergens and live trends are absent; preserve unknowns.
 
-**Blockers:** owner reports exposed Groq key revoked/replaced; original Git history still needs separate publication review. Six raw paragraphs lack structured records and 16 same-name/location pairs need entity review. Preserve IDs. Local media must be restored separately on clean checkout.
+**Blockers:** owner reports exposed Groq key revoked/replaced; original Git history still needs separate publication review. Six formerly unmapped paragraphs now have reviewed, hash-bound additions; 16 same-name/location pairs remain explicitly reported for entity review. Preserve IDs. Local media must be restored separately on clean checkout.
 
 ## Target architecture and package boundaries
 

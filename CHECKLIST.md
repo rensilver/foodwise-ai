@@ -345,20 +345,40 @@ No paid-provider calls, model downloads or dependency changes occurred.
 
 **Verification:** import all baseline inputs, rerun unchanged imports and inject malformed/partial inputs.
 
-- [ ] P03-01 Implement source adapters that preserve raw attributes and map legacy IDs, cuisine/location fields and recipe time strings into canonical records.
-- [ ] P03-02 Merge base and augmented recipe/review records by identity; verify that enrichment does not create duplicate entities or overwrite authoritative fields silently.
-- [ ] P03-03 Parse legacy string-encoded image lists safely, validate element types and reject malformed or oversized values with source-specific errors.
-- [ ] P03-04 Implement source mappings for raw restaurant paragraphs and stable IDs for accepted additions; report unresolved records without breaking existing review relationships.
-- [ ] P03-05 Add Groq-backed structured extraction with Pydantic validation, no more than two repair attempts, quarantine on failure and administrator preview output.
-- [ ] P03-06 Reuse supplied captions with provenance; add separate vision inference for new images and avoid unnecessary recaptioning.
-- [ ] P03-07 Implement image download validation, private-address/redirect restrictions, safe ZIP extraction, decoding, generated storage paths and ID-based recipe associations.
-- [ ] P03-08 Add content-hash upserts, manifests and resumable progress; report imported/unchanged/rejected/unresolved totals and avoid destructive index resets.
-- [ ] P03-09 Test empty/corrupt archives, missing/duplicate images, unsafe paths, absent captions, interrupted imports, malformed JSON and repeated runs.
-- [ ] P03-10 Import and reconcile the complete seed corpus; record final counts and changes from the original 204/109/10 baseline.
+- [x] P03-01 Implement source adapters that preserve raw attributes and map legacy IDs, cuisine/location fields and recipe time strings into canonical records.
+- [x] P03-02 Merge base and augmented recipe/review records by identity; verify that enrichment does not create duplicate entities or overwrite authoritative fields silently.
+- [x] P03-03 Parse legacy string-encoded image lists safely, validate element types and reject malformed or oversized values with source-specific errors.
+- [x] P03-04 Implement source mappings for raw restaurant paragraphs and stable IDs for accepted additions; report unresolved records without breaking existing review relationships.
+- [x] P03-05 Add Groq-backed structured extraction with Pydantic validation, no more than two repair attempts, quarantine on failure and administrator preview output.
+- [x] P03-06 Reuse supplied captions with provenance; add separate vision inference for new images and avoid unnecessary recaptioning.
+- [x] P03-07 Implement image download validation, private-address/redirect restrictions, safe ZIP extraction, decoding, generated storage paths and ID-based recipe associations.
+- [x] P03-08 Add content-hash upserts, manifests and resumable progress; report imported/unchanged/rejected/unresolved totals and avoid destructive index resets.
+- [x] P03-09 Test empty/corrupt archives, missing/duplicate images, unsafe paths, absent captions, interrupted imports, malformed JSON and repeated runs.
+- [x] P03-10 Import and reconcile the complete seed corpus; record final counts and changes from the original 204/109/10 baseline.
 
 **Exit criterion:** accepted records and available media are traceable, imports are idempotent/resumable, and every rejected or unresolved source item is reported.
 
-**Evidence / blockers:** _Pending._
+**Evidence / blockers:**
+
+P03-01 verified on 2026-10-03: Legacy source adapters preserve raw payloads and separate ID namespaces, normalize cuisine/location, retain unknown metadata, parse recipe durations to ISO minutes, and validate review links/dates. Seven adapter tests, Ruff and strict mypy passed.
+
+P03-02 verified on 2026-10-03: Identity joins retain both raw source payloads and reject duplicate IDs, orphan enrichments and authoritative-field conflicts. Six merge tests, Ruff and strict mypy passed; absent enrichment preserves base records.
+
+P03-03 verified on 2026-10-03: Bounded AST/literal parsing validates at most 20 distinct nonempty string references and rejects malformed, nested, executable-looking and oversized inputs with source/record errors. Twelve tests, Ruff and strict mypy passed.
+
+P03-04 verified on 2026-10-03: Hash-bound paragraph mappings account for every raw paragraph and validate all legacy IDs; accepted additions receive deterministic UUIDs without renumbering existing restaurants. Six reconciliation tests cover stale/incomplete mappings and stable acceptance; Ruff and strict mypy passed. Six additions and 16 duplicate-name groups remain for P03-10 source review.
+
+P03-05 verified on 2026-10-03: Groq structured generation uses the configured model, a three-call concurrency boundary and 30-second calls, with Pydantic/domain validation, at most two schema repairs, source-referenced quarantine and non-persisting preview results. Four offline extraction/provider-contract tests, Ruff and mypy passed. Groq structured-output/vision documentation was rechecked; no live inference was enabled.
+
+P03-06 verified on 2026-10-03: Supplied captions retain imported attribution and report absent-caption references. New-image vision uses a separately injected model, decoded metadata-stripped images, bounded validation repairs, generated provenance and a content/model/version cache. Three offline tests, Ruff and mypy passed; cached/supplied captions invoke no provider.
+
+P03-07 verified on 2026-10-03: Course downloads require approved HTTPS hosts, public DNS answers, pinned addresses with original TLS SNI, per-hop redirect validation and byte/time limits. ZIP validation enforces CRC/path/symlink/expansion bounds and numeric recipe identities; media decoding strips metadata and publishes generated names atomically. Ten offline media/security tests, Ruff and mypy passed. Missing/extra identities are explicit; the recovered corpus is imported in P03-10.
+
+P03-08 verified on 2026-10-03: Added an explicit ingestion/preview CLI, per-record hash checkpoints committed with PostgreSQL data/provenance, atomic progress manifests and safe resume. Unchanged entities retain versions/vectors; changed entities invalidate only stale rows and queue unreferenced media cleanup. Manual edits conflict. The complete JSON plan retains 204/109/10 entities and 118 captions; six raw additions and one unsupported legacy price remain reported. All 84 Phase 3 plus migration-parity checks, full Ruff and mypy passed against isolated PostgreSQL 16/pgvector with a limited role.
+
+P03-09 verified on 2026-10-03: Expanded the failure matrix to 73 passing ingestion tests, including real PostgreSQL atomicity: empty/corrupt/CRC-invalid archives, duplicate IDs, symlinks, expansion bounds, missing imagery/captions, unsafe storage, private/mixed DNS, redirects/timeouts/size limits, malformed JSON, interruption and reruns. Red/green tests corrected repeated identical-caption associations and added validated/quarantined extraction caching. Ruff and strict mypy passed; all providers remained mocked.
+
+P03-10 verified on 2026-10-03: Imported and independently audited the complete corpus in isolated PostgreSQL 16.14/pgvector 0.8.6: 210 restaurants (+6 reviewed additions), 109 recipes, 10 reviews, 18 sources, 777 source records, 118 imported captions and 118 actual media links. All 235,244,472 stored image bytes decoded/hash-verified; zero orphan links. The reviewed price correction retains legacy value 5 and uses raw $$$$ evidence for band 4. A full rerun returned 329 unchanged, zero imported/rejected/pending, with versions unchanged; all 16 unresolved name/location groups are explicitly reported. All 284 backend tests passed without skips, Ruff/mypy and secret/document checks passed. See [Phase 3 acceptance report](evaluation/phase3/README.md) and [seed report](evaluation/phase3/seed_report.json). Live Groq capability checks remain opt-in; no paid calls occurred.
 
 ## Phase 4 — Multi-source text retrieval baseline
 
