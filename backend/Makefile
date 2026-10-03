@@ -38,3 +38,17 @@ index-text:
 evaluate-text:
 	@test -n "$$DATABASE_URL" -a -n "$$MINILM_ROOT" || (echo "Set DATABASE_URL and MINILM_ROOT"; exit 2)
 	uv run --locked python scripts/evaluate_text_retrieval.py --model-root "$$MINILM_ROOT" --queries ../evaluation/phase4/text_queries.json --output ../evaluation/phase4/baseline_report.json
+
+.PHONY: provision-clip index-images
+provision-clip:
+	@test -n "$$CLIP_ROOT" || (echo "Set CLIP_ROOT to ignored pretrained model storage"; exit 2)
+	uv run --locked python scripts/provision_clip.py "$$CLIP_ROOT"
+
+index-images:
+	@test -n "$$DATABASE_URL" -a -n "$$CLIP_ROOT" -a -n "$$MEDIA_ROOT" || (echo "Set DATABASE_URL, CLIP_ROOT and MEDIA_ROOT"; exit 2)
+	uv run --locked python -m food_recommender.retrieval.image_cli --clip-root "$$CLIP_ROOT" index
+
+.PHONY: evaluate-multimodal
+evaluate-multimodal:
+	@test -n "$$DATABASE_URL" -a -n "$$MINILM_ROOT" -a -n "$$CLIP_ROOT" -a -n "$$MEDIA_ROOT" || (echo "Set DATABASE_URL, MINILM_ROOT, CLIP_ROOT and MEDIA_ROOT"; exit 2)
+	uv run --locked python scripts/evaluate_multimodal_retrieval.py --minilm-root "$$MINILM_ROOT" --clip-root "$$CLIP_ROOT" --queries ../evaluation/phase5/queries.json --output ../evaluation/phase5/comparison_report.json

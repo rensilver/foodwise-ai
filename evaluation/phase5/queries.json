@@ -1,0 +1,556 @@
+{
+  "version": "multimodal-comparison-v1",
+  "label_scope": "Sparse source-backed positives, frozen before weight experiments. M01-M17 reuse Phase 4 text labels; M18-M21 add recipe and mixed visual/text concepts. Unlabeled results have zero gain. Query images are exact catalog images, so image matching measures corpus identity rather than generalization to user photos.",
+  "source_hashes": {
+    "data/structured_restaurant_data.json": "6d48ecf65b000cb99a6500286adaf9ba84e4e506266f8a58ac52cc6e3d696051",
+    "data/Recipes.json": "e91a9fb7631acf18887b202617592cf6a9e956428ff655fc5c7401078bc857c8",
+    "data/Synthetic-User-Reviews.json": "ccf1917579a59393691e27ae874d8b69955c8a4a71a0d980981a03571c85ad21",
+    "data/augmented_food_recipe.json": "ee60db4b3685733604185fe46f4725dc532d03f011c3dfa5529155ef9762eb92",
+    "data/augmented_user_review.json": "4c997ce2469e528293d143224e63794604d2a233bc27b731806490847c7398d1",
+    "data/California-Culinary-Map.txt": "501b18be28d84e4f749004c54f4ae0853c55062d39ba528a20e772069d3c87b8"
+  },
+  "media_manifest_sha256": "1c28b6ec0fa56b46c0860826ed8efe0b06870200d2dd3ae8b57aa1c660366052",
+  "queries": [
+    {
+      "id": "M01",
+      "query": "lavender roasted chicken bohemian greenhouse",
+      "categories": [
+        "restaurant"
+      ],
+      "sources": [
+        "restaurant"
+      ],
+      "filters": {},
+      "expected_status": "success",
+      "evidence": [
+        {
+          "file": "data/structured_restaurant_data.json",
+          "record_id": "1000001",
+          "excerpt": "The Gilded Artichoke\nlavender-rubbed roasted chicken\nheirloom tomato tarts"
+        }
+      ],
+      "relevant": {
+        "restaurant": [
+          "1000001"
+        ]
+      }
+    },
+    {
+      "id": "M02",
+      "query": "Baja seafood near the ocean",
+      "categories": [
+        "restaurant"
+      ],
+      "sources": [
+        "restaurant"
+      ],
+      "filters": {
+        "location": "Santa Monica"
+      },
+      "expected_status": "success",
+      "evidence": [
+        {
+          "file": "data/structured_restaurant_data.json",
+          "record_id": "1000002",
+          "excerpt": "Mar de Cortez\nbeer-battered snapper tacos\nzesty octopus ceviche"
+        }
+      ],
+      "relevant": {
+        "restaurant": [
+          "1000002"
+        ]
+      }
+    },
+    {
+      "id": "M03",
+      "query": "Sichuan street food neon noodles",
+      "categories": [
+        "restaurant"
+      ],
+      "sources": [
+        "restaurant"
+      ],
+      "filters": {
+        "cuisine": "Sichuan street food"
+      },
+      "expected_status": "success",
+      "evidence": [
+        {
+          "file": "data/structured_restaurant_data.json",
+          "record_id": "1000008",
+          "excerpt": "The Neon Noodle Bar\nnumbing Dan Dan noodles\ncumin lamb skewers"
+        }
+      ],
+      "relevant": {
+        "restaurant": [
+          "1000008"
+        ]
+      }
+    },
+    {
+      "id": "M04",
+      "query": "coastal Italian seafood pasta",
+      "categories": [
+        "restaurant"
+      ],
+      "sources": [
+        "restaurant"
+      ],
+      "filters": {
+        "location": "Manhattan Beach"
+      },
+      "expected_status": "success",
+      "evidence": [
+        {
+          "file": "data/structured_restaurant_data.json",
+          "record_id": "1000012",
+          "excerpt": "Salt & Sand\nuni linguine"
+        }
+      ],
+      "relevant": {
+        "restaurant": [
+          "1000012"
+        ]
+      }
+    },
+    {
+      "id": "M05",
+      "query": "pizza with mozzarella tomatoes and fresh basil",
+      "categories": [
+        "recipe"
+      ],
+      "sources": [
+        "recipe"
+      ],
+      "filters": {
+        "cuisine": "Italian"
+      },
+      "expected_status": "success",
+      "evidence": [
+        {
+          "file": "data/Recipes.json",
+          "record_id": "1",
+          "excerpt": "Classic Margherita Pizza\n1 pizza dough ball (about 260g)\n2 tablespoons tomato sauce\n1 cup shredded mozzarella cheese\n6-8 fresh basil leaves\n1 tablespoon olive oil\npinch of salt\noptional: grated parmesan"
+        }
+      ],
+      "relevant": {
+        "recipe": [
+          "1"
+        ]
+      },
+      "image_recipe_id": "1"
+    },
+    {
+      "id": "M06",
+      "query": "creamy Indian chicken curry with spices",
+      "categories": [
+        "recipe"
+      ],
+      "sources": [
+        "recipe"
+      ],
+      "filters": {
+        "cuisine": "Indian"
+      },
+      "expected_status": "success",
+      "evidence": [
+        {
+          "file": "data/Recipes.json",
+          "record_id": "2",
+          "excerpt": "Chicken Tikka Masala\n500g boneless chicken thighs, cubed\n1 cup yogurt\n2 tablespoons lemon juice\n2 teaspoons garam masala\n1 teaspoon ground cumin\n1 teaspoon ground coriander\n1 onion, minced\n2 cloves garlic, minced\n1 tablespoon grated ginger\n1 can (400g) crushed tomatoes\n1 cup heavy cream or coconut cream\n2 tablespoons oil\nSalt to taste\nFresh cilantro for garnish"
+        }
+      ],
+      "relevant": {
+        "recipe": [
+          "2"
+        ]
+      },
+      "image_recipe_id": "2"
+    },
+    {
+      "id": "M07",
+      "query": "stir fry tofu and vegetables",
+      "categories": [
+        "recipe"
+      ],
+      "sources": [
+        "recipe"
+      ],
+      "filters": {},
+      "expected_status": "success",
+      "evidence": [
+        {
+          "file": "data/Recipes.json",
+          "record_id": "3",
+          "excerpt": "Vegetable Stir-Fry with Tofu\n200g firm tofu, cubed\n1 tablespoon soy sauce\n1 tablespoon cornstarch\n2 tablespoons vegetable oil\n1 cup broccoli florets\n1 red bell pepper, sliced\n1 carrot, julienned\n1 cup snap peas\n2 cloves garlic, minced\n1 tablespoon rice vinegar\n1 tablespoon hoisin sauce\n1 teaspoon sesame oil"
+        }
+      ],
+      "relevant": {
+        "recipe": [
+          "3"
+        ]
+      },
+      "image_recipe_id": "3"
+    },
+    {
+      "id": "M08",
+      "query": "spaghetti garlic olive oil chili flakes",
+      "categories": [
+        "recipe"
+      ],
+      "sources": [
+        "recipe"
+      ],
+      "filters": {
+        "cuisine": "Italian"
+      },
+      "expected_status": "success",
+      "evidence": [
+        {
+          "file": "data/Recipes.json",
+          "record_id": "5",
+          "excerpt": "Spaghetti Aglio e Olio\n200g spaghetti\n4 cloves garlic, thinly sliced\n1/2 teaspoon red pepper flakes\n1/4 cup olive oil\nFresh parsley, chopped\nSalt to taste\nGrated parmesan to serve"
+        }
+      ],
+      "relevant": {
+        "recipe": [
+          "5"
+        ]
+      },
+      "image_recipe_id": "5"
+    },
+    {
+      "id": "M09",
+      "query": "tomato basil soup",
+      "categories": [
+        "recipe"
+      ],
+      "sources": [
+        "recipe"
+      ],
+      "filters": {},
+      "expected_status": "success",
+      "evidence": [
+        {
+          "file": "data/Recipes.json",
+          "record_id": "7",
+          "excerpt": "Tomato Basil Soup\n1 tablespoon olive oil\n1 onion, chopped\n2 cloves garlic, minced\n2 cans (400g each) crushed tomatoes\n1 cup vegetable broth\n1/2 cup cream or coconut milk\nFresh basil, torn\nSalt and pepper to taste"
+        }
+      ],
+      "relevant": {
+        "recipe": [
+          "7"
+        ]
+      },
+      "image_recipe_id": "7"
+    },
+    {
+      "id": "M10",
+      "query": "chickpea falafel with tahini",
+      "categories": [
+        "recipe"
+      ],
+      "sources": [
+        "recipe"
+      ],
+      "filters": {},
+      "expected_status": "success",
+      "evidence": [
+        {
+          "file": "data/Recipes.json",
+          "record_id": "9",
+          "excerpt": "Chickpea Falafel with Tahini\n2 cups cooked chickpeas\n1 small onion, chopped\n2 cloves garlic\n1/4 cup fresh parsley\n2 tablespoons flour\n1 teaspoon cumin\n1/2 teaspoon coriander\nSalt and pepper\nOil for frying\nTahini sauce: 1/4 cup tahini, lemon juice, water"
+        }
+      ],
+      "relevant": {
+        "recipe": [
+          "9"
+        ]
+      },
+      "image_recipe_id": "9"
+    },
+    {
+      "id": "M11",
+      "query": "lentil dal with cumin and turmeric",
+      "categories": [
+        "recipe"
+      ],
+      "sources": [
+        "recipe"
+      ],
+      "filters": {
+        "cuisine": "Indian"
+      },
+      "expected_status": "success",
+      "evidence": [
+        {
+          "file": "data/Recipes.json",
+          "record_id": "12",
+          "excerpt": "Lentil Dal with Cumin and Turmeric\n1 cup red lentils\n1 small onion, chopped\n2 cloves garlic, minced\n1 teaspoon ground cumin\n1/2 teaspoon turmeric\n1 teaspoon salt\n2 cups water\n1 tablespoon oil\nFresh cilantro for garnish"
+        }
+      ],
+      "relevant": {
+        "recipe": [
+          "12"
+        ]
+      },
+      "image_recipe_id": "12"
+    },
+    {
+      "id": "M12",
+      "query": "beef tacos salsa verde",
+      "categories": [
+        "recipe"
+      ],
+      "sources": [
+        "recipe"
+      ],
+      "filters": {
+        "cuisine": "Mexican"
+      },
+      "expected_status": "success",
+      "evidence": [
+        {
+          "file": "data/Recipes.json",
+          "record_id": "10",
+          "excerpt": "Beef Tacos with Salsa Verde\n400g ground beef\n1 packet taco seasoning\n8 corn tortillas\n1 cup salsa verde\nShredded lettuce\nChopped tomatoes\nGrated cheddar or Mexican cheese\nSour cream (optional)"
+        }
+      ],
+      "relevant": {
+        "recipe": [
+          "10"
+        ]
+      },
+      "image_recipe_id": "10"
+    },
+    {
+      "id": "M13",
+      "query": "lavender chicken greenhouse cozy",
+      "categories": [
+        "restaurant"
+      ],
+      "sources": [
+        "review"
+      ],
+      "filters": {
+        "demo_profile_id": "USER_FUSION_FINDER_99"
+      },
+      "expected_status": "success",
+      "evidence": [
+        {
+          "file": "data/Synthetic-User-Reviews.json",
+          "record_id": "900000001",
+          "excerpt": "The Gilded Artichoke is definitely an upscale splurge. The lavender-rubbed chicken is unique, almost giving me tea-smoked vibes. It's a gorgeous, plant-filled escape from the city, though your wallet will feel it."
+        }
+      ],
+      "relevant": {
+        "restaurant": [
+          "1000001"
+        ]
+      }
+    },
+    {
+      "id": "M14",
+      "query": "pizza",
+      "categories": [
+        "restaurant"
+      ],
+      "sources": [
+        "restaurant"
+      ],
+      "filters": {
+        "location": "No such catalog locality"
+      },
+      "expected_status": "no_results",
+      "evidence": [],
+      "relevant": {
+        "restaurant": []
+      }
+    },
+    {
+      "id": "M15",
+      "query": "pizza",
+      "categories": [
+        "recipe"
+      ],
+      "sources": [
+        "recipe"
+      ],
+      "filters": {
+        "entity_ids": [
+          "missing-source-id"
+        ]
+      },
+      "expected_status": "no_results",
+      "evidence": [],
+      "relevant": {
+        "recipe": []
+      },
+      "image_recipe_id": "1"
+    },
+    {
+      "id": "M16",
+      "query": "pizza",
+      "categories": [
+        "restaurant",
+        "recipe"
+      ],
+      "sources": [
+        "restaurant",
+        "recipe"
+      ],
+      "filters": {},
+      "hard_allergens": [
+        "milk"
+      ],
+      "expected_status": "no_results",
+      "evidence": [],
+      "relevant": {
+        "restaurant": [],
+        "recipe": []
+      },
+      "image_recipe_id": "1"
+    },
+    {
+      "id": "M17",
+      "query": "Pasta & Prose or Classic Margherita Pizza",
+      "categories": [
+        "restaurant",
+        "recipe"
+      ],
+      "sources": [
+        "restaurant",
+        "recipe"
+      ],
+      "filters": {},
+      "expected_status": "success",
+      "evidence": [
+        {
+          "file": "data/Recipes.json",
+          "record_id": "1",
+          "excerpt": "Classic Margherita Pizza"
+        },
+        {
+          "file": "data/structured_restaurant_data.json",
+          "record_id": "1000005",
+          "excerpt": "Pasta & Prose"
+        }
+      ],
+      "relevant": {
+        "restaurant": [
+          "1000005"
+        ],
+        "recipe": [
+          "1"
+        ]
+      },
+      "image_recipe_id": "1"
+    },
+    {
+      "id": "M18",
+      "query": "mango coconut sticky rice dessert",
+      "categories": [
+        "recipe"
+      ],
+      "sources": [
+        "recipe"
+      ],
+      "filters": {},
+      "image_recipe_id": "30",
+      "relevant": {
+        "recipe": [
+          "30"
+        ]
+      },
+      "expected_status": "success",
+      "evidence": [
+        {
+          "file": "data/Recipes.json",
+          "record_id": "30",
+          "excerpt": "Mango Sticky Rice"
+        }
+      ]
+    },
+    {
+      "id": "M19",
+      "query": "Japanese soy sauce ramen noodles",
+      "categories": [
+        "recipe"
+      ],
+      "sources": [
+        "recipe"
+      ],
+      "filters": {},
+      "image_recipe_id": "25",
+      "relevant": {
+        "recipe": [
+          "25"
+        ]
+      },
+      "expected_status": "success",
+      "evidence": [
+        {
+          "file": "data/Recipes.json",
+          "record_id": "25",
+          "excerpt": "Shoyu Ramen (Quick)"
+        }
+      ]
+    },
+    {
+      "id": "M20",
+      "query": "eggplant zucchini tomato ratatouille",
+      "categories": [
+        "recipe"
+      ],
+      "sources": [
+        "recipe"
+      ],
+      "filters": {},
+      "image_recipe_id": "27",
+      "relevant": {
+        "recipe": [
+          "27"
+        ]
+      },
+      "expected_status": "success",
+      "evidence": [
+        {
+          "file": "data/Recipes.json",
+          "record_id": "27",
+          "excerpt": "Ratatouille"
+        }
+      ]
+    },
+    {
+      "id": "M21",
+      "query": "tomato basil dish",
+      "categories": [
+        "recipe"
+      ],
+      "sources": [
+        "recipe"
+      ],
+      "filters": {},
+      "image_recipe_id": "1",
+      "relevant": {
+        "recipe": [
+          "1",
+          "7"
+        ]
+      },
+      "expected_status": "success",
+      "evidence": [
+        {
+          "file": "data/Recipes.json",
+          "record_id": "1",
+          "excerpt": "Classic Margherita Pizza"
+        },
+        {
+          "file": "data/Recipes.json",
+          "record_id": "7",
+          "excerpt": "Tomato Basil Soup"
+        }
+      ]
+    }
+  ]
+}

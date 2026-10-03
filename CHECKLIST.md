@@ -410,18 +410,18 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 
 **Verification:** image-to-image/text-to-image fixtures, missing-modality cases and weight experiments.
 
-- [ ] P05-01 Generate normalized 512-dimensional CLIP image embeddings with verified model identity and actual entity/media links.
-- [ ] P05-02 Implement CLIP text-to-image and image-to-image search using the matching model/revision; reject unsupported or mismatched inputs.
-- [ ] P05-03 Resolve query images through authorized media IDs rather than caller-supplied paths or arbitrary URLs.
-- [ ] P05-04 Add normalized text/image late fusion, initially `0.6/0.4`, and aggregate maximum evidence per entity/modality while retaining component scores.
-- [ ] P05-05 Implement deterministic ties, empty/equal score handling, duplicate image protection and weight renormalization when an entire modality is unavailable.
-- [ ] P05-06 Rank restaurants and recipes separately and prove that unrelated recipe imagery is never attributed to restaurant menu items.
-- [ ] P05-07 Test expected image/recipe associations, partial imagery, malformed uploads, exact filters, image-only queries and text-plus-image queries.
-- [ ] P05-08 Compare text-only, balanced, text-heavy and image-heavy results on labeled queries; record relevance/diversity and latency tradeoffs.
+- [x] P05-01 Generate normalized 512-dimensional CLIP image embeddings with verified model identity and actual entity/media links.
+- [x] P05-02 Implement CLIP text-to-image and image-to-image search using the matching model/revision; reject unsupported or mismatched inputs.
+- [x] P05-03 Resolve query images through authorized media IDs rather than caller-supplied paths or arbitrary URLs.
+- [x] P05-04 Add normalized text/image late fusion, initially `0.6/0.4`, and aggregate maximum evidence per entity/modality while retaining component scores.
+- [x] P05-05 Implement deterministic ties, empty/equal score handling, duplicate image protection and weight renormalization when an entire modality is unavailable.
+- [x] P05-06 Rank restaurants and recipes separately and prove that unrelated recipe imagery is never attributed to restaurant menu items.
+- [x] P05-07 Test expected image/recipe associations, partial imagery, malformed uploads, exact filters, image-only queries and text-plus-image queries.
+- [x] P05-08 Compare text-only, balanced, text-heavy and image-heavy results on labeled queries; record relevance/diversity and latency tradeoffs.
 
 **Exit criterion:** text and image queries work with correctly associated real media, constraints remain intact, and fusion behavior is measured and explainable.
 
-**Evidence / blockers:** _Pending._
+**Evidence / blockers:** Verified 2026-10-03 on real PostgreSQL 16.14/pgvector 0.8.6 and pinned pretrained CPU MiniLM/CLIP. All eight tasks have individual branch commits. The image index contains 118 normalized, hash-bound vectors (109 filename/hash-verified recipe images plus nine scoped review images); rerun: 118 unchanged, zero embedded. Authorized media-ID queries, CLIP text/image search, exact filters, strict unknown/conflict exclusions, per-category 0.6/0.4 late fusion, maximum modality evidence, deterministic ties, missing-modality renormalization and cited/degraded outcomes are implemented. Full backend `make check`: 355 tests passed without skips; Ruff/format/mypy, document/instruction-budget and redacting source checks passed. The [Phase 5 report](evaluation/phase5/README.md), [21 frozen queries](evaluation/phase5/queries.json) and [five-setting comparison](evaluation/phase5/comparison_report.json) record default Recall@20 1.000, nDCG@5 0.960 and warm median 395.86 ms versus text-only 45.37 ms; image-heavy ranking misses one mixed-query positive. Three image-only and three CLIP text-to-image fixtures identify the expected recipe first. Zero fabricated IDs/citations, hard-constraint/filter/scope/association violations or duplicate entities; no paid calls. Labels are sparse and paired query images are exact catalog images, so results do not establish user-photo generalization or dietary safety. Original course artifacts, local configuration, release/history blockers and 16 entity-review pairs are preserved. MCP/agents/live trends, HTTP uploads and application interfaces remain later phases.
 
 ## Phase 6 — MCP services and live food trends
 

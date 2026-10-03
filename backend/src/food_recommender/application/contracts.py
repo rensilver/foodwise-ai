@@ -21,6 +21,7 @@ from food_recommender.domain.experts import (
 )
 from food_recommender.domain.preferences import Preferences
 from food_recommender.domain.recommendations import RecommendationResult
+from food_recommender.retrieval.multimodal import MultimodalOutcome
 from food_recommender.retrieval.outcomes import TextRetrievalOutcome
 
 _CONFIG = ConfigDict(extra="forbid", strict=True, hide_input_in_errors=True)
@@ -84,4 +85,10 @@ preferences_adapter: TypeAdapter[Preferences] = TypeAdapter(
 type TextRetrievalContract = TextRetrievalOutcome
 text_retrieval_adapter: TypeAdapter[TextRetrievalOutcome] = TypeAdapter(
     TextRetrievalContract, config=_CONFIG
+)
+
+
+type MultimodalContract = MultimodalOutcome
+multimodal_adapter: TypeAdapter[MultimodalOutcome] = TypeAdapter(
+    MultimodalContract, config=_CONFIG
 )

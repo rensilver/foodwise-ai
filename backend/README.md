@@ -740,3 +740,52 @@ make check
 This optional pretrained contract skips only when `TEST_MINILM_ROOT` is absent;
 a configured broken/missing model fails. All other Phase 4 tests use offline
 fixtures and need no pretrained download.
+
+## Multimodal retrieval (Phase 5)
+
+The [Phase 5 report](../evaluation/phase5/README.md) records real CLIP indexing,
+image queries, cited entity-level fusion and five measured weight settings.
+Provision CLIP explicitly into ignored storage after seed media restoration:
+
+```bash
+export CLIP_ROOT="$(realpath ../.local-tmp)/clip"
+make provision-clip
+make index-images
+make evaluate-multimodal
+```
+
+These targets use the selected `DATABASE_URL`, absolute `MEDIA_ROOT`, and
+`MINILM_ROOT` for combined evaluation. `index-images` hashes actual bytes,
+checks media associations, encodes normalized 512-dimensional vectors in
+bounded CPU batches and commits each prepared batch atomically. Reruns skip
+unchanged inference. Startup never downloads models or wipes vectors.
+
+Search the shared multimodal service from `backend/`:
+
+```bash
+uv run --locked python -m food_recommender.retrieval.multimodal_cli "tomato basil pizza" --minilm-root "$MINILM_ROOT" --clip-root "$CLIP_ROOT" --category recipe --source recipe
+uv run --locked python -m food_recommender.retrieval.multimodal_cli --clip-root "$CLIP_ROOT" --image-only --media-id "$CATALOG_MEDIA_ID" --session-id 00000000-0000-0000-0000-000000000001 --category recipe --source recipe
+```
+
+Set `CATALOG_MEDIA_ID` to a `media_ids` value returned by the first search.
+The local CLI explicitly enables catalog-image query access. Application
+composition defaults to session-owned query images; its trusted caller supplies
+the session ID. Neither entry point accepts image paths or URLs. Text/image
+weights default to `0.6/0.4`; `--text-weight`/`--image-weight` select experiments.
+`--cuisine`, `--location`, `--max-price-band`, `--entity-id`, `--hard-allergen`
+and explicit `--source review --demo-profile-id` reuse shared constraints/scope.
+Restaurant-only filters never apply to recipes. `--limit` is 1..20 per category.
+
+Results retain canonical ingredients, raw/normalized component scores, effective
+per-category weights, media IDs and association citations. Relevance is not
+confidence or dietary certification. Empty/missing modalities renormalize
+active weights and report limitations. Unauthorized query images abort; a
+missing index cannot masquerade as a genuine empty search. Images do not prove
+allergen absence, and unknown hard restrictions remain excluded. Static decoded
+JPEG/PNG/WebP inputs are bounded at 10 MiB and 20 megapixels. HTTP uploads and
+browser sessions remain Phase 8 work.
+
+For offline pretrained contracts, set `TEST_CLIP_ROOT="$CLIP_ROOT"` alongside
+`TEST_MINILM_ROOT="$MINILM_ROOT"` and the existing disposable test settings.
+Normal CI uses fake encoders for behavior and separately provisioned seeded
+fixtures; it does not download CLIP weights during tests.
