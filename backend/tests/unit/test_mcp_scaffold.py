@@ -82,7 +82,15 @@ class MCPScaffoldTests(unittest.TestCase):
                 if collection == "tools":
                     self.assertEqual(
                         {t["name"] for t in payload["result"][collection]},
-                        {"get_restaurant_info", "recommend_by_vibe", "get_review"},
+                        {
+                            "get_restaurant_info",
+                            "recommend_by_vibe",
+                            "get_review",
+                            "search_restaurants",
+                            "search_recipes",
+                            "search_images",
+                            "search_food_trends",
+                        },
                     )
                 else:
                     self.assertEqual(len(payload["result"][collection]), 3)

@@ -124,8 +124,8 @@ import asyncio
 from fastmcp import Client
 async def check():
     async with Client('http://mcp:8001/mcp', timeout=5) as client:
-        assert await client.list_tools() == []
-        assert await client.list_resources() == []
+        assert {tool.name for tool in await client.list_tools()} == {"get_restaurant_info", "recommend_by_vibe", "get_review", "search_restaurants", "search_recipes", "search_images", "search_food_trends"}
+        assert len(await client.list_resources()) == 3
 asyncio.run(check())
 """)
         print("All four services healthy; frontend page, API readiness and MCP initialization/discovery passed.", flush=True)

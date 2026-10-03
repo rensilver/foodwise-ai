@@ -3,7 +3,7 @@
 from datetime import date
 from typing import Literal, Protocol
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, model_validator
 
 
 class RestaurantMatch(BaseModel):
@@ -35,6 +35,14 @@ class LookupResult[T](BaseModel):
     model_config = ConfigDict(extra="forbid")
     status: Literal["matched", "ambiguous", "no_match"]
     matches: tuple[T, ...]
+
+    @model_validator(mode="after")
+    def coherent(self) -> "LookupResult[T]":
+        if (self.status == "no_match") != (not self.matches) or (
+            self.status == "ambiguous" and len(self.matches) < 2
+        ):
+            raise ValueError("Incoherent lookup outcome")
+        return self
 
 
 class LookupStore(Protocol):

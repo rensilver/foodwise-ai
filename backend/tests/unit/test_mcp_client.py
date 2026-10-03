@@ -32,3 +32,37 @@ async def test_discovery_allowlist_validation_and_reuse():
     async with AgentMCP(Client(server), "style") as gateway:
         with pytest.raises(ToolPolicyError):
             await gateway.call("get_restaurant_info", {"name": "a"})
+
+
+@pytest.mark.asyncio
+async def test_invalid_results_and_changed_scope_cannot_escape_validation():
+    from types import SimpleNamespace
+    from unittest.mock import patch
+    from uuid import uuid4
+
+    store = AsyncMock()
+    server = FastMCP("test")
+    register_lookups(server, LookupService(store))
+    async with AgentMCP(
+        Client(server), "rag", demo_profile_id="demo-a", session_id=uuid4()
+    ) as gateway:
+        with pytest.raises(ToolPolicyError):
+            await gateway.call(
+                "get_review", {"restaurant_id": "1", "demo_profile_id": "demo-b"}
+            )
+        with patch.object(
+            gateway.client,
+            "call_tool",
+            AsyncMock(
+                return_value=SimpleNamespace(
+                    is_error=False,
+                    structured_content={
+                        "status": "no_match",
+                        "matches": [],
+                        "secret": "untrusted",
+                    },
+                )
+            ),
+        ):
+            with pytest.raises(ToolPolicyError, match="Invalid tool result"):
+                await gateway.call("get_restaurant_info", {"name": "a"})
