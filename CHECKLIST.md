@@ -350,7 +350,7 @@ No paid-provider calls, model downloads or dependency changes occurred.
 - [x] P03-03 Parse legacy string-encoded image lists safely, validate element types and reject malformed or oversized values with source-specific errors.
 - [x] P03-04 Implement source mappings for raw restaurant paragraphs and stable IDs for accepted additions; report unresolved records without breaking existing review relationships.
 - [x] P03-05 Add Groq-backed structured extraction with Pydantic validation, no more than two repair attempts, quarantine on failure and administrator preview output.
-- [ ] P03-06 Reuse supplied captions with provenance; add separate vision inference for new images and avoid unnecessary recaptioning.
+- [x] P03-06 Reuse supplied captions with provenance; add separate vision inference for new images and avoid unnecessary recaptioning.
 - [ ] P03-07 Implement image download validation, private-address/redirect restrictions, safe ZIP extraction, decoding, generated storage paths and ID-based recipe associations.
 - [ ] P03-08 Add content-hash upserts, manifests and resumable progress; report imported/unchanged/rejected/unresolved totals and avoid destructive index resets.
 - [ ] P03-09 Test empty/corrupt archives, missing/duplicate images, unsafe paths, absent captions, interrupted imports, malformed JSON and repeated runs.
@@ -369,6 +369,8 @@ P03-03 verified on 2026-10-03: Bounded AST/literal parsing validates at most 20 
 P03-04 verified on 2026-10-03: Hash-bound paragraph mappings account for every raw paragraph and validate all legacy IDs; accepted additions receive deterministic UUIDs without renumbering existing restaurants. Six reconciliation tests cover stale/incomplete mappings and stable acceptance; Ruff and strict mypy passed. Six additions and 16 duplicate-name groups remain for P03-10 source review.
 
 P03-05 verified on 2026-10-03: Groq structured generation uses the configured model, a three-call concurrency boundary and 30-second calls, with Pydantic/domain validation, at most two schema repairs, source-referenced quarantine and non-persisting preview results. Four offline extraction/provider-contract tests, Ruff and mypy passed. Groq structured-output/vision documentation was rechecked; no live inference was enabled.
+
+P03-06 verified on 2026-10-03: Supplied captions retain imported attribution and report absent-caption references. New-image vision uses a separately injected model, decoded metadata-stripped images, bounded validation repairs, generated provenance and a content/model/version cache. Three offline tests, Ruff and mypy passed; cached/supplied captions invoke no provider.
 
 ## Phase 4 — Multi-source text retrieval baseline
 
