@@ -3,8 +3,10 @@
 from typing import Literal, cast
 
 from sqlalchemy import ColumnElement, and_, false, func, or_, select, true
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
+from food_recommender.application.errors import ApplicationError, ErrorCode
 from food_recommender.domain.evidence import Citation, CitationKind
 from food_recommender.domain.values import Category, EntityRef
 from food_recommender.infrastructure.catalog import Recipe, Restaurant, Review
@@ -27,6 +29,23 @@ class PostgresTextSearch:
         self.sessions = sessions
 
     async def search(
+        self,
+        plan: TextPlan,
+        category: Category,
+        branch: Literal["lexical", "dense"],
+        vector: tuple[float, ...] | None = None,
+        *,
+        model: str = MINILM_MODEL,
+        revision: str = MINILM_REVISION,
+    ) -> tuple[TextHit, ...]:
+        try:
+            return await self._search(
+                plan, category, branch, vector, model=model, revision=revision
+            )
+        except SQLAlchemyError:
+            raise ApplicationError(ErrorCode.DEPENDENCY_UNAVAILABLE) from None
+
+    async def _search(
         self,
         plan: TextPlan,
         category: Category,

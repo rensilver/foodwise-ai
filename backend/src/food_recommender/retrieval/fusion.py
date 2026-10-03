@@ -21,7 +21,7 @@ class RankedTextCandidate:
 
 
 def entity_ranks(hits: tuple[TextHit, ...]) -> dict[EntityRef, int]:
-    ranks = {}
+    ranks: dict[EntityRef, int] = {}
     for hit in hits:
         if hit.entity not in ranks:
             ranks[hit.entity] = len(ranks) + 1
