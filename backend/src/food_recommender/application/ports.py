@@ -58,6 +58,10 @@ class CatalogRepository(Protocol):
 
 
 class ConversationRepository(Protocol):
+    async def delete(
+        self, session_id: UUID, conversation_id: UUID
+    ) -> tuple[str, ...]: ...
+
     async def create_session(self, session_id: UUID, token_hash: str) -> None: ...
     async def resolve_session(self, token_hash: str) -> UUID | None: ...
     async def create(
@@ -96,10 +100,25 @@ class TrendRepository(Protocol):
     async def put(self, result: CachedTrends) -> None: ...
 
 
+class MediaFiles(Protocol):
+    async def delete(self, storage_key: str) -> None: ...
+
+
+class MediaCleanupRepository(Protocol):
+    async def has_pending(self, keys: tuple[str, ...]) -> bool: ...
+
+    async def pending(
+        self, *, limit: int, keys: tuple[str, ...] | None = None
+    ) -> tuple[str, ...]: ...
+    async def referenced(self, storage_key: str) -> bool: ...
+    async def complete(self, storage_key: str) -> None: ...
+
+
 class UnitOfWork(Protocol):
     catalog: CatalogRepository
     conversations: ConversationRepository
     trends: TrendRepository
+    cleanup: MediaCleanupRepository
 
     async def __aenter__(self) -> "UnitOfWork": ...
     async def __aexit__(

@@ -21,7 +21,7 @@ async def setup_checkpoints(database_url: str) -> None:
             raise RuntimeError(
                 "Administrator must create foodwise_checkpoints schema first"
             )
-        await connection.execute("SET search_path TO foodwise_checkpoints, public")
+        await connection.execute("SET search_path TO foodwise_checkpoints")
         await AsyncPostgresSaver(connection).setup()
 
 
@@ -31,5 +31,5 @@ async def checkpoint_saver(database_url: str) -> AsyncIterator[AsyncPostgresSave
     async with await AsyncConnection.connect(
         database_url, autocommit=True, prepare_threshold=0, row_factory=dict_row
     ) as connection:
-        await connection.execute("SET search_path TO foodwise_checkpoints, public")
+        await connection.execute("SET search_path TO foodwise_checkpoints")
         yield AsyncPostgresSaver(connection)

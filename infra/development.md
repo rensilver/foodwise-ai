@@ -213,13 +213,13 @@ and loopback permissions; resolve sandbox denials before assessing results.
 
 | Operation | Current status | Planned checklist task |
 | --- | --- | --- |
-| Application migrations | P02-02 through P02-06 add catalog/provenance, separate vectors, lexical/filter indexes and session/conversation/trend revisions. Explicit host-run commands are below; supported checkpoint setup is documented in the backend guide. | P02-02 through P02-06 verified; repository/transaction checks and deletion remain P02-07 through P02-09. |
+| Application migrations | Phase 2 adds catalog/provenance, separate vectors, lexical/filter indexes, session/conversation/trends, optimistic versions and cleanup jobs. Explicit host-run commands are below; supported checkpoint setup and cleanup retry are documented in the backend guide. | P02-01 through P02-09 verified; ingestion remains Phase 3. |
 | Culinary ingestion | The ingestion package is a scaffold; no import CLI or resumable importer exists. | Phase 3, P03-01 through P03-10. |
 | Source audit | `python scripts/phase0_audit.py` from the root is implemented. It requires local course/data/media artifacts and writes Phase 0 reports. It does not populate PostgreSQL. | Phase 0 evidence. |
 | Provider capability smoke tests | No live setup/smoke command exists. Health and offline tests do not validate Groq model access or dated Tavily evidence. | P06-12, P07-01 and P07-14. |
 | Full clean-checkout release | Local media/course recovery, application migrations, ingestion and acceptance flows remain required. | P11-01 through P11-09. |
 
-From `backend/`, preview the implemented catalog/provenance migrations without connecting:
+From `backend/`, preview the implemented application migrations without connecting:
 
 ```bash
 uv run --locked alembic upgrade head --sql
@@ -240,7 +240,8 @@ The current backend image does not include the migration files; use the host
 checkout. See the [catalog migration guide](../backend/README.md#catalog-persistence-and-migrations-p02-02)
 and [provenance guide](../backend/README.md#source-document-and-media-provenance-p02-03)
 for identity, nullable fields, rollback behavior and verification. These commands
-create empty catalog/provenance tables. Test-database bootstrap and source auditing do not
+create the application persistence schema; initialize library checkpoints separately
+using the [checkpoint setup guide](../backend/README.md#conversations-profiles-trends-and-checkpoints-p02-06). Test-database bootstrap and source auditing do not
 perform culinary ingestion; no import command is implemented yet.
 
 A clean checkout includes scaffold source and seed JSON/text. The four course

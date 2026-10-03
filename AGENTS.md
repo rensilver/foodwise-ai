@@ -8,7 +8,7 @@ Build an English-language, local portfolio restaurant/recipe recommender from th
 
 V1 includes follow-ups, preferences, image upload/search, cited recommendations and local CRUD. Defer public hosting, multi-user accounts, social-media connectors, verified nutrition and large-scale indexing.
 
-**Status:** Phase 0 baseline is verified in this repository. Sanitized course notebooks/scripts, PDFs, the recovered ZIP and 109 recipe images remain local and Git-ignored. Source reports are committed. The application below remains planned. See [CHECKLIST.md](CHECKLIST.md) for blockers.
+**Status:** Phase 0 baseline, Phase 1 foundation and Phase 2 persistence are verified in this repository. Sanitized course notebooks/scripts, PDFs, the recovered ZIP and 109 recipe images remain local and Git-ignored. Source reports are committed. Ingestion, retrieval, agents and application interfaces below remain planned. See [CHECKLIST.md](CHECKLIST.md) for evidence and blockers.
 
 Start Codex from this repository root. Read these instructions and the relevant checklist phase. Preserve course directories, user changes and completion marks. Implement the requested scope; the roadmap does not authorize every phase. Mark completion only with verification evidence.
 

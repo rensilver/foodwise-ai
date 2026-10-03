@@ -115,7 +115,7 @@ Phase 1 closure audit on 2026-10-03 against committed revision `8a6fd90`: **the 
 - [x] P02-06 Add conversations, profiles, session ownership and trend cache persistence; initialize PostgreSQL checkpoint tables through the supported LangGraph path.
 - [x] P02-07 Implement repository and transaction ports/adapters, optimistic record versions and atomic catalog/document/vector writes.
 - [x] P02-08 Test fresh migrations, rollback on failed writes, duplicate-ID rejection, foreign-key enforcement, version conflicts and session isolation.
-- [ ] P02-09 Define and test deletion of conversation-owned messages/checkpoints/uploads without deleting shared catalog data.
+- [x] P02-09 Define and test deletion of conversation-owned messages/checkpoints/uploads without deleting shared catalog data.
 
 **Exit criterion:** typed domain rules and persistence contracts are independently testable; migrations and integrity/ownership tests pass against PostgreSQL/pgvector.
 
@@ -297,6 +297,45 @@ unknown publication-date preservation and atomic failed refresh rollback.
 Explicit `alembic upgrade head`, `alembic check` (no new operations) and supported
 checkpoint setup passed on the limited disposable test role. Full backend
 verification and conversation deletion evidence follow in P02-09.
+
+P02-09 and the Phase 2 exit gate verified on 2026-10-03. Conversation deletion
+locks and authorizes the owner, deletes messages/profile/media links, and invokes
+LangGraph's supported `adelete_thread()` on the same psycopg connection and
+transaction. All checkpoint namespaces, blobs and pending writes are removed
+atomically; checkpoint failure or later transaction failure preserves everything.
+Uploads shared by another conversation remain. Unshared uploads and their vectors
+are deleted with durable cleanup jobs in revision `0007_cleanup`; catalog rows,
+raw provenance, shared catalog media and other sessions remain untouched.
+
+Post-commit cleanup uses validated basenames and descriptor-relative unlink,
+never follows a symlink target, checks remaining media references and retains
+failed jobs for explicit retry. Backend composition wires catalog/conversation
+services and cleanup. `scripts/cleanup_media.py` processes up to 100 committed
+jobs per call without provider credentials. Conversation deletion reports
+`cleanup_pending` when cleanup needs retry. Active graph-run exclusion/cancellation
+and the HTTP delete endpoint remain P07-11/P08-01; no graph runner exists yet.
+
+Six new real database/filesystem/checkpoint tests verify erasure, rollback,
+ownership, shared-upload lifetime, failure/retry, catalog preservation and actual
+committed deletion after closing/reopening the pool. Ten filesystem unit tests
+cover path traversal, invalid roots, missing-file retries and root symlinks.
+The scoped deletion/catalog/repository/filesystem suite passed 49 tests before
+the final committed-deletion case. Final `make check` passed Ruff lint/format
+(70 files), strict mypy (38 runtime files) and all 208 tests with zero skips in
+14.45 seconds, including existing local CPU fixtures and fake provider boundaries.
+`alembic upgrade head`, explicit downgrade-to-base/re-upgrade, offline SQL
+preview and `alembic check` passed with no new operations. Supported checkpoint
+setup and the empty cleanup CLI passed. Documentation checks validated 187 local
+links, balanced fences, 134 unique checklist IDs and the instruction-size budget;
+`git diff --check` passed. The redacting scan reported zero findings across
+112 source files. Verification used PostgreSQL 16.14 and pgvector 0.8.6
+in a disposable pinned container with synthetic credentials and a limited role.
+The first deletion run exposed a fixture teardown lock; the test was interrupted,
+the teardown released its outer transaction before opening cleanup connections,
+and subsequent scoped/full runs passed. Existing course/data/media artifacts,
+owner configuration and original source/publication blockers were preserved.
+The disposable test container was removed after verification.
+No paid-provider calls, model downloads or dependency changes occurred.
 
 ## Phase 3 — Validated ingestion and media preparation
 

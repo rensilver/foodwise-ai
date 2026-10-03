@@ -40,7 +40,8 @@ async def repositories(database_url):
             connection, expire_on_commit=False, join_transaction_mode="create_savepoint"
         )
         yield factory, connection
-        await transaction.rollback()
+        if transaction.is_active:
+            await transaction.rollback()
     await engine.dispose()
 
 

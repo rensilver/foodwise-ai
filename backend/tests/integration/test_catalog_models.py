@@ -63,13 +63,14 @@ def test_fresh_migration_matches_models_and_is_reversible(catalog) -> None:
         "conversation_media",
         "trend_cache",
         "trend_evidence",
+        "media_cleanup_jobs",
     }
     assert compare_metadata(MigrationContext.configure(connection), Base.metadata) == []
     assert (
         connection.exec_driver_sql(
             "SELECT version_num FROM alembic_version"
         ).scalar_one()
-        == "0006_versions"
+        == "0007_cleanup"
     )
     command.downgrade(config, "base")
     assert (

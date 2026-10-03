@@ -4,10 +4,10 @@ The application package is `src/food_recommender`. P01-03 adds validated
 configuration in the infrastructure package. P01-05 adds FastAPI and FastMCP
 startup factories and local health probes. P01-08 adds composition roots,
 application readiness dependencies, typed failures and structured logging.
-P02-01 adds shared domain contracts and boundary validation. P02-02 adds catalog
-persistence models and the initial migration. P02-03 adds source, document and
-media provenance; agent execution, retrieval and
-repository adapters remain planned. P01-02 pins Python 3.12.14 in
+Phase 2 adds shared domain contracts, catalog/provenance/vector/context
+migrations, async transactional repositories, optimistic versions, supported
+LangGraph checkpoints and retryable conversation/media deletion. Agent execution,
+retrieval, ingestion and HTTP domain routes remain planned. P01-02 pins Python 3.12.14 in
 [.python-version](.python-version), uv 0.12.5 in
 [pyproject.toml](pyproject.toml), and framework/provider dependencies in
 [uv.lock](uv.lock). Hatchling packages `src/food_recommender` for editable
@@ -350,14 +350,15 @@ run:
 make test-integration
 ```
 
-Vector/full-text storage, conversation persistence,
-repositories, optimistic versions and application transaction boundaries remain
-P02-04 onward. P02-02 does not satisfy the Phase 2 exit gate.
+P02-04 through P02-09 extend this foundation with vector/full-text storage,
+conversation persistence, repositories, optimistic versions and deletion; see
+the sections below and the verified Phase 2 exit gate in the checklist.
 
 ## Source, document and media provenance (P02-03)
 
 The [provenance mappings](src/food_recommender/infrastructure/provenance.py) extend
-the catalog metadata. Import this module to register all seven tables; imports
+the catalog metadata. The migration environment imports
+`infrastructure.cleanup` to register the complete application metadata; imports
 perform no database or filesystem I/O. The
 [second revision](migrations/versions/0002_provenance.py) adds four empty tables
 without modifying existing catalog rows. The migration commands above apply
@@ -397,10 +398,11 @@ Foreign keys restrict parent deletion and ID changes. Application transactions
 must explicitly remove dependent documents/media before their source records.
 Storage keys contain no directory separators and are internal references, not
 public URLs. This revision stores catalog media metadata; file decoding, upload
-limits, storage operations, session ownership and conversation cleanup remain
-Phase 3/P02-06/P02-09 work. Document construction and token-aware chunking remain
+limits and upload storage remain Phase 3/8 work. P02-06/P02-09 below add session
+ownership, conversation cleanup and safe file deletion. Document construction and token-aware chunking remain
 Phase 4 work; ingestion must validate offsets against the actual parent text.
-Vectors, full-text indexes, repositories and validated CRUD remain later tasks.
+P02-04 through P02-09 below implement vector/full-text storage and transactional
+repositories. HTTP validation and CRUD routes remain Phase 8.
 
 [Real PostgreSQL provenance contracts](tests/integration/test_provenance_models.py)
 cover base/augmented/revised artifacts, unresolved raw text, type namespaces,
@@ -410,8 +412,9 @@ rollback and catalog-preserving upgrade/downgrade/re-upgrade. The
 [shared fixture](tests/integration/conftest.py) migrates and writes inside a
 rolled-back transaction. Run `make test-integration` with the disposable
 `TEST_DATABASE_URL` from the [CI guide](../infra/ci.md#reproduce-the-database-and-model-checks-locally).
-Offline migration tests also preview both upgrade and downgrade without a
-database or provider configuration. P02-03 does not satisfy the Phase 2 exit gate.
+Offline migration tests also preview upgrades and downgrades without a
+database or provider configuration. The complete Phase 2 exit gate is recorded
+in the checklist.
 
 ## Quality scripts (P01-06)
 
@@ -555,3 +558,45 @@ Run `make test-integration` with the documented `TEST_DATABASE_URL`. Tests
 require `foodwise_test` on loopback and never use the application database.
 The concurrency contract commits only its uniquely named fixture record and
 cleans it afterward; migrations are committed to the disposable test database.
+
+## Conversation erasure and media cleanup (P02-09)
+
+`ConversationService.delete(session_id, conversation_id)` authorizes and locks
+its owner conversation. One transaction removes messages, profile context,
+media associations and all LangGraph checkpoints/blobs/pending writes through
+the supported saver's `adelete_thread()` on the same psycopg connection. Failure
+rolls back all database deletion. Use the UUID conversation string as the graph
+thread ID. Future graph services must coordinate active-run exclusion and
+cancellation before deletion (P07-11); HTTP ownership/cookies are P08-01.
+
+Uploads referenced by another owner conversation remain. Unshared uploads and
+their image vectors are deleted; shared catalog data, provenance and other
+sessions survive. Revision `0007_cleanup` adds a durable file-cleanup outbox,
+also populated by catalog replacements/deletes. After committing database
+changes, the injected cleanup service removes unreferenced private files by
+validated basename. It uses descriptor-relative unlink, refuses a symlinked
+mount root and removes file symlinks themselves rather than their targets.
+Missing files are idempotent success; storage still referenced by media is kept.
+Failed removal stays queued and conversation deletion exposes `cleanup_pending`.
+
+Backend composition wires the services and a local media adapter. To retry one
+bounded batch (up to 100 jobs), explicitly select `DATABASE_URL` and `MEDIA_ROOT`
+and run from `backend/`:
+
+```bash
+uv run --locked python scripts/cleanup_media.py
+```
+
+The command emits only removed/retained/failed counts and exits nonzero if file
+cleanup fails. Repeat it to drain additional batches. It does not read dotenv
+files, initialize tables, decode uploads or call providers. Media filenames must
+be generated and immutable in the future upload/ingestion services.
+
+[Deletion tests](tests/integration/test_conversation_deletion.py) use real saver
+checkpoints, raw blobs, pending writes, database transactions and filesystem
+fixtures. They verify post-delete rollback, checkpoint failure rollback,
+unauthorized deletion, shared-upload lifetime, unrelated catalog preservation,
+retryable file failures and committed erasure after reopening connections.
+[Filesystem tests](tests/unit/test_media_cleanup.py) reject caller paths and
+symlinked roots. Phase 2 establishes persistence contracts; ingestion, retrieval,
+agent scheduling and the user/admin HTTP journeys remain their later phases.

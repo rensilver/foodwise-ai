@@ -7,7 +7,11 @@ from types import TracebackType
 from typing import Any, cast
 from uuid import UUID
 
-from sqlalchemy import delete, insert, select, update
+from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
+from psycopg import AsyncConnection
+from psycopg import Error as PsycopgError
+from psycopg.rows import DictRow
+from sqlalchemy import delete, insert, select, text, update
 from sqlalchemy.dialects.postgresql import insert as upsert
 from sqlalchemy.engine import make_url
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
@@ -25,6 +29,7 @@ from food_recommender.application.ports import (
     CatalogRepository,
     ConversationRepository,
     ConversationSnapshot,
+    MediaCleanupRepository,
     MessageSnapshot,
     TrendItem,
     TrendRepository,
@@ -38,6 +43,7 @@ from food_recommender.domain.catalog import (
 from food_recommender.domain.preferences import Preferences
 from food_recommender.domain.values import Category, EntityRef
 from food_recommender.infrastructure.catalog import Recipe, Restaurant
+from food_recommender.infrastructure.cleanup import MediaCleanupJob
 from food_recommender.infrastructure.context import (
     BrowserSession,
     Conversation,
@@ -142,6 +148,10 @@ class PostgresCatalogRepository:
                 )
             ).scalars()
         )
+        for key in keys:
+            await self.session.execute(
+                upsert(MediaCleanupJob).values(storage_key=key).on_conflict_do_nothing()
+            )
         return keys
 
     async def replace(
@@ -254,6 +264,56 @@ class PostgresConversationRepository:
         if row is None:
             raise ApplicationError(ErrorCode.NOT_FOUND)
         return row
+
+    async def delete(self, session_id: UUID, conversation_id: UUID) -> tuple[str, ...]:
+        await self._owned(session_id, conversation_id, lock=True)
+        uploads = (
+            await self.session.scalars(
+                select(Media)
+                .join(ConversationMedia, ConversationMedia.media_id == Media.id)
+                .where(
+                    ConversationMedia.conversation_id == conversation_id,
+                    Media.owner_session_id == session_id,
+                )
+                .order_by(Media.id)
+                .with_for_update(of=Media)
+            )
+        ).all()
+        await self.session.execute(
+            delete(Conversation).where(Conversation.id == conversation_id)
+        )
+        # The supported saver uses the exact same psycopg connection and existing
+        # transaction/savepoint. Its thread deletion cannot commit independently.
+        connection = await self.session.connection()
+        original_path = await self.session.scalar(text("SHOW search_path"))
+        await self.session.execute(
+            text("SELECT set_config('search_path', 'foodwise_checkpoints', true)")
+        )
+        raw = await connection.get_raw_connection()
+        driver = cast(AsyncConnection[DictRow], raw.driver_connection)
+        try:
+            await AsyncPostgresSaver(driver).adelete_thread(str(conversation_id))
+        finally:
+            await self.session.execute(
+                text("SELECT set_config('search_path', :path, true)"),
+                {"path": original_path},
+            )
+        keys: list[str] = []
+        for upload in uploads:
+            shared = await self.session.scalar(
+                select(ConversationMedia.media_id)
+                .where(ConversationMedia.media_id == upload.id)
+                .limit(1)
+            )
+            if shared is None:
+                await self.session.execute(delete(Media).where(Media.id == upload.id))
+                await self.session.execute(
+                    upsert(MediaCleanupJob)
+                    .values(storage_key=upload.storage_key)
+                    .on_conflict_do_nothing()
+                )
+                keys.append(upload.storage_key)
+        return tuple(keys)
 
     async def create_session(self, session_id: UUID, token_hash: str) -> None:
         await self.session.execute(
@@ -444,10 +504,54 @@ class PostgresTrendRepository:
             )
 
 
+class PostgresMediaCleanupRepository:
+    async def has_pending(self, keys: tuple[str, ...]) -> bool:
+        return (
+            await self.session.scalar(
+                select(MediaCleanupJob.storage_key)
+                .where(MediaCleanupJob.storage_key.in_(keys))
+                .limit(1)
+            )
+            is not None
+        )
+
+    def __init__(self, session: AsyncSession) -> None:
+        self.session = session
+
+    async def pending(
+        self, *, limit: int, keys: tuple[str, ...] | None = None
+    ) -> tuple[str, ...]:
+        if type(limit) is not int or not 1 <= limit <= 100:
+            raise invalid()
+        statement = (
+            select(MediaCleanupJob.storage_key)
+            .order_by(MediaCleanupJob.created_at, MediaCleanupJob.storage_key)
+            .limit(limit)
+            .with_for_update(skip_locked=True)
+        )
+        if keys is not None:
+            statement = statement.where(MediaCleanupJob.storage_key.in_(keys))
+        return tuple((await self.session.scalars(statement)).all())
+
+    async def referenced(self, storage_key: str) -> bool:
+        return (
+            await self.session.scalar(
+                select(Media.id).where(Media.storage_key == storage_key).limit(1)
+            )
+            is not None
+        )
+
+    async def complete(self, storage_key: str) -> None:
+        await self.session.execute(
+            delete(MediaCleanupJob).where(MediaCleanupJob.storage_key == storage_key)
+        )
+
+
 class PostgresUnitOfWork:
     catalog: CatalogRepository
     conversations: ConversationRepository
     trends: TrendRepository
+    cleanup: MediaCleanupRepository
 
     def __init__(self, sessions: async_sessionmaker[AsyncSession]) -> None:
         self.sessions = sessions
@@ -461,6 +565,7 @@ class PostgresUnitOfWork:
         self.catalog = PostgresCatalogRepository(self.session)
         self.conversations = PostgresConversationRepository(self.session)
         self.trends = PostgresTrendRepository(self.session)
+        self.cleanup = PostgresMediaCleanupRepository(self.session)
         return self
 
     async def commit(self) -> None:
@@ -487,5 +592,5 @@ class PostgresUnitOfWork:
                 else ErrorCode.INVALID_REQUEST
             )
             raise ApplicationError(code) from exc
-        if isinstance(exc, SQLAlchemyError):
+        if isinstance(exc, (SQLAlchemyError, PsycopgError)):
             raise ApplicationError(ErrorCode.DEPENDENCY_UNAVAILABLE) from exc
