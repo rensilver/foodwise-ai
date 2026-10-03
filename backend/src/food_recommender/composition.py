@@ -17,6 +17,7 @@ from food_recommender.application.services import Services
 from food_recommender.infrastructure.config import Settings
 from food_recommender.infrastructure.health import backend_readiness, local_readiness
 from food_recommender.infrastructure.image_search import PostgresImageSearch
+from food_recommender.infrastructure.lazy_encoders import LazyCLIP, LazyMiniLM
 from food_recommender.infrastructure.lookups import PostgresLookups
 from food_recommender.infrastructure.mcp_config import MCPSettings
 from food_recommender.infrastructure.mcp_resources import PostgresCatalogResources
@@ -84,6 +85,12 @@ def build_mcp_services(settings: MCPSettings) -> Services:
         close=engine.dispose,
         lookups=LookupService(PostgresLookups(sessions)),
         resources=PostgresCatalogResources(sessions),
+        retrieval=build_multimodal_retrieval(
+            sessions,
+            LazyMiniLM(settings.minilm_root) if settings.minilm_root else None,
+            LazyCLIP(settings.clip_root) if settings.clip_root else None,
+            settings.media_root,
+        ),
     )
 
 

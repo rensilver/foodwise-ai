@@ -434,7 +434,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 - [x] P06-01 Implement `get_restaurant_info`, `recommend_by_vibe` and `get_review` using shared application services with explicit ambiguity/no-match results.
 - [x] P06-02 Add `search_restaurants`, `search_recipes` and `search_images` with constrained schemas, bounded limits and evidence-rich results.
 - [x] P06-03 Expose culinary-map, dataset-manifest and source-provenance resources without exposing arbitrary files or private session content.
-- [ ] P06-04 Implement Streamable HTTP for Compose, stdio for local demos, connection lifecycle management and stderr logging for stdio.
+- [x] P06-04 Implement Streamable HTTP for Compose, stdio for local demos, connection lifecycle management and stderr logging for stdio.
 - [ ] P06-05 Discover tool schemas at runtime, apply per-agent allowlists and validate arguments/results; reject arbitrary tool/server selection.
 - [ ] P06-06 Add `search_food_trends` backed by Tavily with two searches/run, five results/search, a 90-day window and a 24-hour cache TTL.
 - [ ] P06-07 Store URLs, excerpts, available publication dates and retrieval times; sanitize search queries to avoid sending private profiles/reviews/restrictions.

@@ -15,6 +15,14 @@ class MCPSettings(BaseSettings):
     database_url: SecretStr = Field(validation_alias="DATABASE_URL")
     media_root: Path = Field(validation_alias="MEDIA_ROOT")
 
+    minilm_root: Path | None = Field(default=None, validation_alias="MINILM_ROOT")
+    clip_root: Path | None = Field(default=None, validation_alias="CLIP_ROOT")
+
+    @field_validator("minilm_root", "clip_root")
+    @classmethod
+    def validate_model_root(cls, value: Path | None) -> Path | None:
+        return Settings.validate_media_root(value) if value is not None else None
+
     @field_validator("database_url")
     @classmethod
     def validate_database(cls, value: SecretStr) -> SecretStr:
