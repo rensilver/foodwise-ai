@@ -214,7 +214,8 @@ and loopback permissions; resolve sandbox denials before assessing results.
 | Operation | Current status | Planned checklist task |
 | --- | --- | --- |
 | Application migrations | Phase 2 adds catalog/provenance, separate vectors, lexical/filter indexes, session/conversation/trends, optimistic versions and cleanup jobs. Explicit host-run commands are below; supported checkpoint setup and cleanup retry are documented in the backend guide. | P02-01 through P02-09 verified; ingestion remains Phase 3. |
-| Culinary ingestion | The ingestion package is a scaffold; no import CLI or resumable importer exists. | Phase 3, P03-01 through P03-10. |
+| Culinary ingestion | The [Phase 3 seed CLI](../backend/README.md#seed-ingestion-phase-3) is validated, resumable and verified on the full local corpus. | Phase 3, P03-01 through P03-10 verified. |
+| Text retrieval | [Phase 4 indexing/search/evaluation](../backend/README.md#multi-source-text-retrieval-phase-4) uses pinned CPU MiniLM and real PostgreSQL. | Phase 4, P04-01 through P04-09 verified. |
 | Source audit | `python scripts/phase0_audit.py` from the root is implemented. It requires local course/data/media artifacts and writes Phase 0 reports. It does not populate PostgreSQL. | Phase 0 evidence. |
 | Provider capability smoke tests | No live setup/smoke command exists. Health and offline tests do not validate Groq model access or dated Tavily evidence. | P06-12, P07-01 and P07-14. |
 | Full clean-checkout release | Local media/course recovery, application migrations, ingestion and acceptance flows remain required. | P11-01 through P11-09. |
@@ -242,7 +243,7 @@ and [provenance guide](../backend/README.md#source-document-and-media-provenance
 for identity, nullable fields, rollback behavior and verification. These commands
 create the application persistence schema; initialize library checkpoints separately
 using the [checkpoint setup guide](../backend/README.md#conversations-profiles-trends-and-checkpoints-p02-06). Test-database bootstrap and source auditing do not
-perform culinary ingestion; no import command is implemented yet.
+perform culinary ingestion; use the explicit Phase 3 seed CLI after migrations.
 
 A clean checkout includes scaffold source and seed JSON/text. The four course
 folders, assignment PDFs and recovered recipe ZIP/109 PNGs are Git-ignored;

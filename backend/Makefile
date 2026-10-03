@@ -24,3 +24,17 @@ provision-test-models:
 	uv run --locked python scripts/provision_test_models.py "$$TEST_MODEL_ROOT"
 
 check: lint format-check typecheck test
+
+# Explicit pretrained retrieval operations; no models or provider keys at startup.
+.PHONY: provision-minilm index-text evaluate-text
+provision-minilm:
+	@test -n "$$MINILM_ROOT" || (echo "Set MINILM_ROOT to ignored pretrained model storage"; exit 2)
+	uv run --locked python scripts/provision_minilm.py "$$MINILM_ROOT"
+
+index-text:
+	@test -n "$$DATABASE_URL" -a -n "$$MINILM_ROOT" || (echo "Set DATABASE_URL and MINILM_ROOT"; exit 2)
+	uv run --locked python -m food_recommender.retrieval.cli --model-root "$$MINILM_ROOT" index
+
+evaluate-text:
+	@test -n "$$DATABASE_URL" -a -n "$$MINILM_ROOT" || (echo "Set DATABASE_URL and MINILM_ROOT"; exit 2)
+	uv run --locked python scripts/evaluate_text_retrieval.py --model-root "$$MINILM_ROOT" --queries ../evaluation/phase4/text_queries.json --output ../evaluation/phase4/baseline_report.json

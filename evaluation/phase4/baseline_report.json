@@ -1,0 +1,1307 @@
+{
+  "recorded_at": "2026-10-03T19:13:12.917714+00:00",
+  "labels_version": "text-baseline-v1",
+  "labels_sha256": "8fe3a1465f7c0f223c79fcd950786c77c6e50f20b0bbf4fb2464c43a70b9056d",
+  "label_scope": "Selected source-backed positives; relevance labels are sparse and not exhaustive across the corpus. Unlabeled results receive zero gain in this initial baseline. Empty cases are measured separately.",
+  "source_hashes": {
+    "data/structured_restaurant_data.json": "6d48ecf65b000cb99a6500286adaf9ba84e4e506266f8a58ac52cc6e3d696051",
+    "data/Recipes.json": "e91a9fb7631acf18887b202617592cf6a9e956428ff655fc5c7401078bc857c8",
+    "data/Synthetic-User-Reviews.json": "ccf1917579a59393691e27ae874d8b69955c8a4a71a0d980981a03571c85ad21",
+    "data/augmented_food_recipe.json": "ee60db4b3685733604185fe46f4725dc532d03f011c3dfa5529155ef9762eb92",
+    "data/augmented_user_review.json": "4c997ce2469e528293d143224e63794604d2a233bc27b731806490847c7398d1",
+    "data/California-Culinary-Map.txt": "501b18be28d84e4f749004c54f4ae0853c55062d39ba528a20e772069d3c87b8"
+  },
+  "model": "sentence-transformers/all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "dimension": 384,
+  "device": "cpu",
+  "fusion": {
+    "rrf_k": 60,
+    "lexical_weight": 0.5,
+    "dense_weight": 0.5,
+    "entity_aggregation": "maximum branch score; entity ranks before fusion",
+    "normalization": "min-max per category; equal scores = 1"
+  },
+  "corpus": {
+    "restaurants": 210,
+    "recipes": 109,
+    "reviews": 10,
+    "documents": 888,
+    "text_embeddings": 770
+  },
+  "versions": {
+    "postgres": "16.14 (Debian 16.14-1.pgdg12+1)",
+    "pgvector_extension": "0.8.6",
+    "sentence-transformers": "6.1.0",
+    "transformers": "5.18.0",
+    "torch": "2.14.1+cpu",
+    "pgvector": "0.5.0",
+    "sqlalchemy": "2.1.2"
+  },
+  "hardware": {
+    "platform": "Linux-7.0.0-34-generic-x86_64-with-glibc2.43",
+    "logical_cpus": 8,
+    "cpu": "AMD Ryzen 5 7520U with Radeon Graphics",
+    "memory_kib": "MemTotal:        6855248 kB",
+    "process_peak_rss_mib": 569.7890625
+  },
+  "model_load_ms": 5507.376438003121,
+  "summary": {
+    "recall_at_20": 1.0,
+    "ndcg_at_5": 0.9666666666666667,
+    "cuisine_diversity_at_5": 0.6033333333333333
+  },
+  "warm_latency_ms": {
+    "median": 38.74864400131628,
+    "p95": 122.79207699975814,
+    "max": 125.56881300042733
+  },
+  "violations": {
+    "fabricated_entities": 0,
+    "fabricated_citations": 0,
+    "hard_constraint_violations": 0,
+    "review_scope_violations": 0,
+    "duplicate_entities": 0
+  },
+  "usage": {
+    "groq_calls": 0,
+    "trend_searches": 0,
+    "provider_tokens": 0
+  },
+  "queries": [
+    {
+      "id": "T01",
+      "status": "success",
+      "first_query_ms": 92.34122999987449,
+      "warm_query_ms": 67.40122500195866,
+      "categories": {
+        "restaurant": {
+          "ranked_ids": [
+            "1000001",
+            "1000032",
+            "1000105",
+            "1000087",
+            "1000053",
+            "1000022",
+            "1000082",
+            "1000057",
+            "1000052",
+            "1000017",
+            "b05c2a73-009a-5d9c-ae5a-a41557997923",
+            "1000151",
+            "1000079",
+            "1000182",
+            "1000134",
+            "1000195",
+            "1000011",
+            "1000030",
+            "1000196",
+            "1000161"
+          ],
+          "recall_at_20": 1.0,
+          "ndcg_at_5": 1.0,
+          "cuisine_diversity_at_5": 1.0,
+          "top5_components": [
+            {
+              "entity_id": "1000001",
+              "rrf_score": 0.01639344262295082,
+              "relevance": 1.0,
+              "lexical_score": 0.01,
+              "cosine_similarity": 0.49901971220970154,
+              "document_ids": [
+                "4b675d628acbbe68b6066ca5327c27bd65c94f2a580cca503d0a2d91bac425b7",
+                "63d39848a6adae05b721d8b92925e68a46e680f0e9f9a5e527a2cf3bc900ddbb"
+              ]
+            },
+            {
+              "entity_id": "1000032",
+              "rrf_score": 0.008064516129032258,
+              "relevance": 0.4272341571823018,
+              "lexical_score": null,
+              "cosine_similarity": 0.45378431953285303,
+              "document_ids": [
+                "54e8db87f18e1159d10aec3905f88fa111679164fa4f3766d35d15f9dfc04f26",
+                "e51a61f27e300c164ccfe023525b6ef8d82e0862694e9b2fa0c8fe2a548690e5"
+              ]
+            },
+            {
+              "entity_id": "1000105",
+              "rrf_score": 0.007936507936507936,
+              "relevance": 0.41843125559200706,
+              "lexical_score": null,
+              "cosine_similarity": 0.4347700217503304,
+              "document_ids": [
+                "015f6447f15fffe86e84edadc0b2807a0f29800ab4bc11be54924f2a16c939ef",
+                "a27297d5f8607348f4d0238c577f7b526a68b163131ecb5a79bb88cc382dbd13"
+              ]
+            },
+            {
+              "entity_id": "1000087",
+              "rrf_score": 0.0078125,
+              "relevance": 0.40990344467640916,
+              "lexical_score": null,
+              "cosine_similarity": 0.4195081889629364,
+              "document_ids": [
+                "1f6558ce48700f3bba2b48e98623ce38e5d7a7380dc830467cd070b6139c9125",
+                "83a0bb5b26da097125c464bba4ff8f5727c9dfc7681ebf597883e7396e1943f9"
+              ]
+            },
+            {
+              "entity_id": "1000053",
+              "rrf_score": 0.007692307692307693,
+              "relevance": 0.4016380279428296,
+              "lexical_score": null,
+              "cosine_similarity": 0.388693547922758,
+              "document_ids": [
+                "043af9280994fbe6d5cd8bee436117d6d61b73a10b38794cbda95f45e7d6361e",
+                "7231f802ebd7ec38d3f873a72764e413680576d79699b8fc265a1ba379d2404e"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "T02",
+      "status": "success",
+      "first_query_ms": 39.78395800004364,
+      "warm_query_ms": 33.83412500261329,
+      "categories": {
+        "restaurant": {
+          "ranked_ids": [
+            "1000002",
+            "1000054"
+          ],
+          "recall_at_20": 1.0,
+          "ndcg_at_5": 1.0,
+          "cuisine_diversity_at_5": 1.0,
+          "top5_components": [
+            {
+              "entity_id": "1000002",
+              "rrf_score": 0.00819672131147541,
+              "relevance": 1.0,
+              "lexical_score": null,
+              "cosine_similarity": 0.5616826415061951,
+              "document_ids": [
+                "0120c58d34a5b95a2038fa1fe91515b753d6c3310a15f90955128427b4e67731",
+                "1ba4d8f11f8978b6e04838d6fc5a4a308d319f173e55378fab3e1547be461b6b"
+              ]
+            },
+            {
+              "entity_id": "1000054",
+              "rrf_score": 0.008064516129032258,
+              "relevance": 0.0,
+              "lexical_score": null,
+              "cosine_similarity": 0.42069835724527727,
+              "document_ids": [
+                "281fb4a9a9fa22ac0bad52d5facdda27ea12adbdf65293d43d51809aceb0cc76",
+                "a83cbadf1dffcf1c60ef69dee81a624f6068abd5fdf45cea2e3a67ea5fe535f4"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "T03",
+      "status": "success",
+      "first_query_ms": 46.25775100066676,
+      "warm_query_ms": 38.02541599725373,
+      "categories": {
+        "restaurant": {
+          "ranked_ids": [
+            "1000008"
+          ],
+          "recall_at_20": 1.0,
+          "ndcg_at_5": 1.0,
+          "cuisine_diversity_at_5": 1.0,
+          "top5_components": [
+            {
+              "entity_id": "1000008",
+              "rrf_score": 0.01639344262295082,
+              "relevance": 1.0,
+              "lexical_score": 0.03888889,
+              "cosine_similarity": 0.7360007324218326,
+              "document_ids": [
+                "755cc40c94b0c65ed9d32a24a6738ffafac5c32aa798373a2f12442862c10714",
+                "a3b45008af9252f873d41f269035b274aab18c784dea123d0ed157103e5908e0"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "T04",
+      "status": "success",
+      "first_query_ms": 38.16287100198679,
+      "warm_query_ms": 38.74864400131628,
+      "categories": {
+        "restaurant": {
+          "ranked_ids": [
+            "1000012"
+          ],
+          "recall_at_20": 1.0,
+          "ndcg_at_5": 1.0,
+          "cuisine_diversity_at_5": 1.0,
+          "top5_components": [
+            {
+              "entity_id": "1000012",
+              "rrf_score": 0.00819672131147541,
+              "relevance": 1.0,
+              "lexical_score": null,
+              "cosine_similarity": 0.5152058754922713,
+              "document_ids": [
+                "13e08927218a4b449c4987e7b78154acc4707488efd3002a5ac984bf2d8a6e15",
+                "c105df74367fa3d3d446bc7c2c62a821ba5ef51ce5c5314d5ce04139e9ea29be"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "T05",
+      "status": "success",
+      "first_query_ms": 54.91466199964634,
+      "warm_query_ms": 48.409750997961964,
+      "categories": {
+        "recipe": {
+          "ranked_ids": [
+            "1",
+            "15",
+            "39",
+            "93",
+            "83",
+            "67",
+            "26",
+            "76",
+            "57",
+            "5",
+            "33",
+            "53",
+            "64",
+            "34",
+            "40",
+            "86"
+          ],
+          "recall_at_20": 1.0,
+          "ndcg_at_5": 1.0,
+          "cuisine_diversity_at_5": 0.2,
+          "top5_components": [
+            {
+              "entity_id": "1",
+              "rrf_score": 0.01639344262295082,
+              "relevance": 1.0,
+              "lexical_score": 0.012794613,
+              "cosine_similarity": 0.7225897477513715,
+              "document_ids": [
+                "8441cfb7e065cb944df3bda673646145ba0856a6aac2b39d17e5c97bd91d7518",
+                "ed104754eb4ac0e30a3a2ec1b5fbf0e778c7454bad6f89de312add91b4bad4c6",
+                "f0ef486b03e1e0da77b2eef2f5cdacdea3940f98eea73dcb2f5840ed1120ba63"
+              ]
+            },
+            {
+              "entity_id": "15",
+              "rrf_score": 0.008064516129032258,
+              "relevance": 0.15136476426799006,
+              "lexical_score": null,
+              "cosine_similarity": 0.500621497631073,
+              "document_ids": [
+                "3c2b40322621fdaddab5808a7211111059018d94fb4c023be6fcbe0e7d862ae8",
+                "63f02364c80afbd6875651374e122c536c5e0bc3b11e32b3ebcfd70bc2dece30",
+                "ec56c2d3bfeef1b988d2510401a34fb0f29bed3b674371a8a48c3a5db94c715f"
+              ]
+            },
+            {
+              "entity_id": "39",
+              "rrf_score": 0.007936507936507936,
+              "relevance": 0.13832199546485258,
+              "lexical_score": null,
+              "cosine_similarity": 0.4997062385257349,
+              "document_ids": [
+                "938b630079b53f0e47ecd09a7a0fca62fcde91ab207ced84dec69fdc0ae721a4",
+                "cd035e0508fe6bd2177c039cf3838f1a290d1131675cfae62e543bb11aa12d0c",
+                "d42147bcc7ca4d608afc3479cd0bb146077095a74439629fde1d4a4e8b80c28b"
+              ]
+            },
+            {
+              "entity_id": "93",
+              "rrf_score": 0.0078125,
+              "relevance": 0.1256868131868132,
+              "lexical_score": null,
+              "cosine_similarity": 0.4787113070487976,
+              "document_ids": [
+                "3d3261fde83f72c9a75b74b8b2ef83bb88742ba04ae496a601ed72b0e7ffb120",
+                "82af95c08ed120deac6f26fd0f3dc215fac21675bed646b688dc07e71e4178dc",
+                "a00bf73009bd0d941938133c631bb6bb02551962f6559a09df2e3f1451fb8679"
+              ]
+            },
+            {
+              "entity_id": "83",
+              "rrf_score": 0.007692307692307693,
+              "relevance": 0.11344040574809812,
+              "lexical_score": null,
+              "cosine_similarity": 0.44852564045634113,
+              "document_ids": [
+                "23afa2a141d514760843a03b351666a8bf3b5d2d4475d0620ac60566cb84e182",
+                "4c18bda72dcdd07a4cd0ed6e486f90f86a459bc33c1d3232d379377585766681",
+                "afad40a02763afeb62f2999606015eb2ce55265f2ebd605b90ae8b862abbffc5"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "T06",
+      "status": "success",
+      "first_query_ms": 39.65956899992307,
+      "warm_query_ms": 35.193587998946896,
+      "categories": {
+        "recipe": {
+          "ranked_ids": [
+            "44",
+            "45",
+            "2",
+            "80",
+            "68",
+            "12",
+            "70",
+            "16",
+            "43",
+            "82",
+            "17"
+          ],
+          "recall_at_20": 1.0,
+          "ndcg_at_5": 0.5,
+          "cuisine_diversity_at_5": 0.2,
+          "top5_components": [
+            {
+              "entity_id": "44",
+              "rrf_score": 0.00819672131147541,
+              "relevance": 1.0,
+              "lexical_score": null,
+              "cosine_similarity": 0.6523019269794803,
+              "document_ids": [
+                "5191894ca99c01c3f6b8a0d812316d3ae1e543971f4a45f5d8d0aa79819bb885",
+                "6583f3a4ab9b08ab8f0935aaf3b9274e44cf680ae744963995753a6f5d1b2d05",
+                "ae15518c9660a411b1f3a81f7f9f22caad6f4672cf6e28a3640068b07d0f7f76"
+              ]
+            },
+            {
+              "entity_id": "45",
+              "rrf_score": 0.008064516129032258,
+              "relevance": 0.8854838709677414,
+              "lexical_score": null,
+              "cosine_similarity": 0.6091093653971346,
+              "document_ids": [
+                "2860755478643882ba1c63e38892f64e95fe2687417f57b3c224710ade0079ff",
+                "a1341d2b092052e6c184954a93a05db32de039536879928cd8a21925ee181192",
+                "a6a39d060614b31da46830c85e05d0c8e9ae7bdb3ed9f85a8abc780150f0b7f2"
+              ]
+            },
+            {
+              "entity_id": "2",
+              "rrf_score": 0.007936507936507936,
+              "relevance": 0.7746031746031738,
+              "lexical_score": null,
+              "cosine_similarity": 0.6062941189829051,
+              "document_ids": [
+                "4cdc8ed229b9d77d85ec3a9cba73dc4b434350564dbc98d60e76936205c0666a",
+                "7b468b161c04d42067ab9d673ee3a8bbeabd4bcdd75720d6f8ed564179d4c47e",
+                "f94b9c42a09f879e7be840c1782c533d232c4b13b631a85a07eeb5d70732e24d"
+              ]
+            },
+            {
+              "entity_id": "80",
+              "rrf_score": 0.0078125,
+              "relevance": 0.6671874999999997,
+              "lexical_score": null,
+              "cosine_similarity": 0.5970304848533591,
+              "document_ids": [
+                "52a073833c65520d11d9ca48853f75fd80590cf059c5ad85180a27af265cd719",
+                "8523523a7bee553782a37a2b59d7279a1c1a6451f77a57d636075fd79dd537c5",
+                "fe28f356d0715a2170393dfb6be34016efbc98433fd7caafd355d56908365902"
+              ]
+            },
+            {
+              "entity_id": "68",
+              "rrf_score": 0.007692307692307693,
+              "relevance": 0.5630769230769231,
+              "lexical_score": null,
+              "cosine_similarity": 0.5541750522956294,
+              "document_ids": [
+                "31a4c0c3fbe8b9f54d6a81a1b0e7f025772dedf7536b0da0253a99719259354b",
+                "a2ad10bcd930543009edbc85b9fd5f3580772865d4ff18deb854799adac844a8",
+                "bf05b7b5fc2b65d5e9d44a4f01bd78f5b072dac7487f86b814ce83a857d254e9"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "T07",
+      "status": "success",
+      "first_query_ms": 70.64069600164657,
+      "warm_query_ms": 63.17158299862058,
+      "categories": {
+        "recipe": {
+          "ranked_ids": [
+            "3",
+            "102",
+            "106",
+            "55",
+            "100",
+            "38",
+            "29",
+            "103",
+            "8",
+            "101",
+            "105",
+            "25",
+            "107",
+            "66",
+            "63",
+            "68",
+            "27",
+            "43",
+            "45",
+            "69"
+          ],
+          "recall_at_20": 1.0,
+          "ndcg_at_5": 1.0,
+          "cuisine_diversity_at_5": 0.6,
+          "top5_components": [
+            {
+              "entity_id": "3",
+              "rrf_score": 0.01639344262295082,
+              "relevance": 1.0,
+              "lexical_score": 0.067397505,
+              "cosine_similarity": 0.822165391187031,
+              "document_ids": [
+                "2fb662297022b16ebc46c68962beaffc9529dae663316397ea22077514e8833e",
+                "61fe6a100b42538fa45689d7419349a7dec9c44c26334385b9e1946fbce70d34",
+                "d21b216f17698a1158edb50907de103ca2de1ba4bbc7810a9f18a3f2d9c03de5"
+              ]
+            },
+            {
+              "entity_id": "102",
+              "rrf_score": 0.008064516129032258,
+              "relevance": 0.3800512402468848,
+              "lexical_score": null,
+              "cosine_similarity": 0.5389434052773269,
+              "document_ids": [
+                "4c7d175323f89f670c87e3722b32638a33b998a96a3dc5a0664a9b5cf83c1d89",
+                "60cb07f295a5493f18b3038d4ea6cdff7627bb9c7308a34f0155224ac03fa9ec",
+                "9fd9939447d14fce2a622e582f3157c35f20439a57cf52f3b1a061b17dd58363"
+              ]
+            },
+            {
+              "entity_id": "106",
+              "rrf_score": 0.007936507936507936,
+              "relevance": 0.3705231791874391,
+              "lexical_score": null,
+              "cosine_similarity": 0.49120518617599185,
+              "document_ids": [
+                "0145070b90455355f906c3a3a3f68a3d2a19453a9b05ff50a174d92d9414dc2c",
+                "2f33e3af8be32244b0070a14b1fbc88b8febdf03f5505c89ccbafa027b65c5d1",
+                "5305b3aa82a6efa792886400d7a9d036341b7b2d9e9b175a4f2506deb7520126"
+              ]
+            },
+            {
+              "entity_id": "55",
+              "rrf_score": 0.0078125,
+              "relevance": 0.3612928700361011,
+              "lexical_score": null,
+              "cosine_similarity": 0.46274620516620923,
+              "document_ids": [
+                "69dcf84ce93b634e3d8462e8b1a9d65e4b5d479831d7f54097ed3d311859fd87",
+                "7a0980ba2182b4d539bda0c1a11a06acf832423cf8e761c983f9b37a13133bdb",
+                "90a3fab1443f25fa4f7010b024dd1b57a4a4d46e81117a872919dca62dba5761"
+              ]
+            },
+            {
+              "entity_id": "100",
+              "rrf_score": 0.007692307692307693,
+              "relevance": 0.3523465703971119,
+              "lexical_score": null,
+              "cosine_similarity": 0.445190939593856,
+              "document_ids": [
+                "09e5324d6b9bfac86c13cad5edab33c5708176bba1447c51c33ab363eadf78f7",
+                "5eca2f0a1ef6b3976fa63a8c1b47199de08330b35842c6f43d4a22a8885ce172",
+                "9523c81dcff567be648bdc5dabe8f4c13e419eb279932b62c3ac9e29a8942c83"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "T08",
+      "status": "success",
+      "first_query_ms": 46.93924199818866,
+      "warm_query_ms": 44.17481899872655,
+      "categories": {
+        "recipe": {
+          "ranked_ids": [
+            "5",
+            "26",
+            "76",
+            "57",
+            "1",
+            "40",
+            "15",
+            "39",
+            "83",
+            "53",
+            "86",
+            "93",
+            "34",
+            "64",
+            "67",
+            "33"
+          ],
+          "recall_at_20": 1.0,
+          "ndcg_at_5": 1.0,
+          "cuisine_diversity_at_5": 0.2,
+          "top5_components": [
+            {
+              "entity_id": "5",
+              "rrf_score": 0.00819672131147541,
+              "relevance": 1.0,
+              "lexical_score": null,
+              "cosine_similarity": 0.6301445209807729,
+              "document_ids": [
+                "52a3f43742b60b35075e931eeff166d1b28191d77e60470ef80bfe45311e4648",
+                "db6e59bbbe8f0476f6cb01e7dbdb370b440e29d9326e34646517b6de9d3ce945",
+                "e1022f483843e3a040db1d3c16e53a411eb7f13a8e4ff9a0a0e1fcaa7d65016c"
+              ]
+            },
+            {
+              "entity_id": "26",
+              "rrf_score": 0.008064516129032258,
+              "relevance": 0.9182795698924727,
+              "lexical_score": null,
+              "cosine_similarity": 0.5547066861740725,
+              "document_ids": [
+                "074e43607c49a9ea17820776d142b796a4c219070c2cfede4123b2b23f1457fd",
+                "289df3fd540781f744b64f2b5a2d72e3e69d7d3da5de70240706e081a694b389",
+                "e4a34b389b593da8cc6dc178a86dc750dd63cac5f72a17930cca7245b95b48f5"
+              ]
+            },
+            {
+              "entity_id": "76",
+              "rrf_score": 0.007936507936507936,
+              "relevance": 0.8391534391534387,
+              "lexical_score": null,
+              "cosine_similarity": 0.5340388376666501,
+              "document_ids": [
+                "356d81ba4c0ed5d6475261888025f1e029643af0bcb42e39d6eaa494798968e5",
+                "42f4fa99299706e8770f0355ac79decb908e35d46130930cbde51c3f63cc6963",
+                "554bc937acf0d64920b5edb974f503a185715c8a5700f5b9c3fd081b1c45f10c"
+              ]
+            },
+            {
+              "entity_id": "57",
+              "rrf_score": 0.0078125,
+              "relevance": 0.7624999999999998,
+              "lexical_score": null,
+              "cosine_similarity": 0.5181966093427055,
+              "document_ids": [
+                "462cc85ef0a870f3379d7d26da82254d8718573fdee5173872571858985441b6",
+                "7088f412df6fa0c2e086d5723e5d7367bcce75d096611e9f7e098a7a1dfca817",
+                "df794c8aabc9473ad44a941331b148bcbd2e869d7c6b2fc7ec4ec8dde17366d9"
+              ]
+            },
+            {
+              "entity_id": "1",
+              "rrf_score": 0.007692307692307693,
+              "relevance": 0.6882051282051284,
+              "lexical_score": null,
+              "cosine_similarity": 0.49530959185247525,
+              "document_ids": [
+                "8441cfb7e065cb944df3bda673646145ba0856a6aac2b39d17e5c97bd91d7518",
+                "ed104754eb4ac0e30a3a2ec1b5fbf0e778c7454bad6f89de312add91b4bad4c6",
+                "f0ef486b03e1e0da77b2eef2f5cdacdea3940f98eea73dcb2f5840ed1120ba63"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "T09",
+      "status": "success",
+      "first_query_ms": 64.65095800012932,
+      "warm_query_ms": 65.42500999785261,
+      "categories": {
+        "recipe": {
+          "ranked_ids": [
+            "7",
+            "66",
+            "39",
+            "15",
+            "106",
+            "108",
+            "83",
+            "1",
+            "74",
+            "57",
+            "22",
+            "5",
+            "27",
+            "4",
+            "78",
+            "76",
+            "38",
+            "53",
+            "26",
+            "35"
+          ],
+          "recall_at_20": 1.0,
+          "ndcg_at_5": 1.0,
+          "cuisine_diversity_at_5": 0.6,
+          "top5_components": [
+            {
+              "entity_id": "7",
+              "rrf_score": 0.01639344262295082,
+              "relevance": 1.0,
+              "lexical_score": 0.13928571,
+              "cosine_similarity": 0.8205045217125293,
+              "document_ids": [
+                "048a5f34a8f2d9856f43593d6c2bfd4e019a18a0321c8069dbc200cad9755b5c",
+                "8e9e841de87bf9b4791ffef1fd707a02648d1a8824b64078d70a225402bd7bc2",
+                "cc069e0b711ed333b4e36166c2ec0dd4e75de31e33e2afdc680598a3075ddec5"
+              ]
+            },
+            {
+              "entity_id": "66",
+              "rrf_score": 0.016129032258064516,
+              "relevance": 0.9803190869919645,
+              "lexical_score": 0.0125,
+              "cosine_similarity": 0.7309849800779025,
+              "document_ids": [
+                "568a096d3df02eb2949bd3d4eea7165f3e412f7d045ab7d3bc8ac255a3c2b712",
+                "5bc7a4a6b24ca2077201974cde56e1984d2d465632443e1a623052838bf87b60",
+                "d275c251a7c3a08b5a65d00749b7ab7fc28eb93eb6618f1d1ca7208532773402"
+              ]
+            },
+            {
+              "entity_id": "39",
+              "rrf_score": 0.007936507936507936,
+              "relevance": 0.3705231791874391,
+              "lexical_score": null,
+              "cosine_similarity": 0.537656887243485,
+              "document_ids": [
+                "938b630079b53f0e47ecd09a7a0fca62fcde91ab207ced84dec69fdc0ae721a4",
+                "cd035e0508fe6bd2177c039cf3838f1a290d1131675cfae62e543bb11aa12d0c",
+                "d42147bcc7ca4d608afc3479cd0bb146077095a74439629fde1d4a4e8b80c28b"
+              ]
+            },
+            {
+              "entity_id": "15",
+              "rrf_score": 0.0078125,
+              "relevance": 0.3612928700361011,
+              "lexical_score": null,
+              "cosine_similarity": 0.5269091882380603,
+              "document_ids": [
+                "3c2b40322621fdaddab5808a7211111059018d94fb4c023be6fcbe0e7d862ae8",
+                "63f02364c80afbd6875651374e122c536c5e0bc3b11e32b3ebcfd70bc2dece30",
+                "ec56c2d3bfeef1b988d2510401a34fb0f29bed3b674371a8a48c3a5db94c715f"
+              ]
+            },
+            {
+              "entity_id": "106",
+              "rrf_score": 0.007692307692307693,
+              "relevance": 0.3523465703971119,
+              "lexical_score": null,
+              "cosine_similarity": 0.514460309908979,
+              "document_ids": [
+                "0145070b90455355f906c3a3a3f68a3d2a19453a9b05ff50a174d92d9414dc2c",
+                "2f33e3af8be32244b0070a14b1fbc88b8febdf03f5505c89ccbafa027b65c5d1",
+                "5305b3aa82a6efa792886400d7a9d036341b7b2d9e9b175a4f2506deb7520126"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "T10",
+      "status": "success",
+      "first_query_ms": 66.24437499704072,
+      "warm_query_ms": 64.28733600114356,
+      "categories": {
+        "recipe": {
+          "ranked_ids": [
+            "9",
+            "42",
+            "35",
+            "61",
+            "2",
+            "32",
+            "80",
+            "10",
+            "44",
+            "72",
+            "102",
+            "101",
+            "46",
+            "97",
+            "48",
+            "12",
+            "99",
+            "22",
+            "74",
+            "19"
+          ],
+          "recall_at_20": 1.0,
+          "ndcg_at_5": 1.0,
+          "cuisine_diversity_at_5": 0.6,
+          "top5_components": [
+            {
+              "entity_id": "9",
+              "rrf_score": 0.01639344262295082,
+              "relevance": 1.0,
+              "lexical_score": 0.064141415,
+              "cosine_similarity": 0.857663631439209,
+              "document_ids": [
+                "9ee1eda52a0d169b4e47f7c508f002cfa923f81b21cd72627942507ceac7ce5f",
+                "ce1774ed9400ace37f8958d41b4065cd96b1d378b14cb6a55e4ea695bdd83a6c",
+                "d8d80908ef0a50d3a8cb3ed46bdd8587b142ef39e3f6ad336b40f2d31139abce"
+              ]
+            },
+            {
+              "entity_id": "42",
+              "rrf_score": 0.008064516129032258,
+              "relevance": 0.3800512402468848,
+              "lexical_score": null,
+              "cosine_similarity": 0.5177006412922963,
+              "document_ids": [
+                "2ffe2d8cf69ead452a5580daca55dfa31a5f8037a5c8231935d4e85e36e1198d",
+                "3087cf4835d7433ca2537f8f56571e69cd8155dfe295cdbfc6a5506c7a05a215",
+                "be94f82c513fdcf2dd13e0db8dd021b3d410bb08605c88b7544989bb3091200d"
+              ]
+            },
+            {
+              "entity_id": "35",
+              "rrf_score": 0.007936507936507936,
+              "relevance": 0.3705231791874391,
+              "lexical_score": null,
+              "cosine_similarity": 0.49503138690999915,
+              "document_ids": [
+                "4ac896a0d6f396c763486bd4985d024ee14705819df33e9ae9cc2d028cbb7bad",
+                "7210aa19966f905885f083df16f3a94620d93e3163a12e282631d1e30a44a86e",
+                "91c5a0bcdda88a2181e6e119c7ce6a3b1eba6d6e09659cb720a94993ca5d230b"
+              ]
+            },
+            {
+              "entity_id": "61",
+              "rrf_score": 0.0078125,
+              "relevance": 0.3612928700361011,
+              "lexical_score": null,
+              "cosine_similarity": 0.49041289033966695,
+              "document_ids": [
+                "632beb1e8e904286126baa10022b8607ad97a7a846b15ca9613ee624cd548ab0",
+                "7b9f14a33f3320f4526e913a968f6dc59d49d9e863429949507db983e8f051f0",
+                "7faa58d5da7d30f8dbc2071e55cb5842d5d5030faea21c98a93bbf2d94b30e63"
+              ]
+            },
+            {
+              "entity_id": "2",
+              "rrf_score": 0.007692307692307693,
+              "relevance": 0.3523465703971119,
+              "lexical_score": null,
+              "cosine_similarity": 0.4853839124853587,
+              "document_ids": [
+                "4cdc8ed229b9d77d85ec3a9cba73dc4b434350564dbc98d60e76936205c0666a",
+                "7b468b161c04d42067ab9d673ee3a8bbeabd4bcdd75720d6f8ed564179d4c47e",
+                "f94b9c42a09f879e7be840c1782c533d232c4b13b631a85a07eeb5d70732e24d"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "T11",
+      "status": "success",
+      "first_query_ms": 37.87906499928795,
+      "warm_query_ms": 37.11045399904833,
+      "categories": {
+        "recipe": {
+          "ranked_ids": [
+            "12",
+            "45",
+            "43",
+            "82",
+            "2",
+            "80",
+            "17",
+            "70",
+            "68",
+            "44",
+            "16"
+          ],
+          "recall_at_20": 1.0,
+          "ndcg_at_5": 1.0,
+          "cuisine_diversity_at_5": 0.2,
+          "top5_components": [
+            {
+              "entity_id": "12",
+              "rrf_score": 0.01639344262295082,
+              "relevance": 1.0,
+              "lexical_score": 0.046190478,
+              "cosine_similarity": 0.8603355884552002,
+              "document_ids": [
+                "45392ddc7e0d6d212e5b2cd6e5217942036c47d785041339f56c6adc00bece0e",
+                "566ead9ae20aebcc74a004a83256d94dcb7a6ccbc365cdce80472864098b206a",
+                "bb876e53b9b01c5bf68c6e29e8f0a70f06a233a0c81c70d3a42c4e0f2648405f"
+              ]
+            },
+            {
+              "entity_id": "45",
+              "rrf_score": 0.008064516129032258,
+              "relevance": 0.10931899641577057,
+              "lexical_score": null,
+              "cosine_similarity": 0.5259585663104921,
+              "document_ids": [
+                "2860755478643882ba1c63e38892f64e95fe2687417f57b3c224710ade0079ff",
+                "a1341d2b092052e6c184954a93a05db32de039536879928cd8a21925ee181192",
+                "a6a39d060614b31da46830c85e05d0c8e9ae7bdb3ed9f85a8abc780150f0b7f2"
+              ]
+            },
+            {
+              "entity_id": "43",
+              "rrf_score": 0.007936507936507936,
+              "relevance": 0.09563002155594742,
+              "lexical_score": null,
+              "cosine_similarity": 0.43120384216308594,
+              "document_ids": [
+                "2517989868bf888aae70e2a659840982f5f9216ecdbcf1b9d76a9d2fbf0e9e02",
+                "7f6e81e863c20abe21eda5692067ba6cf450ff439d500fb1bdd2a15480be5811",
+                "932feadf671344e1e3a752df064d41b5d0f1f4ce294a1c789d16f65f8fbb0f0d"
+              ]
+            },
+            {
+              "entity_id": "82",
+              "rrf_score": 0.0078125,
+              "relevance": 0.08236882716049382,
+              "lexical_score": null,
+              "cosine_similarity": 0.39468959601583575,
+              "document_ids": [
+                "054d7e6e785887bfc2153e05b7424e9a1c7727755d4c8f0e38b0cd99b46f6602",
+                "3de08892a8e4db1e30d33b71d06fd18f46aa646e3616ba71cb5d095014e8d090",
+                "3eb93dd7b8c0272fdbb596c51e177ab466d6ff285e3dc1d6df14c8a9efbe485c"
+              ]
+            },
+            {
+              "entity_id": "2",
+              "rrf_score": 0.007692307692307693,
+              "relevance": 0.06951566951566955,
+              "lexical_score": null,
+              "cosine_similarity": 0.33991850435490933,
+              "document_ids": [
+                "4cdc8ed229b9d77d85ec3a9cba73dc4b434350564dbc98d60e76936205c0666a",
+                "7b468b161c04d42067ab9d673ee3a8bbeabd4bcdd75720d6f8ed564179d4c47e",
+                "f94b9c42a09f879e7be840c1782c533d232c4b13b631a85a07eeb5d70732e24d"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "T12",
+      "status": "success",
+      "first_query_ms": 34.451946998160565,
+      "warm_query_ms": 33.75638099896605,
+      "categories": {
+        "recipe": {
+          "ranked_ids": [
+            "10",
+            "50",
+            "87",
+            "88"
+          ],
+          "recall_at_20": 1.0,
+          "ndcg_at_5": 1.0,
+          "cuisine_diversity_at_5": 0.25,
+          "top5_components": [
+            {
+              "entity_id": "10",
+              "rrf_score": 0.01639344262295082,
+              "relevance": 1.0,
+              "lexical_score": 0.11425592,
+              "cosine_similarity": 0.8414472436042297,
+              "document_ids": [
+                "7a9b0b17d4dcfb866857e6a1b7b8f5f4277b621623ee7437e616a57a9021b6f2",
+                "9ab8a17361ed8f3582adca59595f4346b9809a31b431da8754c65cda234849d9",
+                "eac238085e39c84a9334f351e4dd7bce2b48519cf00331128fdd93c89db9e324"
+              ]
+            },
+            {
+              "entity_id": "50",
+              "rrf_score": 0.008064516129032258,
+              "relevance": 0.029369282619162225,
+              "lexical_score": null,
+              "cosine_similarity": 0.6183025468407555,
+              "document_ids": [
+                "03fc3ba43cd0b18a7c33f9418a2945434b3cae2d0a7082252d738f776536d0a3",
+                "28732b0ca5bc7413dbb0ea4a096cb4071bcc068d62e0b4b64adf4e0e8d8a6906",
+                "a51090deef5707ea82b9194c03fb071b89ec4a6c74def6a4586195be8fa958de"
+              ]
+            },
+            {
+              "entity_id": "87",
+              "rrf_score": 0.007936507936507936,
+              "relevance": 0.014451551764984548,
+              "lexical_score": null,
+              "cosine_similarity": 0.6146095258462995,
+              "document_ids": [
+                "8724f9bc23c4a0b9429aafd7a270aa1ceb42da0107c5919c6cb59834b20768a0",
+                "97c15acae607df1838a9f0bec89d9f08d02855ff0c508f01db007f39306e4335",
+                "a7f0c0e8eee058a7e4c2fd015e181c301131e03329a049df85a18c97de0989b7"
+              ]
+            },
+            {
+              "entity_id": "88",
+              "rrf_score": 0.0078125,
+              "relevance": 0.0,
+              "lexical_score": null,
+              "cosine_similarity": 0.45308954082852115,
+              "document_ids": [
+                "8fd3b39a2a6ce18ee7ccb5d3fe9c85022a0225b1f9a5f3ebb01b16fb24fadcc9",
+                "90942e10f1fc580c8714e75c078fcab1d12b1a565b52f58153a07711e9b30243",
+                "f35e000dda19ac03e841e15c7e896ad7fd66e2b9421526614825382bef7b6968"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "T13",
+      "status": "success",
+      "first_query_ms": 45.4081399984716,
+      "warm_query_ms": 37.29270099938731,
+      "categories": {
+        "restaurant": {
+          "ranked_ids": [
+            "1000001",
+            "1000010",
+            "1000004",
+            "1000002",
+            "1000007",
+            "1000003",
+            "1000009",
+            "1000008",
+            "1000006",
+            "1000005"
+          ],
+          "recall_at_20": 1.0,
+          "ndcg_at_5": 1.0,
+          "cuisine_diversity_at_5": 1.0,
+          "top5_components": [
+            {
+              "entity_id": "1000001",
+              "rrf_score": 0.01639344262295082,
+              "relevance": 1.0,
+              "lexical_score": 0.00625,
+              "cosine_similarity": 0.6443893525368373,
+              "document_ids": [
+                "31b6a03b5d575e52f3d759cafcd236eeedcd64aef250c2a298ed362618200c16",
+                "4a0d928efa8fc1ce910bdc17f13548900dbdb9cf401accc385da92e94b02e451",
+                "4c37fea3212d2ef4f7408678f0410bba9195ce6a4077ecacccc15451b9e4fd92",
+                "8deab0f8a07dd2bd045a9d3f325a72155513b2815eaba5ff98c08e36e28b739e"
+              ]
+            },
+            {
+              "entity_id": "1000010",
+              "rrf_score": 0.008064516129032258,
+              "relevance": 0.09963250306247445,
+              "lexical_score": null,
+              "cosine_similarity": 0.35790005326271057,
+              "document_ids": [
+                "02140763a78966cda1e07788d2a7d4c2dd5cdb4e26e81f896214312372aaf123",
+                "66fcfd4f84095bb88019e4aa362d08b9366e10b45d3ef7add83366884b9b88d9",
+                "8bc48c3528cebf0b7c112183dc9970d11b894c411cb01634a1ba5afb256db3bc"
+              ]
+            },
+            {
+              "entity_id": "1000004",
+              "rrf_score": 0.007936507936507936,
+              "relevance": 0.08579465541490854,
+              "lexical_score": null,
+              "cosine_similarity": 0.32722407579421997,
+              "document_ids": [
+                "0b59b37648fa9ad3c7493a26cadaf1d58cc76518732fb0f059af5fe5cd91e56a",
+                "64c44b68997141608ae7b011ffce0e9a213f1d4eef3c2f3808695310c33ce63e",
+                "f773dbf831da44587ebd1940e8a29f238053d9371a3184130227d31567965735"
+              ]
+            },
+            {
+              "entity_id": "1000002",
+              "rrf_score": 0.0078125,
+              "relevance": 0.07238924050632912,
+              "lexical_score": null,
+              "cosine_similarity": 0.3187636733055115,
+              "document_ids": [
+                "87a8dc7d92395e35de5c751d0cde154913f2fd7e89f15fae9cffc7e172f7d269",
+                "db2b01eac65b284366bf49f4a9e4f4ab6ae955ba80aa82470f9af9e83d240791",
+                "edad994b3f2b8ebd8097c33b5e8e8c95abdbff98d9eeb5f9eec32f0f7d584a5c"
+              ]
+            },
+            {
+              "entity_id": "1000007",
+              "rrf_score": 0.007692307692307693,
+              "relevance": 0.059396299902629075,
+              "lexical_score": null,
+              "cosine_similarity": 0.29629917166834097,
+              "document_ids": [
+                "29262c6ddd5e6581e8814acb3a2560e3725c71b2fc52d85127ad50e9daf3d5e9",
+                "3949558823926612712f2882bf4f9eca05c64e6b224bbe0e78fab144683dc7bd",
+                "42c73561e07ebfdcbce794b65ac1da96537e8179a6b390553341333412627524"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "T14",
+      "status": "no_results",
+      "first_query_ms": 28.137238998169778,
+      "warm_query_ms": 26.254567001160467,
+      "categories": {
+        "restaurant": {
+          "ranked_ids": [],
+          "recall_at_20": null,
+          "ndcg_at_5": null,
+          "cuisine_diversity_at_5": null,
+          "top5_components": []
+        }
+      }
+    },
+    {
+      "id": "T15",
+      "status": "no_results",
+      "first_query_ms": 33.755137999833096,
+      "warm_query_ms": 27.170609999302542,
+      "categories": {
+        "recipe": {
+          "ranked_ids": [],
+          "recall_at_20": null,
+          "ndcg_at_5": null,
+          "cuisine_diversity_at_5": null,
+          "top5_components": []
+        }
+      }
+    },
+    {
+      "id": "T16",
+      "status": "no_results",
+      "first_query_ms": 121.46922100146185,
+      "warm_query_ms": 125.56881300042733,
+      "categories": {
+        "restaurant": {
+          "ranked_ids": [],
+          "recall_at_20": null,
+          "ndcg_at_5": null,
+          "cuisine_diversity_at_5": null,
+          "top5_components": []
+        },
+        "recipe": {
+          "ranked_ids": [],
+          "recall_at_20": null,
+          "ndcg_at_5": null,
+          "cuisine_diversity_at_5": null,
+          "top5_components": []
+        }
+      }
+    },
+    {
+      "id": "T17",
+      "status": "success",
+      "first_query_ms": 118.90087099891389,
+      "warm_query_ms": 122.79207699975814,
+      "categories": {
+        "restaurant": {
+          "ranked_ids": [
+            "1000005",
+            "1000203",
+            "1000083",
+            "1000033",
+            "1000127",
+            "1000201",
+            "1000185",
+            "1000118",
+            "1000182",
+            "1000180",
+            "1000138",
+            "1000171",
+            "1000150",
+            "1000062",
+            "1000158",
+            "1000097",
+            "1000002",
+            "1000132",
+            "1000077",
+            "1000001"
+          ],
+          "recall_at_20": 1.0,
+          "ndcg_at_5": 1.0,
+          "cuisine_diversity_at_5": 1.0,
+          "top5_components": [
+            {
+              "entity_id": "1000005",
+              "rrf_score": 0.00819672131147541,
+              "relevance": 1.0,
+              "lexical_score": null,
+              "cosine_similarity": 0.5219135128881501,
+              "document_ids": [
+                "093d4ed61d615599249dbf609f8f2d953b3ec5a93273a61f4db5b6fd2ebddf1b",
+                "c41d958072a129025a0e5183de3a8a8f9bbfe8725e0c848e2c29fc4915b8bdec"
+              ]
+            },
+            {
+              "entity_id": "1000203",
+              "rrf_score": 0.008064516129032258,
+              "relevance": 0.9791634511498687,
+              "lexical_score": null,
+              "cosine_similarity": 0.49141837630922747,
+              "document_ids": [
+                "481a9f158ca27f938127660540d11f069ba0ffff0d2338d97e234c6ac2bf8302",
+                "c44f5e260d796d9781a51f44d75d75d19eea1ef0cf3fc029d4633ef8135a1550"
+              ]
+            },
+            {
+              "entity_id": "1000083",
+              "rrf_score": 0.007936507936507936,
+              "relevance": 0.9589883800410115,
+              "lexical_score": null,
+              "cosine_similarity": 0.4469499125167704,
+              "document_ids": [
+                "86219ee67c73c746d28dc96fa97b1e14303564e4d4aefb090ff4c9127aa4b286",
+                "d277d88144dd368fdfdbb4768e9bf893bc511b8a09946f003c555dee194f434a"
+              ]
+            },
+            {
+              "entity_id": "1000033",
+              "rrf_score": 0.0078125,
+              "relevance": 0.9394437799043062,
+              "lexical_score": null,
+              "cosine_similarity": 0.4399141275959546,
+              "document_ids": [
+                "b161aadceb4b6e0c63ac6f40cb2df4260e519d80894478854bf112dc8158d732",
+                "fbe4eb255464a5871dea2db3405087fd14392a8fcb0993188208b40174bf4f3a"
+              ]
+            },
+            {
+              "entity_id": "1000127",
+              "rrf_score": 0.007692307692307693,
+              "relevance": 0.9205005520794994,
+              "lexical_score": null,
+              "cosine_similarity": 0.4144515024616018,
+              "document_ids": [
+                "2451603c57af044bd319a8974ea3f1e39867b17ab3032b5e889abe253e2359d9",
+                "40d4ba92f75312fa33d3e34544013ce3b22dd89cf0faaff4f58989564243f68f"
+              ]
+            }
+          ]
+        },
+        "recipe": {
+          "ranked_ids": [
+            "1",
+            "15",
+            "5",
+            "57",
+            "76",
+            "99",
+            "26",
+            "93",
+            "21",
+            "83",
+            "53",
+            "4",
+            "7",
+            "39",
+            "34",
+            "64",
+            "27",
+            "66",
+            "103",
+            "67"
+          ],
+          "recall_at_20": 1.0,
+          "ndcg_at_5": 1.0,
+          "cuisine_diversity_at_5": 0.2,
+          "top5_components": [
+            {
+              "entity_id": "1",
+              "rrf_score": 0.00819672131147541,
+              "relevance": 1.0,
+              "lexical_score": null,
+              "cosine_similarity": 0.7685870619345068,
+              "document_ids": [
+                "8441cfb7e065cb944df3bda673646145ba0856a6aac2b39d17e5c97bd91d7518",
+                "ed104754eb4ac0e30a3a2ec1b5fbf0e778c7454bad6f89de312add91b4bad4c6",
+                "f0ef486b03e1e0da77b2eef2f5cdacdea3940f98eea73dcb2f5840ed1120ba63"
+              ]
+            },
+            {
+              "entity_id": "15",
+              "rrf_score": 0.008064516129032258,
+              "relevance": 0.9747610513739545,
+              "lexical_score": null,
+              "cosine_similarity": 0.520177913888289,
+              "document_ids": [
+                "3c2b40322621fdaddab5808a7211111059018d94fb4c023be6fcbe0e7d862ae8",
+                "63f02364c80afbd6875651374e122c536c5e0bc3b11e32b3ebcfd70bc2dece30",
+                "ec56c2d3bfeef1b988d2510401a34fb0f29bed3b674371a8a48c3a5db94c715f"
+              ]
+            },
+            {
+              "entity_id": "5",
+              "rrf_score": 0.007936507936507936,
+              "relevance": 0.9503233392122279,
+              "lexical_score": null,
+              "cosine_similarity": 0.4921931477727568,
+              "document_ids": [
+                "52a3f43742b60b35075e931eeff166d1b28191d77e60470ef80bfe45311e4648",
+                "db6e59bbbe8f0476f6cb01e7dbdb370b440e29d9326e34646517b6de9d3ce945",
+                "e1022f483843e3a040db1d3c16e53a411eb7f13a8e4ff9a0a0e1fcaa7d65016c"
+              ]
+            },
+            {
+              "entity_id": "57",
+              "rrf_score": 0.0078125,
+              "relevance": 0.9266493055555555,
+              "lexical_score": null,
+              "cosine_similarity": 0.47518402042198504,
+              "document_ids": [
+                "462cc85ef0a870f3379d7d26da82254d8718573fdee5173872571858985441b6",
+                "7088f412df6fa0c2e086d5723e5d7367bcce75d096611e9f7e098a7a1dfca817",
+                "df794c8aabc9473ad44a941331b148bcbd2e869d7c6b2fc7ec4ec8dde17366d9"
+              ]
+            },
+            {
+              "entity_id": "76",
+              "rrf_score": 0.007692307692307693,
+              "relevance": 0.9037037037037037,
+              "lexical_score": null,
+              "cosine_similarity": 0.46723015704065274,
+              "document_ids": [
+                "356d81ba4c0ed5d6475261888025f1e029643af0bcb42e39d6eaa494798968e5",
+                "42f4fa99299706e8770f0355ac79decb908e35d46130930cbde51c3f63cc6963",
+                "554bc937acf0d64920b5edb974f503a185715c8a5700f5b9c3fd081b1c45f10c"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

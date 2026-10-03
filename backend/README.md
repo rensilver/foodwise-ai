@@ -6,8 +6,9 @@ startup factories and local health probes. P01-08 adds composition roots,
 application readiness dependencies, typed failures and structured logging.
 Phase 2 adds shared domain contracts, catalog/provenance/vector/context
 migrations, async transactional repositories, optimistic versions, supported
-LangGraph checkpoints and retryable conversation/media deletion. Agent execution,
-retrieval, ingestion and HTTP domain routes remain planned. P01-02 pins Python 3.12.14 in
+LangGraph checkpoints and retryable conversation/media deletion. Phase 3 adds
+validated ingestion/media; Phase 4 adds measured, cited text retrieval. Agent
+execution, image retrieval and HTTP domain routes remain planned. P01-02 pins Python 3.12.14 in
 [.python-version](.python-version), uv 0.12.5 in
 [pyproject.toml](pyproject.toml), and framework/provider dependencies in
 [uv.lock](uv.lock). Hatchling packages `src/food_recommender` for editable
@@ -653,3 +654,89 @@ captions bypass inference. The configured model never changes automatically.
 The adapter follows [Groq structured outputs](https://console.groq.com/docs/structured-outputs)
 and [vision input guidance](https://console.groq.com/docs/vision); live capability
 checks remain explicit opt-in work, independent of offline ingestion tests.
+
+## Multi-source text retrieval (Phase 4)
+
+`food_recommender.retrieval` now provides real restaurant/recipe/scoped-review
+retrieval without inference-generated candidates. Indexing is an explicit local
+operation after migrations and Phase 3 ingestion. Startup does not download models
+or rebuild indexes. Select your intended database via `DATABASE_URL`; commands do
+not load dotenv files. No Groq/Tavily credentials are needed.
+
+From `backend/`, provision the pinned public Apache-2.0 MiniLM weights once:
+
+```bash
+export MINILM_ROOT="$(realpath ../.local-tmp)/minilm"
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
+export TOKENIZERS_PARALLELISM=false HF_HUB_DISABLE_PROGRESS_BARS=1
+make provision-minilm
+make index-text
+uv run --locked python -m food_recommender.retrieval.cli --model-root "$MINILM_ROOT" search "tomato basil pizza" --category recipe --source recipe --cuisine Italian
+uv run --locked python -m food_recommender.retrieval.cli --model-root "$MINILM_ROOT" search "cozy greenhouse" --category restaurant --source restaurant --location "Silver Lake" --max-price-band 4
+```
+
+Model provisioning requires public Hugging Face network access and writes only to
+`MINILM_ROOT`. It pins `sentence-transformers/all-MiniLM-L6-v2` revision
+`1110a243fdf4706b3f48f1d95db1a4f5529b4d41`; the local manifest records file hashes.
+Loading is offline with CPU, disabled remote code, 384 dimensions and normalized
+vectors. Neither the random CI fixtures nor CLIP can substitute for this model.
+[The model card](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
+and [encoder documentation](https://www.sbert.net/docs/package_reference/sentence_transformer/model.html)
+explain the encoder's token limit and normalization options.
+
+Documents project immutable culinary records and retain source/record identity.
+Paragraph offsets address the raw paragraph; structured offsets address the
+projection reconstructed by `retrieval.documents.render`. Caption offsets address
+the original attributed caption identified by its document kind. Chunks stay
+within the tokenizer budget including special tokens and preserve character ranges;
+canonical ingredient arrays remain complete. Imported/generated captions retain
+attribution, generator metadata and media links and do not establish ingredients.
+
+Indexing skips existing model/revision/input hashes and commits bounded prepared
+batches. It removes only obsolete Phase 4 projections after replacement succeeds.
+An interrupted import is safely resumable. An unchanged full-corpus rerun encodes
+zero documents. Missing or incompatible dense rows produce `dependency_error`
+until indexing completes. Original source records/media/catalog versions remain.
+
+`TextPlan` accepts query, requested categories/sources, exact cuisine/location/name,
+maximum restaurant price band, entity IDs, explicit review-profile scope, constraints
+and a limit of 1–20 per category. `TextRetrieval.run` returns the shared typed
+`TextRetrievalOutcome` contract; `text_retrieval_adapter` serializes and validates it.
+`Constraint` values can be supplied by application callers to distinguish soft
+preferences from hard allergens/diets. Restaurants have no verified ingredient
+composition, and no course item supplies verified allergen-absence evidence. Hard
+allergies therefore abstain; known conflicts always exclude, and unsupported or
+ambiguous diets stay unknown. Strict vegan/vegetarian composition is supported
+only for complete lists of explicitly recognized simple plant ingredients. No
+assessment guarantees cross-contact safety or measured nutrition.
+
+Full-text and exact cosine branches share parameterized filters. Restaurant fields
+never filter recipes. Review search requires `--source review --demo-profile-id`
+and maps evidence to the actual reviewed restaurant. Review text/captions remain
+excluded by default. Original scores and citation source/record/document IDs accompany
+results. Entity ranks deduplicate chunks before equal-weight RRF (`k=60`), then
+normalize within each category. Stable entity-ID ties and equal scores are explicit.
+Internal document scans are exhaustive for the small corpus; the final response
+contains at most 20 unique entities per category. No approximate index is used;
+[pgvector's exact-search guidance](https://github.com/pgvector/pgvector) applies.
+
+Outcomes distinguish success, no results, unavailable dependencies and invalid
+requests. Database/provider exception messages are not returned; cancellation
+propagates. Calls have a default 30-second deadline and one CPU encoding operation
+at a time per service instance. Groq, trend search, image search, MCP wiring and
+HTTP/frontend flows remain their later phases.
+
+Run `make evaluate-text` on the full seeded and indexed corpus to reproduce the
+[initial baseline](../evaluation/phase4/README.md). It overwrites the report, so
+review changed hardware/timing evidence before committing. Normal CI continues to
+use deterministic CPU adapters and the real PostgreSQL service. To additionally
+run the downloaded pretrained contract without network access:
+
+```bash
+export TEST_MINILM_ROOT="$MINILM_ROOT"
+make check
+```
+
+This optional pretrained contract skips only when `TEST_MINILM_ROOT` is absent;
+a configured broken/missing model fails. All other Phase 4 tests use offline
+fixtures and need no pretrained download.
