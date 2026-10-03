@@ -69,7 +69,7 @@ def test_fresh_migration_matches_models_and_is_reversible(catalog) -> None:
         connection.exec_driver_sql(
             "SELECT version_num FROM alembic_version"
         ).scalar_one()
-        == "0005_context"
+        == "0006_versions"
     )
     command.downgrade(config, "base")
     assert (

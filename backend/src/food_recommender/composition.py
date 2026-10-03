@@ -3,10 +3,16 @@
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 
+from sqlalchemy.ext.asyncio import async_sessionmaker
+
 from food_recommender.application.services import Services
 from food_recommender.infrastructure.config import Settings
 from food_recommender.infrastructure.health import backend_readiness, local_readiness
 from food_recommender.infrastructure.mcp_config import MCPSettings
+from food_recommender.infrastructure.persistence import (
+    PostgresUnitOfWork,
+    create_database_engine,
+)
 
 
 @dataclass(frozen=True)
@@ -35,7 +41,13 @@ def build_backend_services(
     *,
     probe: Callable[[Settings], Awaitable[dict[str, bool]]] = backend_readiness,
 ) -> Services:
-    return Services(readiness=BackendReadiness(settings, probe))
+    engine = create_database_engine(settings.database_url.get_secret_value())
+    sessions = async_sessionmaker(engine, expire_on_commit=False)
+    return Services(
+        readiness=BackendReadiness(settings, probe),
+        transactions=lambda: PostgresUnitOfWork(sessions),
+        close=engine.dispose,
+    )
 
 
 def build_mcp_services(settings: MCPSettings) -> Services:

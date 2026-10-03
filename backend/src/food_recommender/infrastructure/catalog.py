@@ -17,6 +17,7 @@ from sqlalchemy import (
     MetaData,
     Text,
     UniqueConstraint,
+    text,
 )
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -39,12 +40,16 @@ class SourceIdentity:
     id: Mapped[str] = mapped_column(Text, primary_key=True)
     source_id: Mapped[str] = mapped_column(Text, nullable=False)
     source_record_id: Mapped[str] = mapped_column(Text, nullable=False)
+    version: Mapped[int] = mapped_column(
+        Integer, server_default=text("1"), nullable=False
+    )
 
 
 def _identity_constraints() -> tuple[UniqueConstraint | CheckConstraint, ...]:
     # The table supplies the entity type component of source/type/record identity.
     return (
         UniqueConstraint("source_id", "source_record_id"),
+        CheckConstraint("version > 0", name="version_positive"),
         *(
             CheckConstraint(f"{column} ~ '[^[:space:]]'", name=f"{column}_nonempty")
             for column in ("id", "source_id", "source_record_id")

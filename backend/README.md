@@ -511,3 +511,30 @@ UUID string as the checkpoint thread ID. Checkpoint access is internal; future
 graph services must first authorize the session/conversation. Application
 downgrades retain library checkpoint tables. Downgrading below P02-06 while
 uploads exist is rejected instead of discarding upload data.
+
+## Repository transactions and optimistic versions (P02-07)
+
+Application [ports](src/food_recommender/application/ports.py) expose domain
+snapshots, conversation context and dated trend records.
+[Prepared catalog bundles](src/food_recommender/domain/catalog.py) check hashes,
+source/media associations, model compatibility, dimensions and normalization
+before the final transaction. Prepare full content and vectors outside the
+transaction; never call inference inside a write.
+
+[CatalogService](src/food_recommender/application/persistence.py) uses an injected
+unit-of-work factory. The async PostgreSQL adapter commits canonical data,
+source/raw provenance, documents, media and vectors together. Revision
+`0006_versions` adds positive versions; replace/delete use conditional writes
+with `expected_version`. Missing IDs, stale versions, duplicate identities and
+invalid foreign keys return typed failures. Raw source revisions survive updates
+and become unresolved on deletion. Restaurant deletion with linked reviews
+fails atomically. Source identity changes require reconciliation, not mutation.
+
+`PostgresUnitOfWork` rolls back by default; only explicit `commit()` persists.
+Exceptions and cancellation preserve old data. Read transactions also close
+without writes. Conversation/profile/message/media methods require the owner
+session and authorize before access. A profile save is a complete supplied
+snapshot; Phase 7 supplies follow-up merging rules. Trend reads exclude expired
+or future cache entries; publication-date eligibility remains Phase 6. Backend
+composition exposes `Services.transactions`, constructs no database connections
+until use and disposes its pool at shutdown. Routes are Phase 8 work.

@@ -19,6 +19,7 @@ from food_recommender.domain.experts import (
     StyleAnalysis,
     TrendAnalysis,
 )
+from food_recommender.domain.preferences import Preferences
 from food_recommender.domain.recommendations import RecommendationResult
 
 _CONFIG = ConfigDict(extra="forbid", strict=True, hide_input_in_errors=True)
@@ -70,4 +71,10 @@ recommendation_outcome_adapter: TypeAdapter[ExpertOutcome[RecommendationResult]]
         Annotated[ExpertOutcome[RecommendationResult], Field(discriminator="status")],
         config=_CONFIG,
     )
+)
+
+
+type PreferencesContract = Preferences
+preferences_adapter: TypeAdapter[Preferences] = TypeAdapter(
+    PreferencesContract, config=_CONFIG
 )
