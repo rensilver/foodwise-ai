@@ -26,3 +26,13 @@ class TextSearch(Protocol):
         model: str,
         revision: str,
     ) -> tuple[TextHit, ...]: ...
+
+
+class ImageEncoder(Protocol):
+    model_id: str
+    revision: str
+
+    def encode_images(
+        self, images: tuple[bytes, ...]
+    ) -> tuple[tuple[float, ...], ...]: ...
+    def encode_texts(self, texts: tuple[str, ...]) -> tuple[tuple[float, ...], ...]: ...

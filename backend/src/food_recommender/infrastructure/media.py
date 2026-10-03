@@ -33,3 +33,33 @@ class LocalMediaFiles:
                 pass
         finally:
             os.close(descriptor)
+
+    async def read(self, storage_key: str) -> bytes:
+        if re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*", storage_key) is None:
+            raise ApplicationError(ErrorCode.INVALID_REQUEST)
+        try:
+            return await asyncio.to_thread(self._read, storage_key)
+        except OSError as error:
+            raise ApplicationError(ErrorCode.DEPENDENCY_UNAVAILABLE) from error
+
+    def _read(self, storage_key: str) -> bytes:
+        from food_recommender.infrastructure.clip_encoder import MAX_BYTES
+
+        directory = os.open(self.root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            descriptor = os.open(
+                storage_key,
+                os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+                dir_fd=directory,
+            )
+            with os.fdopen(descriptor, "rb") as file:
+                import stat
+
+                if not stat.S_ISREG(os.fstat(file.fileno()).st_mode):
+                    raise ValueError("Media must be a regular file")
+                data = file.read(MAX_BYTES + 1)
+                if len(data) > MAX_BYTES:
+                    raise ValueError("Media exceeds byte limit")
+                return data
+        finally:
+            os.close(directory)
