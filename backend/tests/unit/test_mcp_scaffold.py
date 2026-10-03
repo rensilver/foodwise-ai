@@ -85,7 +85,7 @@ class MCPScaffoldTests(unittest.TestCase):
                         {"get_restaurant_info", "recommend_by_vibe", "get_review"},
                     )
                 else:
-                    self.assertEqual(payload["result"][collection], [])
+                    self.assertEqual(len(payload["result"][collection]), 3)
 
 
 if __name__ == "__main__":

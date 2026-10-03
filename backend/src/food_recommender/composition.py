@@ -19,6 +19,7 @@ from food_recommender.infrastructure.health import backend_readiness, local_read
 from food_recommender.infrastructure.image_search import PostgresImageSearch
 from food_recommender.infrastructure.lookups import PostgresLookups
 from food_recommender.infrastructure.mcp_config import MCPSettings
+from food_recommender.infrastructure.mcp_resources import PostgresCatalogResources
 from food_recommender.infrastructure.media import LocalMediaFiles
 from food_recommender.infrastructure.persistence import (
     PostgresUnitOfWork,
@@ -82,6 +83,7 @@ def build_mcp_services(settings: MCPSettings) -> Services:
         readiness=MCPReadiness(settings),
         close=engine.dispose,
         lookups=LookupService(PostgresLookups(sessions)),
+        resources=PostgresCatalogResources(sessions),
     )
 
 

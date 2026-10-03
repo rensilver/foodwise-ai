@@ -11,6 +11,7 @@ from food_recommender.application.persistence import (
     MediaCleanupService,
 )
 from food_recommender.application.ports import UnitOfWork
+from food_recommender.mcp.resources import CatalogResources
 from food_recommender.retrieval.multimodal import MultimodalRetrieval
 
 
@@ -30,3 +31,4 @@ class Services:
     media_cleanup: MediaCleanupService | None = None
     lookups: LookupService | None = None
     retrieval: MultimodalRetrieval | None = None
+    resources: CatalogResources | None = None
