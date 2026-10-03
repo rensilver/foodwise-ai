@@ -10,6 +10,7 @@ import httpx
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl, SecretStr, field_validator
 
 from food_recommender.application.ports import TrendItem
+from food_recommender.application.trends import TrendProviderError
 
 
 class TavilyItem(BaseModel):
@@ -70,22 +71,48 @@ class TavilySearch:
     async def search(
         self, query: str, *, max_results: int, days: int
     ) -> tuple[TrendItem, ...]:
-        response = await self.client.post(
-            "https://api.tavily.com/search",
-            json={
-                "api_key": self.key.get_secret_value(),
-                "query": query,
-                "topic": "news",
-                "search_depth": "basic",
-                "max_results": max_results,
-                "days": days,
-                "include_answer": False,
-                "include_raw_content": False,
-                "include_usage": True,
-            },
-            timeout=30,
-        )
-        response.raise_for_status()
+        try:
+            response = await self.client.post(
+                "https://api.tavily.com/search",
+                json={
+                    "api_key": self.key.get_secret_value(),
+                    "query": query,
+                    "topic": "news",
+                    "search_depth": "basic",
+                    "max_results": max_results,
+                    "days": days,
+                    "include_answer": False,
+                    "include_raw_content": False,
+                    "include_usage": True,
+                },
+                timeout=30,
+            )
+        except httpx.TimeoutException:
+            raise TrendProviderError("timeout", retryable=True) from None
+        except httpx.RequestError:
+            raise TrendProviderError("provider_error", retryable=True) from None
+        if response.status_code == 429 or response.status_code >= 500:
+            delay = 0.0
+            try:
+                delay = max(0, float(response.headers.get("Retry-After", "0")))
+            except ValueError:
+                try:
+                    delay = max(
+                        0,
+                        (
+                            parsedate_to_datetime(response.headers["Retry-After"])
+                            - self.clock()
+                        ).total_seconds(),
+                    )
+                except (ValueError, TypeError, KeyError):
+                    pass
+            raise TrendProviderError(
+                "rate_limited" if response.status_code == 429 else "provider_error",
+                retryable=True,
+                retry_after=delay,
+            )
+        if not response.is_success:
+            raise TrendProviderError("provider_error")
         if len(response.content) > 1024 * 1024:
             raise ValueError("Provider response exceeds bounds")
         parsed = TavilyResponse.model_validate_json(response.content)
