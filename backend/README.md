@@ -475,3 +475,39 @@ cover normalized restaurant cuisine/location/price, location/price alone, recipe
 cuisine, profile-scoped reviews and document/media/entity links. No approximate
 vector index is created. Phase 4 builds the source-backed documents and query
 services over these fields.
+
+## Conversations, profiles, trends and checkpoints (P02-06)
+
+Revision `0005_context` adds UUID conversations tied to hashed-token browser
+sessions, messages, conversation-specific preferences and synthetic demo
+profiles. Legacy review profile IDs are backfilled before adding the foreign
+key. Catalog media retain source provenance; uploaded media instead require an
+owner session. Composite foreign keys limit conversation/upload links to the
+same session and permit sharing between that session's conversations. Media
+files and browser cookie handling are later application work.
+
+Trend cache rows store sanitized culinary queries/hashes, retrieval/expiry
+timestamps (maximum 24 hours), and up to five evidence records with excerpts,
+actual URLs and nullable publication dates. Unknown dates remain unknown;
+current-trend eligibility and query sanitization are Phase 6 services.
+
+Alembic owns application tables. LangGraph owns its tables in the separate
+`foodwise_checkpoints` schema through the supported
+[PostgreSQL saver setup](https://docs.langchain.com/oss/python/langgraph/persistence).
+New Compose/test databases create that schema during administrator bootstrap.
+For an existing application database, an administrator must first execute
+`CREATE SCHEMA foodwise_checkpoints AUTHORIZATION foodwise;`. Do not drop
+existing volumes to rerun bootstrap. Then, from `backend/` with an explicitly
+selected `DATABASE_URL`, run:
+
+```bash
+uv run --locked alembic upgrade head
+uv run --locked python scripts/setup_checkpoints.py
+```
+
+Setup is idempotent and uses autocommit for LangGraph's concurrent indexes.
+Ordinary factories and runtime saver opening never migrate. Use the conversation
+UUID string as the checkpoint thread ID. Checkpoint access is internal; future
+graph services must first authorize the session/conversation. Application
+downgrades retain library checkpoint tables. Downgrading below P02-06 while
+uploads exist is rejected instead of discarding upload data.

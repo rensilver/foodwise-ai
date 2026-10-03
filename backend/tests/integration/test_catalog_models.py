@@ -55,13 +55,21 @@ def test_fresh_migration_matches_models_and_is_reversible(catalog) -> None:
         "media",
         "text_embeddings",
         "image_embeddings",
+        "browser_sessions",
+        "conversations",
+        "profiles",
+        "demo_profiles",
+        "messages",
+        "conversation_media",
+        "trend_cache",
+        "trend_evidence",
     }
     assert compare_metadata(MigrationContext.configure(connection), Base.metadata) == []
     assert (
         connection.exec_driver_sql(
             "SELECT version_num FROM alembic_version"
         ).scalar_one()
-        == "0004_search"
+        == "0005_context"
     )
     command.downgrade(config, "base")
     assert (

@@ -213,7 +213,7 @@ and loopback permissions; resolve sandbox denials before assessing results.
 
 | Operation | Current status | Planned checklist task |
 | --- | --- | --- |
-| Application migrations | P02-02/P02-03 add Alembic configuration and catalog/source/document/media revisions. Explicit host-run commands are below. Vector/full-text and conversation schema remain planned. | P02-02/P02-03 verified; P02-04 through P02-08 remain open. |
+| Application migrations | P02-02 through P02-06 add catalog/provenance, separate vectors, lexical/filter indexes and session/conversation/trend revisions. Explicit host-run commands are below; supported checkpoint setup is documented in the backend guide. | P02-02 through P02-06 verified; repository/transaction checks and deletion remain P02-07 through P02-09. |
 | Culinary ingestion | The ingestion package is a scaffold; no import CLI or resumable importer exists. | Phase 3, P03-01 through P03-10. |
 | Source audit | `python scripts/phase0_audit.py` from the root is implemented. It requires local course/data/media artifacts and writes Phase 0 reports. It does not populate PostgreSQL. | Phase 0 evidence. |
 | Provider capability smoke tests | No live setup/smoke command exists. Health and offline tests do not validate Groq model access or dated Tavily evidence. | P06-12, P07-01 and P07-14. |

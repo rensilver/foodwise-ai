@@ -7,7 +7,7 @@ from sqlalchemy import Connection, create_engine
 from sqlalchemy.engine import make_url
 from sqlalchemy.pool import NullPool
 
-from food_recommender.infrastructure.embeddings import Base
+from food_recommender.infrastructure.context import Base
 
 
 def migrate(connection: Connection) -> None:

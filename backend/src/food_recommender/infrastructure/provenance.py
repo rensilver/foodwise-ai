@@ -6,6 +6,7 @@ Imports register mappings only, without I/O or schema creation.
 """
 
 from datetime import date, datetime
+from uuid import UUID
 
 from sqlalchemy import (
     BigInteger,
@@ -147,6 +148,11 @@ class Media(AttributedContent, Base):
         UniqueConstraint("storage_key"),
         # Supports document/media association validation with a composite FK.
         UniqueConstraint("id", "source_record_id"),
+        UniqueConstraint("id", "owner_session_id", name="uq_media_owner_identity"),
+        CheckConstraint(
+            "num_nonnulls(source_record_id, owner_session_id) = 1",
+            name="media_ownership",
+        ),
         *_nonempty("original_locator"),
         CheckConstraint(
             "storage_key ~ '^[A-Za-z0-9][A-Za-z0-9_.-]*$'", name="storage_key_basename"
@@ -159,10 +165,13 @@ class Media(AttributedContent, Base):
         CheckConstraint("width > 0 AND height > 0", name="dimensions_positive"),
     )
 
-    source_record_id: Mapped[str] = mapped_column(
+    source_record_id: Mapped[str | None] = mapped_column(
         Text,
         ForeignKey("source_records.id", ondelete="RESTRICT", onupdate="RESTRICT"),
-        nullable=False,
+        nullable=True,
+    )
+    owner_session_id: Mapped[UUID | None] = mapped_column(
+        ForeignKey("browser_sessions.id", ondelete="RESTRICT")
     )
     storage_key: Mapped[str] = mapped_column(Text, nullable=False)
     original_locator: Mapped[str | None] = mapped_column(Text)

@@ -21,6 +21,9 @@ def catalog(database_url: str) -> Iterator[tuple[Connection, Config]]:
         config.attributes["connection"] = connection
         try:
             command.upgrade(config, "head")
+            connection.exec_driver_sql(
+                "INSERT INTO demo_profiles (id) VALUES ('synthetic'), ('synthetic-profile')"
+            )
             yield connection, config
         finally:
             transaction.rollback()

@@ -112,7 +112,7 @@ Phase 1 closure audit on 2026-10-03 against committed revision `8a6fd90`: **the 
 - [x] P02-03 Add source-record, document and media provenance including content hashes, timestamps, raw payloads and generation/import attribution.
 - [x] P02-04 Create separate text `vector(384)` and image `vector(512)` storage with embedding model/revision/input hashes; enable pgvector through migration.
 - [x] P02-05 Add PostgreSQL full-text fields and ordinary filter indexes; keep exact vector search as the initial implementation.
-- [ ] P02-06 Add conversations, profiles, session ownership and trend cache persistence; initialize PostgreSQL checkpoint tables through the supported LangGraph path.
+- [x] P02-06 Add conversations, profiles, session ownership and trend cache persistence; initialize PostgreSQL checkpoint tables through the supported LangGraph path.
 - [ ] P02-07 Implement repository and transaction ports/adapters, optimistic record versions and atomic catalog/document/vector writes.
 - [ ] P02-08 Test fresh migrations, rollback on failed writes, duplicate-ID rejection, foreign-key enforcement, version conflicts and session isolation.
 - [ ] P02-09 Define and test deletion of conversation-owned messages/checkpoints/uploads without deleting shared catalog data.
@@ -255,6 +255,20 @@ contracts verify stemming and automatic refresh after text updates, index
 definitions and absence of HNSW/IVFFlat. All 32 scoped search/catalog tests passed;
 strict mypy and Ruff lint/format passed. Exact vector search remains the baseline;
 query planning, document construction and retrieval are still Phase 4 tasks.
+
+P02-06 verified on 2026-10-03: revision `0005_context` adds hashed-token
+browser sessions, UUID conversations/messages, conversation profiles, demo-profile
+foreign keys (backfilled from existing reviews), owner-scoped upload associations
+and dated trend cache/evidence. Composite foreign keys prevent cross-session
+media links. Trend dates remain nullable; five-result bounds and a maximum 24-hour
+cache lifetime are database enforced. Bootstrap creates an isolated checkpoint
+schema owned by the limited role; the explicit `scripts/setup_checkpoints.py`
+uses `AsyncPostgresSaver.setup()` without copying its tables into Alembic.
+Six new database/checkpoint contracts pass, including setup twice, actual graph
+checkpoint roundtrips across reopened connections and distinct UUID threads.
+The context/catalog/provenance suite passed 86 tests; mypy and Ruff passed.
+Trend freshness/query privacy, graph scheduling and HTTP cookie handling remain
+their later phases. Session cleanup is P02-09.
 
 ## Phase 3 — Validated ingestion and media preparation
 

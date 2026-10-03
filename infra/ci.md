@@ -98,8 +98,11 @@ P02-03 adds [provenance contracts](../backend/tests/integration/test_provenance_
 for source revisions, raw records, document/media associations, attribution,
 hashes/dates, duplicate rejection and rollback. The shared fixture uses the same
 limited role and transaction isolation; upgrade/downgrade checks preserve the
-existing catalog. Vector/conversation migrations, repositories and retrieval
-remain later tasks.
+existing catalog. P02-04/P02-05 add separate vector tables, lexical fields and filter indexes.
+P02-06 adds sessions/conversations/profiles/trend evidence and real LangGraph
+checkpoint persistence tests. Bootstrap precreates the isolated checkpoint
+schema for the limited role; tests use supported, idempotent saver setup.
+Repositories and retrieval remain later tasks.
 
 For only the database suite, run `make test-integration` from `backend/` with
 `TEST_DATABASE_URL` still set. This target fails immediately if the setting is

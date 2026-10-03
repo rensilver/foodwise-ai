@@ -132,7 +132,9 @@ class Review(SourceIdentity, Base):
         ForeignKey("restaurants.id", ondelete="RESTRICT", onupdate="RESTRICT"),
         nullable=False,
     )
-    demo_profile_id: Mapped[str] = mapped_column(Text, nullable=False)
+    demo_profile_id: Mapped[str] = mapped_column(
+        Text, ForeignKey("demo_profiles.id", ondelete="RESTRICT"), nullable=False
+    )
     title: Mapped[str | None] = mapped_column(Text)
     text: Mapped[str] = mapped_column(Text, nullable=False)
     rating: Mapped[float | None] = mapped_column(Float)
