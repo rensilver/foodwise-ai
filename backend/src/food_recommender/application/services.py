@@ -4,6 +4,7 @@ from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from typing import Protocol
 
+from food_recommender.application.lookups import LookupService
 from food_recommender.application.persistence import (
     CatalogService,
     ConversationService,
@@ -26,3 +27,4 @@ class Services:
     catalog: CatalogService | None = None
     conversations: ConversationService | None = None
     media_cleanup: MediaCleanupService | None = None
+    lookups: LookupService | None = None

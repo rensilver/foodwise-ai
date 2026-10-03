@@ -1,4 +1,4 @@
-"""Independent HTTP MCP scaffold, with no culinary tools yet."""
+"""Independent read-only culinary MCP server."""
 
 from fastmcp import FastMCP
 from starlette.applications import Starlette
@@ -11,6 +11,7 @@ from food_recommender.infrastructure.health import health_payload
 from food_recommender.infrastructure.http import ObservedHTTP
 from food_recommender.infrastructure.mcp_config import MCPSettings as MCPSettings
 from food_recommender.infrastructure.observability import Runtime, configure_logging
+from food_recommender.mcp.tools import register_lookups
 
 
 def create_app(
@@ -23,6 +24,8 @@ def create_app(
     services = services if services is not None else build_mcp_services(settings)
     runtime = runtime if runtime is not None else Runtime(logger=configure_logging())
     server = FastMCP("foodwise-ai")
+    if services.lookups is not None:
+        register_lookups(server, services.lookups)
 
     @server.custom_route("/health/live", methods=["GET"])
     async def live(request: Request) -> JSONResponse:

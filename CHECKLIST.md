@@ -431,7 +431,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 
 **Verification:** protocol tests on both transports, fake-provider failure tests and explicit live search smoke test.
 
-- [ ] P06-01 Implement `get_restaurant_info`, `recommend_by_vibe` and `get_review` using shared application services with explicit ambiguity/no-match results.
+- [x] P06-01 Implement `get_restaurant_info`, `recommend_by_vibe` and `get_review` using shared application services with explicit ambiguity/no-match results.
 - [ ] P06-02 Add `search_restaurants`, `search_recipes` and `search_images` with constrained schemas, bounded limits and evidence-rich results.
 - [ ] P06-03 Expose culinary-map, dataset-manifest and source-provenance resources without exposing arbitrary files or private session content.
 - [ ] P06-04 Implement Streamable HTTP for Compose, stdio for local demos, connection lifecycle management and stderr logging for stdio.

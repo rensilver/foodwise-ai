@@ -6,6 +6,7 @@ from pathlib import Path
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
+from food_recommender.application.lookups import LookupService
 from food_recommender.application.persistence import (
     CatalogService,
     ConversationService,
@@ -16,6 +17,7 @@ from food_recommender.application.services import Services
 from food_recommender.infrastructure.config import Settings
 from food_recommender.infrastructure.health import backend_readiness, local_readiness
 from food_recommender.infrastructure.image_search import PostgresImageSearch
+from food_recommender.infrastructure.lookups import PostgresLookups
 from food_recommender.infrastructure.mcp_config import MCPSettings
 from food_recommender.infrastructure.media import LocalMediaFiles
 from food_recommender.infrastructure.persistence import (
@@ -74,7 +76,13 @@ def build_backend_services(
 
 
 def build_mcp_services(settings: MCPSettings) -> Services:
-    return Services(readiness=MCPReadiness(settings))
+    engine = create_database_engine(settings.database_url.get_secret_value())
+    sessions = async_sessionmaker(engine, expire_on_commit=False)
+    return Services(
+        readiness=MCPReadiness(settings),
+        close=engine.dispose,
+        lookups=LookupService(PostgresLookups(sessions)),
+    )
 
 
 def build_multimodal_retrieval(
