@@ -36,7 +36,7 @@ def test_migration_preview_needs_no_database_or_provider_configuration(
 
 def test_provenance_only_upgrade_preview_preserves_existing_catalog() -> None:
     output = StringIO()
-    command.upgrade(migration_config(output), "0001_catalog:head", sql=True)
+    command.upgrade(migration_config(output), "0001_catalog:0002_provenance", sql=True)
     sql = output.getvalue()
     assert "CREATE TABLE source_records" in sql
     assert "CREATE TABLE restaurants" not in sql
@@ -48,7 +48,9 @@ def test_provenance_only_upgrade_preview_preserves_existing_catalog() -> None:
 
 def test_provenance_only_downgrade_preview_preserves_catalog() -> None:
     output = StringIO()
-    command.downgrade(migration_config(output), "head:0001_catalog", sql=True)
+    command.downgrade(
+        migration_config(output), "0002_provenance:0001_catalog", sql=True
+    )
     sql = output.getvalue()
     for table in ("documents", "media", "source_records", "sources"):
         assert f"DROP TABLE {table}" in sql

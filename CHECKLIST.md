@@ -110,7 +110,7 @@ Phase 1 closure audit on 2026-10-03 against committed revision `8a6fd90`: **the 
 - [x] P02-01 Define typed preferences, explicit/inferred constraints, candidate evidence, expert outcomes, recommendations, citations and progress events.
 - [x] P02-02 Model restaurants, recipes and reviews with stable identities, source-ID uniqueness and valid foreign keys; keep unknown fields nullable.
 - [x] P02-03 Add source-record, document and media provenance including content hashes, timestamps, raw payloads and generation/import attribution.
-- [ ] P02-04 Create separate text `vector(384)` and image `vector(512)` storage with embedding model/revision/input hashes; enable pgvector through migration.
+- [x] P02-04 Create separate text `vector(384)` and image `vector(512)` storage with embedding model/revision/input hashes; enable pgvector through migration.
 - [ ] P02-05 Add PostgreSQL full-text fields and ordinary filter indexes; keep exact vector search as the initial implementation.
 - [ ] P02-06 Add conversations, profiles, session ownership and trend cache persistence; initialize PostgreSQL checkpoint tables through the supported LangGraph path.
 - [ ] P02-07 Implement repository and transaction ports/adapters, optimistic record versions and atomic catalog/document/vector writes.
@@ -238,6 +238,15 @@ escalation. The source scan reported zero findings across 88 files; documentatio
 link/fence/checklist checks and `git diff --check` passed. No owner configuration,
 application database, provider calls, model downloads or dependency changes
 were used. P02-04 onward and the Phase 2 exit gate remain open.
+
+P02-04 verified on 2026-10-03: revision `0003_embeddings` enables pgvector
+and creates separate normalized text/image tables with model, revision, dimension,
+input hash, timestamps and cascading document/media foreign keys. Nine new real
+PostgreSQL tests cover exact cosine ordering, roundtrips, dimensions, duplicate
+model/revision identities, invalid metadata, norms and parent cleanup. The scoped
+catalog/provenance/vector/migration suite passed all 95 tests; strict mypy passed
+30 source files and Ruff lint/format passed. Migration downgrade deliberately
+retains the shared vector extension. No inference or model downloads occurred.
 
 ## Phase 3 — Validated ingestion and media preparation
 

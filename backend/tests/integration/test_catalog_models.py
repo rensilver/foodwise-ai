@@ -53,13 +53,15 @@ def test_fresh_migration_matches_models_and_is_reversible(catalog) -> None:
         "source_records",
         "documents",
         "media",
+        "text_embeddings",
+        "image_embeddings",
     }
     assert compare_metadata(MigrationContext.configure(connection), Base.metadata) == []
     assert (
         connection.exec_driver_sql(
             "SELECT version_num FROM alembic_version"
         ).scalar_one()
-        == "0002_provenance"
+        == "0003_embeddings"
     )
     command.downgrade(config, "base")
     assert (

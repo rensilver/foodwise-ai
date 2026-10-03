@@ -453,3 +453,16 @@ ordinary local runs skip them explicitly. CI requires both and rejects missing
 settings. See the [CI guide](../infra/ci.md) for the complete disposable-database
 setup, local fixture provisioning, checks and cleanup. These foundation tests
 do not establish application retrieval or recommendation behavior.
+
+## Embedding storage (P02-04)
+
+Revision `0003_embeddings` runs `CREATE EXTENSION IF NOT EXISTS vector` and
+creates separate `text_embeddings` (`vector(384)`, MiniLM) and
+`image_embeddings` (`vector(512)`, CLIP) tables. Each row records a nonblank
+model revision, input SHA-256, dimension and creation time. Database checks
+require unit vectors (tolerance 0.001) and the configured model identity.
+Document/media deletion cascades to its vectors; the extension survives downgrade
+because other applications may use it. A database administrator must preinstall
+pgvector for a limited role, as the Compose/bootstrap scripts already do. Exact
+cosine search remains the baseline; embedding generation and retrieval services
+are Phase 4/5 work.
