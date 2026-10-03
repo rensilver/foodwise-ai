@@ -391,7 +391,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 - [x] P04-01 Construct retrieval documents containing restaurant descriptions, ambiance, signatures and shortcomings; recipe ingredients/directions/captions; and scoped review evidence.
 - [x] P04-02 Implement token-aware chunking and provenance offsets; preserve complete canonical ingredients for dietary checks even when retrieval uses excerpts.
 - [x] P04-03 Generate normalized MiniLM 384-dimensional embeddings on CPU with hashes, revision checks and batched upserts.
-- [ ] P04-04 Implement parameterized PostgreSQL full-text and exact cosine search with applicable metadata filters and validated result limits.
+- [x] P04-04 Implement parameterized PostgreSQL full-text and exact cosine search with applicable metadata filters and validated result limits.
 - [ ] P04-05 Implement explicit hard-constraint handling and supported/conflicting/unknown evidence states; never classify missing dietary evidence as compliant.
 - [ ] P04-06 Add restaurant/recipe/review source routing, reciprocal rank fusion with `k=60`, entity-level deduplication and up to 20 candidates per requested category.
 - [ ] P04-07 Return typed evidence, original scores, source IDs and explicit no-result versus dependency-error outcomes.
@@ -400,7 +400,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 
 **Exit criterion:** real PostgreSQL retrieval returns reproducible, constrained, cited candidates; no simulated LLM-generated search results remain in the new runtime.
 
-**Evidence / blockers:** P04-01: deterministic source projections verified by three unit tests (2026-10-03). P04-02: lossless Unicode/token-boundary offsets and late-ingredient preservation verified (five focused tests). P04-03: normalized model/revision validation plus PostgreSQL batched hash-idempotency contract passed; pretrained verification is recorded at the final phase gate. Remaining Phase 4 work in progress.
+**Evidence / blockers:** P04-01: deterministic source projections verified by three unit tests (2026-10-03). P04-02: lossless Unicode/token-boundary offsets and late-ingredient preservation verified (five focused tests). P04-03: normalized model/revision validation plus PostgreSQL batched hash-idempotency contract passed; pretrained verification is recorded at the final phase gate. P04-04: two real PostgreSQL contracts and nine plan-validation cases pass for exact filters, parameter binding and profile-scoped reviews. Remaining Phase 4 work in progress.
 
 ## Phase 5 — Multimodal retrieval and fusion
 
