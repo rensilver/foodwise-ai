@@ -1,7 +1,7 @@
 # Developer workflow (P01-09)
 
 This guide starts from the repository root and covers the implemented Phase 1
-scaffold: FastAPI health routes, an empty FastMCP HTTP server and the Next.js
+scaffold: FastAPI health routes, a FastMCP HTTP server (now implemented with Phase 6 tools/resources) and the Next.js
 startup page. Recommendation, catalog, upload and administrator flows remain
 planned. Health checks make no Groq/Tavily calls and load no embedding models.
 
@@ -128,7 +128,7 @@ Start FastAPI from `backend/` in another terminal:
 uv run --locked uvicorn food_recommender.api.main:create_app --factory --env-file ../.env --host 127.0.0.1 --port 8000 --reload --no-access-log
 ```
 
-MCP validates only database/media settings; FastAPI requires all backend
+MCP validates database/media, optional local model roots and its optional Tavily key; FastAPI requires all backend
 settings. Both use shared composition roots and redacted JSON application
 logs on stderr, described in the
 [P01-08 guide](../backend/README.md#composition-errors-and-logging-p01-08).
@@ -217,7 +217,7 @@ and loopback permissions; resolve sandbox denials before assessing results.
 | Culinary ingestion | The [Phase 3 seed CLI](../backend/README.md#seed-ingestion-phase-3) is validated, resumable and verified on the full local corpus. | Phase 3, P03-01 through P03-10 verified. |
 | Text retrieval | [Phase 4 indexing/search/evaluation](../backend/README.md#multi-source-text-retrieval-phase-4) uses pinned CPU MiniLM and real PostgreSQL. | Phase 4, P04-01 through P04-09 verified. |
 | Source audit | `python scripts/phase0_audit.py` from the root is implemented. It requires local course/data/media artifacts and writes Phase 0 reports. It does not populate PostgreSQL. | Phase 0 evidence. |
-| Provider capability smoke tests | No live setup/smoke command exists. Health and offline tests do not validate Groq model access or dated Tavily evidence. | P06-12, P07-01 and P07-14. |
+| Provider capability smoke tests | Phase 6 adds explicitly enabled dated Tavily smoke (`ENABLE_LIVE_TAVILY=1 make smoke-food-trends` from backend). Health/offline tests make no paid calls. Groq capabilities/full graph remain pending. | P06-12 verified; P07-01 and P07-14 planned. |
 | Full clean-checkout release | Local media/course recovery, application migrations, ingestion and acceptance flows remain required. | P11-01 through P11-09. |
 
 From `backend/`, preview the implemented application migrations without connecting:

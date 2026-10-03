@@ -88,8 +88,8 @@ def main() -> None:
     args = parser.parse_args()
     configure_logging()
     settings = MCPSettings(_env_file=args.env_file)
-    server = create_server(settings)
     if args.transport == "stdio":
+        server = create_server(settings)
         server.run(transport="stdio", show_banner=False)
     else:
         import uvicorn

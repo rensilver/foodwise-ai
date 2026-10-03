@@ -67,10 +67,14 @@ class TavilySearch:
         clock: Callable[[], datetime] = lambda: datetime.now(UTC),
     ) -> None:
         self.key, self.client, self.clock = key, client, clock
+        self.request_usage: list[dict[str, object]] = []
 
     async def search(
         self, query: str, *, max_results: int, days: int
     ) -> tuple[TrendItem, ...]:
+        request_usage: dict[str, object] = {"status_code": None, "credits": None}
+        self.request_usage.append(request_usage)
+        self.request_usage = self.request_usage[-64:]
         try:
             response = await self.client.post(
                 "https://api.tavily.com/search",
@@ -91,6 +95,7 @@ class TavilySearch:
             raise TrendProviderError("timeout", retryable=True) from None
         except httpx.RequestError:
             raise TrendProviderError("provider_error", retryable=True) from None
+        request_usage["status_code"] = response.status_code
         if response.status_code == 429 or response.status_code >= 500:
             delay = 0.0
             try:
@@ -116,6 +121,15 @@ class TavilySearch:
         if len(response.content) > 1024 * 1024:
             raise ValueError("Provider response exceeds bounds")
         parsed = TavilyResponse.model_validate_json(response.content)
+        usage = response.json().get("usage", {})
+        if isinstance(usage, dict):
+            credits = usage.get("credits")
+            if (
+                isinstance(credits, (int, float))
+                and not isinstance(credits, bool)
+                and 0 <= credits <= 100
+            ):
+                request_usage["credits"] = credits
         return tuple(
             TrendItem(
                 uuid4(),
