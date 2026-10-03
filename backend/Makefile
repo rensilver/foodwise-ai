@@ -47,3 +47,8 @@ provision-clip:
 index-images:
 	@test -n "$$DATABASE_URL" -a -n "$$CLIP_ROOT" -a -n "$$MEDIA_ROOT" || (echo "Set DATABASE_URL, CLIP_ROOT and MEDIA_ROOT"; exit 2)
 	uv run --locked python -m food_recommender.retrieval.image_cli --clip-root "$$CLIP_ROOT" index
+
+.PHONY: evaluate-multimodal
+evaluate-multimodal:
+	@test -n "$$DATABASE_URL" -a -n "$$MINILM_ROOT" -a -n "$$CLIP_ROOT" -a -n "$$MEDIA_ROOT" || (echo "Set DATABASE_URL, MINILM_ROOT, CLIP_ROOT and MEDIA_ROOT"; exit 2)
+	uv run --locked python scripts/evaluate_multimodal_retrieval.py --minilm-root "$$MINILM_ROOT" --clip-root "$$CLIP_ROOT" --queries ../evaluation/phase5/queries.json --output ../evaluation/phase5/comparison_report.json

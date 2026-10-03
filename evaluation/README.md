@@ -15,3 +15,6 @@ These three folders contain placeholders. Populate them during the retrieval
 baseline and evaluation phases, recording dataset and model revisions with each
 report. Course instructions remain architectural references and never enter the
 runtime culinary knowledge base.
+
+[Phase 5](phase5/README.md) adds frozen multimodal labels, real image association
+checks and five measured text/image fusion settings, with explicit scope limits.
