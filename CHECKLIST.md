@@ -438,7 +438,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 - [x] P06-05 Discover tool schemas at runtime, apply per-agent allowlists and validate arguments/results; reject arbitrary tool/server selection.
 - [x] P06-06 Add `search_food_trends` backed by Tavily with two searches/run, five results/search, a 90-day window and a 24-hour cache TTL.
 - [x] P06-07 Store URLs, excerpts, available publication dates and retrieval times; sanitize search queries to avoid sending private profiles/reviews/restrictions.
-- [ ] P06-08 Enforce freshness at cache read and citation time; unknown publication dates cannot substantiate current trends.
+- [x] P06-08 Enforce freshness at cache read and citation time; unknown publication dates cannot substantiate current trends.
 - [ ] P06-09 Handle timeout, rate limits, no results, stale cache and missing credentials as explicit unavailable trend evidence.
 - [ ] P06-10 Test tool/resource discovery, protocol errors, connection reuse, limits, path/SQL/tool injection, both transports and prohibited mutation capabilities.
 - [ ] P06-11 Verify that Groq inference stays in the application, no sampling callback is required, and filesystem restrictions do not depend on roots alone.
