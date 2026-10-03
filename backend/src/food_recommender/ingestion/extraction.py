@@ -7,7 +7,7 @@ from typing import Any, Literal, Protocol
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
-from food_recommender.ingestion.adapters import INGESTION_VERSION, digest
+from food_recommender.ingestion.adapters import INGESTION_VERSION, SourceError, digest
 
 
 class Fields(BaseModel):
@@ -93,9 +93,46 @@ class ExtractionService:
     async def extract(
         self, text: str, schema: type[BaseModel], *, source: str, record_id: str
     ) -> ExtractionResult:
-        return await self._run(
+        key = digest(
+            [
+                source,
+                record_id,
+                text,
+                schema.model_json_schema(),
+                self.inference.model,
+                INGESTION_VERSION,
+            ]
+        )
+        cache = self.quarantine_root.parent / "extraction-cache" / f"{key}.json"
+        if cache.is_file():
+            try:
+                result = ExtractionResult.model_validate_json(
+                    await asyncio.to_thread(cache.read_text)
+                )
+                if (
+                    result.input_hash,
+                    result.model,
+                    result.source,
+                    result.record_id,
+                ) != (digest(text), self.inference.model, source, record_id):
+                    raise ValueError("Cache provenance mismatch")
+                if result.status == "validated":
+                    schema.model_validate(result.fields)
+                elif result.status != "quarantined":
+                    raise ValueError("Unexpected cache status")
+                return result
+            except (ValueError, OSError):
+                raise SourceError(
+                    source,
+                    record_id,
+                    "Extraction cache failed validation; remove the invalid cache artifact before retrying",
+                ) from None
+        result = await self._run(
             text, schema, source=source, record_id=record_id, quarantine=True
         )
+        if result.status in {"validated", "quarantined"}:
+            await asyncio.to_thread(atomic_json, cache, result.model_dump())
+        return result
 
     async def _run(
         self,

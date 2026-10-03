@@ -98,11 +98,15 @@ def source_record(
 
 
 def caption_document(
-    record: dict[str, Any], text: str, *, media_id: str | None = None
+    record: dict[str, Any],
+    text: str,
+    *,
+    media_id: str | None = None,
+    reference: str | None = None,
 ) -> DocumentData:
     content_hash = hashlib.sha256(text.encode()).hexdigest()
     return DocumentData(
-        id=digest([record["id"], "caption", media_id, content_hash]),
+        id=digest([record["id"], "caption", media_id, reference, content_hash]),
         source_record_id=record["id"],
         kind="image_caption",
         text=text,
@@ -364,8 +368,18 @@ def load_seed(
                     merged.payload, references, source=augmented, record_id=key
                 )
                 documents = tuple(
-                    caption_document(source_records[-1], caption.text)
-                    for caption in captions
+                    caption_document(
+                        source_records[-1], caption.text, reference=reference
+                    )
+                    for caption, reference in zip(
+                        captions,
+                        (
+                            reference
+                            for reference in references
+                            if reference not in gaps
+                        ),
+                        strict=True,
+                    )
                 )
                 for reference in gaps:
                     plan.issue(
@@ -397,6 +411,14 @@ def attach_image(
     image_record_id: str,
     caption_text: str | None = None,
 ) -> SeedItem:
+    pending_caption = next(
+        (
+            document
+            for document in item.documents
+            if document.text == caption_text and document.media_id is None
+        ),
+        None,
+    )
     record = source_record(
         source,
         item.category,
@@ -404,7 +426,9 @@ def attach_image(
         raw={
             "original_locator": original_locator,
             "original_image_hash": image.input_hash,
-            "caption_source_record": item.records[-1]["id"] if caption_text else None,
+            "caption_source_record": pending_caption.source_record_id
+            if pending_caption is not None
+            else None,
         },
     )
     media_id = digest([record["id"], image.content_hash])
@@ -426,7 +450,7 @@ def attach_image(
     if caption_text is not None:
         # Keep the source-backed caption once, now explicitly attached to media.
         documents = tuple(
-            document for document in documents if document.text != caption_text
+            document for document in documents if document is not pending_caption
         ) + (caption_document(record, caption_text, media_id=media_id),)
     sources = (
         item.sources

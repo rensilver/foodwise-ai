@@ -108,3 +108,121 @@ async def test_private_resolution_and_unapproved_hosts_blocked():
         ]:
             with pytest.raises(SourceError):
                 await downloader.download(url)
+
+
+@pytest.mark.parametrize(
+    "kind",
+    [
+        "empty_file",
+        "empty_zip",
+        "directory_only",
+        "corrupt",
+        "duplicate_identity",
+        "symlink",
+        "expansion",
+        "crc",
+    ],
+)
+def test_archive_failure_matrix(tmp_path, kind):
+    path = tmp_path / "recipes.zip"
+    if kind == "empty_file":
+        path.write_bytes(b"")
+    elif kind == "corrupt":
+        path.write_bytes(b"PK corrupt")
+    else:
+        with zipfile.ZipFile(path, "w", compression=zipfile.ZIP_STORED) as handle:
+            if kind == "directory_only":
+                handle.writestr("synthetic_recipe_images/", b"")
+            elif kind == "duplicate_identity":
+                handle.writestr("recipe1.png", png())
+                handle.writestr("synthetic_recipe_images/recipe1.png", png())
+            elif kind == "symlink":
+                info = zipfile.ZipInfo("recipe1.png")
+                info.create_system = 3
+                info.external_attr = 0o120777 << 16
+                handle.writestr(info, png())
+            elif kind == "expansion":
+                handle.writestr(
+                    "recipe1.png", b"x" * 1000000, compress_type=zipfile.ZIP_DEFLATED
+                )
+            elif kind == "crc":
+                handle.writestr("recipe1.png", png())
+        if kind == "crc":
+            content = bytearray(path.read_bytes())
+            content[30 + len("recipe1.png") + 12] ^= 1
+            path.write_bytes(content)
+    with pytest.raises(SourceError):
+        recipe_archive(path, {"1"}, tmp_path / "media")
+    assert not (tmp_path / "media").exists()
+
+
+def test_missing_and_duplicate_media_are_reported_without_placeholder(tmp_path):
+    path = tmp_path / "recipes.zip"
+    archive(path, ["synthetic_recipe_images/recipe2.png"])
+    report = recipe_archive(path, {"1", "2"}, tmp_path / "media")
+    assert report.missing == ("1",) and set(report.images) == {"2"}
+    first = report.images["2"]
+    repeated = recipe_archive(path, {"1", "2"}, tmp_path / "media")
+    assert repeated.images["2"] == first
+    assert len(list((tmp_path / "media").iterdir())) == 1
+
+
+def test_storage_symlink_and_decode_limits(tmp_path, monkeypatch):
+    import food_recommender.ingestion.images as module
+
+    real = tmp_path / "real"
+    real.mkdir()
+    root = tmp_path / "link"
+    root.symlink_to(real, target_is_directory=True)
+    with pytest.raises(OSError):
+        prepare_image(png(), root)
+    assert list(real.iterdir()) == []
+    monkeypatch.setattr(module, "MAX_PIXELS", 1)
+    with pytest.raises(SourceError):
+        prepare_image(png(), real)
+    monkeypatch.setattr(module, "MAX_BYTES", 1)
+    with pytest.raises(SourceError):
+        prepare_image(png(), real)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "kind",
+    [
+        "oversized_header",
+        "oversized_body",
+        "timeout",
+        "redirect_loop",
+        "empty",
+        "mixed_dns",
+    ],
+)
+async def test_bounded_download_failures(kind, monkeypatch):
+    import food_recommender.ingestion.images as module
+
+    monkeypatch.setattr(module, "MAX_BYTES", 100)
+    calls = []
+
+    def respond(request):
+        calls.append(request)
+        if kind == "oversized_header":
+            return httpx.Response(200, headers={"Content-Length": "101"}, content=b"x")
+        if kind == "oversized_body":
+            return httpx.Response(200, content=b"x" * 101)
+        if kind == "timeout":
+            raise httpx.ReadTimeout("synthetic")
+        if kind == "redirect_loop":
+            return httpx.Response(302, headers={"Location": "/again"})
+        return httpx.Response(200, content=b"")
+
+    async def resolve(host):
+        return ["8.8.8.8", "127.0.0.1"] if kind == "mixed_dns" else ["8.8.8.8"]
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(respond)) as client:
+        with pytest.raises(SourceError):
+            await CourseDownloader(client, resolve=resolve).download(
+                "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/a.png"
+            )
+    assert len(calls) <= 4
+    if kind == "mixed_dns":
+        assert calls == []

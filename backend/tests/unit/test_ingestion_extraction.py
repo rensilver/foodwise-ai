@@ -82,3 +82,30 @@ async def test_groq_request_contract_preserves_model_and_has_no_tools():
             None,
         ).preview("Soup", RestaurantFields, source="input", record_id="1")
         assert result.status == "validated"
+
+
+@pytest.mark.asyncio
+async def test_unchanged_success_and_quarantine_skip_repeated_inference(tmp_path):
+    provider = Provider(['{"name":"Soup"}'])
+    service = ExtractionService(provider, tmp_path / "quarantine")
+    first = await service.extract(
+        "Soup text", RestaurantFields, source="input", record_id="1"
+    )
+    second = await service.extract(
+        "Soup text", RestaurantFields, source="input", record_id="1"
+    )
+    assert first == second and len(provider.calls) == 1
+    provider = Provider(["{}"] * 3)
+    service = ExtractionService(provider, tmp_path / "quarantine")
+    first = await service.extract(
+        "Different text", RestaurantFields, source="input", record_id="2"
+    )
+    second = await service.extract(
+        "Different text", RestaurantFields, source="input", record_id="2"
+    )
+    assert first == second and len(provider.calls) == 3
+    changed = Provider(['{"name":"Changed"}'])
+    third = await ExtractionService(changed, tmp_path / "quarantine").extract(
+        "Changed text", RestaurantFields, source="input", record_id="2"
+    )
+    assert third.status == "validated" and len(changed.calls) == 1

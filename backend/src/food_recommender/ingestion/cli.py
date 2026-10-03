@@ -94,7 +94,7 @@ async def review_media(
                         image,
                         locator,
                         source,
-                        image_record_id=str(number),
+                        image_record_id=f"{item.data.id}:{number}",
                         caption_text=caption,
                     )
                 except (SourceError, OSError) as error:
