@@ -389,7 +389,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 **Verification:** deterministic fixtures and labeled source-backed queries against PostgreSQL.
 
 - [x] P04-01 Construct retrieval documents containing restaurant descriptions, ambiance, signatures and shortcomings; recipe ingredients/directions/captions; and scoped review evidence.
-- [ ] P04-02 Implement token-aware chunking and provenance offsets; preserve complete canonical ingredients for dietary checks even when retrieval uses excerpts.
+- [x] P04-02 Implement token-aware chunking and provenance offsets; preserve complete canonical ingredients for dietary checks even when retrieval uses excerpts.
 - [ ] P04-03 Generate normalized MiniLM 384-dimensional embeddings on CPU with hashes, revision checks and batched upserts.
 - [ ] P04-04 Implement parameterized PostgreSQL full-text and exact cosine search with applicable metadata filters and validated result limits.
 - [ ] P04-05 Implement explicit hard-constraint handling and supported/conflicting/unknown evidence states; never classify missing dietary evidence as compliant.
@@ -400,7 +400,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 
 **Exit criterion:** real PostgreSQL retrieval returns reproducible, constrained, cited candidates; no simulated LLM-generated search results remain in the new runtime.
 
-**Evidence / blockers:** P04-01: deterministic source projections verified by three unit tests (2026-10-03). Remaining Phase 4 work in progress.
+**Evidence / blockers:** P04-01: deterministic source projections verified by three unit tests (2026-10-03). P04-02: lossless Unicode/token-boundary offsets and late-ingredient preservation verified (five focused tests). Remaining Phase 4 work in progress.
 
 ## Phase 5 — Multimodal retrieval and fusion
 
