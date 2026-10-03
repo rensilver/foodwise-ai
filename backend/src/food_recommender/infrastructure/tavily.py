@@ -1,7 +1,9 @@
 """Fixed Tavily endpoint with bounded response and redacted failures."""
 
+import ipaddress
 from collections.abc import Callable
 from datetime import UTC, date, datetime
+from email.utils import parsedate_to_datetime
 from uuid import uuid4
 
 import httpx
@@ -16,6 +18,27 @@ class TavilyItem(BaseModel):
     content: str = Field(min_length=1, max_length=20000)
     published_date: date | None = None
 
+    @field_validator("url")
+    @classmethod
+    def public_url(cls, value: HttpUrl) -> HttpUrl:
+        host = (value.host or "").lower().strip("[]")
+        if (
+            value.username
+            or value.password
+            or host == "localhost"
+            or host.endswith((".localhost", ".local", ".internal"))
+        ):
+            raise ValueError("Citation URL must be public without credentials")
+        try:
+            address = ipaddress.ip_address(host)
+        except ValueError:
+            if "." not in host:
+                raise ValueError("Citation URL must use a public host") from None
+        else:
+            if not address.is_global:
+                raise ValueError("Citation URL must be public")
+        return value
+
     @field_validator("published_date", mode="before")
     @classmethod
     def publication(cls, value: object) -> object:
@@ -23,7 +46,10 @@ class TavilyItem(BaseModel):
             try:
                 return date.fromisoformat(value[:10])
             except ValueError:
-                return None
+                try:
+                    return parsedate_to_datetime(value).date()
+                except (ValueError, TypeError):
+                    return None
         return value
 
 
