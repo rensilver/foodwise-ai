@@ -12,6 +12,7 @@ from sqlalchemy import (
     Date,
     Float,
     ForeignKey,
+    Index,
     Integer,
     MetaData,
     Text,
@@ -54,6 +55,13 @@ def _identity_constraints() -> tuple[UniqueConstraint | CheckConstraint, ...]:
 class Restaurant(SourceIdentity, Base):
     __tablename__ = "restaurants"
     __table_args__ = (
+        Index(
+            "ix_restaurants_filters",
+            "normalized_cuisine",
+            "normalized_location",
+            "price_band",
+        ),
+        Index("ix_restaurants_location_price", "normalized_location", "price_band"),
         *_identity_constraints(),
         CheckConstraint("name ~ '[^[:space:]]'", name="name_nonempty"),
         CheckConstraint("price_band BETWEEN 1 AND 4", name="price_band_range"),
@@ -84,6 +92,7 @@ class Restaurant(SourceIdentity, Base):
 class Recipe(SourceIdentity, Base):
     __tablename__ = "recipes"
     __table_args__ = (
+        Index("ix_recipes_cuisine", "normalized_cuisine"),
         *_identity_constraints(),
         CheckConstraint("name ~ '[^[:space:]]'", name="name_nonempty"),
         CheckConstraint("servings > 0", name="servings_positive"),
@@ -109,6 +118,7 @@ class Recipe(SourceIdentity, Base):
 class Review(SourceIdentity, Base):
     __tablename__ = "reviews"
     __table_args__ = (
+        Index("ix_reviews_profile_restaurant", "demo_profile_id", "restaurant_id"),
         *_identity_constraints(),
         CheckConstraint(
             "demo_profile_id ~ '[^[:space:]]'", name="demo_profile_id_nonempty"

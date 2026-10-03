@@ -61,7 +61,7 @@ def test_fresh_migration_matches_models_and_is_reversible(catalog) -> None:
         connection.exec_driver_sql(
             "SELECT version_num FROM alembic_version"
         ).scalar_one()
-        == "0003_embeddings"
+        == "0004_search"
     )
     command.downgrade(config, "base")
     assert (

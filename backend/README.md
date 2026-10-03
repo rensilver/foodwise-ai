@@ -466,3 +466,12 @@ because other applications may use it. A database administrator must preinstall
 pgvector for a limited role, as the Compose/bootstrap scripts already do. Exact
 cosine search remains the baseline; embedding generation and retrieval services
 are Phase 4/5 work.
+
+## Search schema (P02-05)
+
+Revision `0004_search` adds a stored English `documents.search_vector` computed
+from its complete text on every write and a GIN index. Ordinary B-tree indexes
+cover normalized restaurant cuisine/location/price, location/price alone, recipe
+cuisine, profile-scoped reviews and document/media/entity links. No approximate
+vector index is created. Phase 4 builds the source-backed documents and query
+services over these fields.

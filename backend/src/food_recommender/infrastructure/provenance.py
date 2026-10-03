@@ -10,16 +10,18 @@ from datetime import date, datetime
 from sqlalchemy import (
     BigInteger,
     CheckConstraint,
+    Computed,
     Date,
     DateTime,
     ForeignKey,
     ForeignKeyConstraint,
+    Index,
     Integer,
     Text,
     UniqueConstraint,
     func,
 )
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import JSONB, TSVECTOR
 from sqlalchemy.orm import Mapped, mapped_column
 
 from food_recommender.infrastructure.catalog import Base
@@ -91,6 +93,9 @@ class Source(HashedContent, Base):
 class SourceRecord(AttributedContent, Base):
     __tablename__ = "source_records"
     __table_args__ = (
+        Index("ix_source_records_restaurant", "restaurant_id"),
+        Index("ix_source_records_recipe", "recipe_id"),
+        Index("ix_source_records_review", "review_id"),
         UniqueConstraint("source_id", "record_type", "record_id"),
         *_attribution_constraints(),
         *_nonempty("record_id"),
@@ -137,6 +142,7 @@ class SourceRecord(AttributedContent, Base):
 class Media(AttributedContent, Base):
     __tablename__ = "media"
     __table_args__ = (
+        Index("ix_media_source_record", "source_record_id"),
         *_attribution_constraints(),
         UniqueConstraint("storage_key"),
         # Supports document/media association validation with a composite FK.
@@ -169,6 +175,8 @@ class Media(AttributedContent, Base):
 class Document(AttributedContent, Base):
     __tablename__ = "documents"
     __table_args__ = (
+        Index("ix_documents_search", "search_vector", postgresql_using="gin"),
+        Index("ix_documents_source_record", "source_record_id"),
         *_attribution_constraints(),
         *_nonempty("kind", "text"),
         ForeignKeyConstraint(
@@ -195,3 +203,9 @@ class Document(AttributedContent, Base):
     text: Mapped[str] = mapped_column(Text, nullable=False)
     start_offset: Mapped[int | None] = mapped_column(Integer)
     end_offset: Mapped[int | None] = mapped_column(Integer)
+
+    search_vector: Mapped[str] = mapped_column(
+        TSVECTOR,
+        Computed("to_tsvector('english'::regconfig, text)", persisted=True),
+        nullable=False,
+    )

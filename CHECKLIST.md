@@ -111,7 +111,7 @@ Phase 1 closure audit on 2026-10-03 against committed revision `8a6fd90`: **the 
 - [x] P02-02 Model restaurants, recipes and reviews with stable identities, source-ID uniqueness and valid foreign keys; keep unknown fields nullable.
 - [x] P02-03 Add source-record, document and media provenance including content hashes, timestamps, raw payloads and generation/import attribution.
 - [x] P02-04 Create separate text `vector(384)` and image `vector(512)` storage with embedding model/revision/input hashes; enable pgvector through migration.
-- [ ] P02-05 Add PostgreSQL full-text fields and ordinary filter indexes; keep exact vector search as the initial implementation.
+- [x] P02-05 Add PostgreSQL full-text fields and ordinary filter indexes; keep exact vector search as the initial implementation.
 - [ ] P02-06 Add conversations, profiles, session ownership and trend cache persistence; initialize PostgreSQL checkpoint tables through the supported LangGraph path.
 - [ ] P02-07 Implement repository and transaction ports/adapters, optimistic record versions and atomic catalog/document/vector writes.
 - [ ] P02-08 Test fresh migrations, rollback on failed writes, duplicate-ID rejection, foreign-key enforcement, version conflicts and session isolation.
@@ -247,6 +247,14 @@ model/revision identities, invalid metadata, norms and parent cleanup. The scope
 catalog/provenance/vector/migration suite passed all 95 tests; strict mypy passed
 30 source files and Ruff lint/format passed. Migration downgrade deliberately
 retains the shared vector extension. No inference or model downloads occurred.
+
+P02-05 verified on 2026-10-03: revision `0004_search` adds a stored English
+`tsvector` derived from document text, a GIN lexical index and ordinary cuisine,
+location/price, scoped-review and provenance-link indexes. Two new database
+contracts verify stemming and automatic refresh after text updates, index
+definitions and absence of HNSW/IVFFlat. All 32 scoped search/catalog tests passed;
+strict mypy and Ruff lint/format passed. Exact vector search remains the baseline;
+query planning, document construction and retrieval are still Phase 4 tasks.
 
 ## Phase 3 — Validated ingestion and media preparation
 
