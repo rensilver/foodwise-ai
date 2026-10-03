@@ -538,3 +538,20 @@ snapshot; Phase 7 supplies follow-up merging rules. Trend reads exclude expired
 or future cache entries; publication-date eligibility remains Phase 6. Backend
 composition exposes `Services.transactions`, constructs no database connections
 until use and disposes its pool at shutdown. Routes are Phase 8 work.
+
+## Persistence integrity acceptance (P02-08)
+
+[Integrity tests](tests/integration/test_persistence_integrity.py) run against
+the disposable real PostgreSQL database, including two separate pooled
+connections competing for one expected version. Exactly one update commits.
+Failed replacements/foreign-key deletes and cancellation preserve complete
+previous data; duplicate IDs cannot create partial provenance/retrieval rows.
+Additional checks exercise upgrade of legacy synthetic profiles, session-scoped
+reads/writes, explicit-restriction roundtrips, cache expiry boundaries and failed
+cache refreshes. Existing suites cover fresh downgrade/upgrade/schema parity,
+nullable unknowns, source/media identity and normalized vector constraints.
+
+Run `make test-integration` with the documented `TEST_DATABASE_URL`. Tests
+require `foodwise_test` on loopback and never use the application database.
+The concurrency contract commits only its uniquely named fixture record and
+cleans it afterward; migrations are committed to the disposable test database.

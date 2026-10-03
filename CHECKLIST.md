@@ -114,7 +114,7 @@ Phase 1 closure audit on 2026-10-03 against committed revision `8a6fd90`: **the 
 - [x] P02-05 Add PostgreSQL full-text fields and ordinary filter indexes; keep exact vector search as the initial implementation.
 - [x] P02-06 Add conversations, profiles, session ownership and trend cache persistence; initialize PostgreSQL checkpoint tables through the supported LangGraph path.
 - [x] P02-07 Implement repository and transaction ports/adapters, optimistic record versions and atomic catalog/document/vector writes.
-- [ ] P02-08 Test fresh migrations, rollback on failed writes, duplicate-ID rejection, foreign-key enforcement, version conflicts and session isolation.
+- [x] P02-08 Test fresh migrations, rollback on failed writes, duplicate-ID rejection, foreign-key enforcement, version conflicts and session isolation.
 - [ ] P02-09 Define and test deletion of conversation-owned messages/checkpoints/uploads without deleting shared catalog data.
 
 **Exit criterion:** typed domain rules and persistence contracts are independently testable; migrations and integrity/ownership tests pass against PostgreSQL/pgvector.
@@ -285,6 +285,18 @@ Four real repository tests and seven prepared-input tests passed; the scoped
 repository/catalog/lifecycle suite passed 48 tests. Ruff and strict mypy passed.
 File cleanup is completed in P02-09; HTTP CRUD and retrieval/ingestion remain
 later phases. No paid providers were called.
+
+P02-08 verified on 2026-10-03: eleven additional real PostgreSQL acceptance
+tests cover duplicate canonical/source IDs through application adapters, complete
+rollback of failed replacements, cancellation rollback, foreign-key rejection
+without partial retrieval cleanup, legacy-review profile backfill, positive
+versions, retained explicit restrictions and unauthorized message/media writes.
+A two-connection race proves one winner and one conflict for the same expected
+version. Cache tests prove inclusive retrieval/exclusive expiry boundaries,
+unknown publication-date preservation and atomic failed refresh rollback.
+Explicit `alembic upgrade head`, `alembic check` (no new operations) and supported
+checkpoint setup passed on the limited disposable test role. Full backend
+verification and conversation deletion evidence follow in P02-09.
 
 ## Phase 3 — Validated ingestion and media preparation
 
