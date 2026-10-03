@@ -441,7 +441,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 - [x] P06-08 Enforce freshness at cache read and citation time; unknown publication dates cannot substantiate current trends.
 - [x] P06-09 Handle timeout, rate limits, no results, stale cache and missing credentials as explicit unavailable trend evidence.
 - [x] P06-10 Test tool/resource discovery, protocol errors, connection reuse, limits, path/SQL/tool injection, both transports and prohibited mutation capabilities.
-- [ ] P06-11 Verify that Groq inference stays in the application, no sampling callback is required, and filesystem restrictions do not depend on roots alone.
+- [x] P06-11 Verify that Groq inference stays in the application, no sampling callback is required, and filesystem restrictions do not depend on roots alone.
 - [ ] P06-12 Run an explicitly enabled Tavily smoke test with a fresh key and record dated evidence plus request usage; keep offline tests independent of it.
 
 **Exit criterion:** the app can discover and call real retrieval/trend tools through MCP, and both live and unavailable-trend behavior are demonstrated.

@@ -16,6 +16,7 @@ from food_recommender.application.lookups import (
     ReviewMatch,
 )
 from food_recommender.application.trends import TrendRequest, TrendResult
+from food_recommender.infrastructure.config import Settings
 from food_recommender.mcp.schemas import ImageRequest, SearchRequest
 
 RAG_TOOLS = frozenset(
@@ -146,3 +147,13 @@ class AgentMCP:
             return adapter.validate_json(json.dumps(result.structured_content))
         except (ValidationError, ValueError, TypeError):
             raise ToolPolicyError("Invalid tool result") from None
+
+
+def configured_client(settings: Settings) -> Client[Any]:
+    """Construct once at application startup; no model/tool can choose the endpoint.
+
+    Keep its context open for the application lifetime. AgentMCP views share this
+    connection through FastMCP's reentrant context, rather than connecting per call.
+    No sampling callback or roots is registered.
+    """
+    return Client(str(settings.mcp_server_url), timeout=30, init_timeout=10)

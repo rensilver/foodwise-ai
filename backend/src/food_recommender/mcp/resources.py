@@ -1,12 +1,8 @@
 """Fixed public catalog resources; no caller-controlled filesystem access."""
 
-from typing import Protocol
-
 from fastmcp import FastMCP
 
-
-class CatalogResources(Protocol):
-    async def read(self, name: str) -> str: ...
+from food_recommender.application.resources import CatalogResources
 
 
 def register_resources(server: FastMCP, store: CatalogResources) -> None:
