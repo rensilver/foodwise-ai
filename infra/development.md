@@ -213,13 +213,13 @@ and loopback permissions; resolve sandbox denials before assessing results.
 
 | Operation | Current status | Planned checklist task |
 | --- | --- | --- |
-| Application migrations | P02-02 adds Alembic configuration and the initial restaurant/recipe/review revision. Explicit host-run commands are below. Provenance, vector/full-text and conversation schema remain planned. | P02-02 verified; P02-03 through P02-08 remain open. |
+| Application migrations | P02-02/P02-03 add Alembic configuration and catalog/source/document/media revisions. Explicit host-run commands are below. Vector/full-text and conversation schema remain planned. | P02-02/P02-03 verified; P02-04 through P02-08 remain open. |
 | Culinary ingestion | The ingestion package is a scaffold; no import CLI or resumable importer exists. | Phase 3, P03-01 through P03-10. |
 | Source audit | `python scripts/phase0_audit.py` from the root is implemented. It requires local course/data/media artifacts and writes Phase 0 reports. It does not populate PostgreSQL. | Phase 0 evidence. |
 | Provider capability smoke tests | No live setup/smoke command exists. Health and offline tests do not validate Groq model access or dated Tavily evidence. | P06-12, P07-01 and P07-14. |
 | Full clean-checkout release | Local media/course recovery, application migrations, ingestion and acceptance flows remain required. | P11-01 through P11-09. |
 
-From `backend/`, preview the implemented catalog migration without connecting:
+From `backend/`, preview the implemented catalog/provenance migrations without connecting:
 
 ```bash
 uv run --locked alembic upgrade head --sql
@@ -238,8 +238,9 @@ Migrations read only the process environment and require no provider credentials
 they do not load the root dotenv file or run automatically at application startup.
 The current backend image does not include the migration files; use the host
 checkout. See the [catalog migration guide](../backend/README.md#catalog-persistence-and-migrations-p02-02)
+and [provenance guide](../backend/README.md#source-document-and-media-provenance-p02-03)
 for identity, nullable fields, rollback behavior and verification. These commands
-create empty catalog tables. Test-database bootstrap and source auditing do not
+create empty catalog/provenance tables. Test-database bootstrap and source auditing do not
 perform culinary ingestion; no import command is implemented yet.
 
 A clean checkout includes scaffold source and seed JSON/text. The four course

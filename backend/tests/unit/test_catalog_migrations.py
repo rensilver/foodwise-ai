@@ -20,10 +20,39 @@ def test_migration_preview_needs_no_database_or_provider_configuration(
     command.upgrade(migration_config(output), "head", sql=True)
     sql = output.getvalue()
     assert sql.startswith("BEGIN;")
-    for table in ("restaurants", "recipes", "reviews"):
+    for table in (
+        "restaurants",
+        "recipes",
+        "reviews",
+        "sources",
+        "source_records",
+        "documents",
+        "media",
+    ):
         assert f"CREATE TABLE {table}" in sql
     assert "REFERENCES restaurants (id) ON DELETE RESTRICT ON UPDATE RESTRICT" in sql
     assert "COMMIT;" in sql
+
+
+def test_provenance_only_upgrade_preview_preserves_existing_catalog() -> None:
+    output = StringIO()
+    command.upgrade(migration_config(output), "0001_catalog:head", sql=True)
+    sql = output.getvalue()
+    assert "CREATE TABLE source_records" in sql
+    assert "CREATE TABLE restaurants" not in sql
+    assert "ALTER TABLE restaurants" not in sql
+    assert "TIMESTAMP WITH TIME ZONE" in sql
+    assert "raw_payload JSONB" in sql
+    assert "REFERENCES media (id, source_record_id)" in sql
+
+
+def test_provenance_only_downgrade_preview_preserves_catalog() -> None:
+    output = StringIO()
+    command.downgrade(migration_config(output), "head:0001_catalog", sql=True)
+    sql = output.getvalue()
+    for table in ("documents", "media", "source_records", "sources"):
+        assert f"DROP TABLE {table}" in sql
+    assert "DROP TABLE recipes" not in sql
 
 
 def test_online_migrations_require_explicit_database(

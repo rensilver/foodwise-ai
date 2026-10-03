@@ -5,7 +5,8 @@ configuration in the infrastructure package. P01-05 adds FastAPI and FastMCP
 startup factories and local health probes. P01-08 adds composition roots,
 application readiness dependencies, typed failures and structured logging.
 P02-01 adds shared domain contracts and boundary validation. P02-02 adds catalog
-persistence models and the initial migration; agent execution, retrieval and
+persistence models and the initial migration. P02-03 adds source, document and
+media provenance; agent execution, retrieval and
 repository adapters remain planned. P01-02 pins Python 3.12.14 in
 [.python-version](.python-version), uv 0.12.5 in
 [pyproject.toml](pyproject.toml), and framework/provider dependencies in
@@ -227,7 +228,7 @@ Run them from `backend/` with:
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run --locked pytest -p pytest_asyncio.plugin tests/unit/test_foundation.py
 ```
 
-`migrations/versions` contains the initial catalog Alembic revision.
+`migrations/versions` contains the catalog and provenance Alembic revisions.
 `tests/unit` contains the configuration and service-health contracts;
 `tests/integration` contains real PostgreSQL/pgvector foundation checks;
 `tests/contract` contains offline provider SDK and local model-fixture checks.
@@ -293,7 +294,7 @@ restaurant `"1"` and recipe `"1"` can coexist. Preserve legacy IDs as strings.
 New entities need caller-assigned collision-free identities, rather than IDs
 derived from row counts. `source_id` denotes the logical dataset; base and
 augmented files belonging to that dataset share its identity. File/URL/hash
-provenance and merge adapters arrive in P02-03 and Phase 3.
+provenance is described below; merge adapters arrive in Phase 3.
 
 Review `restaurant_id` references only `restaurants.id`. PostgreSQL rejects
 missing targets and blocks deletion or ID changes while reviews reference a
@@ -349,9 +350,68 @@ run:
 make test-integration
 ```
 
-Document/media provenance, vector/full-text storage, conversation persistence,
+Vector/full-text storage, conversation persistence,
 repositories, optimistic versions and application transaction boundaries remain
-P02-03 onward. P02-02 does not satisfy the Phase 2 exit gate.
+P02-04 onward. P02-02 does not satisfy the Phase 2 exit gate.
+
+## Source, document and media provenance (P02-03)
+
+The [provenance mappings](src/food_recommender/infrastructure/provenance.py) extend
+the catalog metadata. Import this module to register all seven tables; imports
+perform no database or filesystem I/O. The
+[second revision](migrations/versions/0002_provenance.py) adds four empty tables
+without modifying existing catalog rows. The migration commands above apply
+both revisions. `alembic downgrade 0001_catalog` removes only provenance tables
+and their data; verify rollback only on a disposable database.
+
+| Table | Provenance contract |
+| --- | --- |
+| `sources` | A caller-assigned artifact ID, logical dataset ID, file/URL/admin locator, SHA-256 content hash, creation time, optional publication date and retrieval time. The logical dataset/locator kind/locator/hash tuple is unique, so changed file contents form a separate revision. |
+| `source_records` | Unique artifact/type/original-record identity, raw JSON payload and/or verbatim text, content hash, ingestion version and attribution. Optional restaurant/recipe/review foreign keys link at most one entity of the declared type; all-null links preserve unresolved input. |
+| `documents` | Source-record reference, kind, text, hash, ingestion version, attribution and optional half-open offsets in the parent text used for chunking. Optional media links must refer to the same source record. |
+| `media` | Source-record reference, unique private storage basename, optional original filename/URL, JPEG/PNG/WebP MIME type, positive byte size and dimensions, hash, ingestion version and attribution. Identical bytes can retain separate entity associations. |
+
+Catalog `source_id` means the logical dataset; `source_records.source_id` means
+the physical artifact row. A base JSON file and its augmented file have separate
+artifact/record rows that can link to the same canonical entity, preserving both
+raw payloads without duplicating that entity. Record IDs retain their original
+source namespace. Reviewed mappings and ingestion adapters must choose the
+correct entity association; foreign keys validate existence and entity type,
+not whether an image actually depicts that entity.
+
+Hashes are lowercase, 64-character SHA-256 hex strings. Database checks enforce
+their format; Phase 3 ingestion computes/verifies their contents. `created_at`
+defaults to the database transaction timestamp; all timestamp columns use
+timezone-aware PostgreSQL storage. Unknown publication/retrieval dates remain
+SQL `NULL`. Treat content revisions as append-only in ingestion; the schema
+does not make rows immutable. Assign new JSON values when updating raw payloads.
+
+Records, documents and media require explicit `source`, `imported` or `generated`
+attribution. New generated content requires a nonblank generator identity and
+input hash; generator revision stays nullable when unavailable. The ingestion
+version identifies the processing code/prompt version. Imported course captions
+can retain unknown generator details and must remain attributed as imported;
+caption text does not establish observed ingredients or allergen compliance.
+
+Foreign keys restrict parent deletion and ID changes. Application transactions
+must explicitly remove dependent documents/media before their source records.
+Storage keys contain no directory separators and are internal references, not
+public URLs. This revision stores catalog media metadata; file decoding, upload
+limits, storage operations, session ownership and conversation cleanup remain
+Phase 3/P02-06/P02-09 work. Document construction and token-aware chunking remain
+Phase 4 work; ingestion must validate offsets against the actual parent text.
+Vectors, full-text indexes, repositories and validated CRUD remain later tasks.
+
+[Real PostgreSQL provenance contracts](tests/integration/test_provenance_models.py)
+cover base/augmented/revised artifacts, unresolved raw text, type namespaces,
+generated/imported attribution, dates/hashes, duplicate rejection, invalid
+values, cross-record media links, restrictive foreign keys, partial-write
+rollback and catalog-preserving upgrade/downgrade/re-upgrade. The
+[shared fixture](tests/integration/conftest.py) migrates and writes inside a
+rolled-back transaction. Run `make test-integration` with the disposable
+`TEST_DATABASE_URL` from the [CI guide](../infra/ci.md#reproduce-the-database-and-model-checks-locally).
+Offline migration tests also preview both upgrade and downgrade without a
+database or provider configuration. P02-03 does not satisfy the Phase 2 exit gate.
 
 ## Quality scripts (P01-06)
 

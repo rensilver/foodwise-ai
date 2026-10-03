@@ -109,7 +109,7 @@ Phase 1 closure audit on 2026-10-03 against committed revision `8a6fd90`: **the 
 
 - [x] P02-01 Define typed preferences, explicit/inferred constraints, candidate evidence, expert outcomes, recommendations, citations and progress events.
 - [x] P02-02 Model restaurants, recipes and reviews with stable identities, source-ID uniqueness and valid foreign keys; keep unknown fields nullable.
-- [ ] P02-03 Add source-record, document and media provenance including content hashes, timestamps, raw payloads and generation/import attribution.
+- [x] P02-03 Add source-record, document and media provenance including content hashes, timestamps, raw payloads and generation/import attribution.
 - [ ] P02-04 Create separate text `vector(384)` and image `vector(512)` storage with embedding model/revision/input hashes; enable pgvector through migration.
 - [ ] P02-05 Add PostgreSQL full-text fields and ordinary filter indexes; keep exact vector search as the initial implementation.
 - [ ] P02-06 Add conversations, profiles, session ownership and trend cache persistence; initialize PostgreSQL checkpoint tables through the supported LangGraph path.
@@ -190,6 +190,54 @@ downloads were used. The source secret scanner reported zero findings across
 84 files; documentation checks validated 115 local links, balanced fences and
 unique checklist IDs, and `git diff --check` passed. P02-03 onward and the Phase 2
 exit gate remain open.
+
+P02-03 verified on 2026-10-03 with Python 3.12.14, PostgreSQL 16.14 and
+pgvector 0.8.6. [Provenance mappings](backend/src/food_recommender/infrastructure/provenance.py)
+add source artifacts, raw source records, documents and catalog media. Physical
+file/URL/admin revisions retain logical dataset IDs, original locators, SHA-256
+hashes, timezone-aware creation/retrieval timestamps and nullable publication
+dates. Records preserve raw JSON and/or verbatim text, ingestion versions and
+source/imported/generated attribution. Generated content requires a generator
+identity and input hash; unavailable generator revisions remain null. Base and
+augmented artifacts can link to the same canonical entity without duplication;
+unresolved records retain null entity links. Type checks and catalog foreign keys
+reject invalid associations. Documents retain optional chunk offsets; media
+retain original filenames/URLs, private storage basenames, MIME types, sizes and
+dimensions. Composite foreign keys reject document/image links across source
+records; parent deletion/ID changes are restrictive.
+
+[Revision 0002](backend/migrations/versions/0002_provenance.py) adds four tables
+without changing existing catalog rows; its downgrade removes only provenance.
+The migration environment registers the complete metadata without startup I/O.
+[Backend](backend/README.md#source-document-and-media-provenance-p02-03),
+[developer](infra/development.md#migration-ingestion-and-release-availability) and
+[CI](infra/ci.md) guides document identities, attribution, migration commands and
+remaining scope. Hash computation, source/entity reconciliation, document
+construction/chunking, media decoding/storage, session ownership and cleanup
+remain their later tasks; schema metadata alone does not verify image content
+or dietary compliance.
+
+Red verification failed collection because provenance mappings were absent.
+The first migration run caught an unqualified JSONB type emitted by Alembic;
+it was corrected before successful verification. All 52 new contracts passed:
+50 [real PostgreSQL provenance tests](backend/tests/integration/test_provenance_models.py)
+and two additional [offline migration previews](backend/tests/unit/test_catalog_migrations.py).
+They verify raw-data/attribution/date/hash roundtrips, source revisions, unresolved
+records, type namespaces, duplicate rejection, foreign keys, malformed metadata,
+cross-record image rejection, partial-write rollback and catalog-preserving
+upgrade/downgrade/re-upgrade. Catalog/provenance tests share a
+[transaction-isolated fixture](backend/tests/integration/conftest.py).
+`make check` passed Ruff lint/format (46 files), strict mypy (29 runtime files),
+and all 153 tests with zero skips in 14.85 seconds, including existing seeded
+CPU model fixtures and fake provider boundaries. Explicit Alembic upgrade/current,
+schema check and downgrade succeeded on a disposable pinned PostgreSQL/pgvector
+container with synthetic credentials and a limited application role;
+`alembic check` found no new operations. The container was removed afterward.
+Process/cache/Docker/loopback access required automatically approved sandbox
+escalation. The source scan reported zero findings across 88 files; documentation
+link/fence/checklist checks and `git diff --check` passed. No owner configuration,
+application database, provider calls, model downloads or dependency changes
+were used. P02-04 onward and the Phase 2 exit gate remain open.
 
 ## Phase 3 — Validated ingestion and media preparation
 

@@ -1,36 +1,14 @@
 """Catalog identity and integrity enforced by migrated, real PostgreSQL tables."""
 
-from collections.abc import Iterator
-from pathlib import Path
-
 import pytest
 from alembic import command
 from alembic.autogenerate import compare_metadata
-from alembic.config import Config
 from alembic.migration import MigrationContext
-from sqlalchemy import Connection, create_engine, delete, insert, select, update
+from sqlalchemy import delete, insert, select, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from food_recommender.infrastructure.catalog import Base, Recipe, Restaurant, Review
-
-
-@pytest.fixture
-def catalog(database_url: str) -> Iterator[tuple[Connection, Config]]:
-    engine = create_engine(
-        database_url.replace("postgresql://", "postgresql+psycopg://", 1),
-        hide_parameters=True,
-    )
-    config = Config(str(Path(__file__).parents[2] / "alembic.ini"))
-    with engine.connect() as connection:
-        transaction = connection.begin()
-        config.attributes["connection"] = connection
-        try:
-            command.upgrade(config, "head")
-            yield connection, config
-        finally:
-            transaction.rollback()
-    engine.dispose()
 
 
 def restaurant(**changes: object) -> dict[str, object]:
@@ -67,13 +45,21 @@ def review(**changes: object) -> dict[str, object]:
 
 def test_fresh_migration_matches_models_and_is_reversible(catalog) -> None:
     connection, config = catalog
-    assert set(Base.metadata.tables) == {"restaurants", "recipes", "reviews"}
+    assert set(Base.metadata.tables) == {
+        "restaurants",
+        "recipes",
+        "reviews",
+        "sources",
+        "source_records",
+        "documents",
+        "media",
+    }
     assert compare_metadata(MigrationContext.configure(connection), Base.metadata) == []
     assert (
         connection.exec_driver_sql(
             "SELECT version_num FROM alembic_version"
         ).scalar_one()
-        == "0001_catalog"
+        == "0002_provenance"
     )
     command.downgrade(config, "base")
     assert (

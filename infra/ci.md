@@ -94,8 +94,12 @@ for real Alembic migrations, schema/model parity, canonical/source identity,
 review foreign keys and nullable metadata. Those tests apply migrations using
 an injected SQLAlchemy connection and roll back their tables/data on completion.
 The same CI database role runs both suites without additional privileges.
-Provenance/vector/conversation migrations, repositories and retrieval remain
-later tasks.
+P02-03 adds [provenance contracts](../backend/tests/integration/test_provenance_models.py)
+for source revisions, raw records, document/media associations, attribution,
+hashes/dates, duplicate rejection and rollback. The shared fixture uses the same
+limited role and transaction isolation; upgrade/downgrade checks preserve the
+existing catalog. Vector/conversation migrations, repositories and retrieval
+remain later tasks.
 
 For only the database suite, run `make test-integration` from `backend/` with
 `TEST_DATABASE_URL` still set. This target fails immediately if the setting is
