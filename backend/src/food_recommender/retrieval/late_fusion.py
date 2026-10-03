@@ -82,7 +82,14 @@ def late_fuse(
         if ref not in text_by_ref or candidate.rrf_score > text_by_ref[ref].rrf_score:
             text_by_ref[ref] = candidate
     image_by_ref: dict[EntityRef, list[ImageHit]] = {}
+    media_owners: dict[str, EntityRef] = {}
     for image in images:
+        if (
+            image.media_id in media_owners
+            and media_owners[image.media_id] != image.entity
+        ):
+            raise ValueError("Duplicate media belongs to different entities")
+        media_owners[image.media_id] = image.entity
         if image.citation.entity != image.entity:
             raise ValueError("Image citation entity mismatch")
         image_by_ref.setdefault(image.entity, []).append(image)
@@ -93,10 +100,23 @@ def late_fuse(
             for ref, hits in image_by_ref.items()
         }
     )
-    tw, iw = (
-        weights.text / (weights.text + weights.image),
-        weights.image / (weights.text + weights.image),
+    limitations = tuple(
+        f"{name} modality has no eligible evidence; active weights renormalized"
+        for name, configured, values in (
+            ("Text", weights.text, text_scores),
+            ("Image", weights.image, image_scores),
+        )
+        if configured > 0 and not values
     )
+    active_text = weights.text if text_scores else 0.0
+    active_image = weights.image if image_scores else 0.0
+    total = active_text + active_image
+    if total == 0:
+        return FusionResult(
+            (), 0.0, 0.0, limitations + ("No active modality has eligible evidence",)
+        )
+    tw, iw = active_text / total, active_image / total
+    refs = (set(text_scores) if tw else set()) | (set(image_scores) if iw else set())
     scores = {
         ref: tw * text_scores.get(ref, 0) + iw * image_scores.get(ref, 0)
         for ref in refs
@@ -106,16 +126,22 @@ def late_fuse(
         tc = text_by_ref.get(ref)
         ih = image_by_ref.get(ref, [])
         first = ih[0] if ih else None
-        citations = {c.id: c for c in tc.evidence.citations} if tc else {}
+        citations = {
+            citation.id: citation
+            for candidate in text
+            if candidate.evidence.entity == ref
+            for citation in candidate.evidence.citations
+        }
         citations.update({h.citation.id: h.citation for h in ih})
         evidence = CandidateEvidence(
             entity=ref,
             citations=tuple(citations[key] for key in sorted(citations)),
             relevance=scores[ref],
-            text_score=text_scores.get(ref),
-            image_score=image_scores.get(ref),
+            text_score=text_scores.get(ref, 0.0) if text_scores else None,
+            image_score=image_scores.get(ref, 0.0) if image_scores else None,
             lexical_rank=tc.evidence.lexical_rank if tc else None,
             dense_rank=tc.evidence.dense_rank if tc else None,
+            limitations=limitations,
         )
         base = tc if tc is not None else first
         if base is None:
@@ -134,4 +160,4 @@ def late_fuse(
                 tc.assessments if tc else (),
             )
         )
-    return FusionResult(tuple(result), tw, iw)
+    return FusionResult(tuple(result), tw, iw, limitations)
