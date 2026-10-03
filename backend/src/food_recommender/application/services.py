@@ -11,6 +11,7 @@ from food_recommender.application.persistence import (
     MediaCleanupService,
 )
 from food_recommender.application.ports import UnitOfWork
+from food_recommender.retrieval.multimodal import MultimodalRetrieval
 
 
 class ReadinessProbe(Protocol):
@@ -28,3 +29,4 @@ class Services:
     conversations: ConversationService | None = None
     media_cleanup: MediaCleanupService | None = None
     lookups: LookupService | None = None
+    retrieval: MultimodalRetrieval | None = None

@@ -11,7 +11,8 @@ from food_recommender.infrastructure.health import health_payload
 from food_recommender.infrastructure.http import ObservedHTTP
 from food_recommender.infrastructure.mcp_config import MCPSettings as MCPSettings
 from food_recommender.infrastructure.observability import Runtime, configure_logging
-from food_recommender.mcp.tools import register_lookups
+from food_recommender.mcp.tools import register_lookups, register_search
+from food_recommender.retrieval.multimodal import MultimodalRetrieval
 
 
 def create_app(
@@ -26,6 +27,7 @@ def create_app(
     server = FastMCP("foodwise-ai")
     if services.lookups is not None:
         register_lookups(server, services.lookups)
+    register_search(server, services.retrieval or MultimodalRetrieval(None, None))
 
     @server.custom_route("/health/live", methods=["GET"])
     async def live(request: Request) -> JSONResponse:

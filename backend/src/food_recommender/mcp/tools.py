@@ -12,6 +12,9 @@ from food_recommender.application.lookups import (
     RestaurantMatch,
     ReviewMatch,
 )
+from food_recommender.domain.values import Category
+from food_recommender.mcp.schemas import ImageRequest, SearchRequest
+from food_recommender.retrieval.multimodal import MultimodalOutcome, MultimodalRetrieval
 
 ShortText = Annotated[str, Field(min_length=1, max_length=200)]
 Limit = Annotated[int, Field(ge=1, le=20, strict=True)]
@@ -39,3 +42,25 @@ def register_lookups(server: FastMCP, service: LookupService) -> None:
     ) -> LookupResult[ReviewMatch]:
         """Return linked synthetic review evidence within an explicit demo scope."""
         return await service.review(restaurant_id, demo_profile_id)
+
+
+def register_search(server: FastMCP, service: MultimodalRetrieval) -> None:
+    @server.tool(annotations=READ_ONLY)
+    async def search_restaurants(request: SearchRequest) -> MultimodalOutcome:
+        """Constrained restaurant retrieval with source citations and component scores."""
+        return await service.run(request.plan(Category.RESTAURANT), use_images=False)
+
+    @server.tool(annotations=READ_ONLY)
+    async def search_recipes(request: SearchRequest) -> MultimodalOutcome:
+        """Constrained recipe retrieval; canonical ingredients support dietary checks."""
+        return await service.run(request.plan(Category.RECIPE), use_images=False)
+
+    @server.tool(annotations=READ_ONLY)
+    async def search_images(request: ImageRequest) -> MultimodalOutcome:
+        """CLIP text/image search using an authorized media ID and actual entity links."""
+        return await service.run(
+            request.plan(request.category),
+            media_id=request.media_id,
+            session_id=request.session_id,
+            use_text=False,
+        )
