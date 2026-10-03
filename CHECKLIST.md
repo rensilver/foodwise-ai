@@ -352,7 +352,7 @@ No paid-provider calls, model downloads or dependency changes occurred.
 - [x] P03-05 Add Groq-backed structured extraction with Pydantic validation, no more than two repair attempts, quarantine on failure and administrator preview output.
 - [x] P03-06 Reuse supplied captions with provenance; add separate vision inference for new images and avoid unnecessary recaptioning.
 - [x] P03-07 Implement image download validation, private-address/redirect restrictions, safe ZIP extraction, decoding, generated storage paths and ID-based recipe associations.
-- [ ] P03-08 Add content-hash upserts, manifests and resumable progress; report imported/unchanged/rejected/unresolved totals and avoid destructive index resets.
+- [x] P03-08 Add content-hash upserts, manifests and resumable progress; report imported/unchanged/rejected/unresolved totals and avoid destructive index resets.
 - [ ] P03-09 Test empty/corrupt archives, missing/duplicate images, unsafe paths, absent captions, interrupted imports, malformed JSON and repeated runs.
 - [ ] P03-10 Import and reconcile the complete seed corpus; record final counts and changes from the original 204/109/10 baseline.
 
@@ -373,6 +373,8 @@ P03-05 verified on 2026-10-03: Groq structured generation uses the configured mo
 P03-06 verified on 2026-10-03: Supplied captions retain imported attribution and report absent-caption references. New-image vision uses a separately injected model, decoded metadata-stripped images, bounded validation repairs, generated provenance and a content/model/version cache. Three offline tests, Ruff and mypy passed; cached/supplied captions invoke no provider.
 
 P03-07 verified on 2026-10-03: Course downloads require approved HTTPS hosts, public DNS answers, pinned addresses with original TLS SNI, per-hop redirect validation and byte/time limits. ZIP validation enforces CRC/path/symlink/expansion bounds and numeric recipe identities; media decoding strips metadata and publishes generated names atomically. Ten offline media/security tests, Ruff and mypy passed. Missing/extra identities are explicit; the recovered corpus is imported in P03-10.
+
+P03-08 verified on 2026-10-03: Added an explicit ingestion/preview CLI, per-record hash checkpoints committed with PostgreSQL data/provenance, atomic progress manifests and safe resume. Unchanged entities retain versions/vectors; changed entities invalidate only stale rows and queue unreferenced media cleanup. Manual edits conflict. The complete JSON plan retains 204/109/10 entities and 118 captions; six raw additions and one unsupported legacy price remain reported. All 84 Phase 3 plus migration-parity checks, full Ruff and mypy passed against isolated PostgreSQL 16/pgvector with a limited role.
 
 ## Phase 4 — Multi-source text retrieval baseline
 

@@ -73,3 +73,11 @@ def test_review_keeps_foreign_id_and_date():
 def test_source_specific_validation(raw):
     with pytest.raises(SourceError, match="recipes.json"):
         adapt_recipe(raw, "recipes.json")
+
+
+def test_unsupported_legacy_price_preserves_record_and_unknown_band():
+    result = adapt_restaurant(
+        {"itemId": 3, "name": "Steakhouse", "price_range": 5}, "restaurants.json"
+    )
+    assert result.raw["price_range"] == 5
+    assert result.data.price_band is None

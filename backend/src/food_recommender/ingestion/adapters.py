@@ -59,7 +59,7 @@ class LegacyRestaurant(Legacy):
     location: str | None = None
     type: str | None = None
     rating: float | None = Field(default=None, ge=0, le=5)
-    price_range: int | None = Field(default=None, ge=1, le=4)
+    price_range: int | None = Field(default=None, ge=1)
     signatures: list[str] | None = None
     vibe: str | None = None
     environment: str | None = None
@@ -127,7 +127,7 @@ def adapt_restaurant(raw: dict[str, Any], source: str) -> AdaptedRecord:
             normalized_location=normalize(item.location),
             restaurant_type=item.type,
             rating=item.rating,
-            price_band=item.price_range,
+            price_band=item.price_range if item.price_range in {1, 2, 3, 4} else None,
             signatures=None if item.signatures is None else tuple(item.signatures),
             vibe=item.vibe,
             environment=item.environment,
