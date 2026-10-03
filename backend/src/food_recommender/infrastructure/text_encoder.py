@@ -42,7 +42,7 @@ class MiniLMEncoder:
             str(root), device="cpu", local_files_only=True, trust_remote_code=False
         )
         if (
-            self.model.get_sentence_embedding_dimension() != 384
+            self.model.get_embedding_dimension() != 384
             or self.model.max_seq_length != 256
         ):
             raise ValueError("Incompatible MiniLM encoder")

@@ -54,3 +54,44 @@ async def test_index_batches_are_hash_idempotent_and_preserve_canonical_ingredie
     assert (
         await connection.execute(select(func.count()).select_from(TextEmbedding))
     ).scalar_one() == 3
+
+
+@pytest.mark.asyncio
+async def test_caption_chunk_preserves_imported_attribution_and_media_reference(
+    seed_store, tmp_path
+):
+    from food_recommender.infrastructure.provenance import Document
+    from food_recommender.ingestion.adapters import adapt_recipe
+    from food_recommender.ingestion.seed import caption_document
+
+    store, connection = seed_store
+    raw = {"id": 1, "name": "Soup"}
+    path = tmp_path / "Recipes.json"
+    path.write_text("source")
+    source = artifact(path, "course-recipes").source
+    record = source_record(source, "recipe", "1", raw=raw)
+    caption = caption_document(record, "Looks like soup")
+    await store.upsert(
+        SeedItem(
+            adapt_recipe(raw, path.name).data,
+            (source,),
+            (record,),
+            (caption,),
+            inputs=(raw,),
+        )
+    )
+    await TextIndexer(store.sessions, Encoder()).build()
+    rows = (
+        (
+            await connection.execute(
+                select(Document.__table__).where(
+                    Document.kind.like("retrieval_caption:%")
+                )
+            )
+        )
+        .mappings()
+        .all()
+    )
+    assert len(rows) == 1
+    assert rows[0]["attribution"] == "imported"
+    assert rows[0]["text"] == caption.text

@@ -155,3 +155,56 @@ async def test_shared_retrieval_ranks_categories_separately_and_excludes_unknown
         ),
     )
     assert await service.retrieve(restricted) == ()
+
+
+@pytest.mark.asyncio
+async def test_missing_or_incompatible_stored_revision_is_dependency_error(
+    seed_store, tmp_path
+):
+    from sqlalchemy import delete, update
+
+    from food_recommender.infrastructure.embeddings import TextEmbedding
+    from food_recommender.retrieval.service import TextRetrieval
+
+    store, connection = seed_store
+    search, encoder = await populate(store, tmp_path)
+    await connection.execute(update(TextEmbedding).values(revision="old-revision"))
+    result = await TextRetrieval(search, encoder).run(TextPlan("pizza"))
+    assert result.status == "dependency_error" and not result.candidates
+    await connection.execute(delete(TextEmbedding))
+    result = await TextRetrieval(search, encoder).run(TextPlan("pizza"))
+    assert result.status == "dependency_error"
+
+
+@pytest.mark.asyncio
+async def test_no_matching_documents_is_empty_even_without_vectors(
+    seed_store, tmp_path
+):
+    from food_recommender.retrieval.service import TextRetrieval
+
+    store, _ = seed_store
+    search, encoder = await populate(store, tmp_path)
+    result = await TextRetrieval(search, encoder).run(
+        TextPlan("pizza", entity_ids=("absent",))
+    )
+    assert result.status == "no_results"
+
+
+@pytest.mark.asyncio
+async def test_unindexed_catalog_is_unavailable_instead_of_a_genuine_empty_search(
+    seed_store, tmp_path
+):
+    from sqlalchemy import delete
+
+    from food_recommender.infrastructure.provenance import Document
+    from food_recommender.retrieval.service import TextRetrieval
+
+    store, connection = seed_store
+    search, encoder = await populate(store, tmp_path)
+    await connection.execute(delete(Document))
+    result = await TextRetrieval(search, encoder).run(TextPlan("pizza"))
+    assert result.status == "dependency_error"
+    empty = await TextRetrieval(search, encoder).run(
+        TextPlan("pizza", entity_ids=("missing",))
+    )
+    assert empty.status == "no_results"

@@ -1,10 +1,11 @@
 """Parameterized FTS and exact cosine branches with identical source filters."""
 
-from typing import Literal, cast
+from typing import Any, Literal, cast
 
 from sqlalchemy import ColumnElement, and_, false, func, or_, select, true
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
+from sqlalchemy.sql import Select
 
 from food_recommender.application.errors import ApplicationError, ErrorCode
 from food_recommender.domain.evidence import Citation, CitationKind
@@ -22,6 +23,28 @@ from food_recommender.retrieval.models import TextHit, TextPlan
 
 def normalize(value: str) -> str:
     return " ".join(value.casefold().split())
+
+
+def metadata_filters(
+    statement: Select[Any], plan: TextPlan, category: Category
+) -> Select[Any]:
+    entity = Restaurant if category == Category.RESTAURANT else Recipe
+    if category == Category.RESTAURANT:
+        if plan.location is not None:
+            statement = statement.where(
+                Restaurant.normalized_location == normalize(plan.location)
+            )
+        if plan.max_price_band is not None:
+            statement = statement.where(Restaurant.price_band <= plan.max_price_band)
+    if plan.cuisine is not None:
+        statement = statement.where(
+            entity.normalized_cuisine == normalize(plan.cuisine)
+        )
+    if plan.name is not None:
+        statement = statement.where(func.lower(entity.name) == normalize(plan.name))
+    if plan.entity_ids:
+        statement = statement.where(entity.id.in_(plan.entity_ids))
+    return statement
 
 
 class PostgresTextSearch:
@@ -99,28 +122,57 @@ class PostgresTextSearch:
             statement = statement.where(
                 or_(*source_conditions) if source_conditions else false()
             )
-            if plan.location is not None:
-                statement = statement.where(
-                    Restaurant.normalized_location == normalize(plan.location)
-                )
-            if plan.max_price_band is not None:
-                statement = statement.where(
-                    Restaurant.price_band <= plan.max_price_band
-                )
         else:
             statement = statement.join(Recipe, Recipe.id == entity_link).where(
                 true() if "recipe" in plan.sources else false()
             )
-        if plan.cuisine is not None:
-            statement = statement.where(
-                entity.normalized_cuisine == normalize(plan.cuisine)
-            )
-        if plan.name is not None:
-            statement = statement.where(func.lower(entity.name) == normalize(plan.name))
-        if plan.entity_ids:
-            statement = statement.where(entity.id.in_(plan.entity_ids))
+        statement = metadata_filters(statement, plan, category)
         # Search only bounded encoder projections, never oversized original captions.
         statement = statement.where(Document.kind.like("retrieval_%"))
+        if branch == "dense":
+            expected = select(entity.id)
+            if category == Category.RESTAURANT and "restaurant" not in plan.sources:
+                expected = (
+                    expected.join(Review, Review.restaurant_id == Restaurant.id).where(
+                        Review.demo_profile_id == plan.demo_profile_id
+                    )
+                    if "review" in plan.sources
+                    else expected.where(false())
+                )
+            if category == Category.RECIPE and "recipe" not in plan.sources:
+                expected = expected.where(false())
+            expected = metadata_filters(expected, plan, category)
+            async with self.sessions() as session:
+                expected_ids = set((await session.scalars(expected)).all())
+                indexed_ids = set(
+                    (
+                        await session.scalars(statement.with_only_columns(entity.id))
+                    ).all()
+                )
+                if expected_ids != indexed_ids:
+                    raise ApplicationError(ErrorCode.DEPENDENCY_UNAVAILABLE)
+                doc_ids = set(
+                    (
+                        await session.scalars(statement.with_only_columns(Document.id))
+                    ).all()
+                )
+                ready_ids = set(
+                    (
+                        await session.scalars(
+                            select(TextEmbedding.document_id)
+                            .join(Document, Document.id == TextEmbedding.document_id)
+                            .where(
+                                TextEmbedding.document_id.in_(doc_ids),
+                                TextEmbedding.model == model,
+                                TextEmbedding.revision == revision,
+                                TextEmbedding.dimension == 384,
+                                TextEmbedding.input_hash == Document.content_hash,
+                            )
+                        )
+                    ).all()
+                )
+            if doc_ids != ready_ids:
+                raise ApplicationError(ErrorCode.DEPENDENCY_UNAVAILABLE)
         if branch == "lexical":
             statement = statement.where(Document.search_vector.bool_op("@@")(query))
         else:

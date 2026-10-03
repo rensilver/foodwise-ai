@@ -1,7 +1,9 @@
 """Hash-idempotent document/vector batches, prepared before atomic persistence."""
 
 import asyncio
-from dataclasses import asdict
+import hashlib
+from dataclasses import asdict, replace
+from typing import Literal, cast
 
 from sqlalchemy import delete, select
 from sqlalchemy.dialects.postgresql import insert
@@ -25,27 +27,45 @@ class TextIndexer:
     def prepare(
         self, record: SourceRecord, captions: tuple[Document, ...]
     ) -> tuple[DocumentData, ...]:
-        texts = [
-            (
-                record.record_type,
-                render(
-                    record.record_type,
-                    record.raw_payload
-                    if isinstance(record.raw_payload, dict)
-                    else None,
-                    record.raw_text,
-                ),
-            )
-        ]
-        texts.extend((f"caption:{caption.id}", caption.text) for caption in captions)
-        return tuple(
-            document(record.id, kind, text, start=a, end=b)
-            for kind, text in texts
-            if text.strip()
-            for a, b in chunks(
-                text, self.encoder.offsets, max_tokens=self.encoder.max_tokens
-            )
+        text = render(
+            record.record_type,
+            record.raw_payload if isinstance(record.raw_payload, dict) else None,
+            record.raw_text,
         )
+        prepared = (
+            [
+                document(record.id, record.record_type, text, start=a, end=b)
+                for a, b in chunks(
+                    text, self.encoder.offsets, max_tokens=self.encoder.max_tokens
+                )
+            ]
+            if text.strip()
+            else []
+        )
+        for caption in captions:
+            for a, b in chunks(
+                caption.text, self.encoder.offsets, max_tokens=self.encoder.max_tokens
+            ):
+                chunk = document(
+                    record.id, f"caption:{caption.id}", caption.text, start=a, end=b
+                )
+                prepared.append(
+                    replace(
+                        chunk,
+                        id=hashlib.sha256(
+                            f"{chunk.id}:{caption.attribution}:{caption.generator}:{caption.generator_revision}:{caption.media_id}".encode()
+                        ).hexdigest(),
+                        attribution=cast(
+                            Literal["source", "imported", "generated"],
+                            caption.attribution,
+                        ),
+                        generator=caption.generator,
+                        generator_revision=caption.generator_revision,
+                        input_hash=caption.input_hash,
+                        media_id=caption.media_id,
+                    )
+                )
+        return tuple(prepared)
 
     async def build(self, *, batch_size: int = 32) -> dict[str, int]:
         if not 1 <= batch_size <= 128:
