@@ -2,8 +2,9 @@
 
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
+from pathlib import Path
 
-from sqlalchemy.ext.asyncio import async_sessionmaker
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from food_recommender.application.persistence import (
     CatalogService,
@@ -14,12 +15,19 @@ from food_recommender.application.ports import UnitOfWork
 from food_recommender.application.services import Services
 from food_recommender.infrastructure.config import Settings
 from food_recommender.infrastructure.health import backend_readiness, local_readiness
+from food_recommender.infrastructure.image_search import PostgresImageSearch
 from food_recommender.infrastructure.mcp_config import MCPSettings
 from food_recommender.infrastructure.media import LocalMediaFiles
 from food_recommender.infrastructure.persistence import (
     PostgresUnitOfWork,
     create_database_engine,
 )
+from food_recommender.infrastructure.query_media import AuthorizedQueryMedia
+from food_recommender.infrastructure.text_search import PostgresTextSearch
+from food_recommender.retrieval.image_service import ImageRetrieval
+from food_recommender.retrieval.multimodal import MultimodalRetrieval
+from food_recommender.retrieval.ports import ImageEncoder, TextEncoder
+from food_recommender.retrieval.service import TextRetrieval
 
 
 @dataclass(frozen=True)
@@ -67,3 +75,27 @@ def build_backend_services(
 
 def build_mcp_services(settings: MCPSettings) -> Services:
     return Services(readiness=MCPReadiness(settings))
+
+
+def build_multimodal_retrieval(
+    sessions: async_sessionmaker[AsyncSession],
+    text_encoder: TextEncoder | None,
+    image_encoder: ImageEncoder | None,
+    media_root: Path,
+    *,
+    allow_catalog_queries: bool = False,
+) -> MultimodalRetrieval:
+    """Wire explicitly provisioned models; construction loads no model/files."""
+    return MultimodalRetrieval(
+        TextRetrieval(PostgresTextSearch(sessions), text_encoder)
+        if text_encoder
+        else None,
+        ImageRetrieval(
+            PostgresImageSearch(sessions),
+            image_encoder,
+            AuthorizedQueryMedia(sessions, LocalMediaFiles(media_root)),
+            allow_catalog_queries=allow_catalog_queries,
+        )
+        if image_encoder
+        else None,
+    )
