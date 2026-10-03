@@ -12,6 +12,7 @@ from food_recommender.application.lookups import (
     RestaurantMatch,
     ReviewMatch,
 )
+from food_recommender.application.trends import TrendRequest, TrendResult, TrendService
 from food_recommender.domain.values import Category
 from food_recommender.mcp.schemas import ImageRequest, SearchRequest
 from food_recommender.retrieval.multimodal import MultimodalOutcome, MultimodalRetrieval
@@ -64,3 +65,14 @@ def register_search(server: FastMCP, service: MultimodalRetrieval) -> None:
             session_id=request.session_id,
             use_text=False,
         )
+
+
+def register_trends(server: FastMCP, service: TrendService) -> None:
+    @server.tool(
+        annotations=ToolAnnotations(
+            readOnlyHint=True, destructiveHint=False, openWorldHint=True
+        )
+    )
+    async def search_food_trends(request: TrendRequest) -> TrendResult:
+        """Bounded public culinary trend search. Internal cache writes are permitted."""
+        return await service.search(request)

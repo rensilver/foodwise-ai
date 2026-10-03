@@ -15,6 +15,7 @@ from food_recommender.application.lookups import (
     RestaurantMatch,
     ReviewMatch,
 )
+from food_recommender.application.trends import TrendRequest, TrendResult
 from food_recommender.mcp.schemas import ImageRequest, SearchRequest
 
 RAG_TOOLS = frozenset(
@@ -36,6 +37,7 @@ ALLOWLISTS = {
     "recommendation": frozenset(),
 }
 OUTPUTS: dict[str, TypeAdapter[Any]] = {
+    "search_food_trends": TypeAdapter(TrendResult),
     "get_restaurant_info": TypeAdapter(LookupResult[RestaurantMatch]),
     "recommend_by_vibe": TypeAdapter(LookupResult[RestaurantMatch]),
     "get_review": TypeAdapter(LookupResult[ReviewMatch]),
@@ -113,6 +115,13 @@ class AgentMCP:
                 )
             arguments["request"] = request
             request_model = ImageRequest if name == "search_images" else SearchRequest
+        if name == "search_food_trends":
+            if self.run_id is None:
+                raise ToolPolicyError("Application run ID is required")
+            request = dict(arguments.get("request", {}))
+            request["run_id"] = str(self.run_id)
+            arguments["request"] = request
+            request_model = TrendRequest
         if name == "get_review":
             if (
                 self.demo_profile_id is None
