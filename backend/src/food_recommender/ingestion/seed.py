@@ -39,12 +39,12 @@ class Artifact:
     content: bytes
 
 
-def artifact(path: Path, logical_id: str) -> Artifact:
+def artifact(path: Path, logical_id: str, *, locator: str | None = None) -> Artifact:
     if not path.is_file() or path.stat().st_size > 512 * 1024 * 1024:
         raise SourceError(path.name, "?", "Missing or oversized source file")
     content = path.read_bytes()
     content_hash = hashlib.sha256(content).hexdigest()
-    locator = f"data/{path.name}"
+    locator = locator or f"data/{path.name}"
     return Artifact(
         SourceData(
             id=digest([logical_id, locator, content_hash]),
@@ -139,7 +139,10 @@ class SeedPlan:
 
 
 def load_seed(
-    data_root: Path, mapping_path: Path, accepted_path: Path | None = None
+    data_root: Path,
+    mapping_path: Path,
+    accepted_path: Path | None = None,
+    corrections_path: Path | None = None,
 ) -> SeedPlan:
     plan = SeedPlan([], [], {}, {}, {})
     artifacts: dict[str, Artifact] = {}
@@ -204,14 +207,39 @@ def load_seed(
         for (name, location), ids in groups.items()
         if len(ids) > 1
     ]
+    for group in plan.metadata["duplicate_name_location_groups"]:
+        plan.issue(
+            "restaurant entity reconciliation",
+            ",".join(group["ids"]),
+            "Same name/location; source IDs retained pending entity review",
+            "unresolved",
+        )
     try:
         raw_map = artifact(
             data_root / "California-Culinary-Map.txt", "course-restaurants"
         )
         rows = json.loads(mapping_path.read_text())["rows"]
-        accepted = (
-            {} if accepted_path is None else json.loads(accepted_path.read_text())
+        acceptance_artifact = (
+            None
+            if accepted_path is None
+            else artifact(
+                accepted_path,
+                "course-restaurants",
+                locator=f"evaluation/phase3/{accepted_path.name}",
+            )
         )
+        accepted = (
+            {}
+            if acceptance_artifact is None
+            else json.loads(acceptance_artifact.content)
+        )
+        if acceptance_artifact is not None:
+            plan.metadata["sources"].append(
+                {
+                    "locator": acceptance_artifact.source.locator,
+                    "content_hash": acceptance_artifact.source.content_hash,
+                }
+            )
         mappings = reconcile(
             read_paragraphs(raw_map.content.decode()), rows, restaurant_ids, accepted
         )
@@ -260,11 +288,27 @@ def load_seed(
                         normalized_location=normalize(fields["location"]),
                         **fields,
                     )
+                    addition_sources: tuple[SourceData, ...] = (raw_map.source,)
+                    addition_records: tuple[dict[str, Any], ...] = (record,)
+                    if acceptance_artifact is not None:
+                        decision_record = source_record(
+                            acceptance_artifact.source,
+                            "restaurant",
+                            mapping.content_hash,
+                            raw={
+                                "accepted_fields": mapping.accepted_fields,
+                                "paragraph_sha256": mapping.content_hash,
+                                "extraction_method": "manual_source_review",
+                            },
+                            attribution="imported",
+                        )
+                        addition_sources += (acceptance_artifact.source,)
+                        addition_records += (decision_record,)
                     plan.items.append(
                         SeedItem(
                             data,
-                            (raw_map.source,),
-                            (record,),
+                            addition_sources,
+                            addition_records,
                             inputs=(mapping.text, mapping.accepted_fields),
                         )
                     )
@@ -399,7 +443,89 @@ def load_seed(
         for key, orphan_rows in enriched.items():
             for _ in orphan_rows:
                 plan.issue(augmented, key, "Enrichment has no accepted base identity")
+    if corrections_path is not None:
+        apply_corrections(plan, corrections_path)
     return plan
+
+
+def apply_corrections(plan: SeedPlan, path: Path) -> None:
+    """Only explicitly reviewed, source-supported corrections may replace fields."""
+    try:
+        import re
+
+        correction_artifact = artifact(
+            path, "course-restaurants", locator=f"evaluation/phase3/{path.name}"
+        )
+        decisions = json.loads(correction_artifact.content)
+        if not isinstance(decisions, dict):
+            raise ValueError("Invalid correction ledger")
+        matched = set()
+        prepared_corrections: dict[int, SeedItem] = {}
+        for index, item in enumerate(plan.items):
+            if item.category != "restaurant" or item.data.id not in decisions:
+                continue
+            decision = decisions[item.data.id]
+            raw = item.inputs[0]
+            paragraph = next(
+                record["raw_text"]
+                for record in item.records
+                if record["raw_text"] is not None
+            )
+            price = re.search(r"Price range:\s*(\${1,4})(?!\$)", paragraph)
+            if (
+                not isinstance(item.data, RestaurantData)
+                or decision["field"] != "price_band"
+                or not isinstance(raw, dict)
+                or raw.get("price_range") != decision["legacy_value"]
+                or hashlib.sha256(paragraph.encode()).hexdigest()
+                != decision["paragraph_sha256"]
+                or price is None
+                or decision["value"] != len(price[1])
+            ):
+                raise ValueError("Correction lacks matching original evidence")
+            corrected = replace(item.data, price_band=decision["value"])
+            record = source_record(
+                correction_artifact.source,
+                "restaurant",
+                item.data.id,
+                raw=decision,
+                attribution="imported",
+            )
+            prepared_corrections[index] = replace(
+                item,
+                data=corrected,
+                sources=(*item.sources, correction_artifact.source),
+                records=(*item.records, record),
+                inputs=(*item.inputs, decision),
+            )
+            matched.add(item.data.id)
+        if matched != set(decisions):
+            raise ValueError("Correction identity absent from catalog")
+        for index, item in prepared_corrections.items():
+            plan.items[index] = item
+        plan.issues[:] = [
+            issue
+            for issue in plan.issues
+            if not (
+                issue["source"] == "structured_restaurant_data.json"
+                and issue["record_id"] in matched
+                and issue["reason"]
+                == "Unsupported legacy price range retained as unknown"
+            )
+        ]
+        plan.metadata["corrections"] = decisions
+        plan.metadata["sources"].append(
+            {
+                "locator": correction_artifact.source.locator,
+                "content_hash": correction_artifact.source.content_hash,
+            }
+        )
+    except (ValueError, OSError, KeyError, StopIteration, TypeError):
+        plan.issue(
+            path.name,
+            "?",
+            "Correction ledger failed identity/hash/source-evidence validation",
+        )
 
 
 def attach_image(

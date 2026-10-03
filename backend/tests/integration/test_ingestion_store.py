@@ -101,3 +101,18 @@ async def test_manual_edits_conflict_and_review_relationships_survive(seed_store
     assert (
         await connection.execute(select(Restaurant.name))
     ).scalar_one() == "Admin edit"
+
+
+@pytest.mark.asyncio
+async def test_deleted_catalog_record_is_not_resurrected_by_seed_rerun(seed_store):
+    from sqlalchemy import delete
+
+    store, connection = seed_store
+    item = SeedItem(adapt_recipe({"id": 1, "name": "Soup"}, "recipes").data)
+    await store.upsert(item)
+    await connection.execute(delete(Recipe).where(Recipe.id == "1"))
+    with pytest.raises(ApplicationError):
+        await store.upsert(item)
+    assert (
+        await connection.execute(select(func.count()).select_from(Recipe))
+    ).scalar_one() == 0

@@ -614,7 +614,7 @@ uv run --locked python -m food_recommender.ingestion.cli import
 
 The default inputs are the five committed JSON artifacts, raw culinary map,
 Phase 0 paragraph mapping, and separately recovered recipe ZIP. Use
-`--data-root`, `--mapping`, `--accepted`, `--recipe-zip`, `--media-root`, and
+`--data-root`, `--mapping`, `--accepted`, `--corrections`, `--recipe-zip`, `--media-root`, and
 `--report` to select explicit local inputs. `--download-review-images` permits
 bounded downloads from the approved course host; otherwise only previously
 cached review images are used and missing imagery is reported. Recover the ZIP
@@ -626,13 +626,13 @@ items. `downloads/` beside the report caches course images. Storage keys are
 private generated basenames; source IDs and raw payloads remain in PostgreSQL.
 Caption text is imported enrichment, not proof of ingredients or dietary safety.
 Recipe durations use ISO minute strings while retaining original raw strings.
-An unsupported legacy price band remains unknown and is reported for review.
+The committed acceptance ledger adds six source-backed restaurants with stable UUIDs. The correction ledger maps the unsupported legacy band 5 for `1000003` to band 4 using the hash-verified raw paragraph; the original value remains in provenance. Invalid or stale correction evidence is rejected. Other unsupported values remain unknown and reported.
 
 Each item and its ingestion checkpoint commit atomically. Rerun the same command
 after interruption: committed items become `unchanged`, pending items resume,
 and changed items advance their version. Source revisions remain traceable;
 only stale retrieval rows for changed entities are invalidated. Administrator
-edits conflict rather than being overwritten. Removed media enters the existing
+edits and deletions conflict rather than being overwritten or resurrected. Removed media enters the existing
 durable cleanup queue. No startup import, table wipe, or global index reset is
 performed. A completed import may still contain reported unresolved items;
 rejected items or configuration/dependency failures exit with status 2.

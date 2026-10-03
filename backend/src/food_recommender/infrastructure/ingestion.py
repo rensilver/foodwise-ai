@@ -79,6 +79,8 @@ class PostgresIngestionStore:
             checkpoint = await session.get(
                 IngestionCheckpoint, (item.category, item.data.id)
             )
+            if current is None and checkpoint is not None:
+                raise ApplicationError(ErrorCode.CONFLICT)
             if current is not None and (
                 checkpoint is None
                 or current.version != checkpoint.catalog_version

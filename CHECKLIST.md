@@ -354,7 +354,7 @@ No paid-provider calls, model downloads or dependency changes occurred.
 - [x] P03-07 Implement image download validation, private-address/redirect restrictions, safe ZIP extraction, decoding, generated storage paths and ID-based recipe associations.
 - [x] P03-08 Add content-hash upserts, manifests and resumable progress; report imported/unchanged/rejected/unresolved totals and avoid destructive index resets.
 - [x] P03-09 Test empty/corrupt archives, missing/duplicate images, unsafe paths, absent captions, interrupted imports, malformed JSON and repeated runs.
-- [ ] P03-10 Import and reconcile the complete seed corpus; record final counts and changes from the original 204/109/10 baseline.
+- [x] P03-10 Import and reconcile the complete seed corpus; record final counts and changes from the original 204/109/10 baseline.
 
 **Exit criterion:** accepted records and available media are traceable, imports are idempotent/resumable, and every rejected or unresolved source item is reported.
 
@@ -377,6 +377,8 @@ P03-07 verified on 2026-10-03: Course downloads require approved HTTPS hosts, pu
 P03-08 verified on 2026-10-03: Added an explicit ingestion/preview CLI, per-record hash checkpoints committed with PostgreSQL data/provenance, atomic progress manifests and safe resume. Unchanged entities retain versions/vectors; changed entities invalidate only stale rows and queue unreferenced media cleanup. Manual edits conflict. The complete JSON plan retains 204/109/10 entities and 118 captions; six raw additions and one unsupported legacy price remain reported. All 84 Phase 3 plus migration-parity checks, full Ruff and mypy passed against isolated PostgreSQL 16/pgvector with a limited role.
 
 P03-09 verified on 2026-10-03: Expanded the failure matrix to 73 passing ingestion tests, including real PostgreSQL atomicity: empty/corrupt/CRC-invalid archives, duplicate IDs, symlinks, expansion bounds, missing imagery/captions, unsafe storage, private/mixed DNS, redirects/timeouts/size limits, malformed JSON, interruption and reruns. Red/green tests corrected repeated identical-caption associations and added validated/quarantined extraction caching. Ruff and strict mypy passed; all providers remained mocked.
+
+P03-10 verified on 2026-10-03: Imported and independently audited the complete corpus in isolated PostgreSQL 16.14/pgvector 0.8.6: 210 restaurants (+6 reviewed additions), 109 recipes, 10 reviews, 18 sources, 777 source records, 118 imported captions and 118 actual media links. All 235,244,472 stored image bytes decoded/hash-verified; zero orphan links. The reviewed price correction retains legacy value 5 and uses raw $$$$ evidence for band 4. A full rerun returned 329 unchanged, zero imported/rejected/pending, with versions unchanged; all 16 unresolved name/location groups are explicitly reported. All 284 backend tests passed without skips, Ruff/mypy and secret/document checks passed. See [Phase 3 acceptance report](evaluation/phase3/README.md) and [seed report](evaluation/phase3/seed_report.json). Live Groq capability checks remain opt-in; no paid calls occurred.
 
 ## Phase 4 — Multi-source text retrieval baseline
 

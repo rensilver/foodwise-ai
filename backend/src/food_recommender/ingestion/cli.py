@@ -120,7 +120,7 @@ async def import_seed(args: argparse.Namespace, environment: dict[str, Any]) -> 
     ):
         raise ValueError("Set an absolute non-root MEDIA_ROOT without traversal")
     plan = await asyncio.to_thread(
-        load_seed, args.data_root, args.mapping, args.accepted
+        load_seed, args.data_root, args.mapping, args.accepted, args.corrections
     )
     try:
         archive: Artifact = await asyncio.to_thread(
@@ -192,7 +192,17 @@ def main() -> int:
         type=Path,
         default=REPOSITORY_ROOT / "evaluation/phase0/restaurant_reconciliation.json",
     )
-    seed.add_argument("--accepted", type=Path)
+    seed.add_argument(
+        "--accepted",
+        type=Path,
+        default=REPOSITORY_ROOT
+        / "evaluation/phase3/accepted_restaurant_additions.json",
+    )
+    seed.add_argument(
+        "--corrections",
+        type=Path,
+        default=REPOSITORY_ROOT / "evaluation/phase3/restaurant_corrections.json",
+    )
     seed.add_argument(
         "--recipe-zip",
         type=Path,

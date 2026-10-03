@@ -1,0 +1,85 @@
+{
+  "9df80e9d96ca7908e1581f61871da0509399fc1349096faa427fb8c936fffb42": {
+    "name": "Surfside Grill",
+    "location": "Malibu",
+    "cuisine": "American Seafood",
+    "restaurant_type": "shack",
+    "rating": 4.0,
+    "price_band": 2,
+    "signatures": [
+      "overstuffed lobster rolls"
+    ],
+    "vibe": "rugged, oceanfront; casual, sandy-feet-welcome"
+  },
+  "6d96d147779ef6369847eabd909cf8a0cb71f3c1c14d9bd1befefdd40f9c0f8a": {
+    "name": "Kimchi Kingdom",
+    "location": "Gardena",
+    "cuisine": "Korean",
+    "restaurant_type": "comfort food spot",
+    "rating": 4.7,
+    "price_band": 4,
+    "signatures": [
+      "silken tofu soup (soondubu)",
+      "banchan spread"
+    ],
+    "vibe": "no-nonsense and traditional",
+    "environment": "bright, family-run dining room"
+  },
+  "21bd13dc031242f473e4cbab44dce45cd8a79eecf8607f7857dc5be1eb12b257": {
+    "name": "The Copper Whisk",
+    "location": "Long Beach",
+    "cuisine": "Breakfast & Brunch",
+    "restaurant_type": "spot",
+    "rating": 4.3,
+    "price_band": 1,
+    "signatures": [
+      "red velvet pancakes",
+      "spicy chorizo hash"
+    ],
+    "vibe": "energetic and eclectic",
+    "environment": "loud, joyful environment with local art on the walls and funk and soul music"
+  },
+  "413acca09169796a2debc202f9577b8d91c4107557b714916df1c49729a5ef5c": {
+    "name": "The Iron Lotus",
+    "location": "Chinatown",
+    "cuisine": "Dim Sum",
+    "restaurant_type": "house",
+    "rating": 4.4,
+    "price_band": 1,
+    "signatures": [
+      "truffle-oil shrimp dumplings",
+      "wagyu potstickers"
+    ],
+    "vibe": "moody and contemporary",
+    "environment": "sleek, dark-wood sanctuary"
+  },
+  "7506a66226f7ef78ed0a9a38239542f956f88af5928c1c3d070c6bd0e700549c": {
+    "name": "The Copper Pot",
+    "location": "Sacramento (Oak Park)",
+    "cuisine": "Southern",
+    "restaurant_type": "kitchen",
+    "rating": 4.4,
+    "price_band": 1,
+    "signatures": [
+      "fried green tomatoes",
+      "smothered chicken"
+    ],
+    "vibe": "homestyle and welcoming",
+    "environment": "charming, yellow-walled dining room"
+  },
+  "edd4b99f207156a747a4d609ae55908b94a79e6d12e554e06d81b2690a6b85b8": {
+    "name": "The Salty Pelican",
+    "location": "Santa Monica boardwalk",
+    "restaurant_type": "beachfront cafe",
+    "rating": 3.9,
+    "price_band": 1,
+    "signatures": [
+      "lobster rolls"
+    ],
+    "vibe": "casual and airy",
+    "environment": "blue-and-white nautical themes; outdoor patio with a view of the Pacific",
+    "shortcomings": [
+      "prices slightly higher due to the premier location"
+    ]
+  }
+}

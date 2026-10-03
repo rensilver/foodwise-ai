@@ -13,7 +13,7 @@ def test_complete_committed_seed_plan_preserves_all_identities_and_captions():
     assert [item.category for item in plan.items].count("restaurant") == 204
     assert [item.category for item in plan.items].count("recipe") == 109
     assert [item.category for item in plan.items].count("review") == 10
-    assert len(plan.issues) == 7 and all(
+    assert len(plan.issues) == 23 and all(
         issue["status"] == "unresolved" for issue in plan.issues
     )
     assert sum(len(item.documents) for item in plan.items) == 118
@@ -118,4 +118,67 @@ def test_identical_review_captions_keep_both_media_associations(tmp_path):
     assert all(
         rec["raw_payload"]["caption_source_record"] == record["id"]
         for rec in item.records[1:]
+    )
+
+
+def test_reviewed_additions_and_correction_are_traceable_and_complete():
+    repository = Path(__file__).parents[3]
+    plan = load_seed(
+        repository / "data",
+        repository / "evaluation/phase0/restaurant_reconciliation.json",
+        repository / "evaluation/phase3/accepted_restaurant_additions.json",
+        repository / "evaluation/phase3/restaurant_corrections.json",
+    )
+    assert len(plan.issues) == 16 and all(
+        issue["status"] == "unresolved" for issue in plan.issues
+    )
+    assert len(plan.items) == 329
+    restaurants = {
+        item.data.id: item for item in plan.items if item.category == "restaurant"
+    }
+    assert len(restaurants) == 210
+    original = restaurants["1000003"]
+    assert original.data.price_band == 4
+    assert original.inputs[0]["price_range"] == 5
+    assert any(
+        record["raw_payload"].get("legacy_value") == 5
+        for record in original.records
+        if record["raw_payload"] is not None
+    )
+    assert (
+        sum(
+            mapping["status"] == "accepted_addition"
+            for mapping in plan.metadata["paragraph_mappings"]
+        )
+        == 6
+    )
+    assert all(
+        len(item.records) == 2
+        for key, item in restaurants.items()
+        if not key.isnumeric()
+    )
+    assert all(len(key) == 36 for key in restaurants if not key.isnumeric())
+
+
+def test_stale_correction_rejected_without_changing_original_unknown(tmp_path):
+    import json
+
+    repository = Path(__file__).parents[3]
+    corrections = json.loads(
+        (repository / "evaluation/phase3/restaurant_corrections.json").read_text()
+    )
+    corrections["1000003"]["paragraph_sha256"] = "0" * 64
+    path = tmp_path / "corrections.json"
+    path.write_text(json.dumps(corrections))
+    plan = load_seed(
+        repository / "data",
+        repository / "evaluation/phase0/restaurant_reconciliation.json",
+        repository / "evaluation/phase3/accepted_restaurant_additions.json",
+        path,
+    )
+    item = next(item for item in plan.items if item.data.id == "1000003")
+    assert item.data.price_band is None
+    assert any(
+        issue["status"] == "rejected" and "Correction ledger" in issue["reason"]
+        for issue in plan.issues
     )
