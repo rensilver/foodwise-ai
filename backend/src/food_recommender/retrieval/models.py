@@ -71,3 +71,14 @@ class TextHit:
     ingredients: tuple[str, ...] | None
     allergens: tuple[str, ...] | None
     source_type: Literal["restaurant", "recipe", "review"]
+
+
+@dataclass(frozen=True)
+class ImageHit:
+    entity: EntityRef
+    name: str
+    citation: Citation
+    media_id: str
+    cosine_similarity: float
+    ingredients: tuple[str, ...] | None
+    allergens: tuple[str, ...] | None

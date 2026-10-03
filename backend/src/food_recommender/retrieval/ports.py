@@ -3,7 +3,7 @@
 from typing import Literal, Protocol
 
 from food_recommender.domain.values import Category
-from food_recommender.retrieval.models import TextHit, TextPlan
+from food_recommender.retrieval.models import ImageHit, TextHit, TextPlan
 
 
 class TextEncoder(Protocol):
@@ -36,3 +36,15 @@ class ImageEncoder(Protocol):
         self, images: tuple[bytes, ...]
     ) -> tuple[tuple[float, ...], ...]: ...
     def encode_texts(self, texts: tuple[str, ...]) -> tuple[tuple[float, ...], ...]: ...
+
+
+class ImageSearch(Protocol):
+    async def search(
+        self,
+        plan: TextPlan,
+        category: Category,
+        vector: tuple[float, ...],
+        *,
+        model: str,
+        revision: str,
+    ) -> tuple[ImageHit, ...]: ...
