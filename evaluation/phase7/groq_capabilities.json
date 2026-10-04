@@ -1,0 +1,35 @@
+{
+  "verified_at": "2026-10-04T13:55:19.617046+00:00",
+  "enabled_explicitly": true,
+  "outcomes": [
+    {
+      "capability": "text_structured",
+      "model": "qwen/qwen3.8-27b",
+      "passed": true,
+      "usage": [
+        {
+          "model": "qwen/qwen3.8-27b",
+          "elapsed_ms": 958.3218200004922,
+          "prompt_tokens": 25,
+          "completion_tokens": 6,
+          "total_tokens": 31
+        }
+      ]
+    },
+    {
+      "capability": "vision_structured",
+      "model": "qwen/qwen3.8-27b",
+      "passed": true,
+      "usage": [
+        {
+          "model": "qwen/qwen3.8-27b",
+          "elapsed_ms": 487.6022770004056,
+          "prompt_tokens": 1321,
+          "completion_tokens": 8,
+          "total_tokens": 1329
+        }
+      ]
+    }
+  ],
+  "passed": true
+}

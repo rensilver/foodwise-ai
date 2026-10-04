@@ -45,17 +45,38 @@ async def probe(settings: ProbeSettings) -> dict[str, object]:
         ):
             provider = GroqStructuredInference(client, settings.GROQ_API_KEY, model)
             try:
+                expected = {"ok": True} if media is None else {"color": "red"}
+                selected_schema = (
+                    schema
+                    if media is None
+                    else {
+                        "type": "object",
+                        "properties": {
+                            "color": {
+                                "type": "string",
+                                "enum": ["red", "green", "blue", "unknown"],
+                            }
+                        },
+                        "required": ["color"],
+                        "additionalProperties": False,
+                    }
+                )
+                prompt = (
+                    'Return {"ok":true} if you can process this request.'
+                    if media is None
+                    else "Identify the dominant color of the supplied image. Choose red, green, blue or unknown; return only the color field in JSON."
+                )
                 content = await provider.generate(
                     [
                         {
                             "role": "user",
-                            "content": 'Return {"ok":true} if you can process this request.',
+                            "content": prompt,
                         }
                     ],
-                    schema,
+                    selected_schema,
                     image=media,
                 )
-                passed = json.loads(content) == {"ok": True}
+                passed = json.loads(content) == expected
             except Exception:
                 passed = False
             outcomes.append(

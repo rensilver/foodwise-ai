@@ -1,0 +1,30 @@
+{
+  "verified_at": "2026-10-04T14:01:14.810393+00:00",
+  "execution_status": "approval_required",
+  "executed": false,
+  "passed": false,
+  "seed_query": "Recommend Italian recipes featuring tomato and basil, such as pizza.",
+  "prepared_services": {
+    "transport": "stdio MCP subprocess",
+    "catalog_restaurants": 210,
+    "catalog_recipes": 109,
+    "minilm_documents_indexed": 770,
+    "postgresql": "16.14",
+    "pgvector": "0.8.6",
+    "isolated_smoke_database": true,
+    "existing_application_unchanged": true
+  },
+  "full_graph_groq_requests": 0,
+  "full_graph_tavily_requests": 0,
+  "blocker": "Automatic approval review rejected local catalog evidence transfer to external providers and requires specific user approval. The prepared run sends synthetic course recipe ingredients and cited excerpts to Groq; Tavily receives only fixed public culinary concepts. No personal review history or uploads are used.",
+  "limits": {
+    "run_seconds": 120,
+    "call_seconds": 30,
+    "groq_concurrency": 3,
+    "transport_retries": 2,
+    "schema_repairs": 2,
+    "synthesis_repairs": 1,
+    "retrieval_attempts": 3,
+    "trend_searches": 2
+  }
+}
