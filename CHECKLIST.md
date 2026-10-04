@@ -431,22 +431,22 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 
 **Verification:** protocol tests on both transports, fake-provider failure tests and explicit live search smoke test.
 
-- [ ] P06-01 Implement `get_restaurant_info`, `recommend_by_vibe` and `get_review` using shared application services with explicit ambiguity/no-match results.
-- [ ] P06-02 Add `search_restaurants`, `search_recipes` and `search_images` with constrained schemas, bounded limits and evidence-rich results.
-- [ ] P06-03 Expose culinary-map, dataset-manifest and source-provenance resources without exposing arbitrary files or private session content.
-- [ ] P06-04 Implement Streamable HTTP for Compose, stdio for local demos, connection lifecycle management and stderr logging for stdio.
-- [ ] P06-05 Discover tool schemas at runtime, apply per-agent allowlists and validate arguments/results; reject arbitrary tool/server selection.
-- [ ] P06-06 Add `search_food_trends` backed by Tavily with two searches/run, five results/search, a 90-day window and a 24-hour cache TTL.
-- [ ] P06-07 Store URLs, excerpts, available publication dates and retrieval times; sanitize search queries to avoid sending private profiles/reviews/restrictions.
-- [ ] P06-08 Enforce freshness at cache read and citation time; unknown publication dates cannot substantiate current trends.
-- [ ] P06-09 Handle timeout, rate limits, no results, stale cache and missing credentials as explicit unavailable trend evidence.
-- [ ] P06-10 Test tool/resource discovery, protocol errors, connection reuse, limits, path/SQL/tool injection, both transports and prohibited mutation capabilities.
-- [ ] P06-11 Verify that Groq inference stays in the application, no sampling callback is required, and filesystem restrictions do not depend on roots alone.
-- [ ] P06-12 Run an explicitly enabled Tavily smoke test with a fresh key and record dated evidence plus request usage; keep offline tests independent of it.
+- [x] P06-01 Implement `get_restaurant_info`, `recommend_by_vibe` and `get_review` using shared application services with explicit ambiguity/no-match results.
+- [x] P06-02 Add `search_restaurants`, `search_recipes` and `search_images` with constrained schemas, bounded limits and evidence-rich results.
+- [x] P06-03 Expose culinary-map, dataset-manifest and source-provenance resources without exposing arbitrary files or private session content.
+- [x] P06-04 Implement Streamable HTTP for Compose, stdio for local demos, connection lifecycle management and stderr logging for stdio.
+- [x] P06-05 Discover tool schemas at runtime, apply per-agent allowlists and validate arguments/results; reject arbitrary tool/server selection.
+- [x] P06-06 Add `search_food_trends` backed by Tavily with two searches/run, five results/search, a 90-day window and a 24-hour cache TTL.
+- [x] P06-07 Store URLs, excerpts, available publication dates and retrieval times; sanitize search queries to avoid sending private profiles/reviews/restrictions.
+- [x] P06-08 Enforce freshness at cache read and citation time; unknown publication dates cannot substantiate current trends.
+- [x] P06-09 Handle timeout, rate limits, no results, stale cache and missing credentials as explicit unavailable trend evidence.
+- [x] P06-10 Test tool/resource discovery, protocol errors, connection reuse, limits, path/SQL/tool injection, both transports and prohibited mutation capabilities.
+- [x] P06-11 Verify that Groq inference stays in the application, no sampling callback is required, and filesystem restrictions do not depend on roots alone.
+- [x] P06-12 Run an explicitly enabled Tavily smoke test with a fresh key and record dated evidence plus request usage; keep offline tests independent of it.
 
 **Exit criterion:** the app can discover and call real retrieval/trend tools through MCP, and both live and unavailable-trend behavior are demonstrated.
 
-**Evidence / blockers:** _Pending._
+**Evidence / blockers:** Verified 2026-10-03 with real PostgreSQL 16.14/pgvector 0.8.6, pinned pretrained CPU MiniLM/CLIP and FastMCP 4.0.10. All 12 tasks have individual commits on the Phase 6 branch. Seven typed read-only tools and three fixed public resources, centrally reusable client connections, runtime schema validation, six-role allowlists, scoped media/reviews and both wire transports are implemented. The [Phase 6 report](evaluation/phase6/README.md) and [catalog protocol report](evaluation/phase6/catalog_protocol_report.json) record matching real retrieval IDs/citations over stdio and Streamable HTTP and all 210 culinary-map paragraphs. The explicitly enabled [Tavily smoke](evaluation/phase6/live_smoke_report.json) used the owner-identified fresh local key: one request, one reported credit, two dated evidence items and three freshness exclusions. Unknown publication dates cannot support current claims; cache/citation freshness, two network attempts/run, five results/search, retries, timeout/429, cancellation and unavailable outcomes are tested. Full backend checks: 388 tests passed without skips; Ruff/format/mypy, document and redacting secret checks passed. The live smoke proves access and dated evidence, not culinary claim quality; broad price evidence still needs relevance analysis in Phase 7. No Groq calls; no sampling or roots dependency. Original artifacts/configuration, history/publication blockers, local media recovery and 16 entity-review pairs are preserved. Six agents, application interfaces and public hosting remain later/deferred scope.
 
 ## Phase 7 — Six-agent hybrid LangGraph workflow
 

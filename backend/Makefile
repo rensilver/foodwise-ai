@@ -52,3 +52,14 @@ index-images:
 evaluate-multimodal:
 	@test -n "$$DATABASE_URL" -a -n "$$MINILM_ROOT" -a -n "$$CLIP_ROOT" -a -n "$$MEDIA_ROOT" || (echo "Set DATABASE_URL, MINILM_ROOT, CLIP_ROOT and MEDIA_ROOT"; exit 2)
 	uv run --locked python scripts/evaluate_multimodal_retrieval.py --minilm-root "$$MINILM_ROOT" --clip-root "$$CLIP_ROOT" --queries ../evaluation/phase5/queries.json --output ../evaluation/phase5/comparison_report.json
+
+
+.PHONY: verify-mcp-catalog smoke-food-trends
+verify-mcp-catalog:
+	@test -n "$$DATABASE_URL" -a -n "$$MINILM_ROOT" -a -n "$$CLIP_ROOT" -a -n "$$MEDIA_ROOT" || (echo "Set DATABASE_URL, MINILM_ROOT, CLIP_ROOT and MEDIA_ROOT"; exit 2)
+	uv run --locked python scripts/verify_mcp_catalog.py --output ../evaluation/phase6/catalog_protocol_report.json
+
+# Deliberate opt-in; this target can use up to two paid Tavily requests.
+smoke-food-trends:
+	@test "$$ENABLE_LIVE_TAVILY" = "1" || (echo "Set ENABLE_LIVE_TAVILY=1 to authorize the live smoke"; exit 2)
+	uv run --locked python scripts/smoke_food_trends.py --enable-live --env-file ../.env --output ../evaluation/phase6/live_smoke_report.json

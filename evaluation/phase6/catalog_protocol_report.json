@@ -1,0 +1,87 @@
+{
+  "verified_at": "2026-10-03T22:21:37.501759+00:00",
+  "paid_calls": 0,
+  "stdio": {
+    "search_restaurants": {
+      "status": "success",
+      "ids": [
+        "1000033",
+        "1000062",
+        "1000173"
+      ],
+      "category": "restaurant",
+      "citation_count": 6
+    },
+    "search_recipes": {
+      "status": "success",
+      "ids": [
+        "1",
+        "99",
+        "93"
+      ],
+      "category": "recipe",
+      "citation_count": 9
+    },
+    "search_images": {
+      "status": "success",
+      "ids": [
+        "43",
+        "1",
+        "92"
+      ],
+      "category": "recipe",
+      "citation_count": 3
+    },
+    "culinary_map_paragraphs": 210,
+    "discovered_tools": [
+      "get_restaurant_info",
+      "get_review",
+      "recommend_by_vibe",
+      "search_images",
+      "search_recipes",
+      "search_restaurants"
+    ]
+  },
+  "streamable_http": {
+    "search_restaurants": {
+      "status": "success",
+      "ids": [
+        "1000033",
+        "1000062",
+        "1000173"
+      ],
+      "category": "restaurant",
+      "citation_count": 6
+    },
+    "search_recipes": {
+      "status": "success",
+      "ids": [
+        "1",
+        "99",
+        "93"
+      ],
+      "category": "recipe",
+      "citation_count": 9
+    },
+    "search_images": {
+      "status": "success",
+      "ids": [
+        "43",
+        "1",
+        "92"
+      ],
+      "category": "recipe",
+      "citation_count": 3
+    },
+    "culinary_map_paragraphs": 210,
+    "discovered_tools": [
+      "get_restaurant_info",
+      "get_review",
+      "recommend_by_vibe",
+      "search_images",
+      "search_recipes",
+      "search_restaurants"
+    ]
+  },
+  "same_results": true
+}

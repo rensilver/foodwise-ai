@@ -789,3 +789,57 @@ For offline pretrained contracts, set `TEST_CLIP_ROOT="$CLIP_ROOT"` alongside
 `TEST_MINILM_ROOT="$MINILM_ROOT"` and the existing disposable test settings.
 Normal CI uses fake encoders for behavior and separately provisioned seeded
 fixtures; it does not download CLIP weights during tests.
+
+## MCP services and live trends (Phase 6)
+
+MCP now exposes shared catalog lookups, constrained restaurant/recipe/image
+retrieval and bounded Tavily trends, plus `foodwise://culinary-map`,
+`foodwise://dataset-manifest` and `foodwise://source-provenance`. All tools are
+read-only to agents; only the public search cache may be written internally.
+Resources contain public catalog projections, excluding reviews and session data.
+
+Host HTTP startup remains:
+
+```bash
+uv run --locked uvicorn food_recommender.mcp.server:create_app --factory --env-file ../.env --host 127.0.0.1 --port 8001 --no-access-log
+```
+
+The same server supports a stdio demo:
+
+```bash
+uv run --locked python -m food_recommender.mcp.server --transport stdio --env-file ../.env
+```
+
+Logs go to stderr; stdout is reserved for protocol traffic. Supply the intended
+local `DATABASE_URL` and `MEDIA_ROOT`. Set optional `MINILM_ROOT`/`CLIP_ROOT` only
+when the pinned pretrained models are provisioned. Omitted models produce typed
+dependency outcomes. Models load on the first off-loop query; health/discovery
+load none. Compose mounts provisioned models and media read-only into its internal
+MCP service. Migrations, ingestion and model provisioning remain explicit.
+
+At application startup, create one `configured_client(settings)` and hold its
+context open. `AgentMCP` views reuse it across calls and apply the six fixed role
+allowlists, discovered JSON schemas, domain result validation and injected scope.
+Only application configuration chooses the server; models cannot provide URLs,
+paths, SQL, mutation tools or new capabilities. No sampling callback is required.
+
+Trend requests accept one to three approved concepts and California, United States
+or global geography; arbitrary profile/review/restriction text is rejected.
+Application-issued run IDs share the two-request budget across retries and
+connections in one MCP process. The single-process Compose server is the supported
+runtime; multiple replicas would require shared run-budget coordination.
+Tavily news/basic requests return at most five items. Cache TTL is 24 hours;
+publication freshness is 90 days, revalidated when reading and citing evidence.
+Missing/unknown/stale evidence, credentials, cache failures and provider failures
+return explicit unavailable outcomes. Groq analysis stays in the application.
+
+Use `make verify-mcp-catalog` with a seeded database and provisioned models for
+both real transports. The live command requires deliberate opt-in:
+
+```bash
+ENABLE_LIVE_TAVILY=1 make smoke-food-trends
+```
+
+It selects the root `.env`, uses its fresh Tavily key, and may spend at most two
+requests. Offline tests remain independent. See the
+[Phase 6 evidence and limitations](../evaluation/phase6/README.md) for reports.

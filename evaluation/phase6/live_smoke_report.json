@@ -1,0 +1,61 @@
+{
+  "verified_at": "2026-10-03T22:19:13.602485+00:00",
+  "enabled_explicitly": true,
+  "transport": "MCP in-process; both wire transports verified separately",
+  "provider": "Tavily news/basic",
+  "limits": {
+    "searches_per_run": 2,
+    "results_per_search": 5,
+    "window_days": 90,
+    "cache_ttl_hours": 24
+  },
+  "provider_requests": [
+    {
+      "status_code": 200,
+      "credits": 1
+    }
+  ],
+  "outcomes": [
+    {
+      "status": "available",
+      "evidence": [
+        {
+          "id": "7677c15a-ce5a-4689-b840-d7921f1d6dbc",
+          "url": "https://www.foodbusinessnews.net/articles/30625-global-cuisine-national-favorites-driving-summer-flavors",
+          "excerpt": "Trends Suppliers T. Hasegawa Beverage Flavors Global cuisine\n\n ### Related Articles\n\n  ## Krispy Kreme rolls out seasonal summer flavors\n\n  ## Spicy, seasonal flavors driving summer food trends\n\n  ## Snack flavors assist in exploring global cuisine, easing stress\n\n  ## Actual Veggies collaboration focuses on global cuisine\n\n  ## Slideshow: Condiment innovation inspired by global cuisine\n\nGet better food industry search results.\n\n[]( [...] Skip To Content\n\nSubscribe for Free\n\nSubscribe Now\n\nHome \u00bb Trends \u00bb Global cuisine, national favorites driving summer flavors\n\n# Global cuisine, national favorites driving summer flavors\n\nflavors.jpg\n\nPhoto: \u00a9MUHAMMAD \u2013 STOCK.ADOBE.COM\n\nBy Brooke Just\n\nGoogleAdd as a preferred  \nsource on Google\n\nCERRITOS, CALIF. \u2014 With summer in full swing, T. Hasegawa USA is highlighting the top 10 trending flavors of the season, inspired by global cuisines and national favorites. [...] Spicy coconut: This flavor is found in culinary traditions, including South Asia, Brazil and Jamaica. It features a tropical and fiery, creamy chili-infused flavor.\n White miso: A mild, tangy Japanese seasoning paste formulated with fermented rice and soybeans, providing an umami flavor for dressings, marinades and grilled dishes.",
+          "published_on": "2026-07-06",
+          "retrieved_at": "2026-10-03T22:19:13.574719Z"
+        },
+        {
+          "id": "193eb814-bbcd-48a9-8ed6-c4eb997ba851",
+          "url": "https://reliefweb.int/report/world/global-price-watch-june-2026-prices-july-31-2026",
+          "excerpt": "In the Middle East and Europe, staple food price trends remained mixed. In Syria, rice, wheat flour, vegetable oil, and cooking gas prices increased amid higher import costs and exchange-rate depreciation. In Lebanon, staple food prices remained stable, supported by adequate imports, while diesel and cooking gas prices declined. In Gaza, staple food prices eased despite lower food inflows, while prices in the West Bank remained stable despite market access issues. In Ukraine, seasonal supply [...] In West Africa, staple food prices showed mixed seasonal trends across the Sahel but broadly remained below last year and the five-year average, except in conflict-affected areas. Prices continued to increase seasonally in Nigeria but remained generally stable in other coastal countries. In southern Cameroon and the CAR, prices were above average due to high transportation costs and insecurity. Prices will likely remain high through the lean season before easing with new harvests around [...] seasonal supply provided price relief for eggs and vegetables, while conflict-related logistics constraints continued to affect frontline markets (Page 11).",
+          "published_on": "2026-07-31",
+          "retrieved_at": "2026-10-03T22:19:13.574724Z"
+        }
+      ],
+      "reason": null,
+      "cache_status": "miss",
+      "search_calls": 1,
+      "excluded_count": 3,
+      "limitation": "Web excerpts are untrusted evidence; validate claims against dated excerpts"
+    }
+  ],
+  "dated_citations": [
+    {
+      "id": "7677c15a-ce5a-4689-b840-d7921f1d6dbc",
+      "url": "https://www.foodbusinessnews.net/articles/30625-global-cuisine-national-favorites-driving-summer-flavors",
+      "excerpt": "Trends Suppliers T. Hasegawa Beverage Flavors Global cuisine\n\n ### Related Articles\n\n  ## Krispy Kreme rolls out seasonal summer flavors\n\n  ## Spicy, seasonal flavors driving summer food trends\n\n  ## Snack flavors assist in exploring global cuisine, easing stress\n\n  ## Actual Veggies collaboration focuses on global cuisine\n\n  ## Slideshow: Condiment innovation inspired by global cuisine\n\nGet better food industry search results.\n\n[]( [...] Skip To Content\n\nSubscribe for Free\n\nSubscribe Now\n\nHome \u00bb Trends \u00bb Global cuisine, national favorites driving summer flavors\n\n# Global cuisine, national favorites driving summer flavors\n\nflavors.jpg\n\nPhoto: \u00a9MUHAMMAD \u2013 STOCK.ADOBE.COM\n\nBy Brooke Just\n\nGoogleAdd as a preferred  \nsource on Google\n\nCERRITOS, CALIF. \u2014 With summer in full swing, T. Hasegawa USA is highlighting the top 10 trending flavors of the season, inspired by global cuisines and national favorites. [...] Spicy coconut: This flavor is found in culinary traditions, including South Asia, Brazil and Jamaica. It features a tropical and fiery, creamy chili-infused flavor.\n White miso: A mild, tangy Japanese seasoning paste formulated with fermented rice and soybeans, providing an umami flavor for dressings, marinades and grilled dishes.",
+      "published_on": "2026-07-06",
+      "retrieved_at": "2026-10-03T22:19:13.574719+00:00"
+    },
+    {
+      "id": "193eb814-bbcd-48a9-8ed6-c4eb997ba851",
+      "url": "https://reliefweb.int/report/world/global-price-watch-june-2026-prices-july-31-2026",
+      "excerpt": "In the Middle East and Europe, staple food price trends remained mixed. In Syria, rice, wheat flour, vegetable oil, and cooking gas prices increased amid higher import costs and exchange-rate depreciation. In Lebanon, staple food prices remained stable, supported by adequate imports, while diesel and cooking gas prices declined. In Gaza, staple food prices eased despite lower food inflows, while prices in the West Bank remained stable despite market access issues. In Ukraine, seasonal supply [...] In West Africa, staple food prices showed mixed seasonal trends across the Sahel but broadly remained below last year and the five-year average, except in conflict-affected areas. Prices continued to increase seasonally in Nigeria but remained generally stable in other coastal countries. In southern Cameroon and the CAR, prices were above average due to high transportation costs and insecurity. Prices will likely remain high through the lean season before easing with new harvests around [...] seasonal supply provided price relief for eggs and vegetables, while conflict-related logistics constraints continued to affect frontline markets (Page 11).",
+      "published_on": "2026-07-31",
+      "retrieved_at": "2026-10-03T22:19:13.574724+00:00"
+    }
+  ],
+  "passed": true
+}

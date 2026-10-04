@@ -12,7 +12,7 @@ from food_recommender.mcp.server import create_app
 
 
 class MCPScaffoldTests(unittest.TestCase):
-    def test_protocol_discovers_no_placeholder_tools_or_resources(self):
+    def test_protocol_discovers_read_only_tools(self):
         values = {name: environment()[name] for name in ("DATABASE_URL", "MEDIA_ROOT")}
         with patch.dict(os.environ, values, clear=True):
             app = create_app()
@@ -79,7 +79,21 @@ class MCPScaffoldTests(unittest.TestCase):
                         if line.startswith("data: ")
                     )
                 )
-                self.assertEqual(payload["result"][collection], [])
+                if collection == "tools":
+                    self.assertEqual(
+                        {t["name"] for t in payload["result"][collection]},
+                        {
+                            "get_restaurant_info",
+                            "recommend_by_vibe",
+                            "get_review",
+                            "search_restaurants",
+                            "search_recipes",
+                            "search_images",
+                            "search_food_trends",
+                        },
+                    )
+                else:
+                    self.assertEqual(len(payload["result"][collection]), 3)
 
 
 if __name__ == "__main__":

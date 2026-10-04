@@ -36,8 +36,13 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg://foodwise:${FOODWISE_DB_PASSWORD:?Set FOODWISE_DB_PASSWORD}@db:5432/foodwise
       MEDIA_ROOT: /var/lib/foodwise/media
+      TAVILY_API_KEY: ${TAVILY_API_KEY-}
+      MINILM_ROOT: /var/lib/foodwise/models/minilm
+      CLIP_ROOT: /var/lib/foodwise/models/clip
     volumes:
       - media_data:/var/lib/foodwise/media:ro
+      - ${MINILM_ROOT:-./.local-tmp/minilm}:/var/lib/foodwise/models/minilm:ro
+      - ${CLIP_ROOT:-./.local-tmp/clip}:/var/lib/foodwise/models/clip:ro
     depends_on:
       db: {condition: service_healthy}
     healthcheck:

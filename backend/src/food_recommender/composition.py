@@ -4,8 +4,10 @@ from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from pathlib import Path
 
+import httpx
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
+from food_recommender.application.lookups import LookupService
 from food_recommender.application.persistence import (
     CatalogService,
     ConversationService,
@@ -13,16 +15,21 @@ from food_recommender.application.persistence import (
 )
 from food_recommender.application.ports import UnitOfWork
 from food_recommender.application.services import Services
+from food_recommender.application.trends import TrendService
 from food_recommender.infrastructure.config import Settings
 from food_recommender.infrastructure.health import backend_readiness, local_readiness
 from food_recommender.infrastructure.image_search import PostgresImageSearch
+from food_recommender.infrastructure.lazy_encoders import LazyCLIP, LazyMiniLM
+from food_recommender.infrastructure.lookups import PostgresLookups
 from food_recommender.infrastructure.mcp_config import MCPSettings
+from food_recommender.infrastructure.mcp_resources import PostgresCatalogResources
 from food_recommender.infrastructure.media import LocalMediaFiles
 from food_recommender.infrastructure.persistence import (
     PostgresUnitOfWork,
     create_database_engine,
 )
 from food_recommender.infrastructure.query_media import AuthorizedQueryMedia
+from food_recommender.infrastructure.tavily import TavilySearch
 from food_recommender.infrastructure.text_search import PostgresTextSearch
 from food_recommender.retrieval.image_service import ImageRetrieval
 from food_recommender.retrieval.multimodal import MultimodalRetrieval
@@ -74,7 +81,35 @@ def build_backend_services(
 
 
 def build_mcp_services(settings: MCPSettings) -> Services:
-    return Services(readiness=MCPReadiness(settings))
+    engine = create_database_engine(settings.database_url.get_secret_value())
+    sessions = async_sessionmaker(engine, expire_on_commit=False)
+    http = httpx.AsyncClient(follow_redirects=False)
+
+    def transactions() -> UnitOfWork:
+        return PostgresUnitOfWork(sessions)
+
+    async def close() -> None:
+        await http.aclose()
+        await engine.dispose()
+
+    return Services(
+        readiness=MCPReadiness(settings),
+        close=close,
+        trends=TrendService(
+            TavilySearch(settings.tavily_api_key, http)
+            if settings.tavily_api_key
+            else None,
+            transactions,
+        ),
+        lookups=LookupService(PostgresLookups(sessions)),
+        resources=PostgresCatalogResources(sessions),
+        retrieval=build_multimodal_retrieval(
+            sessions,
+            LazyMiniLM(settings.minilm_root) if settings.minilm_root else None,
+            LazyCLIP(settings.clip_root) if settings.clip_root else None,
+            settings.media_root,
+        ),
+    )
 
 
 def build_multimodal_retrieval(
