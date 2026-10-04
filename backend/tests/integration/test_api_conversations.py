@@ -21,7 +21,7 @@ class Ready:
 
 def settings(tmp_path):
     return Settings(
-        GROQ_API_KEY=TEST_TOKEN,
+        OPENAI_API_KEY=TEST_TOKEN,
         DATABASE_URL="postgresql://fixture:fixture@localhost/foodwise_test",
         MCP_SERVER_URL="http://localhost:8001/mcp",
         MEDIA_ROOT=tmp_path,

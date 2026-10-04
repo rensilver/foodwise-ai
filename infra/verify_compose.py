@@ -29,9 +29,9 @@ def main() -> None:
     salt = base64.b64encode(b"synthetic-salt!!x").decode().rstrip("=")
     digest = base64.b64encode(bytes(range(32))).decode().rstrip("=")
     values = {
-        "GROQ_API_KEY": f"synthetic-compose-canary-{suffix}",
-        "GROQ_MODEL": "qwen/qwen3.8-27b",
-        "GROQ_VISION_MODEL": "qwen/qwen3.8-27b",
+        "OPENAI_API_KEY": f"synthetic-compose-canary-{suffix}",
+        "OPENAI_MODEL": "gpt-4o-mini",
+        "OPENAI_VISION_MODEL": "gpt-4o-mini",
         "TAVILY_API_KEY": "",
         "ADMIN_PASSWORD_HASH": f"$argon2id$v=19$m=65536,t=3,p=1${salt}${digest}",
         "POSTGRES_PASSWORD": secrets.token_hex(32),

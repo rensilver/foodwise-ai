@@ -6,13 +6,15 @@ from pathlib import Path
 
 import httpx
 import pytest
-from groq import AsyncGroq
+from pydantic import SecretStr
 from tavily import AsyncTavilyClient
+
+from food_recommender.infrastructure.providers.openai import OpenAIStructuredInference
 
 
 def test_external_connections_are_blocked_before_dns() -> None:
     with pytest.raises(RuntimeError, match="external network"):
-        socket.getaddrinfo("api.groq.com", 443)
+        socket.getaddrinfo("api.openai.com", 443)
 
 
 @pytest.mark.parametrize("method", ["connect", "connect_ex"])
@@ -23,19 +25,17 @@ def test_external_ip_connections_are_blocked(method: str) -> None:
 
 
 @pytest.mark.asyncio
-async def test_groq_uses_a_fake_http_response(
+async def test_openai_uses_a_fake_http_response(
     provider_transport: httpx.MockTransport,
 ) -> None:
-    async with AsyncGroq(
-        api_key="synthetic-groq-credential",
-        max_retries=0,
-        http_client=httpx.AsyncClient(transport=provider_transport),
-    ) as client:
-        response = await client.chat.completions.create(
-            model="qwen/qwen3.8-27b",
-            messages=[{"role": "user", "content": "Fixture request"}],
+    async with httpx.AsyncClient(transport=provider_transport) as client:
+        provider = OpenAIStructuredInference(
+            client, SecretStr("synthetic-openai-credential"), "gpt-4o-mini"
         )
-    assert response.choices[0].message.content == '{"status":"fixture"}'
+        response = await provider.generate(
+            [{"role": "user", "content": "Fixture request"}], {"type": "object"}
+        )
+    assert response == '{"status":"fixture"}'
 
 
 @pytest.mark.asyncio

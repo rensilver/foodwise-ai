@@ -12,7 +12,7 @@ canonical ingredients and citations. Missing models return dependency errors.
 The application client discovers schemas once per connection and validates inputs
 and outputs. Six fixed role allowlists, application-supplied run/session/demo IDs
 and a configured endpoint bound capabilities. There is no sampling callback,
-Groq inference, arbitrary server/tool selection, SQL, filesystem path or mutation
+OpenAI inference, arbitrary server/tool selection, SQL, filesystem path or mutation
 tool. Media reads enforce ownership, validated basenames and `O_NOFOLLOW`; Compose
 keeps MCP internal and mounts model/media directories read-only. Roots do not
 enforce these restrictions.
@@ -56,7 +56,7 @@ ENABLE_LIVE_TAVILY=1 make smoke-food-trends
 
 Process environment settings override the selected dotenv file. This command may
 use up to two Tavily requests, persists public evidence in the intended database,
-and writes the report; it makes no Groq call. Ordinary tests and health checks do
+and writes the report; it makes no OpenAI call. Ordinary tests and health checks do
 not call either paid provider. Do not use a test database to store live evidence.
 
 Dependencies were kept locked (FastMCP 4.0.10, Tavily SDK 0.8.4; the adapter uses
@@ -68,6 +68,6 @@ the 32 KiB instruction budget and the redacting source scan passed.
 Version-specific behavior was checked against [FastMCP clients](https://gofastmcp.com/clients/client),
 [tools](https://gofastmcp.com/servers/tools) and
 [Tavily Search](https://docs.tavily.com/documentation/api-reference/endpoint/search).
-The existing Groq model configuration is preserved; model capability checks and
+The then-configured inference model was preserved; model capability checks and
 six-agent inference remain Phase 7. Original-history publication review, local
 media recovery, 16 entity-review pairs and later application/release gates remain.

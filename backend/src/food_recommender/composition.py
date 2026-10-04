@@ -64,7 +64,7 @@ from food_recommender.infrastructure.persistence.runs import PostgresConversatio
 from food_recommender.infrastructure.persistence.search.image import PostgresImageSearch
 from food_recommender.infrastructure.persistence.search.text import PostgresTextSearch
 from food_recommender.infrastructure.persistence.unit_of_work import PostgresUnitOfWork
-from food_recommender.infrastructure.providers.groq import GroqStructuredInference
+from food_recommender.infrastructure.providers.openai import OpenAIStructuredInference
 from food_recommender.infrastructure.providers.tavily import TavilySearch
 from food_recommender.ingestion.extraction import (
     ExtractionResult,
@@ -114,8 +114,8 @@ def build_backend_services(
     cleanup = MediaCleanupService(transactions, LocalMediaFiles(settings.media_root))
     http = httpx.AsyncClient(follow_redirects=False)
     runs = PostgresConversationRuns(engine)
-    inference = GroqStructuredInference(
-        http, settings.groq_api_key, settings.groq_model
+    inference = OpenAIStructuredInference(
+        http, settings.openai_api_key, settings.openai_model
     )
     workflow = PersistedWorkflow(settings, inference, runs)
     catalog = CatalogService(transactions, cleanup)
@@ -223,7 +223,7 @@ def build_workflow_roles(
 ) -> "WorkflowRoles":
     """Construct six roles over centrally managed, already scoped capabilities.
 
-    Keep the Groq provider/semaphore and MCP client alive at the process root.
+    Keep the OpenAI provider/semaphore and MCP client alive at the process root.
     Make MCP role views with application-issued session/run IDs for each turn;
     a model cannot choose identities, transport endpoints or review scope.
     """

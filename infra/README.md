@@ -21,7 +21,7 @@ images run as non-root users. Repository-context
 [exclusions](../.dockerignore) and explicit Dockerfile copy paths keep dotenv
 files, course material, data, media and development caches out of the images.
 Builds download dependencies; they do not fetch pretrained models or call
-Groq/Tavily. The first backend build includes the locked CPU embedding libraries
+OpenAI/Tavily. The first backend build includes the locked CPU embedding libraries
 and can take several minutes.
 
 The verification target is Linux x86_64 with Docker 29.8.0 and Compose 5.5.1.
@@ -43,7 +43,7 @@ curl --fail http://127.0.0.1:3000/health/live
 
 Before those commands, fill missing entries in your existing root `.env` using
 [.env.example](../.env.example). If no `.env` exists, copy the example first.
-Supply a fresh `GROQ_API_KEY`, a single-quoted Argon2id `ADMIN_PASSWORD_HASH`,
+Supply a fresh `OPENAI_API_KEY`, a single-quoted Argon2id `ADMIN_PASSWORD_HASH`,
 and distinct `POSTGRES_PASSWORD` and `FOODWISE_DB_PASSWORD` values. Generate
 each database password independently with `openssl rand -hex 32`, then save
 the values locally. `FOODWISE_DB_PASSWORD` permits letters, digits, `_` and `-`
@@ -181,7 +181,7 @@ The [host assessment](memory-assessment.md) records measured hardware and
 verification limits. The scaffold does not load pretrained embedding models.
 When MiniLM/CLIP retrieval is implemented, measure model loading and inference
 peaks before reusing these ceilings. Plan one owner for each resident model,
-CPU inference, small batches and bounded embedding jobs. Groq's six agent
+CPU inference, small batches and bounded embedding jobs. OpenAI's six agent
 roles use remote inference; they do not require six local LLM instances.
 
 This host's `/tmp` is a 3.3 GiB tmpfs, so large temporary files consume

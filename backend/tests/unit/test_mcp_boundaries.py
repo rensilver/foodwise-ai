@@ -24,7 +24,7 @@ def test_mcp_has_no_inference_sampling_shell_or_mutation_imports():
             for alias in node.names
         }
         assert not any(
-            "groq" in name or "langchain" in name or name in {"subprocess", "os"}
+            "openai" in name or "langchain" in name or name in {"subprocess", "os"}
             for name in imports
         )
         calls = {

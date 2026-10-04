@@ -17,7 +17,7 @@ from food_recommender.domain.catalog import SourceData
 from food_recommender.infrastructure.media.downloads import CourseDownloader
 from food_recommender.infrastructure.persistence.engine import create_database_engine
 from food_recommender.infrastructure.persistence.ingestion import PostgresIngestionStore
-from food_recommender.infrastructure.providers.groq import GroqStructuredInference
+from food_recommender.infrastructure.providers.openai import OpenAIStructuredInference
 from food_recommender.ingestion.adapters import SourceError, digest
 from food_recommender.ingestion.extraction import (
     ExtractionService,
@@ -153,14 +153,14 @@ async def import_seed(args: argparse.Namespace, environment: dict[str, Any]) -> 
 
 
 async def preview(args: argparse.Namespace, environment: dict[str, Any]) -> int:
-    if not environment.get("GROQ_API_KEY"):
-        raise ValueError("Set a fresh GROQ_API_KEY to explicitly enable extraction")
+    if not environment.get("OPENAI_API_KEY"):
+        raise ValueError("Set a fresh OPENAI_API_KEY to explicitly enable extraction")
     text = args.input.read_text()
     async with httpx.AsyncClient(trust_env=False) as client:
-        inference = GroqStructuredInference(
+        inference = OpenAIStructuredInference(
             client,
-            SecretStr(environment["GROQ_API_KEY"]),
-            environment.get("GROQ_MODEL") or "qwen/qwen3.8-27b",
+            SecretStr(environment["OPENAI_API_KEY"]),
+            environment.get("OPENAI_MODEL") or "gpt-4o-mini",
         )
         service = ExtractionService(inference, args.output.parent / "quarantine")
         result = await service.preview(
@@ -217,7 +217,7 @@ def main() -> int:
         help="Fetch only approved course-host review images over HTTPS",
     )
     extraction = commands.add_parser(
-        "preview", help="Opt-in Groq extraction, without catalog writes"
+        "preview", help="Opt-in OpenAI extraction, without catalog writes"
     )
     extraction.add_argument(
         "--category", choices=["restaurant", "recipe"], required=True

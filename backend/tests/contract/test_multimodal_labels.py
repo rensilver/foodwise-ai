@@ -71,11 +71,11 @@ def test_comparison_report_covers_settings_grounding_and_actual_image_queries():
         "linked_review_images": 9,
     }
     assert not any(report["violations"].values())
-    assert report["usage"] == {
-        "groq_calls": 0,
-        "trend_searches": 0,
-        "provider_tokens": 0,
-    }
+    # Preserve old measurements while accepting reports from the migrated CLI.
+    assert report["usage"] in [
+        {provider: 0, "trend_searches": 0, "provider_tokens": 0}
+        for provider in ("groq_calls", "openai_calls")
+    ]
     for setting in report["summaries"]:
         assert {q["id"] for q in report["queries"] if q["setting"] == setting} == {
             q["id"] for q in labels["queries"]

@@ -62,7 +62,7 @@ food_recommender/
       ingestion.py              # atomic seed store
       query_media.py            # ownership checks using persisted media references
     embeddings/                 # local model execution: minilm.py, clip.py, lazy.py
-    providers/                  # external inference/search: groq.py, tavily.py
+    providers/                  # external inference/search: openai.py, tavily.py
     media/                      # files.py, images.py and approved-host downloads.py
     config.py, mcp_config.py     # explicit process settings
     health.py, observability.py  # cross-cutting operational adapters
@@ -128,7 +128,7 @@ instructions use these paths.
 
 - **Phase 7:** keep graph state, node orchestration, prompts and control logic
   separate within `agents`. Inject inference and MCP capabilities through real
-  boundaries; extend `providers/groq.py` or focused sibling modules for SDK calls.
+  boundaries; extend `providers/openai.py` or focused sibling modules for SDK calls.
   Keep deterministic dietary/citation rules in the core and saver setup in
   `persistence/checkpoints.py`.
 - **Phase 8:** use focused API routers/schemas/dependencies over application use
@@ -157,7 +157,7 @@ logic. `agents/telemetry.py` records allowlisted stage timing, without source te
 MCP gateway and owned-run lease ports. `application/profile_rules.py`,
 `nutrition_rules.py` and `evidence_rules.py` keep correction, dietary and citation
 rules independent of the graph/provider. `application/reliability.py` supplies
-shared run budgets. Concrete Groq HTTP stays in `infrastructure/providers/groq.py`;
+shared run budgets. Concrete OpenAI HTTP stays in `infrastructure/providers/openai.py`;
 discovered tool schema/role enforcement stays in `mcp/client.py`; PostgreSQL lease
 SQL and supported saver setup stay in `infrastructure/persistence/{runs,checkpoints}.py`.
 The saver disables arbitrary class revival; graph state contains only JSON values.

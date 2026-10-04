@@ -61,11 +61,13 @@ async def test_provider_failure_is_typed_and_redacted(tmp_path):
 
 
 @pytest.mark.asyncio
-async def test_groq_request_contract_preserves_model_and_has_no_tools():
+async def test_openai_request_contract_preserves_model_and_has_no_tools():
     import httpx
     from pydantic import SecretStr
 
-    from food_recommender.infrastructure.providers.groq import GroqStructuredInference
+    from food_recommender.infrastructure.providers.openai import (
+        OpenAIStructuredInference,
+    )
 
     def respond(request):
         body = json.loads(request.content)
@@ -78,7 +80,9 @@ async def test_groq_request_contract_preserves_model_and_has_no_tools():
 
     async with httpx.AsyncClient(transport=httpx.MockTransport(respond)) as client:
         result = await ExtractionService(
-            GroqStructuredInference(client, SecretStr("synthetic"), "configured-model"),
+            OpenAIStructuredInference(
+                client, SecretStr("synthetic"), "configured-model"
+            ),
             None,
         ).preview("Soup", RestaurantFields, source="input", record_id="1")
         assert result.status == "validated"

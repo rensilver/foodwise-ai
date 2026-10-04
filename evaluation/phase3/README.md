@@ -32,7 +32,7 @@ groups are reported limitations, not silently merged entities.
 Final verification passed all **284 backend tests without skips**, including
 real PostgreSQL/pgvector, migrations and offline pre-provisioned CPU model
 contracts. Ruff lint/format and strict mypy passed. Provider tests used fake
-boundaries; Groq text/vision access was not smoke-tested. Embedding tables remain
+boundaries; provider text/vision access was not smoke-tested during this phase. Embedding tables remain
 empty because generation and retrieval belong to Phases 4–5.
 
 To reproduce, follow [backend ingestion instructions](../../backend/README.md#seed-ingestion-phase-3)

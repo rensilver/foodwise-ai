@@ -10,7 +10,7 @@ const root = fileURLToPath(new URL("../", import.meta.url));
 const secret = "synthetic-private-canary";
 
 const privateEnvironment = {
-  GROQ_API_KEY: secret, TAVILY_API_KEY: secret, DATABASE_URL: secret,
+  OPENAI_API_KEY: secret, TAVILY_API_KEY: secret, DATABASE_URL: secret,
   ADMIN_PASSWORD_HASH: secret, MEDIA_ROOT: secret, MCP_SERVER_URL: secret,
   POSTGRES_PASSWORD: secret, FOODWISE_DB_PASSWORD: secret,
 };
@@ -43,7 +43,7 @@ test("clean frontend configuration exposes no browser environment definitions", 
 });
 
 test("backend variables are rejected individually without printing values", () => {
-  for (const name of [...Object.keys(privateEnvironment), "GROQ_MODEL", "GROQ_VISION_MODEL"]) {
+  for (const name of [...Object.keys(privateEnvironment), "OPENAI_MODEL", "OPENAI_VISION_MODEL"]) {
     const result = loadConfiguration({ [name]: secret });
     assert.equal(result.status, 2, result.stderr);
     assert.ok(result.stderr.includes(name));
@@ -63,7 +63,7 @@ test("Next dotenv loading applies the public-variable guard in dev and build", (
       assert.match(result.stderr, /Remove NEXT_PUBLIC_/);
       assert.ok(!(result.stdout + result.stderr).includes(secret));
     }
-    writeFileSync(join(directory, ".env.local"), `GROQ_API_KEY=${secret}\n`);
+    writeFileSync(join(directory, ".env.local"), `OPENAI_API_KEY=${secret}\n`);
     const result = loadConfiguration({}, directory);
     assert.equal(result.status, 2, result.stderr);
     assert.match(result.stderr, /Remove backend settings/);
@@ -86,7 +86,7 @@ test("isolated production browser assets contain no private environment values",
       'use client';
       export default function Page() {
         return <pre>{JSON.stringify([
-          process.env.GROQ_API_KEY, process.env.TAVILY_API_KEY,
+          process.env.OPENAI_API_KEY, process.env.TAVILY_API_KEY,
           process.env.DATABASE_URL, process.env.ADMIN_PASSWORD_HASH,
           process.env.MEDIA_ROOT, process.env.MCP_SERVER_URL
         ])}</pre>;
@@ -118,7 +118,7 @@ test("isolated production browser assets contain no private environment values",
 });
 
 test("public environment variables fail before bundling without printing values", () => {
-  for (const name of ["NEXT_PUBLIC_GROQ_API_KEY", "NEXT_PUBLIC_DATABASE_URL", "NEXT_PUBLIC_CUSTOM_TOKEN"]) {
+  for (const name of ["NEXT_PUBLIC_OPENAI_API_KEY", "NEXT_PUBLIC_DATABASE_URL", "NEXT_PUBLIC_CUSTOM_TOKEN"]) {
     const result = loadConfiguration({ [name]: secret });
     assert.equal(result.status, 2, result.stderr);
     assert.match(result.stderr, /Remove NEXT_PUBLIC_/);

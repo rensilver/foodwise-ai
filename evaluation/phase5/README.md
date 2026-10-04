@@ -46,7 +46,7 @@ photos, novel dishes or dietary compliance.
 
 Every evaluated result has zero fabricated entity/citation IDs, hard-constraint,
 metadata-filter, review-scope or image-association violations and zero duplicate
-entities. Both successful and empty restrictive cases are checked. No Groq,
+entities. Both successful and empty restrictive cases are checked. No OpenAI,
 Tavily or other paid-provider calls were made. Model loading took 7.66 seconds;
 peak process RSS was 1130.71 MiB, on an AMD Ryzen 5 7520U with 8 logical CPUs
 and about 6.54 GiB RAM, with one CPU inference thread. PostgreSQL was 16.14,
