@@ -11,6 +11,7 @@ from starlette.exceptions import HTTPException
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from food_recommender.api.dependencies import get_services
+from food_recommender.api.routers.conversations import router as conversation_router
 from food_recommender.application.errors import ErrorCode
 from food_recommender.application.services import Services
 from food_recommender.composition import build_backend_services
@@ -81,4 +82,5 @@ def create_app(
         payload, status = health_payload(await services.readiness.check())
         return JSONResponse(payload, status_code=status)
 
+    app.include_router(conversation_router)
     return app

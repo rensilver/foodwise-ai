@@ -524,7 +524,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 
 **Verification:** HTTP integration tests with real database and fake provider boundaries.
 
-- [ ] P08-01 Implement `/api/v1` conversation creation, history and deletion with browser-session ownership and conversation-data cleanup.
+- [x] P08-01 Implement `/api/v1` conversation creation, history and deletion with browser-session ownership and conversation-data cleanup.
 - [ ] P08-02 Implement message submission with text/preferences/media IDs and typed SSE progress, clarification, recommendations, error and terminal done events.
 - [ ] P08-03 Add heartbeats, buffering controls and client-disconnect cancellation; commit completed responses before final events and prevent automatic POST replay.
 - [ ] P08-04 Implement paginated restaurant/recipe browse and detail endpoints with validated filters and source-backed fields.
@@ -539,7 +539,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 
 **Exit criterion:** the typed API supports the full recommendation/admin flow safely, updates retrieval data consistently, and has a verified frontend contract.
 
-**Evidence / blockers:** _Pending._
+**Evidence / blockers:** P08-01 verified on 2026-10-04: owned HTTP creation/history/deletion plus existing checkpoint/upload cleanup, 8 real PostgreSQL tests passed. Remaining Phase 8 tasks are in progress. Phase 7 live Groq token-limit acceptance remains open.
 
 ## Phase 9 — Next.js frontend and administration
 
