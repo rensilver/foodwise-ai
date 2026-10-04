@@ -17,6 +17,7 @@ class GraphState(TypedDict, total=False):
     request: dict[str, Any]
     conversation_id: str
     session_id: str
+    lifecycle: str
     run_id: str
     messages: Annotated[list[str], operator.add]
     profile: dict[str, Any] | None
