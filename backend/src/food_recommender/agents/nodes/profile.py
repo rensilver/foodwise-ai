@@ -7,6 +7,11 @@ from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
 from food_recommender.agents.prompts import PROFILE
 from food_recommender.agents.structured import structured
 from food_recommender.application.inference import Inference
+from food_recommender.application.profile_rules import (
+    constraint_key,
+    explicit_removal,
+    merge_constraints,
+)
 from food_recommender.application.workflow import TurnRequest
 from food_recommender.domain.experts import (
     AgentFailure,
@@ -15,7 +20,7 @@ from food_recommender.domain.experts import (
     ProfileResult,
 )
 from food_recommender.domain.preferences import Constraint, Preferences
-from food_recommender.domain.values import Category
+from food_recommender.domain.values import Category, Origin
 
 
 class ConstraintChange(BaseModel):
@@ -73,6 +78,44 @@ class UserProfileGenerator:
     ) -> ProfileResult:
         base = prior.preferences if prior else Preferences()
         explicit = request.explicit
+        additions = []
+        removals = {
+            (item.kind, item.value.casefold().strip())
+            for item in explicit.remove_constraints
+        }
+        clarification = patch.clarification
+        for change in patch.changes:
+            if change.evidence.casefold() not in request.message.casefold():
+                raise ValueError("Constraint evidence is not in the current message")
+            if change.operation == "remove":
+                if explicit_removal(
+                    change.evidence, change.constraint, request.message
+                ):
+                    removals.add(constraint_key(change.constraint))
+                else:
+                    clarification = (
+                        "Please clarify which restriction you want to change."
+                    )
+            else:
+                additions.append(change.constraint)
+        if any(constraint_key(c) in removals for c in additions) or any(
+            constraint_key(c) in removals for c in explicit.constraints
+        ):
+            clarification = "Please clarify the contradictory restriction changes."
+            removals.clear()
+        # UI fields are explicitly user-authored; inferred provenance cannot weaken them.
+        if any(c.origin != Origin.EXPLICIT for c in explicit.constraints):
+            raise ValueError("Explicit fields require explicit provenance")
+        constraints = merge_constraints(
+            base.constraints, (*additions, *explicit.constraints), removals
+        )
+        diets = {
+            c.value
+            for c in constraints
+            if c.kind.value == "dietary" and c.strength.value == "hard"
+        }
+        if "vegan" in diets and diets & {"carnivore", "pescatarian"}:
+            clarification = "Please clarify the conflicting strict diets."
         return ProfileResult(
             request.categories
             or patch.categories
@@ -94,19 +137,7 @@ class UserProfileGenerator:
                 price_band=explicit.price_band
                 if "price_band" in explicit.model_fields_set
                 else patch.price_band or base.price_band,
-                constraints=tuple(
-                    dict.fromkeys(
-                        (
-                            *base.constraints,
-                            *explicit.constraints,
-                            *(
-                                change.constraint
-                                for change in patch.changes
-                                if change.operation == "add"
-                            ),
-                        )
-                    )
-                ),
+                constraints=constraints,
             ),
-            patch.clarification,
+            clarification,
         )
