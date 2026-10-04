@@ -12,6 +12,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from food_recommender.api.body_limits import BodyLimits
 from food_recommender.api.dependencies import get_services
+from food_recommender.api.routers.admin_catalog import router as admin_catalog_router
 from food_recommender.api.routers.admin_session import router as admin_session_router
 from food_recommender.api.routers.catalog import router as catalog_router
 from food_recommender.api.routers.conversations import router as conversation_router
@@ -93,4 +94,5 @@ def create_app(
     app.include_router(catalog_router)
     app.include_router(media_router, dependencies=[Depends(safe_browser_write)])
     app.include_router(admin_session_router)
+    app.include_router(admin_catalog_router)
     return app

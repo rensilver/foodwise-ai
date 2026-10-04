@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from typing import Protocol
 
 from food_recommender.application.admin import AdminService
+from food_recommender.application.admin_catalog import AdminCatalogService
 from food_recommender.application.browse import BrowseService
 from food_recommender.application.catalog import CatalogService
 from food_recommender.application.conversations import ConversationService
@@ -35,6 +36,7 @@ class Services:
     messages: MessageService | None = None
     media: MediaService | None = None
     admin: AdminService | None = None
+    admin_catalog: AdminCatalogService | None = None
     media_cleanup: MediaCleanupService | None = None
     lookups: LookupService | None = None
     retrieval: MultimodalRetrieval | None = None

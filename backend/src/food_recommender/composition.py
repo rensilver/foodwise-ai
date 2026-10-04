@@ -20,8 +20,10 @@ from food_recommender.agents.nodes.trend import FoodTrendAnalyst
 from food_recommender.agents.runner import GraphRunner
 from food_recommender.application.activity import Progress, observer
 from food_recommender.application.admin import AdminService
+from food_recommender.application.admin_catalog import AdminCatalogService
 from food_recommender.application.browse import BrowseService
 from food_recommender.application.catalog import CatalogService
+from food_recommender.application.catalog_preparation import CatalogPreparation
 from food_recommender.application.conversations import ConversationService
 from food_recommender.application.inference import Inference
 from food_recommender.application.lookups import LookupService
@@ -41,6 +43,7 @@ from food_recommender.application.workflow import (
     ToolGateway,
     TurnRequest,
 )
+from food_recommender.domain.values import Category
 from food_recommender.infrastructure.auth import Argon2Verification
 from food_recommender.infrastructure.config import Settings
 from food_recommender.infrastructure.embeddings.lazy import LazyCLIP, LazyMiniLM
@@ -63,6 +66,12 @@ from food_recommender.infrastructure.persistence.search.text import PostgresText
 from food_recommender.infrastructure.persistence.unit_of_work import PostgresUnitOfWork
 from food_recommender.infrastructure.providers.groq import GroqStructuredInference
 from food_recommender.infrastructure.providers.tavily import TavilySearch
+from food_recommender.ingestion.extraction import (
+    ExtractionResult,
+    ExtractionService,
+    RecipeFields,
+    RestaurantFields,
+)
 from food_recommender.mcp.client import AgentMCP, configured_client
 from food_recommender.retrieval.image_service import ImageRetrieval
 from food_recommender.retrieval.multimodal import MultimodalRetrieval
@@ -105,10 +114,14 @@ def build_backend_services(
     cleanup = MediaCleanupService(transactions, LocalMediaFiles(settings.media_root))
     http = httpx.AsyncClient(follow_redirects=False)
     runs = PostgresConversationRuns(engine)
-    workflow = PersistedWorkflow(
-        settings,
-        GroqStructuredInference(http, settings.groq_api_key, settings.groq_model),
-        runs,
+    inference = GroqStructuredInference(
+        http, settings.groq_api_key, settings.groq_model
+    )
+    workflow = PersistedWorkflow(settings, inference, runs)
+    catalog = CatalogService(transactions, cleanup)
+    browse = BrowseService(transactions)
+    preview = AdminExtractionPreview(
+        ExtractionService(inference, settings.media_root / "quarantine")
     )
 
     async def close() -> None:
@@ -123,8 +136,11 @@ def build_backend_services(
         media=MediaService(
             transactions, LocalMediaFiles(settings.media_root), ImageSanitizer()
         ),
-        catalog=CatalogService(transactions, cleanup),
-        browse=BrowseService(transactions),
+        catalog=catalog,
+        browse=browse,
+        admin_catalog=AdminCatalogService(
+            catalog, browse, CatalogPreparation(), preview
+        ),
         admin=AdminService(
             transactions,
             Argon2Verification(settings.admin_password_hash.get_secret_value()),
@@ -262,3 +278,16 @@ class PersistedWorkflow:
                     )
                 finally:
                     observer.reset(token)
+
+
+class AdminExtractionPreview:
+    def __init__(self, service: ExtractionService) -> None:
+        self.service = service
+
+    async def preview(self, text: str, category: Category) -> ExtractionResult:
+        return await self.service.preview(
+            text,
+            RestaurantFields if category == Category.RESTAURANT else RecipeFields,
+            source="admin-preview",
+            record_id="preview",
+        )
