@@ -18,3 +18,7 @@ runtime culinary knowledge base.
 
 [Phase 5](phase5/README.md) adds frozen multimodal labels, real image association
 checks and five measured text/image fusion settings, with explicit scope limits.
+
+[Phase 6](phase6/README.md) records real MCP transports and dated Tavily evidence.
+[Phase 7](phase7/README.md) records graph/checkpoint verification and opt-in Groq
+capabilities, with the full live graph approval status stated explicitly.

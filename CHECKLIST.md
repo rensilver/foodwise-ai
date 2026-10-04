@@ -496,25 +496,25 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 
 **Verification:** deterministic graph/provider tests and explicitly enabled end-to-end Groq smoke test.
 
-- [ ] P07-01 Implement a configurable Groq adapter for structured outputs and tool selection as separate calls; validate text/vision capabilities with fresh credentials in opt-in setup.
-- [ ] P07-02 Implement the User Profile Generator for restaurant/recipe/both intent, explicit and inferred preferences, optional scoped demo reviews and clarification.
-- [ ] P07-03 Preserve restrictions across follow-ups, apply explicit corrections, and handle contradictory statements without silently resetting the profile.
-- [ ] P07-04 Implement the RAG Retriever's source plan, evidence sufficiency checks and at most two refinements after initial retrieval; preserve hard constraints.
-- [ ] P07-05 Implement the Food Trend Analyst with dated MCP evidence, candidate associations and explicit unavailable outcomes.
-- [ ] P07-06 Implement the Food Style Expert for all candidates with supported cuisine/flavor/preparation assessments and unavailable-analysis behavior.
-- [ ] P07-07 Implement the Nutrition Expert with deterministic ingredient checks, supported/conflicting/unknown assessments and strict exclusion behavior.
-- [ ] P07-08 Implement the Recommendation Expert for up to five results/category, all expert outcomes, explanations and validated candidate/source references.
-- [ ] P07-09 Wire a real `StateGraph`: sequential profile/retrieval, asynchronous fan-out, explicit all-branches join and exactly one synthesis invocation.
-- [ ] P07-10 Return partial state updates, isolate branch output keys and reset transient analysis between turns; avoid shared mutable state and first-five truncation.
-- [ ] P07-11 Add PostgreSQL thread checkpoints, UUID run/conversation IDs, one active run/conversation, session isolation and explicit cancellation handling.
-- [ ] P07-12 Enforce timeouts, concurrency, transport/schema retry limits and the run deadline; record stage latency, usage and exhaustion without leaking prompts or keys.
-- [ ] P07-13 Test actual branch overlap, join completion, branch failures, invalid JSON, unknown IDs/citations, insufficient results, checkpoint continuity and conflicting concurrent turns.
-- [ ] P07-14 Run an opt-in full graph smoke test through real MCP/pgvector/Groq/Tavily with a known seed query; record outcome, limits and usage.
-- [ ] P07-15 Follow package boundaries for graph state/nodes/prompts, deterministic rules, provider/MCP ports and checkpoint adapters; extend boundary contracts for new graph dependencies.
+- [x] P07-01 Implement a configurable Groq adapter for structured outputs and tool selection as separate calls; validate text/vision capabilities with fresh credentials in opt-in setup.
+- [x] P07-02 Implement the User Profile Generator for restaurant/recipe/both intent, explicit and inferred preferences, optional scoped demo reviews and clarification.
+- [x] P07-03 Preserve restrictions across follow-ups, apply explicit corrections, and handle contradictory statements without silently resetting the profile.
+- [x] P07-04 Implement the RAG Retriever's source plan, evidence sufficiency checks and at most two refinements after initial retrieval; preserve hard constraints.
+- [x] P07-05 Implement the Food Trend Analyst with dated MCP evidence, candidate associations and explicit unavailable outcomes.
+- [x] P07-06 Implement the Food Style Expert for all candidates with supported cuisine/flavor/preparation assessments and unavailable-analysis behavior.
+- [x] P07-07 Implement the Nutrition Expert with deterministic ingredient checks, supported/conflicting/unknown assessments and strict exclusion behavior.
+- [x] P07-08 Implement the Recommendation Expert for up to five results/category, all expert outcomes, explanations and validated candidate/source references.
+- [x] P07-09 Wire a real `StateGraph`: sequential profile/retrieval, asynchronous fan-out, explicit all-branches join and exactly one synthesis invocation.
+- [x] P07-10 Return partial state updates, isolate branch output keys and reset transient analysis between turns; avoid shared mutable state and first-five truncation.
+- [x] P07-11 Add PostgreSQL thread checkpoints, UUID run/conversation IDs, one active run/conversation, session isolation and explicit cancellation handling.
+- [x] P07-12 Enforce timeouts, concurrency, transport/schema retry limits and the run deadline; record stage latency, usage and exhaustion without leaking prompts or keys.
+- [x] P07-13 Test actual branch overlap, join completion, branch failures, invalid JSON, unknown IDs/citations, insufficient results, checkpoint continuity and conflicting concurrent turns.
+- [x] P07-14 Run an opt-in full graph smoke test through real MCP/pgvector/Groq/Tavily with a known seed query; record outcome, limits and usage. Executed; live acceptance failed (Groq HTTP 413 token limits).
+- [x] P07-15 Follow package boundaries for graph state/nodes/prompts, deterministic rules, provider/MCP ports and checkpoint adapters; extend boundary contracts for new graph dependencies.
 
 **Exit criterion:** all six roles operate on real retrieved data, synthesis waits for branch outcomes, follow-ups persist correctly, and failures cannot fabricate compliant results.
 
-**Evidence / blockers:** _Pending._
+**Evidence / blockers:** Implemented 2026-10-04 on `feature/phase7-langgraph-agents`, with a dedicated commit for each task. P07-01–13 and P07-15 are verified: six real roles, constrained MCP retrieval/refinement, complete expert batching, explicit asynchronous barrier join, retained follow-up restrictions, deterministic nutrition/exclusion and synthesis citation validation, owned PostgreSQL UUID checkpoints, cross-process leases, cancellation, run budgets and redacted usage/stage metrics. Full backend `make check`: 434 tests passed without skips; the final price/trend relevance and affected boundary checks passed in a 27-test follow-up; Ruff/format/mypy passed. Document links/fences/task IDs and the 32 KiB instruction budget passed; source secret scan found zero findings. [Phase 7 evidence](evaluation/phase7/README.md) includes [live configured text/vision capability probes](evaluation/phase7/groq_capabilities.json). P07-14's prepared graph passed a real stdio MCP/pgvector/checkpoint run with fake inference and Tavily disabled (16 candidates, five cited results, zero paid calls). After explicit owner approval of catalog transfers and paid calls, the [full live graph smoke](evaluation/phase7/live_graph_report.json) ran against the isolated restored catalog: all six stages executed, 16 recipes retrieved, one Tavily network search returned five dated sources, and the checkpoint completed. The 17.325-second run failed synthesis validation and returned zero recommendations. A [diagnostic rerun](evaluation/phase7/live_graph_diagnostics.json) reproduced six Groq HTTP 413 token-limit/request-size rejections, while a minimal style-schema probe succeeded. Across both graph runs and that probe: 17 Groq requests, 1,052 reported tokens, one Tavily network search; rejected-call token usage and Tavily credits are unknown. Temporary sessions, conversations and checkpoint rows were removed; catalog/vector counts remain 210/109/770. P07-14 is complete as an executed, recorded smoke task; **Phase 7 live acceptance remains open** until the configured model can process all expert/synthesis inputs within provider and run limits. The opt-in guard and package boundaries passed 11 tests; document/secret checks passed. Original source artifacts/configuration, publication/history blockers and entity-review pairs are preserved; FastAPI/Next.js recommendation interfaces remain later scope.
 
 ## Phase 8 — FastAPI contracts and application behavior
 

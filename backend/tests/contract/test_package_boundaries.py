@@ -109,3 +109,35 @@ for prefix in (
         check=False,
     )
     assert result.returncode == 0, result.stderr
+
+
+def test_graph_dependencies_are_limited_to_core_and_workflow_sdks():
+    violations = []
+    for path in sorted((ROOT / "agents").rglob("*.py")):
+        for dependency in imports(path):
+            parts = dependency.split(".")
+            if parts[0] in SDK_ROOTS - {"langgraph"} or (
+                parts[0] == "food_recommender"
+                and len(parts) > 1
+                and parts[1] not in CORE | {"agents"}
+            ):
+                violations.append(f"{path.relative_to(ROOT)} -> {dependency}")
+    assert not violations, "\n".join(violations)
+
+
+def test_graph_import_has_no_provider_media_or_database_adapter_dependencies():
+    script = """
+import sys
+import food_recommender.agents.graph
+import food_recommender.agents.runner
+for prefix in (
+    "food_recommender.infrastructure", "food_recommender.mcp",
+    "groq", "sqlalchemy", "psycopg", "fastmcp",
+    "torch", "transformers", "sentence_transformers",
+):
+    assert not any(name == prefix or name.startswith(prefix + ".") for name in sys.modules), prefix
+"""
+    result = subprocess.run(
+        [sys.executable, "-c", script], capture_output=True, text=True, timeout=15
+    )
+    assert result.returncode == 0, result.stderr

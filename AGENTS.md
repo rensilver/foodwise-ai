@@ -8,7 +8,7 @@ Build a local English-language IBM capstone restaurant/recipe recommender: six L
 
 V1 includes follow-ups, preferences, image upload/search, cited recommendations and local CRUD. Defer public hosting, multi-user accounts, social-media connectors, verified nutrition and large-scale indexing.
 
-**Status:** Phases 0–6 ingestion, retrieval/fusion, MCP and dated live trends are verified. Sanitized course code, PDFs, the recovered ZIP and 109 recipe images remain local and Git-ignored; source reports are committed. Six-agent orchestration and application interfaces remain planned. [CHECKLIST.md](CHECKLIST.md) records evidence/blockers.
+**Status:** Phases 0–6 ingestion, retrieval/fusion, MCP and dated live trends are verified. Sanitized course code, PDFs, the recovered ZIP and 109 recipe images remain local and Git-ignored; source reports are committed. Six-agent orchestration is implemented; live smoke failed on Groq token limits; interfaces remain pending. [CHECKLIST.md](CHECKLIST.md) records evidence/blockers.
 
 Start at this repository root; read these instructions and the relevant checklist phase. Preserve course artifacts, user changes and completion marks. Implement only requested scope; the roadmap does not authorize other phases. Completion requires verification evidence.
 

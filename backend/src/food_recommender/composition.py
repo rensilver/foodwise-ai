@@ -1,5 +1,6 @@
 """Process composition roots. Construction loads no models or service connections."""
 
+import asyncio
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from pathlib import Path
@@ -7,13 +8,27 @@ from pathlib import Path
 import httpx
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
+from food_recommender.agents.graph import WorkflowRoles
+from food_recommender.agents.nodes.nutrition import NutritionExpert
+from food_recommender.agents.nodes.profile import UserProfileGenerator
+from food_recommender.agents.nodes.rag import RAGRetriever
+from food_recommender.agents.nodes.recommendation import RecommendationExpert
+from food_recommender.agents.nodes.style import FoodStyleExpert
+from food_recommender.agents.nodes.trend import FoodTrendAnalyst
 from food_recommender.application.catalog import CatalogService
 from food_recommender.application.conversations import ConversationService
+from food_recommender.application.inference import Inference
 from food_recommender.application.lookups import LookupService
 from food_recommender.application.media_cleanup import MediaCleanupService
 from food_recommender.application.ports import UnitOfWork
+from food_recommender.application.reliability import (
+    BudgetedInference,
+    BudgetedTools,
+    RunLimits,
+)
 from food_recommender.application.services import Services
 from food_recommender.application.trends import TrendService
+from food_recommender.application.workflow import ToolGateway
 from food_recommender.infrastructure.config import Settings
 from food_recommender.infrastructure.embeddings.lazy import LazyCLIP, LazyMiniLM
 from food_recommender.infrastructure.health import backend_readiness, local_readiness
@@ -133,4 +148,34 @@ def build_multimodal_retrieval(
         )
         if image_encoder
         else None,
+    )
+
+
+def build_workflow_roles(
+    inference: "Inference",
+    rag_tools: "ToolGateway",
+    trend_tools: "ToolGateway",
+    *,
+    limits: "RunLimits | None" = None,
+    semaphore: "asyncio.Semaphore | None" = None,
+    demo_profile_id: str | None = None,
+    scoped_reviews: tuple[str, ...] = (),
+) -> "WorkflowRoles":
+    """Construct six roles over centrally managed, already scoped capabilities.
+
+    Keep the Groq provider/semaphore and MCP client alive at the process root.
+    Make MCP role views with application-issued session/run IDs for each turn;
+    a model cannot choose identities, transport endpoints or review scope.
+    """
+    selected = limits if limits is not None else RunLimits()
+    bounded = BudgetedInference(inference, limits=selected, semaphore=semaphore)
+    return WorkflowRoles(
+        UserProfileGenerator(bounded),
+        RAGRetriever(bounded, BudgetedTools(rag_tools, limits=selected)),
+        FoodTrendAnalyst(bounded, BudgetedTools(trend_tools, limits=selected)),
+        FoodStyleExpert(bounded),
+        NutritionExpert(bounded),
+        RecommendationExpert(bounded),
+        demo_profile_id=demo_profile_id,
+        scoped_reviews=scoped_reviews,
     )

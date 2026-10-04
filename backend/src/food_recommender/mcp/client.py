@@ -4,6 +4,7 @@ from types import TracebackType
 from typing import Any, Literal
 from uuid import UUID
 
+import httpx
 from fastmcp import Client
 from jsonschema import Draft202012Validator  # type: ignore[import-untyped]
 from jsonschema import ValidationError as SchemaError
@@ -16,6 +17,7 @@ from food_recommender.application.lookups import (
     ReviewMatch,
 )
 from food_recommender.application.trends import TrendRequest, TrendResult
+from food_recommender.application.workflow import ToolTransportError
 from food_recommender.infrastructure.config import Settings
 from food_recommender.mcp.schemas import ImageRequest, SearchRequest
 
@@ -137,7 +139,10 @@ class AgentMCP:
                 request_model.model_validate(arguments["request"])
         except (SchemaError, ValidationError, TypeError, ValueError):
             raise ToolPolicyError("Invalid tool arguments") from None
-        result = await self.client.call_tool(name, arguments, timeout=30)
+        try:
+            result = await self.client.call_tool(name, arguments, timeout=30)
+        except (httpx.TransportError, ConnectionError, TimeoutError):
+            raise ToolTransportError(retryable=True) from None
         if result.is_error or result.structured_content is None:
             raise ToolPolicyError("Invalid tool result")
         try:

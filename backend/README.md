@@ -270,10 +270,10 @@ profile = profile_adapter.validate_json(
 payload = profile_adapter.dump_json(profile)
 ```
 
-This task defines and validates contracts. Ingredient classification, profile
-merging across follow-ups, dated trend freshness/cache policy, expert orchestration,
-evidence hydration for HTTP responses, SSE delivery/persistence and OpenAPI/frontend
-generation remain later tasks. A citation or supported assessment is not dietary
+The contracts now support deterministic ingredient checks, retained follow-up
+restrictions, dated trend evidence and six-role orchestration. Evidence hydration
+for HTTP responses, SSE delivery/persistence and OpenAPI/frontend generation
+remain later tasks. A citation or supported assessment is not dietary
 certification; canonical ingredient checks must supply the restriction assessment.
 For validation failures, omit inputs/context when inspecting structured Pydantic
 errors, as described under configuration above.
@@ -846,3 +846,46 @@ ENABLE_LIVE_TAVILY=1 make smoke-food-trends
 It selects the root `.env`, uses its fresh Tavily key, and may spend at most two
 requests. Offline tests remain independent. See the
 [Phase 6 evidence and limitations](../evaluation/phase6/README.md) for reports.
+
+## Phase 7 six-agent workflow
+
+`composition.build_workflow_roles(inference, rag_tools, trend_tools)` constructs
+six roles over injected ports. `agents.graph.build_graph` runs profile and RAG
+sequentially, fans out trend/style/nutrition asynchronously, and joins all three
+outcomes before one synthesis. Expert batches cover up to 20 candidates per
+category; source-backed canonical ingredients remain authoritative. Synthesis
+validates IDs, each candidate's citations and source excerpts, with one repair.
+Explanations and style observations currently use source excerpts to prevent
+unsupported generated claims. This is deliberately narrower than unconstrained
+natural-language reasoning.
+
+`agents.runner.GraphRunner` uses opaque UUID threads with an injected owned-run
+lease. Production wiring uses `PostgresConversationRuns` and `checkpoint_saver`;
+run the supported checkpoint setup explicitly after schema provisioning. One
+active turn is allowed per conversation, including across processes. Read/history
+never invokes the graph. Cancellation persists a terminal marker; the next turn
+requires an explicit `TurnRequest`. Checkpoints retain profile/history while
+control nodes clear transient results before every new turn. An omitted restriction
+is retained; explicit field corrections or evidence-backed removals can change it.
+Contradictory changes request clarification.
+
+Defaults in `application.reliability.RunLimits` are 30 seconds/call, 120 seconds/run,
+two transient transport retries, two schema repairs and three simultaneous Groq
+calls. Use a shared process semaphore/provider. Repairs, retries and batches share
+the same run deadline. Output state records safe stage timing and call/token/search
+usage; logs omit prompts, catalog/private context, response bodies and credentials.
+Groq structured requests never combine tools or streaming, following the
+[official structured-output contract](https://console.groq.com/docs/structured-outputs).
+[Vision documentation](https://console.groq.com/docs/vision) and the opt-in capability
+probe verify the independently configured models without fallback.
+
+HTTP/SSE delivery, browser conversations and administrator flows remain Phase 8–9
+work. The graph is callable locally; no recommendation route is added in Phase 7.
+
+The opt-in commands are `ENABLE_LIVE_GROQ=1 make check-groq-capabilities` and
+`ENABLE_LIVE_GRAPH=1 make smoke-agent-graph`. The graph target sends synthetic
+catalog evidence to Groq and fixed public culinary concepts to Tavily. Supply
+`GRAPH_SERVICE_ENV_FILE=/absolute/path/to/private-services.env` when database,
+media and model settings are in a separate ignored file. These commands are
+independent of `make check`; see the [Phase 7 report](../evaluation/phase7/README.md)
+for actual results and the current live-smoke approval status.
