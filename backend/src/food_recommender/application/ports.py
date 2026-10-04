@@ -1,15 +1,20 @@
 """Narrow persistence boundaries; no SDK/ORM objects cross these ports."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 from datetime import date, datetime
 from types import TracebackType
-from typing import Protocol
+from typing import TYPE_CHECKING, Protocol
 from uuid import UUID
 
 from food_recommender.domain.catalog import CatalogSnapshot, PreparedCatalog
 from food_recommender.domain.evidence import Citation
 from food_recommender.domain.preferences import Preferences
 from food_recommender.domain.values import Category, EntityRef
+
+if TYPE_CHECKING:
+    from food_recommender.application.media import MediaRepository
 
 
 @dataclass(frozen=True)
@@ -120,12 +125,13 @@ class MediaCleanupRepository(Protocol):
 
 
 class UnitOfWork(Protocol):
+    media: MediaRepository
     catalog: CatalogRepository
     conversations: ConversationRepository
     trends: TrendRepository
     cleanup: MediaCleanupRepository
 
-    async def __aenter__(self) -> "UnitOfWork": ...
+    async def __aenter__(self) -> UnitOfWork: ...
     async def __aexit__(
         self,
         exc_type: type[BaseException] | None,

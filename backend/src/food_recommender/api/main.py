@@ -10,9 +10,11 @@ from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
+from food_recommender.api.body_limits import BodyLimits
 from food_recommender.api.dependencies import get_services
 from food_recommender.api.routers.catalog import router as catalog_router
 from food_recommender.api.routers.conversations import router as conversation_router
+from food_recommender.api.routers.media import router as media_router
 from food_recommender.application.errors import ErrorCode
 from food_recommender.application.services import Services
 from food_recommender.composition import build_backend_services
@@ -50,6 +52,7 @@ def create_app(
     app.add_middleware(
         TrustedHostMiddleware, allowed_hosts=["localhost", "127.0.0.1", "backend"]
     )
+    app.add_middleware(BodyLimits)
     app.add_middleware(ObservedHTTP, runtime=runtime)
 
     @app.exception_handler(RequestValidationError)
@@ -85,4 +88,5 @@ def create_app(
 
     app.include_router(conversation_router)
     app.include_router(catalog_router)
+    app.include_router(media_router)
     return app

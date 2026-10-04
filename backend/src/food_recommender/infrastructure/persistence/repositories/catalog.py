@@ -87,7 +87,9 @@ class PostgresCatalogRepository:
                 .offset(cast(int, filters["offset"]))
             )
         ).all()
-        return tuple(snapshot(cast(Restaurant | Recipe, row)) for row in rows), total or 0
+        return tuple(
+            snapshot(cast(Restaurant | Recipe, row)) for row in rows
+        ), total or 0
 
     async def citations(self, ref: EntityRef) -> tuple[Citation, ...]:
         link = (

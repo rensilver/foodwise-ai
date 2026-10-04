@@ -7,6 +7,7 @@ from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from food_recommender.application.errors import ApplicationError, ErrorCode
+from food_recommender.application.media import MediaRepository
 from food_recommender.application.ports import (
     CatalogRepository,
     ConversationRepository,
@@ -19,6 +20,9 @@ from food_recommender.infrastructure.persistence.repositories.catalog import (
 from food_recommender.infrastructure.persistence.repositories.conversations import (
     PostgresConversationRepository,
 )
+from food_recommender.infrastructure.persistence.repositories.media import (
+    PostgresMediaRepository,
+)
 from food_recommender.infrastructure.persistence.repositories.media_cleanup import (
     PostgresMediaCleanupRepository,
 )
@@ -28,6 +32,7 @@ from food_recommender.infrastructure.persistence.repositories.trends import (
 
 
 class PostgresUnitOfWork:
+    media: MediaRepository
     catalog: CatalogRepository
     conversations: ConversationRepository
     trends: TrendRepository
@@ -42,6 +47,7 @@ class PostgresUnitOfWork:
             raise RuntimeError("Unit of work cannot be reentered")
         self.session = self.sessions()
         await self.session.begin()
+        self.media = PostgresMediaRepository(self.session)
         self.catalog = PostgresCatalogRepository(self.session)
         self.conversations = PostgresConversationRepository(self.session)
         self.trends = PostgresTrendRepository(self.session)

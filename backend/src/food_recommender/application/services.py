@@ -8,6 +8,7 @@ from food_recommender.application.browse import BrowseService
 from food_recommender.application.catalog import CatalogService
 from food_recommender.application.conversations import ConversationService
 from food_recommender.application.lookups import LookupService
+from food_recommender.application.media import MediaService
 from food_recommender.application.media_cleanup import MediaCleanupService
 from food_recommender.application.messages import MessageService
 from food_recommender.application.ports import UnitOfWork
@@ -31,6 +32,7 @@ class Services:
     browse: BrowseService | None = None
     conversations: ConversationService | None = None
     messages: MessageService | None = None
+    media: MediaService | None = None
     media_cleanup: MediaCleanupService | None = None
     lookups: LookupService | None = None
     retrieval: MultimodalRetrieval | None = None

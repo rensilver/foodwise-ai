@@ -24,6 +24,7 @@ from food_recommender.application.catalog import CatalogService
 from food_recommender.application.conversations import ConversationService
 from food_recommender.application.inference import Inference
 from food_recommender.application.lookups import LookupService
+from food_recommender.application.media import MediaService
 from food_recommender.application.media_cleanup import MediaCleanupService
 from food_recommender.application.messages import MessageService
 from food_recommender.application.ports import UnitOfWork
@@ -44,6 +45,7 @@ from food_recommender.infrastructure.embeddings.lazy import LazyCLIP, LazyMiniLM
 from food_recommender.infrastructure.health import backend_readiness, local_readiness
 from food_recommender.infrastructure.mcp_config import MCPSettings
 from food_recommender.infrastructure.media.files import LocalMediaFiles
+from food_recommender.infrastructure.media.uploads import ImageSanitizer
 from food_recommender.infrastructure.persistence.checkpoints import checkpoint_saver
 from food_recommender.infrastructure.persistence.engine import create_database_engine
 from food_recommender.infrastructure.persistence.query_media import AuthorizedQueryMedia
@@ -116,6 +118,9 @@ def build_backend_services(
         transactions=transactions,
         close=close,
         messages=MessageService(transactions, workflow, runs),
+        media=MediaService(
+            transactions, LocalMediaFiles(settings.media_root), ImageSanitizer()
+        ),
         catalog=CatalogService(transactions, cleanup),
         browse=BrowseService(transactions),
         conversations=ConversationService(transactions, cleanup),

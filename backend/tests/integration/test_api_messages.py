@@ -53,7 +53,12 @@ async def test_message_stream_and_history_commit(api):  # noqa: F811
     assert data[-1]["outcome"] == "clarification"
     history = (await client.get(f"/api/v1/conversations/{identity}")).json()
     assert len(history["messages"]) == 2
-    assert history["messages"][-1]["payload"]["event"] == "clarification"
+    assert (
+        next(
+            message for message in history["messages"] if message["role"] == "assistant"
+        )["payload"]["event"]
+        == "clarification"
+    )
     replay = await client.post(
         f"/api/v1/conversations/{identity}/messages", json=request
     )
