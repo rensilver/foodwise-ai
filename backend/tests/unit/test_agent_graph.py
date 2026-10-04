@@ -72,4 +72,50 @@ async def test_real_graph_overlaps_experts_and_joins_once():
     assert synthesis.calls == 1
     assert result["final"]["status"] == "success"
     assert started == {"trends", "style", "nutrition"}
-    assert len(set(graph.get_graph().nodes) - {"__start__", "__end__"}) == 6
+    assert (
+        len(set(graph.get_graph().nodes) - {"__start__", "__end__", "reset_turn"}) == 6
+    )
+
+
+class ClarifyingProfile:
+    def __init__(self):
+        self.calls = 0
+        self.priors = []
+
+    async def run(self, request, prior=None, **kwargs):
+        self.calls += 1
+        self.priors.append(prior)
+        return AgentSuccess(
+            ProfileResult(
+                (Category.RECIPE,),
+                Preferences(location="California"),
+                "Which dish?" if self.calls == 2 else None,
+            )
+        )
+
+
+@pytest.mark.asyncio
+async def test_next_turn_clears_transient_results_but_retains_profile_and_history():
+    started, ready = set(), asyncio.Event()
+    branches = [
+        Branch(kind, started, ready) for kind in ("trends", "style", "nutrition")
+    ]
+    profile = ClarifyingProfile()
+    graph = build_graph(
+        WorkflowRoles(profile, Retrieval(), *branches, Synthesis(branches)),
+        checkpointer=InMemorySaver(),
+    )
+    config = {"configurable": {"thread_id": str(uuid4())}}
+    first = await graph.ainvoke(
+        {"request": {"message": "rice"}, "run_id": str(uuid4())}, config
+    )
+    assert first["final"]
+    second = await graph.ainvoke(
+        {"request": {"message": "which one"}, "run_id": str(uuid4())}, config
+    )
+    assert second["final"] is None
+    assert second["retrieval"] is None
+    assert second["catalog"] == []
+    assert all(second[key] is None for key in ("trend", "style", "nutrition"))
+    assert profile.priors[1].preferences.location == "California"
+    assert "rice" in second["messages"]

@@ -27,4 +27,4 @@ class GraphState(TypedDict, total=False):
     style: dict[str, Any] | None
     nutrition: dict[str, Any] | None
     final: dict[str, Any] | None
-    errors: Annotated[list[dict[str, Any]], operator.add]
+    errors: list[dict[str, Any]]

@@ -51,12 +51,26 @@ def catalog(state: GraphState) -> Any:
 def build_graph(
     roles: WorkflowRoles, *, checkpointer: BaseCheckpointSaver[Any] | None = None
 ) -> CompiledStateGraph[Any, Any, Any, Any]:
+    async def reset_turn(state: GraphState) -> dict[str, Any]:
+        request = TurnRequest.model_validate(state["request"])
+        return {
+            "profile_outcome": None,
+            "retrieval": None,
+            "catalog": [],
+            "trend": None,
+            "style": None,
+            "nutrition": None,
+            "final": None,
+            "errors": [],
+            "messages": [request.message],
+        }
+
     async def generate_profile(state: GraphState) -> dict[str, Any]:
         prior = profile(state) if state.get("profile") else None
         outcome = await roles.profile.run(
             TurnRequest.model_validate(state["request"]),
             prior,
-            history=tuple(state.get("messages", [])[-20:]),
+            history=tuple(state.get("messages", [])[:-1][-20:]),
         )
         updates = {"profile_outcome": wire(outcome)}
         if isinstance(outcome, AgentSuccess):
@@ -113,7 +127,7 @@ def build_graph(
             style_outcome_adapter.validate_json(json.dumps(state["style"])),
             nutrition_outcome_adapter.validate_json(json.dumps(state["nutrition"])),
         )
-        return {"final": wire(result)}
+        return {"final": wire(result), "messages": [json.dumps(wire(result))]}
 
     graph = StateGraph(GraphState)
     for name, node in (
@@ -125,7 +139,9 @@ def build_graph(
         ("recommendation", synthesize),
     ):
         graph.add_node(name, node)
-    graph.add_edge(START, "profile")
+    graph.add_node("reset_turn", reset_turn)
+    graph.add_edge(START, "reset_turn")
+    graph.add_edge("reset_turn", "profile")
     graph.add_conditional_edges("profile", after_profile)
     graph.add_conditional_edges("retrieval", after_retrieval)
     graph.add_edge(["trend", "style", "nutrition"], "recommendation")
