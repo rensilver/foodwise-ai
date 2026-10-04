@@ -141,3 +141,30 @@ for prefix in (
         [sys.executable, "-c", script], capture_output=True, text=True, timeout=15
     )
     assert result.returncode == 0, result.stderr
+
+
+def test_api_handlers_depend_on_use_cases_and_never_concrete_io():
+    forbidden = SDK_ROOTS - {"fastapi", "starlette"}
+    violations = []
+    for path in sorted((ROOT / "api").rglob("*.py")):
+        if path.name == "main.py":
+            continue  # The process entrypoint owns construction and lifecycle.
+        for dependency in imports(path):
+            parts = dependency.split(".")
+            if parts[0] in forbidden or (
+                parts[0] == "food_recommender"
+                and len(parts) > 1
+                and parts[1]
+                in {"infrastructure", "composition", "agents", "mcp", "cli"}
+            ):
+                violations.append(f"{path.relative_to(ROOT)} -> {dependency}")
+    assert not violations, "\n".join(violations)
+
+
+def test_http_routers_import_shared_schemas_without_router_reexports():
+    violations = []
+    for path in (ROOT / "api/routers").glob("*.py"):
+        for dependency in imports(path):
+            if dependency.startswith("food_recommender.api.routers."):
+                violations.append(f"{path.relative_to(ROOT)} -> {dependency}")
+    assert not violations, "\n".join(violations)

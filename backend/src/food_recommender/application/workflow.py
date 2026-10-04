@@ -48,7 +48,13 @@ class RunLease(Protocol):
 
 
 class ConversationRuns(Protocol):
-    def lease(self, conversation_id: UUID, session_id: UUID) -> RunLease: ...
+    def lease(
+        self,
+        conversation_id: UUID,
+        session_id: UUID,
+        *,
+        protect_context: bool = True,
+    ) -> RunLease: ...
 
 
 class ToolTransportError(Exception):

@@ -17,7 +17,7 @@ class Leases:
         self.owner, self.conversation = owner, conversation
 
     @asynccontextmanager
-    async def lease(self, conversation_id, session_id):
+    async def lease(self, conversation_id, session_id, *, protect_context=True):
         if (conversation_id, session_id) != (self.conversation, self.owner):
             raise ApplicationError(ErrorCode.NOT_FOUND)
         yield

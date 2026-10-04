@@ -150,7 +150,7 @@ def build_backend_services(
             transactions,
             Argon2Verification(settings.admin_password_hash.get_secret_value()),
         ),
-        conversations=ConversationService(transactions, cleanup),
+        conversations=ConversationService(transactions, cleanup, runs=runs),
         media_cleanup=cleanup,
     )
 

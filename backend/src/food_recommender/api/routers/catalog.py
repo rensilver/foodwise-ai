@@ -2,9 +2,10 @@
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Path, Query
+from fastapi import APIRouter, Depends, Query
 
 from food_recommender.api.dependencies import get_services
+from food_recommender.api.schemas import Identity
 from food_recommender.application.browse import (
     BrowseService,
     CatalogDetail,
@@ -26,9 +27,6 @@ def browse(services: Annotated[Services, Depends(get_services)]) -> BrowseServic
 
 
 Service = Annotated[BrowseService, Depends(browse)]
-Identity = Annotated[
-    str, Path(min_length=1, max_length=200, pattern=r"^[A-Za-z0-9_.:-]+$")
-]
 
 
 @router.get("/restaurants", response_model=CatalogPage)

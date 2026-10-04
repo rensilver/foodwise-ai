@@ -18,7 +18,11 @@ class PostgresConversationRuns:
 
     @asynccontextmanager
     async def lease(
-        self, conversation_id: UUID, session_id: UUID
+        self,
+        conversation_id: UUID,
+        session_id: UUID,
+        *,
+        protect_context: bool = True,
     ) -> AsyncIterator[None]:
         key = int.from_bytes(
             hashlib.blake2b(
@@ -41,15 +45,16 @@ class PostgresConversationRuns:
                 )
                 if not acquired:
                     raise ApplicationError(ErrorCode.CONFLICT)
-                # Prevent context deletion while the owned run holds its lease.
-                owned = await connection.scalar(
-                    select(Conversation.id)
-                    .where(
-                        Conversation.id == conversation_id,
-                        Conversation.session_id == session_id,
-                    )
-                    .with_for_update(read=True, key_share=True)
+                query = select(Conversation.id).where(
+                    Conversation.id == conversation_id,
+                    Conversation.session_id == session_id,
                 )
+                if protect_context:
+                    # Runs protect context while allowing message/profile writes.
+                    # Deletion uses the advisory lease alone, so this connection
+                    # cannot block the deleting unit of work's row lock.
+                    query = query.with_for_update(read=True, key_share=True)
+                owned = await connection.scalar(query)
                 if owned is None:
                     raise ApplicationError(ErrorCode.NOT_FOUND)
                 yield None

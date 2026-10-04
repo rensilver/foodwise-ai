@@ -4,6 +4,7 @@ import hashlib
 import re
 import secrets
 from collections.abc import Callable
+from contextlib import nullcontext
 from dataclasses import dataclass
 from uuid import UUID, uuid4
 
@@ -14,6 +15,7 @@ from food_recommender.application.ports import (
     MessageSnapshot,
     UnitOfWork,
 )
+from food_recommender.application.workflow import ConversationRuns
 from food_recommender.domain.preferences import Preferences
 
 
@@ -28,9 +30,12 @@ class ConversationService:
         self,
         transactions: Callable[[], UnitOfWork],
         cleanup: MediaCleanupService | None = None,
+        *,
+        runs: ConversationRuns | None = None,
     ) -> None:
         self.transactions = transactions
         self.cleanup = cleanup
+        self.runs = runs
 
     async def session(
         self, token: str | None, *, create: bool = False
@@ -76,9 +81,16 @@ class ConversationService:
     async def delete(
         self, session_id: UUID, conversation_id: UUID
     ) -> ConversationDeletion:
-        async with self.transactions() as transaction:
-            keys = await transaction.conversations.delete(session_id, conversation_id)
-            await transaction.commit()
+        async with (
+            self.runs.lease(conversation_id, session_id, protect_context=False)
+            if self.runs
+            else nullcontext()
+        ):
+            async with self.transactions() as transaction:
+                keys = await transaction.conversations.delete(
+                    session_id, conversation_id
+                )
+                await transaction.commit()
         pending = bool(keys)
         if self.cleanup is not None:
             try:

@@ -3,61 +3,30 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, Response
-from pydantic import BaseModel, ConfigDict, Field
 
 from food_recommender.api.dependencies import get_services
-from food_recommender.api.routers.catalog import Identity
+from food_recommender.api.schemas import (
+    DeleteRequest,
+    Identity,
+    PreviewRequest,
+    RecipeCreate,
+    RecipeUpdate,
+    RestaurantCreate,
+    RestaurantUpdate,
+)
 from food_recommender.api.security import administrator
 from food_recommender.application.admin_catalog import (
     AdminCatalogService,
-    RecipePatch,
-    RestaurantPatch,
 )
 from food_recommender.application.errors import ApplicationError, ErrorCode
 from food_recommender.application.services import Services
 from food_recommender.domain.catalog import CatalogSnapshot
 from food_recommender.domain.values import Category, EntityRef
-from food_recommender.ingestion.extraction import (
-    ExtractionResult,
-    RecipeFields,
-    RestaurantFields,
-)
+from food_recommender.ingestion.extraction import ExtractionResult
 
 router = APIRouter(
     prefix="/api/v1/admin", tags=["admin"], dependencies=[Depends(administrator)]
 )
-
-
-class Input(BaseModel):
-    model_config = ConfigDict(extra="forbid", hide_input_in_errors=True)
-
-
-class PreviewRequest(Input):
-    category: Category
-    text: str = Field(min_length=1, max_length=65536, pattern=r"\S")
-
-
-class RestaurantCreate(Input):
-    fields: RestaurantFields
-
-
-class RecipeCreate(Input):
-    fields: RecipeFields
-
-
-class RestaurantUpdate(Input):
-    expected_version: int = Field(ge=1)
-    fields: RestaurantPatch
-
-
-class RecipeUpdate(Input):
-    expected_version: int = Field(ge=1)
-    fields: RecipePatch
-
-
-class DeleteRequest(Input):
-    expected_version: int = Field(ge=1)
-    confirm_id: str = Field(min_length=1, max_length=200)
 
 
 def admin_catalog(

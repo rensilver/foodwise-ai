@@ -282,3 +282,92 @@ async def test_http_embedding_failure_keeps_catalog_and_returns_typed_error(
     detail = (await client.get("/api/v1/recipes/" + identity)).json()
     assert detail["version"] == 1 and detail["data"]["name"] == "Rice"
     assert detail["citations"][0]["excerpt"].startswith("name: Rice")
+
+
+@pytest.mark.asyncio
+async def test_restaurant_delete_removes_linked_review_retrieval_atomically(
+    repositories,
+):  # noqa: F811
+    from sqlalchemy import insert, select
+
+    from food_recommender.domain.catalog import PreparedCatalog, RestaurantData
+    from food_recommender.domain.values import Category, EntityRef
+    from food_recommender.infrastructure.persistence.models.catalog import Review
+    from food_recommender.infrastructure.persistence.models.context import DemoProfile
+    from food_recommender.infrastructure.persistence.models.provenance import (
+        Document,
+        Source,
+        SourceRecord,
+    )
+
+    factory, connection = repositories
+
+    def transactions():
+        return PostgresUnitOfWork(factory)
+
+    catalog = CatalogService(transactions)
+    await catalog.create(
+        PreparedCatalog(
+            RestaurantData(
+                id="restaurant",
+                name="Cafe",
+                source_id="fixture",
+                source_record_id="restaurant",
+            )
+        )
+    )
+    await connection.execute(insert(DemoProfile).values(id="fixture-demo"))
+    await connection.execute(
+        insert(Review).values(
+            id="review",
+            source_id="fixture",
+            source_record_id="review",
+            restaurant_id="restaurant",
+            demo_profile_id="fixture-demo",
+            text="Rice",
+        )
+    )
+    await connection.execute(
+        insert(Source).values(
+            id="source",
+            logical_source_id="fixture",
+            locator_kind="file",
+            locator="fixture.json",
+            content_hash="a" * 64,
+        )
+    )
+    await connection.execute(
+        insert(SourceRecord).values(
+            id="record",
+            source_id="source",
+            record_type="review",
+            record_id="review",
+            review_id="review",
+            raw_text="Rice",
+            content_hash="a" * 64,
+            ingestion_version="fixture",
+            attribution="source",
+        )
+    )
+    await connection.execute(
+        insert(Document).values(
+            id="document",
+            source_record_id="record",
+            kind="review",
+            text="Rice",
+            content_hash="a" * 64,
+            ingestion_version="fixture",
+            attribution="source",
+        )
+    )
+    administration = AdminCatalogService(
+        catalog, BrowseService(transactions), CatalogPreparation(Encoder()), Preview()
+    )
+    await administration.delete(
+        EntityRef(Category.RESTAURANT, "restaurant"), 1, "restaurant"
+    )
+    assert (await connection.execute(select(Review.id))).all() == []
+    assert (await connection.execute(select(Document.id))).all() == []
+    assert (
+        await connection.execute(select(SourceRecord.review_id))
+    ).scalar_one() is None

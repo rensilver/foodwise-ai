@@ -89,7 +89,11 @@ class LocalRuns:
 
     @asynccontextmanager
     async def lease(
-        self, conversation_id: UUID, session_id: UUID
+        self,
+        conversation_id: UUID,
+        session_id: UUID,
+        *,
+        protect_context: bool = True,
     ) -> AsyncIterator[None]:
         if conversation_id in self.active:
             raise ApplicationError(ErrorCode.CONFLICT)

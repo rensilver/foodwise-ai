@@ -1,9 +1,9 @@
 # Developer workflow (P01-09)
 
-This guide starts from the repository root and covers the implemented Phase 1
-scaffold: FastAPI health routes, a FastMCP HTTP server (now implemented with Phase 6 tools/resources) and the Next.js
-startup page. Recommendation, catalog, upload and administrator flows remain
-planned. Health checks make no Groq/Tavily calls and load no embedding models.
+This guide starts from the repository root and covers the FastAPI API,
+FastMCP tools/resources and Next.js startup page. Phase 8 implements recommendation,
+catalog, upload and administrator HTTP flows; their browser UI/proxy remains
+Phase 9 work. Health checks make no Groq/Tavily calls and load no embedding models.
 
 ## Locked setup
 
@@ -166,12 +166,14 @@ Run independent suites sequentially on this limited-memory host.
 
 | Working directory | Command | Result or prerequisite |
 | --- | --- | --- |
-| `backend/` | `make check` | Ruff lint/format check, strict mypy and pytest. |
+| `backend/` | `make check` | Ruff lint/format check, strict mypy, OpenAPI drift and pytest. |
+| `backend/` | `make api-schema` | Export offline FastAPI OpenAPI; then regenerate frontend contracts. |
 | `backend/` | `make test` | Offline suite; database/model cases explicitly skip without their test settings. |
 | `backend/` | `make format` | Apply Ruff formatting. Recheck with `make check`. |
 | `backend/` | `make test-integration` | Real PostgreSQL contracts; requires an initialized disposable `TEST_DATABASE_URL`. |
 | `backend/` | `make provision-test-models` | Seeded local CPU fixtures; requires an ignored `TEST_MODEL_ROOT`. |
-| `frontend/` | `pnpm check` | ESLint, strict TypeScript, Vitest and Node configuration/build contracts. |
+| `frontend/` | `pnpm check` | Generated-type drift, ESLint, strict TypeScript, Vitest and Node configuration/build contracts. |
+| `frontend/` | `pnpm api:generate` | Generate TypeScript from the committed OpenAPI using the pinned generator. |
 | `frontend/` | `pnpm lint:fix` | Apply available ESLint fixes. Recheck with `pnpm check`. |
 | `frontend/` | `pnpm test:watch` | Watch Vitest component/unit tests. |
 | `frontend/` | `pnpm test:e2e:install` | Download locked Chromium once before browser tests. |
@@ -217,7 +219,8 @@ and loopback permissions; resolve sandbox denials before assessing results.
 | Culinary ingestion | The [Phase 3 seed CLI](../backend/README.md#seed-ingestion-phase-3) is validated, resumable and verified on the full local corpus. | Phase 3, P03-01 through P03-10 verified. |
 | Text retrieval | [Phase 4 indexing/search/evaluation](../backend/README.md#multi-source-text-retrieval-phase-4) uses pinned CPU MiniLM and real PostgreSQL. | Phase 4, P04-01 through P04-09 verified. |
 | Source audit | `python scripts/phase0_audit.py` from the root is implemented. It requires local course/data/media artifacts and writes Phase 0 reports. It does not populate PostgreSQL. | Phase 0 evidence. |
-| Provider capability smoke tests | Phase 6 adds explicitly enabled dated Tavily smoke (`ENABLE_LIVE_TAVILY=1 make smoke-food-trends` from backend). Health/offline tests make no paid calls. Groq capabilities/full graph remain pending. | P06-12 verified; P07-01 and P07-14 planned. |
+| Provider capability smoke tests | Explicit opt-in Tavily/Groq probes are implemented. The full graph ran and failed on Groq HTTP 413 token limits. Health/offline tests make no paid calls. | P06-12, P07-01 and P07-14 recorded; live graph acceptance open. |
+| Recommendation/admin API | [Phase 8 API contract](../backend/README.md#phase-8-http-contract) covers browser ownership, SSE, uploads, admin origin/CSRF and atomic CRUD. Backend `MINILM_ROOT`, application migrations and supported checkpoint setup are required for full readiness. | P08-01 through P08-12 verified; browser UI/proxy remains Phase 9. |
 | Full clean-checkout release | Local media/course recovery, application migrations, ingestion and acceptance flows remain required. | P11-01 through P11-09. |
 
 From `backend/`, preview the implemented application migrations without connecting:

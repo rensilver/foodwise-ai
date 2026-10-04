@@ -9,6 +9,7 @@ from food_recommender.application.services import Services
 from food_recommender.infrastructure.config import Settings
 
 TARGET = Path(__file__).parents[2] / "frontend/src/lib/api/openapi.json"
+SCHEMA_TOKEN = "offline-schema-placeholder"
 
 
 class OfflineReadiness:
@@ -20,7 +21,7 @@ def schema_text() -> str:
     # Synthetic encoding satisfies startup syntax validation only. No provider,
     # admin password or database credential is read, connected or exported.
     settings = Settings(
-        GROQ_API_KEY="offline-schema-placeholder",
+        GROQ_API_KEY=SCHEMA_TOKEN,
         DATABASE_URL="postgresql://offline:offline@localhost/offline",
         MCP_SERVER_URL="http://localhost:8001/mcp",
         MEDIA_ROOT=Path("/tmp/foodwise-schema"),

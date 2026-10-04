@@ -144,4 +144,6 @@ class AdminCatalogService:
     ) -> None:
         if confirm_id != ref.id:
             raise ApplicationError(ErrorCode.INVALID_REQUEST)
-        await self.catalog.delete(ref, expected_version=expected_version)
+        await self.catalog.delete(
+            ref, expected_version=expected_version, include_reviews=True
+        )

@@ -64,7 +64,7 @@ class CatalogRepository(Protocol):
         self, ref: EntityRef, prepared: PreparedCatalog, expected_version: int
     ) -> CatalogSnapshot: ...
     async def delete(
-        self, ref: EntityRef, expected_version: int
+        self, ref: EntityRef, expected_version: int, *, include_reviews: bool = False
     ) -> tuple[str, ...]: ...
 
 

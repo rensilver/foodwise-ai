@@ -3,7 +3,7 @@
 from dataclasses import asdict, fields
 from typing import Any, cast
 
-from sqlalchemy import delete, func, insert, select, update
+from sqlalchemy import Select, delete, func, insert, select, update
 from sqlalchemy.dialects.postgresql import insert as upsert
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -19,6 +19,7 @@ from food_recommender.domain.values import Category, EntityRef
 from food_recommender.infrastructure.persistence.models.catalog import (
     Recipe,
     Restaurant,
+    Review,
 )
 from food_recommender.infrastructure.persistence.models.cleanup import MediaCleanupJob
 from food_recommender.infrastructure.persistence.models.embeddings import (
@@ -162,7 +163,13 @@ class PostgresCatalogRepository:
             if ref.category == Category.RESTAURANT
             else SourceRecord.recipe_id
         )
-        record_ids = select(SourceRecord.id).where(link == ref.id)
+        return await self._remove_records(
+            select(SourceRecord.id).where(link == ref.id), preserve_media=preserve_media
+        )
+
+    async def _remove_records(
+        self, record_ids: Select[str], *, preserve_media: bool = False
+    ) -> tuple[str, ...]:
         await self.session.execute(
             delete(Document).where(
                 Document.source_record_id.in_(record_ids),
@@ -213,7 +220,9 @@ class PostgresCatalogRepository:
         await self._write_content(prepared)
         return await self.get(ref)
 
-    async def delete(self, ref: EntityRef, expected_version: int) -> tuple[str, ...]:
+    async def delete(
+        self, ref: EntityRef, expected_version: int, *, include_reviews: bool = False
+    ) -> tuple[str, ...]:
         self._validate(ref, expected_version)
         model = model_for(ref)
         # Lock by updating the version before removing linked retrieval content.
@@ -227,6 +236,19 @@ class PostgresCatalogRepository:
             await self.get(ref)
             raise ApplicationError(ErrorCode.CONFLICT)
         keys = await self._remove_content(ref)
+        if ref.category == Category.RESTAURANT and include_reviews:
+            reviews = select(Review.id).where(Review.restaurant_id == ref.id)
+            keys += await self._remove_records(
+                select(SourceRecord.id).where(SourceRecord.review_id.in_(reviews))
+            )
+            await self.session.execute(
+                update(SourceRecord)
+                .where(SourceRecord.review_id.in_(reviews))
+                .values(review_id=None)
+            )
+            await self.session.execute(
+                delete(Review).where(Review.restaurant_id == ref.id)
+            )
         link = (
             SourceRecord.restaurant_id
             if ref.category == Category.RESTAURANT

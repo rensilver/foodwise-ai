@@ -79,7 +79,7 @@ async def application(database_url, workflow_store, tmp_path, provider):
     workflow.client = Client(server)
     services = Services(
         Ready(),
-        conversations=ConversationService(transactions),
+        conversations=ConversationService(transactions, runs=runs),
         messages=MessageService(transactions, workflow, runs),
         browse=BrowseService(transactions),
     )
@@ -155,6 +155,22 @@ async def test_http_real_graph_retrieval_checkpoint_followup_and_replay(
                 {"configurable": {"thread_id": str(conversation)}}
             )
             assert checkpoint.checkpoint["channel_values"]["lifecycle"] == "completed"
+        # Deletion shares the advisory lease but must not hold a row lock that
+        # blocks its own separate unit-of-work connection.
+        deleted = await asyncio.wait_for(
+            client.delete(f"/api/v1/conversations/{conversation}"), 2
+        )
+        assert deleted.status_code == 200
+        assert (
+            await client.get(f"/api/v1/conversations/{conversation}")
+        ).status_code == 404
+        async with checkpoint_saver(database_url) as saver:
+            assert (
+                await saver.aget_tuple(
+                    {"configurable": {"thread_id": str(conversation)}}
+                )
+                is None
+            )
 
 
 @pytest.mark.asyncio
@@ -192,6 +208,9 @@ async def test_disconnect_cancels_real_checkpoint_and_releases_database_lease(
                 f"/api/v1/conversations/{conversation}/messages",
                 json={"message": "another", "client_request_id": str(uuid4())},
             )
+            assert (
+                await concurrent.delete(f"/api/v1/conversations/{conversation}")
+            ).status_code == 409
             assert blocked.status_code == 409
             assert "text/event-stream" not in blocked.headers["content-type"]
         return {"type": "http.disconnect"}

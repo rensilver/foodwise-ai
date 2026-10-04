@@ -1,11 +1,10 @@
 """Configured local administrator login/logout only."""
 
-from datetime import datetime
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, Request, Response
-from pydantic import BaseModel, ConfigDict, Field, SecretStr
 
+from food_recommender.api.schemas import LoginRequest, LoginResponse
 from food_recommender.api.security import (
     ADMIN_COOKIE,
     admin_service,
@@ -15,16 +14,6 @@ from food_recommender.api.security import (
 from food_recommender.application.admin import AdminService
 
 router = APIRouter(prefix="/api/v1/admin/session", tags=["admin"])
-
-
-class LoginRequest(BaseModel):
-    model_config = ConfigDict(extra="forbid", hide_input_in_errors=True)
-    password: SecretStr = Field(min_length=1, max_length=1024)
-
-
-class LoginResponse(BaseModel):
-    csrf_token: str
-    expires_at: datetime
 
 
 @router.post("", status_code=201, response_model=LoginResponse)

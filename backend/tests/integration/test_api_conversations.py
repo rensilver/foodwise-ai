@@ -11,6 +11,8 @@ from food_recommender.application.services import Services
 from food_recommender.infrastructure.config import Settings
 from food_recommender.infrastructure.persistence.unit_of_work import PostgresUnitOfWork
 
+TEST_TOKEN = "synthetic-test-token"
+
 
 class Ready:
     async def check(self):
@@ -19,7 +21,7 @@ class Ready:
 
 def settings(tmp_path):
     return Settings(
-        GROQ_API_KEY="synthetic-test-token",
+        GROQ_API_KEY=TEST_TOKEN,
         DATABASE_URL="postgresql://fixture:fixture@localhost/foodwise_test",
         MCP_SERVER_URL="http://localhost:8001/mcp",
         MEDIA_ROOT=tmp_path,
