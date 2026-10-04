@@ -10,6 +10,7 @@ from typing import Any
 
 from food_recommender.application.inference import Inference, InferenceError
 from food_recommender.application.workflow import ToolGateway, ToolTransportError
+from food_recommender.domain.experts import AgentFailure
 
 
 @dataclass(frozen=True)
@@ -165,3 +166,11 @@ class BudgetedTools:
                         raise RunExhausted() from None
                     await asyncio.sleep(delay)
         raise ToolTransportError()
+
+
+def inference_failure(error: Exception) -> AgentFailure:
+    if isinstance(error, RunExhausted):
+        return AgentFailure("budget_exhausted")
+    if isinstance(error, InferenceError) and not error.schema_error:
+        return AgentFailure("dependency_unavailable", retryable=error.retryable)
+    return AgentFailure("invalid_response")

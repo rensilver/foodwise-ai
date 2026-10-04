@@ -20,7 +20,9 @@ local development, checks and command availability.
 Phase 2 persistence, transactional repositories and conversation cleanup are
 verified. Phase 3 ingestion/media and [Phase 4 text retrieval](evaluation/phase4/README.md)
 and [Phase 5 multimodal retrieval/fusion](evaluation/phase5/README.md) are verified.
-Agent reasoning and recommendation interfaces remain planned.
+Phase 6 MCP/live trends and Phase 7 graph implementations are present.
+The Phase 7 full live graph smoke awaits explicit data-transfer approval;
+recommendation interfaces remain planned.
 
 For this machine's memory constraints, see the [measured host assessment](infra/memory-assessment.md)
 and [optional low-memory Compose setup](infra/README.md#running-with-limited-ram).

@@ -9,6 +9,7 @@ from food_recommender.agents.structured import structured
 from food_recommender.application.evidence_rules import supported_span
 from food_recommender.application.inference import Inference
 from food_recommender.application.nutrition_rules import deterministic_nutrition
+from food_recommender.application.reliability import RunExhausted
 from food_recommender.domain.experts import (
     AgentFailure,
     AgentSuccess,
@@ -126,6 +127,8 @@ class RecommendationExpert:
                         )
                     )
                 return AgentSuccess(RecommendationResult(tuple(items), limitations))
+            except RunExhausted:
+                return AgentFailure("budget_exhausted")
             except Exception:
                 repair = "Previous output failed validation. Use only eligible IDs, their citation IDs and verbatim supported excerpts; at most five unique items per category."
         return AgentFailure("validation_failed")

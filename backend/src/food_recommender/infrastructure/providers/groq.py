@@ -2,6 +2,9 @@
 
 import asyncio
 import json
+from collections.abc import Callable
+from datetime import UTC, datetime
+from email.utils import parsedate_to_datetime
 from time import perf_counter
 from typing import Any
 
@@ -20,7 +23,10 @@ class GroqStructuredInference:
         api_key: SecretStr,
         model: str,
         semaphore: asyncio.Semaphore | None = None,
+        *,
+        clock: Callable[[], datetime] = lambda: datetime.now(UTC),
     ) -> None:
+        self.clock = clock
         self.usage: list[dict[str, int | float | str]] = []
         self.client = client
         self.api_key = api_key
@@ -93,12 +99,17 @@ class GroqStructuredInference:
             except (httpx.TimeoutException, httpx.TransportError):
                 raise InferenceError(retryable=True) from None
             if response.is_error:
+                value = response.headers.get("Retry-After", "0")
                 try:
-                    retry_after = max(
-                        0.0, min(float(response.headers.get("Retry-After", "0")), 120.0)
-                    )
+                    retry_after = float(value)
                 except ValueError:
-                    retry_after = 0.0
+                    try:
+                        retry_after = (
+                            parsedate_to_datetime(value) - self.clock()
+                        ).total_seconds()
+                    except (ValueError, TypeError):
+                        retry_after = 0.0
+                retry_after = max(0.0, min(retry_after, 120.0))
                 raise InferenceError(
                     retryable=response.status_code == 429
                     or response.status_code >= 500,
@@ -111,7 +122,9 @@ class GroqStructuredInference:
                     raise ValueError
             except (ValueError, TypeError):
                 raise InferenceError(schema_error=True) from None
-            usage = payload.get("usage", {})
+            usage = payload.get("usage") or {}
+            if not isinstance(usage, dict):
+                raise InferenceError(schema_error=True)
             budget = current_budget.get()
             if budget and type(usage.get("total_tokens")) is int:
                 budget.token_usage += usage["total_tokens"]

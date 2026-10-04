@@ -1,9 +1,6 @@
 """Six real LangGraph roles with sequential retrieval and an explicit barrier join."""
 
 import json
-import logging
-import time
-from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from typing import Any
 
@@ -20,15 +17,20 @@ from food_recommender.agents.nodes.recommendation import RecommendationExpert
 from food_recommender.agents.nodes.style import FoodStyleExpert
 from food_recommender.agents.nodes.trend import FoodTrendAnalyst
 from food_recommender.agents.state import CATALOG_ADAPTER, GraphState
+from food_recommender.agents.telemetry import timed_node
 from food_recommender.application.contracts import (
     nutrition_outcome_adapter,
     profile_adapter,
     style_outcome_adapter,
     trend_outcome_adapter,
 )
-from food_recommender.application.reliability import current_budget
 from food_recommender.application.workflow import TurnRequest
-from food_recommender.domain.experts import AgentSuccess, AgentUnavailable
+from food_recommender.domain.experts import (
+    AgentSuccess,
+    AgentUnavailable,
+    ProfileResult,
+)
+from food_recommender.retrieval.late_fusion import FusedCandidate
 
 
 @dataclass(frozen=True)
@@ -39,17 +41,19 @@ class WorkflowRoles:
     style: FoodStyleExpert
     nutrition: NutritionExpert
     recommendation: RecommendationExpert
+    demo_profile_id: str | None = None
+    scoped_reviews: tuple[str, ...] = ()
 
 
 def wire(value: Any) -> Any:
     return to_jsonable_python(value)
 
 
-def profile(state: GraphState) -> Any:
+def profile(state: GraphState) -> ProfileResult:
     return profile_adapter.validate_json(json.dumps(state["profile"]))
 
 
-def catalog(state: GraphState) -> Any:
+def catalog(state: GraphState) -> tuple[FusedCandidate, ...]:
     return CATALOG_ADAPTER.validate_json(json.dumps(state.get("catalog", [])))
 
 
@@ -77,6 +81,10 @@ def build_graph(
             TurnRequest.model_validate(state["request"]),
             prior,
             history=tuple(state.get("messages", [])[:-1][-20:]),
+            reviews=roles.scoped_reviews
+            if roles.demo_profile_id
+            and state["request"].get("demo_profile_id") == roles.demo_profile_id
+            else (),
         )
         updates = {"profile_outcome": wire(outcome)}
         if isinstance(outcome, AgentSuccess):
@@ -88,7 +96,7 @@ def build_graph(
         if outcome.get("status") != "success" or (state.get("profile") or {}).get(
             "clarification"
         ):
-            return END
+            return "finalize_run"
         return "retrieval"
 
     async def retrieve(state: GraphState) -> dict[str, Any]:
@@ -101,7 +109,7 @@ def build_graph(
         return (
             ["trend", "style", "nutrition"]
             if (state.get("retrieval") or {}).get("status") == "success"
-            else [END]
+            else ["finalize_run"]
         )
 
     async def trend(state: GraphState) -> dict[str, Any]:
@@ -135,6 +143,35 @@ def build_graph(
         )
         return {"final": wire(result), "messages": [json.dumps(wire(result))]}
 
+    async def finalize_run(state: GraphState) -> dict[str, Any]:
+        errors = []
+        updates: dict[str, Any] = {}
+        for key in (
+            "profile_outcome",
+            "retrieval",
+            "trend",
+            "style",
+            "nutrition",
+            "final",
+        ):
+            value = state.get(key)
+            outcome = value if isinstance(value, dict) else {}
+            if outcome.get("status") in {"failure", "unavailable"}:
+                errors.append(
+                    {
+                        "stage": key,
+                        "code": outcome.get("code"),
+                        "status": outcome["status"],
+                    }
+                )
+                if (
+                    key in {"profile_outcome", "retrieval"}
+                    and outcome.get("status") == "failure"
+                ):
+                    updates["final"] = outcome
+        updates["errors"] = errors
+        return updates
+
     graph = StateGraph(GraphState)
     for name, node in (
         ("profile", generate_profile),
@@ -144,49 +181,6 @@ def build_graph(
         ("nutrition", nutrition),
         ("recommendation", synthesize),
     ):
-
-        def timed_node(
-            stage: str, function: Callable[[GraphState], Awaitable[dict[str, Any]]]
-        ) -> Callable[[GraphState], Awaitable[dict[str, Any]]]:
-            async def invoke(state: GraphState) -> dict[str, Any]:
-                started = time.monotonic()
-                updates = await function(state)
-                budget = current_budget.get()
-                if budget:
-                    duration = (time.monotonic() - started) * 1000
-                    budget.stages.append(
-                        {
-                            "stage": stage,
-                            "duration_ms": duration,
-                            "status": (
-                                updates.get(
-                                    {
-                                        "profile": "profile_outcome",
-                                        "recommendation": "final",
-                                    }.get(stage, stage)
-                                )
-                                or {}
-                            ).get("status", "success"),
-                        }
-                    )
-                    if stage == "retrieval":
-                        budget.retrieval_attempts = (
-                            (updates.get("retrieval") or {})
-                            .get("result", {})
-                            .get("attempts", 0)
-                        )
-                    logging.getLogger("foodwise").info(
-                        "",
-                        extra={
-                            "event": "agent_completed",
-                            "stage": stage,
-                            "duration_ms": duration,
-                        },
-                    )
-                return updates
-
-            return invoke
-
         graph.add_node(name, RunnableLambda(timed_node(name, node)))
     graph.add_node("reset_turn", reset_turn)
     graph.add_edge(START, "reset_turn")
@@ -194,5 +188,7 @@ def build_graph(
     graph.add_conditional_edges("profile", after_profile)
     graph.add_conditional_edges("retrieval", after_retrieval)
     graph.add_edge(["trend", "style", "nutrition"], "recommendation")
-    graph.add_edge("recommendation", END)
+    graph.add_node("finalize_run", finalize_run)
+    graph.add_edge("recommendation", "finalize_run")
+    graph.add_edge("finalize_run", END)
     return graph.compile(checkpointer=checkpointer)

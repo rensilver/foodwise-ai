@@ -12,9 +12,9 @@ from food_recommender.application.profile_rules import (
     explicit_removal,
     merge_constraints,
 )
+from food_recommender.application.reliability import inference_failure
 from food_recommender.application.workflow import TurnRequest
 from food_recommender.domain.experts import (
-    AgentFailure,
     AgentSuccess,
     ExpertOutcome,
     ProfileResult,
@@ -70,8 +70,8 @@ class UserProfileGenerator:
                 TypeAdapter(ProfilePatch),
             )
             return AgentSuccess(self.merge(request, patch, prior))
-        except Exception:
-            return AgentFailure("invalid_response")
+        except Exception as error:
+            return inference_failure(error)
 
     def merge(
         self, request: TurnRequest, patch: ProfilePatch, prior: ProfileResult | None

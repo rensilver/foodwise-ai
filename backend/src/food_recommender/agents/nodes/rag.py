@@ -8,6 +8,7 @@ from pydantic_core import to_jsonable_python
 from food_recommender.agents.prompts import RAG
 from food_recommender.agents.structured import structured
 from food_recommender.application.inference import Inference
+from food_recommender.application.reliability import inference_failure
 from food_recommender.application.workflow import ToolGateway, TurnRequest
 from food_recommender.domain.experts import (
     AgentFailure,
@@ -102,8 +103,8 @@ class RAGRetriever:
                     },
                     TypeAdapter(SourcePlan),
                 )
-            except Exception:
-                return RetrievedData(AgentFailure("invalid_response"))
+            except Exception as error:
+                return RetrievedData(inference_failure(error))
             try:
                 for category in profile.categories:
                     preferences = profile.preferences

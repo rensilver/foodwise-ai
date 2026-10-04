@@ -144,3 +144,28 @@ instructions use these paths.
   verify new mappings register and match migrations, commands/import paths work,
   and import-time code performs no service connections or model loads. Record
   actual evidence before checking off the corresponding phase tasks.
+
+## Phase 7 workflow boundaries
+
+The implemented graph uses `agents/state.py` for JSON-only checkpoint channels,
+`agents/nodes/` for the six role implementations, `agents/prompts.py` for versioned
+instructions, `agents/graph.py` for routing and the explicit expert barrier, and
+`agents/runner.py` for owned turns/cancellation. Reset/finalization are control
+logic. `agents/telemetry.py` records allowlisted stage timing, without source text.
+
+`application/inference.py` and `application/workflow.py` define the inference,
+MCP gateway and owned-run lease ports. `application/profile_rules.py`,
+`nutrition_rules.py` and `evidence_rules.py` keep correction, dietary and citation
+rules independent of the graph/provider. `application/reliability.py` supplies
+shared run budgets. Concrete Groq HTTP stays in `infrastructure/providers/groq.py`;
+discovered tool schema/role enforcement stays in `mcp/client.py`; PostgreSQL lease
+SQL and supported saver setup stay in `infrastructure/persistence/{runs,checkpoints}.py`.
+The saver disables arbitrary class revival; graph state contains only JSON values.
+
+`composition.build_workflow_roles` wires injected, scoped MCP role views and a
+process-owned inference provider. Share the provider/semaphore and MCP client
+across turns, with fresh application-issued run IDs. Optional synthetic review
+context is supplied explicitly with a matching demo-profile scope. Graph imports
+never load embeddings, open connections or contact providers. Boundary tests
+cover the permitted LangGraph/LangChain dependencies and prevent concrete adapter
+imports into nodes or core rules.

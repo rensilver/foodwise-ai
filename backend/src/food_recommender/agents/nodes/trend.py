@@ -7,7 +7,11 @@ from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
 
 from food_recommender.agents.prompts import TREND
 from food_recommender.agents.structured import structured
-from food_recommender.application.evidence_rules import supported_span, terms
+from food_recommender.application.evidence_rules import (
+    supported_span,
+    terms,
+    trend_signal,
+)
 from food_recommender.application.inference import Inference
 from food_recommender.application.trends import Concept, TrendResult, trend_citations
 from food_recommender.application.workflow import ToolGateway
@@ -93,7 +97,9 @@ class FoodTrendAnalyst:
             by_citation = {c.id: c for c in citations}
             claims = []
             for item in draft.claims:
-                if not supported_span(item.claim, citations, item.citation_ids):
+                if not trend_signal(item.claim) or not supported_span(
+                    item.claim, citations, item.citation_ids
+                ):
                     raise ValueError("Unsupported trend claim")
                 if any(
                     entity not in by_entity

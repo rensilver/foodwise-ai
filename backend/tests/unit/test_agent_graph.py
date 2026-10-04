@@ -73,7 +73,11 @@ async def test_real_graph_overlaps_experts_and_joins_once():
     assert result["final"]["status"] == "success"
     assert started == {"trends", "style", "nutrition"}
     assert (
-        len(set(graph.get_graph().nodes) - {"__start__", "__end__", "reset_turn"}) == 6
+        len(
+            set(graph.get_graph().nodes)
+            - {"__start__", "__end__", "reset_turn", "finalize_run"}
+        )
+        == 6
     )
 
 

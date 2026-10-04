@@ -61,3 +61,38 @@ def candidate_map(
     if len(result) != len(candidates):
         raise ValueError("Duplicate candidate IDs")
     return result
+
+
+def trend_signal(text: str) -> bool:
+    words = set(re.findall(r"[a-z]+", text.casefold()))
+    return bool(
+        words
+        & {
+            "trend",
+            "trends",
+            "popular",
+            "popularity",
+            "growing",
+            "growth",
+            "surge",
+            "demand",
+            "viral",
+            "seasonal",
+        }
+    ) and bool(
+        words
+        & (
+            {"food", "foods", "cuisine", "dishes", "recipes", "restaurants", "cooking"}
+            | (
+                CULINARY_TERMS
+                - {
+                    "italian",
+                    "mexican",
+                    "japanese",
+                    "indian",
+                    "korean",
+                    "mediterranean",
+                }
+            )
+        )
+    )

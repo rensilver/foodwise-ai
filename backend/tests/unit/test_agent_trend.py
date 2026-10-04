@@ -84,3 +84,39 @@ async def test_stale_evidence_and_unsupported_claims_are_unavailable():
             PROFILE, (food,)
         )
         assert result.status == "unavailable"
+
+
+@pytest.mark.asyncio
+async def test_dated_price_evidence_does_not_become_a_food_trend_claim():
+    class Prices(Trends):
+        async def call(self, name, arguments):
+            return TrendResult(
+                status="available",
+                evidence=(
+                    TrendItem(
+                        self.identity,
+                        "https://example.test/prices",
+                        "Italian rice costs ten dollars",
+                        NOW.date(),
+                        NOW,
+                    ),
+                ),
+            )
+
+    tools = Prices()
+    food = candidate()
+    provider = Reply(
+        {
+            "claims": [
+                {
+                    "claim": "Italian rice costs ten dollars",
+                    "entities": [{"category": "recipe", "id": food.evidence.entity.id}],
+                    "citation_ids": [str(tools.identity)],
+                }
+            ]
+        }
+    )
+    result = await FoodTrendAnalyst(provider, tools, clock=lambda: NOW).run(
+        PROFILE, (food,)
+    )
+    assert result.status == "unavailable"

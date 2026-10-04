@@ -163,4 +163,5 @@ async def test_profile_invalid_json_has_two_schema_repairs_and_no_downstream_cal
     assert len(provider.calls) == 3
     assert tools.calls == []
     assert result["catalog"] == []
-    assert result["final"] is None
+    assert result["final"]["status"] == "failure"
+    assert result["errors"][0]["stage"] == "profile_outcome"

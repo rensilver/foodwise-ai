@@ -108,3 +108,29 @@ async def test_arbitrary_tool_name_and_nonobject_response_are_safe_failures():
             with pytest.raises(InferenceError) as failure:
                 await provider.select_tools([], {"search_recipes": {"type": "object"}})
             assert str(failure.value) == "Inference unavailable"
+
+
+@pytest.mark.asyncio
+async def test_rate_limit_retry_after_http_date_is_honored_without_response_text():
+    from datetime import UTC, datetime
+
+    from food_recommender.application.inference import InferenceError
+
+    now = datetime(2026, 10, 4, 12, 0, tzinfo=UTC)
+    async with httpx.AsyncClient(
+        transport=httpx.MockTransport(
+            lambda request: httpx.Response(
+                429,
+                headers={"Retry-After": "Sun, 04 Oct 2026 12:00:04 GMT"},
+                json={"secret": "private response"},
+            )
+        )
+    ) as client:
+        provider = GroqStructuredInference(
+            client, SecretStr("synthetic-test"), "configured", clock=lambda: now
+        )
+        with pytest.raises(InferenceError) as failed:
+            await provider.generate([], {})
+        assert failed.value.retry_after == 4
+        assert failed.value.retryable
+        assert "private" not in str(failed.value)
