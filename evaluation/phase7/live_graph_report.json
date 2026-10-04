@@ -1,22 +1,9 @@
 {
-  "verified_at": "2026-10-04T14:01:14.810393+00:00",
-  "execution_status": "approval_required",
-  "executed": false,
-  "passed": false,
+  "verified_at": "2026-10-04T15:49:26.671659+00:00",
+  "enabled_explicitly": true,
   "seed_query": "Recommend Italian recipes featuring tomato and basil, such as pizza.",
-  "prepared_services": {
-    "transport": "stdio MCP subprocess",
-    "catalog_restaurants": 210,
-    "catalog_recipes": 109,
-    "minilm_documents_indexed": 770,
-    "postgresql": "16.14",
-    "pgvector": "0.8.6",
-    "isolated_smoke_database": true,
-    "existing_application_unchanged": true
-  },
-  "full_graph_groq_requests": 0,
-  "full_graph_tavily_requests": 0,
-  "blocker": "Automatic approval review rejected local catalog evidence transfer to external providers and requires specific user approval. The prepared run sends synthetic course recipe ingredients and cited excerpts to Groq; Tavily receives only fixed public culinary concepts. No personal review history or uploads are used.",
+  "model": "qwen/qwen3.8-27b",
+  "transport": "stdio MCP subprocess with real PostgreSQL exact pgvector/MiniLM retrieval",
   "limits": {
     "run_seconds": 120,
     "call_seconds": 30,
@@ -26,5 +13,1276 @@
     "synthesis_repairs": 1,
     "retrieval_attempts": 3,
     "trend_searches": 2
-  }
+  },
+  "metrics": {
+    "duration_ms": 17324.58253599907,
+    "groq_calls": 8,
+    "tool_calls": 2,
+    "search_calls": 1,
+    "token_usage": 512,
+    "retrieval_attempts": 1,
+    "stages": [
+      {
+        "stage": "profile",
+        "duration_ms": 1413.5559229980572,
+        "status": "success"
+      },
+      {
+        "stage": "retrieval",
+        "duration_ms": 8616.913902998931,
+        "status": "success"
+      },
+      {
+        "stage": "style",
+        "duration_ms": 204.83211200189544,
+        "status": "unavailable"
+      },
+      {
+        "stage": "nutrition",
+        "duration_ms": 325.7639370021934,
+        "status": "success"
+      },
+      {
+        "stage": "trend",
+        "duration_ms": 6746.441827999661,
+        "status": "unavailable"
+      },
+      {
+        "stage": "recommendation",
+        "duration_ms": 398.12588700078777,
+        "status": "failure"
+      }
+    ]
+  },
+  "provider_usage": [
+    {
+      "model": "qwen/qwen3.8-27b",
+      "elapsed_ms": 1411.421616001462,
+      "prompt_tokens": 271,
+      "completion_tokens": 3,
+      "total_tokens": 274
+    },
+    {
+      "model": "qwen/qwen3.8-27b",
+      "elapsed_ms": 338.34919899891247,
+      "prompt_tokens": 220,
+      "completion_tokens": 18,
+      "total_tokens": 238
+    }
+  ],
+  "candidate_count": 16,
+  "retrieved_ids": [
+    {
+      "category": "recipe",
+      "id": "1"
+    },
+    {
+      "category": "recipe",
+      "id": "15"
+    },
+    {
+      "category": "recipe",
+      "id": "76"
+    },
+    {
+      "category": "recipe",
+      "id": "39"
+    },
+    {
+      "category": "recipe",
+      "id": "5"
+    },
+    {
+      "category": "recipe",
+      "id": "57"
+    },
+    {
+      "category": "recipe",
+      "id": "26"
+    },
+    {
+      "category": "recipe",
+      "id": "83"
+    },
+    {
+      "category": "recipe",
+      "id": "93"
+    },
+    {
+      "category": "recipe",
+      "id": "33"
+    },
+    {
+      "category": "recipe",
+      "id": "53"
+    },
+    {
+      "category": "recipe",
+      "id": "67"
+    },
+    {
+      "category": "recipe",
+      "id": "34"
+    },
+    {
+      "category": "recipe",
+      "id": "64"
+    },
+    {
+      "category": "recipe",
+      "id": "40"
+    },
+    {
+      "category": "recipe",
+      "id": "86"
+    }
+  ],
+  "profile_outcome": {
+    "result": {
+      "categories": [
+        "recipe"
+      ],
+      "preferences": {
+        "cuisines": [
+          "Italian"
+        ],
+        "flavors": [],
+        "constraints": [],
+        "location": null,
+        "price_band": null
+      },
+      "clarification": null
+    },
+    "status": "success"
+  },
+  "branch_outcomes": {
+    "trend": {
+      "code": "trends_unavailable",
+      "status": "unavailable"
+    },
+    "style": {
+      "code": "style_unavailable",
+      "status": "unavailable"
+    },
+    "nutrition": {
+      "result": {
+        "assessments": [
+          {
+            "entity": {
+              "category": "recipe",
+              "id": "1"
+            },
+            "state": "unknown",
+            "citation_ids": [
+              "8441cfb7e065cb944df3bda673646145ba0856a6aac2b39d17e5c97bd91d7518",
+              "ed104754eb4ac0e30a3a2ec1b5fbf0e778c7454bad6f89de312add91b4bad4c6",
+              "f0ef486b03e1e0da77b2eef2f5cdacdea3940f98eea73dcb2f5840ed1120ba63"
+            ],
+            "limitations": [
+              "No verified nutrient quantities or cross-contact safety evidence",
+              "Structured nutrition analysis unavailable"
+            ]
+          },
+          {
+            "entity": {
+              "category": "recipe",
+              "id": "15"
+            },
+            "state": "unknown",
+            "citation_ids": [
+              "3c2b40322621fdaddab5808a7211111059018d94fb4c023be6fcbe0e7d862ae8",
+              "63f02364c80afbd6875651374e122c536c5e0bc3b11e32b3ebcfd70bc2dece30",
+              "ec56c2d3bfeef1b988d2510401a34fb0f29bed3b674371a8a48c3a5db94c715f"
+            ],
+            "limitations": [
+              "No verified nutrient quantities or cross-contact safety evidence",
+              "Structured nutrition analysis unavailable"
+            ]
+          },
+          {
+            "entity": {
+              "category": "recipe",
+              "id": "76"
+            },
+            "state": "unknown",
+            "citation_ids": [
+              "356d81ba4c0ed5d6475261888025f1e029643af0bcb42e39d6eaa494798968e5",
+              "42f4fa99299706e8770f0355ac79decb908e35d46130930cbde51c3f63cc6963",
+              "554bc937acf0d64920b5edb974f503a185715c8a5700f5b9c3fd081b1c45f10c"
+            ],
+            "limitations": [
+              "No verified nutrient quantities or cross-contact safety evidence",
+              "Structured nutrition analysis unavailable"
+            ]
+          },
+          {
+            "entity": {
+              "category": "recipe",
+              "id": "39"
+            },
+            "state": "unknown",
+            "citation_ids": [
+              "938b630079b53f0e47ecd09a7a0fca62fcde91ab207ced84dec69fdc0ae721a4",
+              "cd035e0508fe6bd2177c039cf3838f1a290d1131675cfae62e543bb11aa12d0c",
+              "d42147bcc7ca4d608afc3479cd0bb146077095a74439629fde1d4a4e8b80c28b"
+            ],
+            "limitations": [
+              "No verified nutrient quantities or cross-contact safety evidence",
+              "Structured nutrition analysis unavailable"
+            ]
+          },
+          {
+            "entity": {
+              "category": "recipe",
+              "id": "5"
+            },
+            "state": "unknown",
+            "citation_ids": [
+              "52a3f43742b60b35075e931eeff166d1b28191d77e60470ef80bfe45311e4648",
+              "db6e59bbbe8f0476f6cb01e7dbdb370b440e29d9326e34646517b6de9d3ce945",
+              "e1022f483843e3a040db1d3c16e53a411eb7f13a8e4ff9a0a0e1fcaa7d65016c"
+            ],
+            "limitations": [
+              "No verified nutrient quantities or cross-contact safety evidence",
+              "Structured nutrition analysis unavailable"
+            ]
+          },
+          {
+            "entity": {
+              "category": "recipe",
+              "id": "57"
+            },
+            "state": "unknown",
+            "citation_ids": [
+              "462cc85ef0a870f3379d7d26da82254d8718573fdee5173872571858985441b6",
+              "7088f412df6fa0c2e086d5723e5d7367bcce75d096611e9f7e098a7a1dfca817",
+              "df794c8aabc9473ad44a941331b148bcbd2e869d7c6b2fc7ec4ec8dde17366d9"
+            ],
+            "limitations": [
+              "No verified nutrient quantities or cross-contact safety evidence",
+              "Structured nutrition analysis unavailable"
+            ]
+          },
+          {
+            "entity": {
+              "category": "recipe",
+              "id": "26"
+            },
+            "state": "unknown",
+            "citation_ids": [
+              "074e43607c49a9ea17820776d142b796a4c219070c2cfede4123b2b23f1457fd",
+              "289df3fd540781f744b64f2b5a2d72e3e69d7d3da5de70240706e081a694b389",
+              "e4a34b389b593da8cc6dc178a86dc750dd63cac5f72a17930cca7245b95b48f5"
+            ],
+            "limitations": [
+              "No verified nutrient quantities or cross-contact safety evidence",
+              "Structured nutrition analysis unavailable"
+            ]
+          },
+          {
+            "entity": {
+              "category": "recipe",
+              "id": "83"
+            },
+            "state": "unknown",
+            "citation_ids": [
+              "23afa2a141d514760843a03b351666a8bf3b5d2d4475d0620ac60566cb84e182",
+              "4c18bda72dcdd07a4cd0ed6e486f90f86a459bc33c1d3232d379377585766681",
+              "afad40a02763afeb62f2999606015eb2ce55265f2ebd605b90ae8b862abbffc5"
+            ],
+            "limitations": [
+              "No verified nutrient quantities or cross-contact safety evidence",
+              "Structured nutrition analysis unavailable"
+            ]
+          },
+          {
+            "entity": {
+              "category": "recipe",
+              "id": "93"
+            },
+            "state": "unknown",
+            "citation_ids": [
+              "3d3261fde83f72c9a75b74b8b2ef83bb88742ba04ae496a601ed72b0e7ffb120",
+              "82af95c08ed120deac6f26fd0f3dc215fac21675bed646b688dc07e71e4178dc",
+              "a00bf73009bd0d941938133c631bb6bb02551962f6559a09df2e3f1451fb8679"
+            ],
+            "limitations": [
+              "No verified nutrient quantities or cross-contact safety evidence",
+              "Structured nutrition analysis unavailable"
+            ]
+          },
+          {
+            "entity": {
+              "category": "recipe",
+              "id": "33"
+            },
+            "state": "unknown",
+            "citation_ids": [
+              "546f39f8c995b1b3ff804d45a188eb1634c9419d5c7ce003b339f0ce4c4a6927",
+              "6214ae5268aab84b8f2c3ca7d2d2447644e2e9a200f80452fb70758d5347a81a",
+              "70a0dca9c08e62bff3bcc44f68b5b7bcf513ec26a5e3a06b75b198eea86b2f42"
+            ],
+            "limitations": [
+              "No verified nutrient quantities or cross-contact safety evidence",
+              "Structured nutrition analysis unavailable"
+            ]
+          },
+          {
+            "entity": {
+              "category": "recipe",
+              "id": "53"
+            },
+            "state": "unknown",
+            "citation_ids": [
+              "2146be24fb672ffe7b0135d6c018d05b0fca0794e2e80e174916bd2b993263ef",
+              "30e30e08a916b761a124b50bddcc129e943887eb2fcd23644b5295c08b073818",
+              "8b5eead7aacba3b53581825d9f105bcf1177e1a1dfe705c2a19ced943a96d8a9"
+            ],
+            "limitations": [
+              "No verified nutrient quantities or cross-contact safety evidence",
+              "Structured nutrition analysis unavailable"
+            ]
+          },
+          {
+            "entity": {
+              "category": "recipe",
+              "id": "67"
+            },
+            "state": "unknown",
+            "citation_ids": [
+              "1f0216ac06ef003c94909c53459f19690a29e6947fc46b3d165fc5ee91fd58ea",
+              "a79f75e65612ae3f217e4bb0adcf6d43e674d9bfb7a62fd886824e11b1c1b679",
+              "f0df03e92dbd637c5c25a8ad97ab4f16b9eeddb67641efe2b54d61041ec837bd"
+            ],
+            "limitations": [
+              "No verified nutrient quantities or cross-contact safety evidence",
+              "Structured nutrition analysis unavailable"
+            ]
+          },
+          {
+            "entity": {
+              "category": "recipe",
+              "id": "34"
+            },
+            "state": "unknown",
+            "citation_ids": [
+              "0183ff05e32268024a0a66105143d05651b80e3369606b368f8f93807420baa0",
+              "3b15f1828afd7edab48e226ddd2c8354908022b523c412a2d96880f85cd90a81",
+              "bd6c647df16fee768b6cc6930fa2c0cf95fa122270ee4661209cad4832cb7364"
+            ],
+            "limitations": [
+              "No verified nutrient quantities or cross-contact safety evidence",
+              "Structured nutrition analysis unavailable"
+            ]
+          },
+          {
+            "entity": {
+              "category": "recipe",
+              "id": "64"
+            },
+            "state": "unknown",
+            "citation_ids": [
+              "6776b035fc6734dbf2d6b27bf216c56bee33f2ea16de6a01c0728b9cfba8c61f",
+              "ce6553aaec492b1976fb89343c0f0ddb33c33feb1a904a131cebe234bf0a6be4",
+              "ef7af462536df332b52c6ee7d73df83de4d61a9fed8fba33d3c8a177bd7c5213"
+            ],
+            "limitations": [
+              "No verified nutrient quantities or cross-contact safety evidence",
+              "Structured nutrition analysis unavailable"
+            ]
+          },
+          {
+            "entity": {
+              "category": "recipe",
+              "id": "40"
+            },
+            "state": "unknown",
+            "citation_ids": [
+              "46a8a25fc8be4d41f4bef9d6faee9c93fd27fb33a743cb395e4f51f8e17f2137",
+              "dae71c3569a10f9687cc0be784ffad49fabb12a2ae4266e973231a0f1284ca66",
+              "f6af5e04c744d1bdf851c22e3be4423d574cdfe834af1794f4240df223823e8e"
+            ],
+            "limitations": [
+              "No verified nutrient quantities or cross-contact safety evidence",
+              "Structured nutrition analysis unavailable"
+            ]
+          },
+          {
+            "entity": {
+              "category": "recipe",
+              "id": "86"
+            },
+            "state": "unknown",
+            "citation_ids": [
+              "61ca69bf4a9ecc92b62ceccd15352a4ab4e9d4c3dfbd3f637e4abea721c090eb",
+              "c72facd845e867b26a923d2439f275ad5c3d111ba2b401d59352774379421664",
+              "e3cd9d51c38f8e584c415ee287e62d2a20493a835536902a3df2faa779b6680d"
+            ],
+            "limitations": [
+              "No verified nutrient quantities or cross-contact safety evidence",
+              "Structured nutrition analysis unavailable"
+            ]
+          }
+        ]
+      },
+      "status": "success"
+    }
+  },
+  "trend_search_outcomes": [
+    {
+      "status": "available",
+      "evidence": [
+        {
+          "id": "37c53b84-b680-43f5-8dc3-422f337b2476",
+          "url": "https://www.latimes.com/california/newsletter/2026-07-10/mangia-exhibit-italian-american-museum-of-los-angeles",
+          "excerpt": "# The history of Italian American food runs through L.A., stunning new exhibit shows. ## Your morning catch-up: The new Italian American cuisine exhibit, El Ni\u00f1o is a virtual certainty and more big stories. The Evolution of Italian Food in the United States,\u201d an awesome new exhibit at the Italian American Museum of Los Angeles (IAMLA) on Olvera Street. \u201cMangia!\u201d showcases the different trends of Italian cuisine in this country via exhibits-within-exhibits devoted to their origins, including produce like tomatoes, products like cheese and coffee, and the Italian immigrants behind such all-American brands as Planter\u2019s Peanuts, Tropicana orange juice and McDonald\u2019s Big Mac. A wall is even dedicated to clothing from Italian restaurants from across the country \u2014 T-shirts and hats, of course, but also bibs and even baby onesies \u2014 along with a map of the United States dotted with the locations and names of the oldest Italian restaurants in different regions of the country.",
+          "published_on": "2026-07-10",
+          "retrieved_at": "2026-10-04T15:49:25.517617Z"
+        },
+        {
+          "id": "a885ce10-d01f-4417-a6e0-0215730ba87e",
+          "url": "https://www.forbes.com/sites/davidhochman/2026/07/29/crudo-e-nudo-chef-brian-bornemann-is-opening-a-pasta-restaurant-in-santa-monica/",
+          "excerpt": "# Crudo E Nudo Chef Brian Bornemann Is Opening A Pasta Restaurant In Santa Monica. After turning Crudo e Nudo into one of the city\u2019s most distinctive seafood restaurants, chef Brian Bornemann is opening Bar Fortuna just one block away. It would describe what happens when a dish arrives at a sidewalk table and the couple beside you leans over to ask about it, and then you share a bite with them, and then a guy walking his dog stops to ask what\u2019s going on, and inside of four minutes a single plate has changed the mood of an entire block. At Crudo e Nudo in Santa Monica the other night, the dish was percebes. ## How Crudo e Nudo Became One of Santa Monica\u2019s Most Distinctive Restaurants. Stroll past Crudo e Nudo on a typical Thursday\u2014with or without your dog\u2014and you will likely spot someone drinking from a porr\u00f3n, the glass pitcher with a long, beak-like spout that is held overhead so the wine falls into your mouth in a thin arc.",
+          "published_on": "2026-07-29",
+          "retrieved_at": "2026-10-04T15:49:25.517630Z"
+        },
+        {
+          "id": "921160f2-ac54-4300-ad12-6e59cb7759fc",
+          "url": "https://www.cbsnews.com/gooddaysacramento/video/new-menu-items-cocktails-at-pietros-trattoria/",
+          "excerpt": "# New menu items & cocktails at Pietro's Trattoria! Pietro's Trattoria is a family-owned California Italian restaurant located in the heart of Lodi Wine Country. Today, Pietro's blends seasonal California ingredients with Italian-American traditions through a menu of housemade pastas, wood-fired pizzas, handmade breads, and thoughtfully curated wines and cocktails.",
+          "published_on": "2026-08-25",
+          "retrieved_at": "2026-10-04T15:49:25.517635Z"
+        },
+        {
+          "id": "68757d95-bdb3-4aef-a69b-85bfcf9b1c33",
+          "url": "https://www.sfchronicle.com/food/restaurants/article/yutori-restaurant-opening-palo-alto-22442762.php",
+          "excerpt": "# This Bay Area Japanese food emporium just got an ambitious new restaurant. Just like the rest of Yutori, the restaurant is inspired by the many trips that owner Jerome Ito\u00a0\u2014 a former Google sushi chef and the owner of local udon shop Taro San and poke chain Go Fish Poke Bar\u00a0\u2014 and his wife, Linh Tran-Ito, have made to Japan. The restaurant\u2019s menu is geared toward family-style dining, such as a bone-in\u00a0tonkatsu for two or whole roasted branzino lettuce wrap with shiso salsa verde and rayu chili oil, meant for two to three people to share. The Nikkei ceviche ($32), a style developed by Japanese immigrants to Peru, comes with tuna, salmon and halibut cured in lime juice, sitting atop a pool of black sesame sauce and roasted kombu oil. Itameshi pastas, a style that melds Italian and Japanese influences, are also on offer, such as a mentaiko-topped seafood pasta with lobster, clam and scallops in a lobster dashi broth ($58).",
+          "published_on": "2026-09-24",
+          "retrieved_at": "2026-10-04T15:49:25.517639Z"
+        },
+        {
+          "id": "22db8a61-fd0f-43a0-8190-86036f63028a",
+          "url": "https://www.forbes.com/sites/joanneshurvell/2026/08/09/7-new-london-restaurants-to-try-summer-2026/",
+          "excerpt": "The newest restaurant openings span Michelin-level Indian cuisine, refined Japanese seafood, contemporary Thai cooking and glamorous Italian dining, from intimate chef\u2019s counters to destination spots. Summer 2026 has brought a wave of ambitious new openings to London that span Michelin-level Indian cuisine, refined Japanese seafood, contemporary Thai cooking and glamorous Italian dining. From intimate chef\u2019s counters to fancy destination restaurants, these are the standout new tables shaping the capital\u2019s ever-evolving food scene. An excellent new Thai restaurant has launched on the ground floor of Chinese favorite, Mimi Mei Fair, in a beautiful Georgian townhouse. Miokuru is a wonderful new chef\u2019s counter with 20 seats, offering British seafood refined with Japanese techniques, plus London-brewed premium sake and Japanese-style cocktails. The London debut of Milan\u2019s celebrated Langosteria brings a touch of Mediterranean glamor to The OWO. The elegant interiors, created by acclaimed Milan-based designer Patricia Urquiola, the elegant dining room blends contemporary Italian style with the grandeur of the historic building, are a great backdrop for Chef Michele Biassoni\u2019s beautifully presented seafood menu.",
+          "published_on": "2026-08-09",
+          "retrieved_at": "2026-10-04T15:49:25.517643Z"
+        }
+      ],
+      "reason": null,
+      "cache_status": "miss",
+      "search_calls": 1,
+      "excluded_count": 0,
+      "limitation": "Web excerpts are untrusted evidence; validate claims against dated excerpts"
+    }
+  ],
+  "final": {
+    "code": "validation_failed",
+    "retryable": false,
+    "status": "failure"
+  },
+  "catalog_citations": [
+    {
+      "id": "8441cfb7e065cb944df3bda673646145ba0856a6aac2b39d17e5c97bd91d7518",
+      "kind": "catalog",
+      "source_id": "e501e9de5ba90c5d93850a5e2fbba8301ecffebf9dafd24a218ff127dd4054d9",
+      "excerpt": "name: Classic Margherita Pizza\ncuisine: Italian\ningredients: 1 pizza dough ball (about 260g)\n2 tablespoons tomato sauce\n1 cup shredded mozzarella cheese\n6-8 fresh basil leaves\n1 tablespoon olive oil\npinch of salt\noptional: grated parmesan\ndirections: Preheat oven to 250\u00b0C (482\u00b0F) with a baking stone if available.\nRoll out dough to a 12-inch circle on a floured surface.\nSpread tomato sauce evenly over dough, leaving a 1/2-inch border.\nScatter mozzarella cheese over sauce.\nBake on the stone for 10-12 minutes until crust is crisp and cheese melts.\nFinish with basil leaves, drizzle with olive oil, and season with salt and optional parmesan.\nSlice and serve immediately.",
+      "entity": {
+        "category": "recipe",
+        "id": "1"
+      },
+      "record_id": "1",
+      "document_id": "8441cfb7e065cb944df3bda673646145ba0856a6aac2b39d17e5c97bd91d7518",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "ed104754eb4ac0e30a3a2ec1b5fbf0e778c7454bad6f89de312add91b4bad4c6",
+      "kind": "catalog",
+      "source_id": "1233433e797775c38a824137d4da21a21dcd4cf2668cbf25758e7a5fd9cbed33",
+      "excerpt": "name: Classic Margherita Pizza\ncuisine: Italian\ningredients: 1 pizza dough ball (about 260g)\n2 tablespoons tomato sauce\n1 cup shredded mozzarella cheese\n6-8 fresh basil leaves\n1 tablespoon olive oil\npinch of salt\noptional: grated parmesan\ndirections: Preheat oven to 250\u00b0C (482\u00b0F) with a baking stone if available.\nRoll out dough to a 12-inch circle on a floured surface.\nSpread tomato sauce evenly over dough, leaving a 1/2-inch border.\nScatter mozzarella cheese over sauce.\nBake on the stone for 10-12 minutes until crust is crisp and cheese melts.\nFinish with basil leaves, drizzle with olive oil, and season with salt and optional parmesan.\nSlice and serve immediately.",
+      "entity": {
+        "category": "recipe",
+        "id": "1"
+      },
+      "record_id": "1",
+      "document_id": "ed104754eb4ac0e30a3a2ec1b5fbf0e778c7454bad6f89de312add91b4bad4c6",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "f0ef486b03e1e0da77b2eef2f5cdacdea3940f98eea73dcb2f5840ed1120ba63",
+      "kind": "catalog",
+      "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+      "excerpt": "The 'Classic Margherita Pizza' is a round, thin-crust pizza. It has a golden-brown crust with visible charring. The pizza is topped with red tomato sauce, melted white mozzarella cheese, and fresh green basil leaves. The toppings are evenly distributed, and the cheese appears to be melted and slightly browned in some areas. The pizza is presented on a flat surface, possibly a plate or a wooden board, and is cut into slices. The overall appearance is appetizing, with vibrant colors and a mix of textures from the crispy crust, smooth cheese, and fresh herbs.",
+      "entity": {
+        "category": "recipe",
+        "id": "1"
+      },
+      "record_id": "1",
+      "document_id": "f0ef486b03e1e0da77b2eef2f5cdacdea3940f98eea73dcb2f5840ed1120ba63",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "imported"
+    },
+    {
+      "id": "3c2b40322621fdaddab5808a7211111059018d94fb4c023be6fcbe0e7d862ae8",
+      "kind": "catalog",
+      "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+      "excerpt": "The image shows a bowl of pasta with visible ingredients including tomatoes, basil leaves, and grated cheese. The pasta appears to be cooked al dente and is tossed with roasted tomatoes and fresh basil. The dish is presented in a white bowl, topped with grated Parmesan cheese and a few fresh basil leaves. The overall texture is a mix of smooth pasta, chunky tomatoes, and crispy basil. The colors are vibrant, with red tomatoes, green basil, and white cheese against a clean white background. The portion size is a single serving.",
+      "entity": {
+        "category": "recipe",
+        "id": "15"
+      },
+      "record_id": "15",
+      "document_id": "3c2b40322621fdaddab5808a7211111059018d94fb4c023be6fcbe0e7d862ae8",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "imported"
+    },
+    {
+      "id": "63f02364c80afbd6875651374e122c536c5e0bc3b11e32b3ebcfd70bc2dece30",
+      "kind": "catalog",
+      "source_id": "1233433e797775c38a824137d4da21a21dcd4cf2668cbf25758e7a5fd9cbed33",
+      "excerpt": "name: Roasted Tomato and Basil Pasta\ncuisine: Italian\ningredients: 300g pasta\n3 cups cherry tomatoes, halved\n3 cloves garlic, sliced\n2 tablespoons olive oil\nFresh basil leaves\nSalt and pepper\nGrated parmesan\ndirections: Roast tomatoes and garlic with olive oil for 15-20 minutes.\nCook pasta until al dente, reserve 1/2 cup pasta water.\nToss pasta with roasted tomatoes, add water to loosen if needed.\nStir in torn basil and parmesan; season to taste.",
+      "entity": {
+        "category": "recipe",
+        "id": "15"
+      },
+      "record_id": "15",
+      "document_id": "63f02364c80afbd6875651374e122c536c5e0bc3b11e32b3ebcfd70bc2dece30",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "ec56c2d3bfeef1b988d2510401a34fb0f29bed3b674371a8a48c3a5db94c715f",
+      "kind": "catalog",
+      "source_id": "e501e9de5ba90c5d93850a5e2fbba8301ecffebf9dafd24a218ff127dd4054d9",
+      "excerpt": "name: Roasted Tomato and Basil Pasta\ncuisine: Italian\ningredients: 300g pasta\n3 cups cherry tomatoes, halved\n3 cloves garlic, sliced\n2 tablespoons olive oil\nFresh basil leaves\nSalt and pepper\nGrated parmesan\ndirections: Roast tomatoes and garlic with olive oil for 15-20 minutes.\nCook pasta until al dente, reserve 1/2 cup pasta water.\nToss pasta with roasted tomatoes, add water to loosen if needed.\nStir in torn basil and parmesan; season to taste.",
+      "entity": {
+        "category": "recipe",
+        "id": "15"
+      },
+      "record_id": "15",
+      "document_id": "ec56c2d3bfeef1b988d2510401a34fb0f29bed3b674371a8a48c3a5db94c715f",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "356d81ba4c0ed5d6475261888025f1e029643af0bcb42e39d6eaa494798968e5",
+      "kind": "catalog",
+      "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+      "excerpt": "The image shows a dish of Pasta Arrabbiata. The pasta is spaghetti, which is cooked al dente and tossed in a red sauce. The sauce appears to be tomato-based and has visible chunks of tomatoes and herbs, likely parsley or basil. The dish is garnished with grated Parmesan cheese and fresh herbs on top. The spaghetti is presented in a white bowl, and the portion size is moderate. The overall appearance is appetizing, with a vibrant red color from the sauce contrasting with the white of the bowl and the green of the herbs.",
+      "entity": {
+        "category": "recipe",
+        "id": "76"
+      },
+      "record_id": "76",
+      "document_id": "356d81ba4c0ed5d6475261888025f1e029643af0bcb42e39d6eaa494798968e5",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "imported"
+    },
+    {
+      "id": "42f4fa99299706e8770f0355ac79decb908e35d46130930cbde51c3f63cc6963",
+      "kind": "catalog",
+      "source_id": "1233433e797775c38a824137d4da21a21dcd4cf2668cbf25758e7a5fd9cbed33",
+      "excerpt": "name: Pasta Arrabbiata\ncuisine: Italian\ningredients: Pasta\nTomato sauce\nGarlic, chili flakes\nOlive oil\nParsley\ndirections: Cook pasta until al dente.\nSaut\u00e9 garlic and chili in olive oil; add tomato sauce.\nToss with pasta and garnish with parsley.",
+      "entity": {
+        "category": "recipe",
+        "id": "76"
+      },
+      "record_id": "76",
+      "document_id": "42f4fa99299706e8770f0355ac79decb908e35d46130930cbde51c3f63cc6963",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "554bc937acf0d64920b5edb974f503a185715c8a5700f5b9c3fd081b1c45f10c",
+      "kind": "catalog",
+      "source_id": "e501e9de5ba90c5d93850a5e2fbba8301ecffebf9dafd24a218ff127dd4054d9",
+      "excerpt": "name: Pasta Arrabbiata\ncuisine: Italian\ningredients: Pasta\nTomato sauce\nGarlic, chili flakes\nOlive oil\nParsley\ndirections: Cook pasta until al dente.\nSaut\u00e9 garlic and chili in olive oil; add tomato sauce.\nToss with pasta and garnish with parsley.",
+      "entity": {
+        "category": "recipe",
+        "id": "76"
+      },
+      "record_id": "76",
+      "document_id": "554bc937acf0d64920b5edb974f503a185715c8a5700f5b9c3fd081b1c45f10c",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "938b630079b53f0e47ecd09a7a0fca62fcde91ab207ced84dec69fdc0ae721a4",
+      "kind": "catalog",
+      "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+      "excerpt": "The Caprese Salad consists of sliced tomatoes, mozzarella cheese, and basil leaves, arranged in an alternating pattern on a white plate. The ingredients appear fresh and raw, with no visible cooking. The tomatoes are red, the mozzarella is white, and the basil is green. The slices are neatly arranged, and the overall presentation is simple and colorful. The portion size is moderate, suitable for a single serving. The texture appears smooth for the cheese, juicy for the tomatoes, and fresh for the basil.",
+      "entity": {
+        "category": "recipe",
+        "id": "39"
+      },
+      "record_id": "39",
+      "document_id": "938b630079b53f0e47ecd09a7a0fca62fcde91ab207ced84dec69fdc0ae721a4",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "imported"
+    },
+    {
+      "id": "cd035e0508fe6bd2177c039cf3838f1a290d1131675cfae62e543bb11aa12d0c",
+      "kind": "catalog",
+      "source_id": "1233433e797775c38a824137d4da21a21dcd4cf2668cbf25758e7a5fd9cbed33",
+      "excerpt": "name: Caprese Salad\ncuisine: Italian\ningredients: Tomatoes, sliced\nFresh mozzarella, sliced\nFresh basil leaves\nOlive oil\nBalsamic glaze\nSalt and pepper\ndirections: Alternate tomato and mozzarella slices on a plate.\nTop with basil; drizzle olive oil and balsamic glaze.\nSeason with salt and pepper.",
+      "entity": {
+        "category": "recipe",
+        "id": "39"
+      },
+      "record_id": "39",
+      "document_id": "cd035e0508fe6bd2177c039cf3838f1a290d1131675cfae62e543bb11aa12d0c",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "d42147bcc7ca4d608afc3479cd0bb146077095a74439629fde1d4a4e8b80c28b",
+      "kind": "catalog",
+      "source_id": "e501e9de5ba90c5d93850a5e2fbba8301ecffebf9dafd24a218ff127dd4054d9",
+      "excerpt": "name: Caprese Salad\ncuisine: Italian\ningredients: Tomatoes, sliced\nFresh mozzarella, sliced\nFresh basil leaves\nOlive oil\nBalsamic glaze\nSalt and pepper\ndirections: Alternate tomato and mozzarella slices on a plate.\nTop with basil; drizzle olive oil and balsamic glaze.\nSeason with salt and pepper.",
+      "entity": {
+        "category": "recipe",
+        "id": "39"
+      },
+      "record_id": "39",
+      "document_id": "d42147bcc7ca4d608afc3479cd0bb146077095a74439629fde1d4a4e8b80c28b",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "52a3f43742b60b35075e931eeff166d1b28191d77e60470ef80bfe45311e4648",
+      "kind": "catalog",
+      "source_id": "e501e9de5ba90c5d93850a5e2fbba8301ecffebf9dafd24a218ff127dd4054d9",
+      "excerpt": "name: Spaghetti Aglio e Olio\ncuisine: Italian\ningredients: 200g spaghetti\n4 cloves garlic, thinly sliced\n1/2 teaspoon red pepper flakes\n1/4 cup olive oil\nFresh parsley, chopped\nSalt to taste\nGrated parmesan to serve\ndirections: Cook spaghetti in salted water until al dente; reserve 1/2 cup pasta water.\nHeat olive oil in a pan; add garlic and red pepper flakes, cook until fragrant and lightly golden.\nToss pasta with garlic oil, adding reserve water as needed.\nSeason, mix in parsley, and serve with parmesan.",
+      "entity": {
+        "category": "recipe",
+        "id": "5"
+      },
+      "record_id": "5",
+      "document_id": "52a3f43742b60b35075e931eeff166d1b28191d77e60470ef80bfe45311e4648",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "db6e59bbbe8f0476f6cb01e7dbdb370b440e29d9326e34646517b6de9d3ce945",
+      "kind": "catalog",
+      "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+      "excerpt": "The image shows a plate of Spaghetti Aglio e Olio. The dish consists of cooked spaghetti tossed with sliced garlic, visible chili flakes or peppers, and what appears to be parsley or another green herb. The pasta is coated in a glossy, oily sauce. The spaghetti is presented in a white bowl, topped with grated Parmesan cheese and additional parsley. The overall appearance is appetizing, with a generous portion size and a vibrant mix of colors from the golden garlic, white cheese, green herbs, and the yellowish pasta. The texture appears to be a mix of smooth pasta and crunchy garlic and herbs.",
+      "entity": {
+        "category": "recipe",
+        "id": "5"
+      },
+      "record_id": "5",
+      "document_id": "db6e59bbbe8f0476f6cb01e7dbdb370b440e29d9326e34646517b6de9d3ce945",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "imported"
+    },
+    {
+      "id": "e1022f483843e3a040db1d3c16e53a411eb7f13a8e4ff9a0a0e1fcaa7d65016c",
+      "kind": "catalog",
+      "source_id": "1233433e797775c38a824137d4da21a21dcd4cf2668cbf25758e7a5fd9cbed33",
+      "excerpt": "name: Spaghetti Aglio e Olio\ncuisine: Italian\ningredients: 200g spaghetti\n4 cloves garlic, thinly sliced\n1/2 teaspoon red pepper flakes\n1/4 cup olive oil\nFresh parsley, chopped\nSalt to taste\nGrated parmesan to serve\ndirections: Cook spaghetti in salted water until al dente; reserve 1/2 cup pasta water.\nHeat olive oil in a pan; add garlic and red pepper flakes, cook until fragrant and lightly golden.\nToss pasta with garlic oil, adding reserve water as needed.\nSeason, mix in parsley, and serve with parmesan.",
+      "entity": {
+        "category": "recipe",
+        "id": "5"
+      },
+      "record_id": "5",
+      "document_id": "e1022f483843e3a040db1d3c16e53a411eb7f13a8e4ff9a0a0e1fcaa7d65016c",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "462cc85ef0a870f3379d7d26da82254d8718573fdee5173872571858985441b6",
+      "kind": "catalog",
+      "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+      "excerpt": "The image shows a dish of Herb-Ceta Pasta with Lemon. The pasta is cooked and mixed with visible herbs, likely parsley or basil, and what appears to be cooked shrimp or scallops. The dish is presented in a bowl and topped with grated Parmesan cheese and lemon zest. The pasta is coated in a light sauce, and the overall color palette is bright and citrusy, with a mix of green from the herbs, white from the pasta and cheese, and orange from the zest. The texture appears to be a mix of tender pasta, succulent seafood, and crunchy zest. The portion size is a standard serving size in a bowl.",
+      "entity": {
+        "category": "recipe",
+        "id": "57"
+      },
+      "record_id": "57",
+      "document_id": "462cc85ef0a870f3379d7d26da82254d8718573fdee5173872571858985441b6",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "imported"
+    },
+    {
+      "id": "7088f412df6fa0c2e086d5723e5d7367bcce75d096611e9f7e098a7a1dfca817",
+      "kind": "catalog",
+      "source_id": "1233433e797775c38a824137d4da21a21dcd4cf2668cbf25758e7a5fd9cbed33",
+      "excerpt": "name: Herb-Ceta Pasta with Lemon\ncuisine: Italian\ningredients: Pasta of choice\nLemon zest and juice\nFresh herbs (parsley, basil)\nOlive oil\nParmesan\ndirections: Cook pasta; reserve some pasta water.\nToss with lemon zest, juice, herbs, and olive oil.\nAdd a splash of pasta water; finish with parmesan.",
+      "entity": {
+        "category": "recipe",
+        "id": "57"
+      },
+      "record_id": "57",
+      "document_id": "7088f412df6fa0c2e086d5723e5d7367bcce75d096611e9f7e098a7a1dfca817",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "df794c8aabc9473ad44a941331b148bcbd2e869d7c6b2fc7ec4ec8dde17366d9",
+      "kind": "catalog",
+      "source_id": "e501e9de5ba90c5d93850a5e2fbba8301ecffebf9dafd24a218ff127dd4054d9",
+      "excerpt": "name: Herb-Ceta Pasta with Lemon\ncuisine: Italian\ningredients: Pasta of choice\nLemon zest and juice\nFresh herbs (parsley, basil)\nOlive oil\nParmesan\ndirections: Cook pasta; reserve some pasta water.\nToss with lemon zest, juice, herbs, and olive oil.\nAdd a splash of pasta water; finish with parmesan.",
+      "entity": {
+        "category": "recipe",
+        "id": "57"
+      },
+      "record_id": "57",
+      "document_id": "df794c8aabc9473ad44a941331b148bcbd2e869d7c6b2fc7ec4ec8dde17366d9",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "074e43607c49a9ea17820776d142b796a4c219070c2cfede4123b2b23f1457fd",
+      "kind": "catalog",
+      "source_id": "e501e9de5ba90c5d93850a5e2fbba8301ecffebf9dafd24a218ff127dd4054d9",
+      "excerpt": "name: Lemon Garlic Shrimp Pasta\ncuisine: Italian\ningredients: 200g linguine\n200g shrimp, peeled\n2 cloves garlic, minced\n1 lemon (zest and juice)\n2 tablespoons olive oil\nParsley, chopped\nSalt and pepper\ndirections: Cook pasta until al dente.\nSaut\u00e9 garlic in olive oil; add shrimp until pink.\nToss with pasta, lemon zest/juice, and parsley.\nSeason and serve.",
+      "entity": {
+        "category": "recipe",
+        "id": "26"
+      },
+      "record_id": "26",
+      "document_id": "074e43607c49a9ea17820776d142b796a4c219070c2cfede4123b2b23f1457fd",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "289df3fd540781f744b64f2b5a2d72e3e69d7d3da5de70240706e081a694b389",
+      "kind": "catalog",
+      "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+      "excerpt": "The image shows a plate of pasta with shrimp, featuring cooked linguine tossed with succulent shrimp, sliced garlic, and lemon slices. The dish is garnished with parsley and presented in a white bowl. The pasta appears well-coated with a light sauce, and the shrimp is lightly browned. The overall presentation is appetizing, with a mix of colors from the white pasta, pink shrimp, green parsley, and yellow lemon.",
+      "entity": {
+        "category": "recipe",
+        "id": "26"
+      },
+      "record_id": "26",
+      "document_id": "289df3fd540781f744b64f2b5a2d72e3e69d7d3da5de70240706e081a694b389",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "imported"
+    },
+    {
+      "id": "e4a34b389b593da8cc6dc178a86dc750dd63cac5f72a17930cca7245b95b48f5",
+      "kind": "catalog",
+      "source_id": "1233433e797775c38a824137d4da21a21dcd4cf2668cbf25758e7a5fd9cbed33",
+      "excerpt": "name: Lemon Garlic Shrimp Pasta\ncuisine: Italian\ningredients: 200g linguine\n200g shrimp, peeled\n2 cloves garlic, minced\n1 lemon (zest and juice)\n2 tablespoons olive oil\nParsley, chopped\nSalt and pepper\ndirections: Cook pasta until al dente.\nSaut\u00e9 garlic in olive oil; add shrimp until pink.\nToss with pasta, lemon zest/juice, and parsley.\nSeason and serve.",
+      "entity": {
+        "category": "recipe",
+        "id": "26"
+      },
+      "record_id": "26",
+      "document_id": "e4a34b389b593da8cc6dc178a86dc750dd63cac5f72a17930cca7245b95b48f5",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "23afa2a141d514760843a03b351666a8bf3b5d2d4475d0620ac60566cb84e182",
+      "kind": "catalog",
+      "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+      "excerpt": "The image shows a serving of pasta tossed in a green sauce, topped with sun-dried tomatoes and grated cheese. The pasta appears to be cooked al dente and is presented in a white bowl. The green sauce is likely pesto, given the dish's name. The sun-dried tomatoes are visible on top, adding a reddish-brown hue. The grated cheese is sprinkled over the pasta, adding a white texture. The overall presentation is simple, with the ingredients mixed together and the toppings visible on the surface.",
+      "entity": {
+        "category": "recipe",
+        "id": "83"
+      },
+      "record_id": "83",
+      "document_id": "23afa2a141d514760843a03b351666a8bf3b5d2d4475d0620ac60566cb84e182",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "imported"
+    },
+    {
+      "id": "4c18bda72dcdd07a4cd0ed6e486f90f86a459bc33c1d3232d379377585766681",
+      "kind": "catalog",
+      "source_id": "e501e9de5ba90c5d93850a5e2fbba8301ecffebf9dafd24a218ff127dd4054d9",
+      "excerpt": "name: Pesto Pasta with Sun-Dried Tomatoes\ncuisine: Italian\ningredients: Pasta\nPesto\nSun-dried tomatoes\nParmesan\ndirections: Cook pasta; drain.\nToss with pesto and sun-dried tomatoes; top with parmesan.",
+      "entity": {
+        "category": "recipe",
+        "id": "83"
+      },
+      "record_id": "83",
+      "document_id": "4c18bda72dcdd07a4cd0ed6e486f90f86a459bc33c1d3232d379377585766681",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "afad40a02763afeb62f2999606015eb2ce55265f2ebd605b90ae8b862abbffc5",
+      "kind": "catalog",
+      "source_id": "1233433e797775c38a824137d4da21a21dcd4cf2668cbf25758e7a5fd9cbed33",
+      "excerpt": "name: Pesto Pasta with Sun-Dried Tomatoes\ncuisine: Italian\ningredients: Pasta\nPesto\nSun-dried tomatoes\nParmesan\ndirections: Cook pasta; drain.\nToss with pesto and sun-dried tomatoes; top with parmesan.",
+      "entity": {
+        "category": "recipe",
+        "id": "83"
+      },
+      "record_id": "83",
+      "document_id": "afad40a02763afeb62f2999606015eb2ce55265f2ebd605b90ae8b862abbffc5",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "3d3261fde83f72c9a75b74b8b2ef83bb88742ba04ae496a601ed72b0e7ffb120",
+      "kind": "catalog",
+      "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+      "excerpt": "The image shows a serving of Baked Ziti, a pasta dish featuring ziti pasta baked in a casserole style. The visible ingredients include cooked ziti pasta, a red tomato-based sauce, and melted white cheese, likely mozzarella, on top. The dish is presented in a white, rectangular baking dish and has a golden-brown crust on the surface. The texture appears to be a mix of soft pasta and sauce, topped with a crispy, bubbly cheese layer. The overall appearance is warm and appetizing, with a generous portion size.",
+      "entity": {
+        "category": "recipe",
+        "id": "93"
+      },
+      "record_id": "93",
+      "document_id": "3d3261fde83f72c9a75b74b8b2ef83bb88742ba04ae496a601ed72b0e7ffb120",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "imported"
+    },
+    {
+      "id": "82af95c08ed120deac6f26fd0f3dc215fac21675bed646b688dc07e71e4178dc",
+      "kind": "catalog",
+      "source_id": "1233433e797775c38a824137d4da21a21dcd4cf2668cbf25758e7a5fd9cbed33",
+      "excerpt": "name: Baked Ziti\ncuisine: Italian\ningredients: Pasta\nTomato sauce\nGround beef or sausage\nMozzarella cheese\nParmesan\ndirections: Cook pasta; mix with sauce and meat.\nTop with cheese and bake until bubbly.",
+      "entity": {
+        "category": "recipe",
+        "id": "93"
+      },
+      "record_id": "93",
+      "document_id": "82af95c08ed120deac6f26fd0f3dc215fac21675bed646b688dc07e71e4178dc",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "a00bf73009bd0d941938133c631bb6bb02551962f6559a09df2e3f1451fb8679",
+      "kind": "catalog",
+      "source_id": "e501e9de5ba90c5d93850a5e2fbba8301ecffebf9dafd24a218ff127dd4054d9",
+      "excerpt": "name: Baked Ziti\ncuisine: Italian\ningredients: Pasta\nTomato sauce\nGround beef or sausage\nMozzarella cheese\nParmesan\ndirections: Cook pasta; mix with sauce and meat.\nTop with cheese and bake until bubbly.",
+      "entity": {
+        "category": "recipe",
+        "id": "93"
+      },
+      "record_id": "93",
+      "document_id": "a00bf73009bd0d941938133c631bb6bb02551962f6559a09df2e3f1451fb8679",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "546f39f8c995b1b3ff804d45a188eb1634c9419d5c7ce003b339f0ce4c4a6927",
+      "kind": "catalog",
+      "source_id": "e501e9de5ba90c5d93850a5e2fbba8301ecffebf9dafd24a218ff127dd4054d9",
+      "excerpt": "name: Pesto Chicken Bake\ncuisine: Italian\ningredients: 4 chicken breasts\n3 tablespoons pesto\n1 cup mozzarella, shredded\nCherry tomatoes\nSalt and pepper\ndirections: Season chicken and place in baking dish.\nTop each with pesto, mozzarella, and tomatoes.\nBake at 200\u00b0C (400\u00b0F) for 22-25 minutes until chicken is cooked.",
+      "entity": {
+        "category": "recipe",
+        "id": "33"
+      },
+      "record_id": "33",
+      "document_id": "546f39f8c995b1b3ff804d45a188eb1634c9419d5c7ce003b339f0ce4c4a6927",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "6214ae5268aab84b8f2c3ca7d2d2447644e2e9a200f80452fb70758d5347a81a",
+      "kind": "catalog",
+      "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+      "excerpt": "The 'Pesto Chicken Bake' consists of a chicken breast topped with a green pesto sauce, melted cheese, and cherry tomatoes, baked in a white ceramic dish. The chicken appears cooked and is presented with visible grill marks. The dish is garnished with fresh basil leaves and served with roasted cherry tomatoes. The overall presentation is appetizing, with a mix of vibrant colors from the tomatoes, basil, and pesto sauce. The portion size is a single serving.",
+      "entity": {
+        "category": "recipe",
+        "id": "33"
+      },
+      "record_id": "33",
+      "document_id": "6214ae5268aab84b8f2c3ca7d2d2447644e2e9a200f80452fb70758d5347a81a",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "imported"
+    },
+    {
+      "id": "70a0dca9c08e62bff3bcc44f68b5b7bcf513ec26a5e3a06b75b198eea86b2f42",
+      "kind": "catalog",
+      "source_id": "1233433e797775c38a824137d4da21a21dcd4cf2668cbf25758e7a5fd9cbed33",
+      "excerpt": "name: Pesto Chicken Bake\ncuisine: Italian\ningredients: 4 chicken breasts\n3 tablespoons pesto\n1 cup mozzarella, shredded\nCherry tomatoes\nSalt and pepper\ndirections: Season chicken and place in baking dish.\nTop each with pesto, mozzarella, and tomatoes.\nBake at 200\u00b0C (400\u00b0F) for 22-25 minutes until chicken is cooked.",
+      "entity": {
+        "category": "recipe",
+        "id": "33"
+      },
+      "record_id": "33",
+      "document_id": "70a0dca9c08e62bff3bcc44f68b5b7bcf513ec26a5e3a06b75b198eea86b2f42",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "2146be24fb672ffe7b0135d6c018d05b0fca0794e2e80e174916bd2b993263ef",
+      "kind": "catalog",
+      "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+      "excerpt": "The 'Herbed Mushroom Risotto' is a creamy, arborio rice dish served in a white bowl. The risotto is mixed with saut\u00e9ed mushrooms and garnished with chopped fresh herbs. The creamy rice has a smooth texture and is lightly coated with grated Parmesan cheese. The dish is presented with a sprinkle of herbs on top and has a warm, earthy tone with shades of creamy white, brown, and green. The portion size is generous, filling the bowl.",
+      "entity": {
+        "category": "recipe",
+        "id": "53"
+      },
+      "record_id": "53",
+      "document_id": "2146be24fb672ffe7b0135d6c018d05b0fca0794e2e80e174916bd2b993263ef",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "imported"
+    },
+    {
+      "id": "30e30e08a916b761a124b50bddcc129e943887eb2fcd23644b5295c08b073818",
+      "kind": "catalog",
+      "source_id": "e501e9de5ba90c5d93850a5e2fbba8301ecffebf9dafd24a218ff127dd4054d9",
+      "excerpt": "name: Herbed Mushroom Risotto\ncuisine: Italian\ningredients: 1 cup arborio rice\nMushrooms, sliced\n1 small onion, chopped\n1/2 cup white wine\n1/2 cup parmesan\nBroth\ndirections: Saut\u00e9 onion and mushrooms; add rice and toast.\nDeglaze with wine; add broth gradually until creamy.",
+      "entity": {
+        "category": "recipe",
+        "id": "53"
+      },
+      "record_id": "53",
+      "document_id": "30e30e08a916b761a124b50bddcc129e943887eb2fcd23644b5295c08b073818",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "8b5eead7aacba3b53581825d9f105bcf1177e1a1dfe705c2a19ced943a96d8a9",
+      "kind": "catalog",
+      "source_id": "1233433e797775c38a824137d4da21a21dcd4cf2668cbf25758e7a5fd9cbed33",
+      "excerpt": "name: Herbed Mushroom Risotto\ncuisine: Italian\ningredients: 1 cup arborio rice\nMushrooms, sliced\n1 small onion, chopped\n1/2 cup white wine\n1/2 cup parmesan\nBroth\ndirections: Saut\u00e9 onion and mushrooms; add rice and toast.\nDeglaze with wine; add broth gradually until creamy.",
+      "entity": {
+        "category": "recipe",
+        "id": "53"
+      },
+      "record_id": "53",
+      "document_id": "8b5eead7aacba3b53581825d9f105bcf1177e1a1dfe705c2a19ced943a96d8a9",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "1f0216ac06ef003c94909c53459f19690a29e6947fc46b3d165fc5ee91fd58ea",
+      "kind": "catalog",
+      "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+      "excerpt": "The image shows a plate of Pesto Gnocchi with Cherry Tomatoes. The dish consists of soft, pillowy gnocchi tossed in a vibrant green pesto sauce, accompanied by halved cherry tomatoes. The gnocchi and tomatoes are presented in a white bowl, topped with grated Parmesan cheese and fresh basil leaves. The overall appearance is appetizing, with a mix of creamy sauce, tender gnocchi, and burst cherry tomatoes. The portion size is moderate, suitable for a single serving.",
+      "entity": {
+        "category": "recipe",
+        "id": "67"
+      },
+      "record_id": "67",
+      "document_id": "1f0216ac06ef003c94909c53459f19690a29e6947fc46b3d165fc5ee91fd58ea",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "imported"
+    },
+    {
+      "id": "a79f75e65612ae3f217e4bb0adcf6d43e674d9bfb7a62fd886824e11b1c1b679",
+      "kind": "catalog",
+      "source_id": "1233433e797775c38a824137d4da21a21dcd4cf2668cbf25758e7a5fd9cbed33",
+      "excerpt": "name: Pesto Gnocchi with Cherry Tomatoes\ncuisine: Italian\ningredients: Gnocchi\nPesto\nCherry tomatoes\nParmesan\ndirections: Boil gnocchi until floating; drain.\nToss with pesto and halved tomatoes; top with parmesan.",
+      "entity": {
+        "category": "recipe",
+        "id": "67"
+      },
+      "record_id": "67",
+      "document_id": "a79f75e65612ae3f217e4bb0adcf6d43e674d9bfb7a62fd886824e11b1c1b679",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "f0df03e92dbd637c5c25a8ad97ab4f16b9eeddb67641efe2b54d61041ec837bd",
+      "kind": "catalog",
+      "source_id": "e501e9de5ba90c5d93850a5e2fbba8301ecffebf9dafd24a218ff127dd4054d9",
+      "excerpt": "name: Pesto Gnocchi with Cherry Tomatoes\ncuisine: Italian\ningredients: Gnocchi\nPesto\nCherry tomatoes\nParmesan\ndirections: Boil gnocchi until floating; drain.\nToss with pesto and halved tomatoes; top with parmesan.",
+      "entity": {
+        "category": "recipe",
+        "id": "67"
+      },
+      "record_id": "67",
+      "document_id": "f0df03e92dbd637c5c25a8ad97ab4f16b9eeddb67641efe2b54d61041ec837bd",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "0183ff05e32268024a0a66105143d05651b80e3369606b368f8f93807420baa0",
+      "kind": "catalog",
+      "source_id": "e501e9de5ba90c5d93850a5e2fbba8301ecffebf9dafd24a218ff127dd4054d9",
+      "excerpt": "name: Baked Eggplant Parmesan\ncuisine: Italian\ningredients: 2 eggplants, sliced\n1 cup marinara sauce\n1 cup mozzarella, shredded\n1/2 cup parmesan, grated\nBreadcrumbs\nEggs\ndirections: Dip eggplant slices in egg then breadcrumbs; bake until tender.\nLayer with marinara and cheese; bake until golden.",
+      "entity": {
+        "category": "recipe",
+        "id": "34"
+      },
+      "record_id": "34",
+      "document_id": "0183ff05e32268024a0a66105143d05651b80e3369606b368f8f93807420baa0",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "3b15f1828afd7edab48e226ddd2c8354908022b523c412a2d96880f85cd90a81",
+      "kind": "catalog",
+      "source_id": "1233433e797775c38a824137d4da21a21dcd4cf2668cbf25758e7a5fd9cbed33",
+      "excerpt": "name: Baked Eggplant Parmesan\ncuisine: Italian\ningredients: 2 eggplants, sliced\n1 cup marinara sauce\n1 cup mozzarella, shredded\n1/2 cup parmesan, grated\nBreadcrumbs\nEggs\ndirections: Dip eggplant slices in egg then breadcrumbs; bake until tender.\nLayer with marinara and cheese; bake until golden.",
+      "entity": {
+        "category": "recipe",
+        "id": "34"
+      },
+      "record_id": "34",
+      "document_id": "3b15f1828afd7edab48e226ddd2c8354908022b523c412a2d96880f85cd90a81",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "bd6c647df16fee768b6cc6930fa2c0cf95fa122270ee4661209cad4832cb7364",
+      "kind": "catalog",
+      "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+      "excerpt": "The image shows a dish of Baked Eggplant Parmesan, consisting of breaded and fried eggplant slices topped with melted cheese and tomato sauce. The eggplant slices are layered in a baking dish, covered in a rich red tomato sauce and a generous amount of melted golden-brown cheese. The top layer is predominantly cheese, with a slightly browned and bubbly texture. The dish is presented in a rectangular baking dish, and the portion size appears to be substantial, suggesting it is meant to serve multiple people. The colors are vibrant, with the red sauce contrasting against the golden-brown cheese and the slightly browned eggplant.",
+      "entity": {
+        "category": "recipe",
+        "id": "34"
+      },
+      "record_id": "34",
+      "document_id": "bd6c647df16fee768b6cc6930fa2c0cf95fa122270ee4661209cad4832cb7364",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "imported"
+    },
+    {
+      "id": "6776b035fc6734dbf2d6b27bf216c56bee33f2ea16de6a01c0728b9cfba8c61f",
+      "kind": "catalog",
+      "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+      "excerpt": "The Eggplant Caponata is a chunky, savory relish-like dish. The main visible ingredients include eggplant, celery, and capers. The eggplant appears to be cooked and is mixed with other ingredients. The dish is presented in a bowl, and the mixture has a thick, chunky texture. The dominant colors are a mix of deep reds, greens, and browns, giving it a rich appearance. The portion size is moderate, filling the bowl.",
+      "entity": {
+        "category": "recipe",
+        "id": "64"
+      },
+      "record_id": "64",
+      "document_id": "6776b035fc6734dbf2d6b27bf216c56bee33f2ea16de6a01c0728b9cfba8c61f",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "imported"
+    },
+    {
+      "id": "ce6553aaec492b1976fb89343c0f0ddb33c33feb1a904a131cebe234bf0a6be4",
+      "kind": "catalog",
+      "source_id": "1233433e797775c38a824137d4da21a21dcd4cf2668cbf25758e7a5fd9cbed33",
+      "excerpt": "name: Eggplant Caponata\ncuisine: Italian\ningredients: Eggplant, diced\nCelery, chopped\nTomatoes, chopped\nOlives, chopped\nCapers\nVinegar and sugar\ndirections: Saut\u00e9 eggplant until soft.\nAdd vegetables and simmer with vinegar and sugar until thick.\nServe warm or at room temperature.",
+      "entity": {
+        "category": "recipe",
+        "id": "64"
+      },
+      "record_id": "64",
+      "document_id": "ce6553aaec492b1976fb89343c0f0ddb33c33feb1a904a131cebe234bf0a6be4",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "ef7af462536df332b52c6ee7d73df83de4d61a9fed8fba33d3c8a177bd7c5213",
+      "kind": "catalog",
+      "source_id": "e501e9de5ba90c5d93850a5e2fbba8301ecffebf9dafd24a218ff127dd4054d9",
+      "excerpt": "name: Eggplant Caponata\ncuisine: Italian\ningredients: Eggplant, diced\nCelery, chopped\nTomatoes, chopped\nOlives, chopped\nCapers\nVinegar and sugar\ndirections: Saut\u00e9 eggplant until soft.\nAdd vegetables and simmer with vinegar and sugar until thick.\nServe warm or at room temperature.",
+      "entity": {
+        "category": "recipe",
+        "id": "64"
+      },
+      "record_id": "64",
+      "document_id": "ef7af462536df332b52c6ee7d73df83de4d61a9fed8fba33d3c8a177bd7c5213",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "46a8a25fc8be4d41f4bef9d6faee9c93fd27fb33a743cb395e4f51f8e17f2137",
+      "kind": "catalog",
+      "source_id": "e501e9de5ba90c5d93850a5e2fbba8301ecffebf9dafd24a218ff127dd4054d9",
+      "excerpt": "name: Pumpkin Risotto\ncuisine: Italian\ningredients: 1 cup arborio rice\n1 cup pumpkin puree\n1/2 onion, finely chopped\n3 cups vegetable broth\n1/4 cup parmesan\n2 tablespoons butter\nOlive oil\ndirections: Saut\u00e9 onion in olive oil until translucent.\nAdd rice and toast 1-2 minutes.\nAdd warm broth gradually, stirring until absorbed.\nStir in pumpkin puree, butter, and parmesan; season to taste.",
+      "entity": {
+        "category": "recipe",
+        "id": "40"
+      },
+      "record_id": "40",
+      "document_id": "46a8a25fc8be4d41f4bef9d6faee9c93fd27fb33a743cb395e4f51f8e17f2137",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "dae71c3569a10f9687cc0be784ffad49fabb12a2ae4266e973231a0f1284ca66",
+      "kind": "catalog",
+      "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+      "excerpt": "The Pumpkin Risotto is a creamy, orange-hued dish served in a white bowl. The risotto has a smooth texture and is topped with grated Parmesan cheese and some green herbs, likely parsley. The portion size is generous, filling the bowl. The risotto's color is vibrant orange, and it appears to be cooked to a creamy consistency. The Parmesan cheese adds a contrasting white element to the dish.",
+      "entity": {
+        "category": "recipe",
+        "id": "40"
+      },
+      "record_id": "40",
+      "document_id": "dae71c3569a10f9687cc0be784ffad49fabb12a2ae4266e973231a0f1284ca66",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "imported"
+    },
+    {
+      "id": "f6af5e04c744d1bdf851c22e3be4423d574cdfe834af1794f4240df223823e8e",
+      "kind": "catalog",
+      "source_id": "1233433e797775c38a824137d4da21a21dcd4cf2668cbf25758e7a5fd9cbed33",
+      "excerpt": "name: Pumpkin Risotto\ncuisine: Italian\ningredients: 1 cup arborio rice\n1 cup pumpkin puree\n1/2 onion, finely chopped\n3 cups vegetable broth\n1/4 cup parmesan\n2 tablespoons butter\nOlive oil\ndirections: Saut\u00e9 onion in olive oil until translucent.\nAdd rice and toast 1-2 minutes.\nAdd warm broth gradually, stirring until absorbed.\nStir in pumpkin puree, butter, and parmesan; season to taste.",
+      "entity": {
+        "category": "recipe",
+        "id": "40"
+      },
+      "record_id": "40",
+      "document_id": "f6af5e04c744d1bdf851c22e3be4423d574cdfe834af1794f4240df223823e8e",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "61ca69bf4a9ecc92b62ceccd15352a4ab4e9d4c3dfbd3f637e4abea721c090eb",
+      "kind": "catalog",
+      "source_id": "e501e9de5ba90c5d93850a5e2fbba8301ecffebf9dafd24a218ff127dd4054d9",
+      "excerpt": "name: Gnocchi with Sage Butter\ncuisine: Italian\ningredients: Store-bought gnocchi\nButter\nFresh sage leaves\nParmesan\ndirections: Cook gnocchi until floating.\nBrown butter with sage; toss with gnocchi and parmesan.",
+      "entity": {
+        "category": "recipe",
+        "id": "86"
+      },
+      "record_id": "86",
+      "document_id": "61ca69bf4a9ecc92b62ceccd15352a4ab4e9d4c3dfbd3f637e4abea721c090eb",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "c72facd845e867b26a923d2439f275ad5c3d111ba2b401d59352774379421664",
+      "kind": "catalog",
+      "source_id": "1233433e797775c38a824137d4da21a21dcd4cf2668cbf25758e7a5fd9cbed33",
+      "excerpt": "name: Gnocchi with Sage Butter\ncuisine: Italian\ningredients: Store-bought gnocchi\nButter\nFresh sage leaves\nParmesan\ndirections: Cook gnocchi until floating.\nBrown butter with sage; toss with gnocchi and parmesan.",
+      "entity": {
+        "category": "recipe",
+        "id": "86"
+      },
+      "record_id": "86",
+      "document_id": "c72facd845e867b26a923d2439f275ad5c3d111ba2b401d59352774379421664",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    },
+    {
+      "id": "e3cd9d51c38f8e584c415ee287e62d2a20493a835536902a3df2faa779b6680d",
+      "kind": "catalog",
+      "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+      "excerpt": "The image shows a dish of Gnocchi with Sage Butter. The gnocchi are small, soft dumplings, likely made from potato, and are cooked and lightly browned. They are topped with a brown butter sauce and crispy fried sage leaves. The dish is presented in a white bowl, garnished with additional sage leaves. The gnocchi appear to be tender, and the butter sauce is glossy. The portion size is a single serving. The overall presentation is simple and appetizing, with a mix of creamy sauce, crispy sage, and soft gnocchi.",
+      "entity": {
+        "category": "recipe",
+        "id": "86"
+      },
+      "record_id": "86",
+      "document_id": "e3cd9d51c38f8e584c415ee287e62d2a20493a835536902a3df2faa779b6680d",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "imported"
+    }
+  ],
+  "checkpoint_completed": true,
+  "reference_validation_passed": true,
+  "passed": false,
+  "limitations": [
+    "One seed query demonstrates integration, not recommendation quality",
+    "Unavailable or irrelevant live trend evidence does not produce trend claims",
+    "The empty recommendation set makes the reference subset check vacuously true; reference validation was not exercised and the smoke did not pass",
+    "Nutrition preserves deterministic unknown assessments while structured analysis is unavailable",
+    "Fresh dated search evidence alone does not establish trend relevance or supported claims",
+    "Returned token usage excludes rejected requests without provider-reported usage"
+  ],
+  "execution_status": "completed_with_failure",
+  "executed": true,
+  "external_transfers_approved_explicitly": true,
+  "prepared_services": {
+    "catalog_restaurants": 210,
+    "catalog_recipes": 109,
+    "minilm_documents_indexed": 770,
+    "postgresql": "16.14",
+    "pgvector": "0.8.6",
+    "isolated_smoke_database": true
+  },
+  "reference_validation_exercised": false,
+  "cleanup_verified": {
+    "restaurants": 210,
+    "recipes": 109,
+    "text_embeddings": 770,
+    "browser_sessions": 0,
+    "conversations": 0,
+    "foodwise_checkpoints.checkpoints": 0,
+    "foodwise_checkpoints.checkpoint_blobs": 0,
+    "foodwise_checkpoints.checkpoint_writes": 0
+  },
+  "diagnostics_report": "live_graph_diagnostics.json",
+  "blocker": "The diagnostic rerun reproduced HTTP 413 token-limit/request-size rejection in style, both nutrition batches, trend inference and both synthesis attempts. Live recommendations were not produced; Phase 7 live acceptance remains open."
 }

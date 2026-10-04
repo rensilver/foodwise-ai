@@ -1,0 +1,291 @@
+{
+  "verified_at": "2026-10-04T15:51:54.081374+00:00",
+  "enabled_explicitly": true,
+  "external_transfers_approved_explicitly": true,
+  "seed_query": "Recommend Italian recipes featuring tomato and basil, such as pizza.",
+  "model": "qwen/qwen3.8-27b",
+  "passed": false,
+  "limits": {
+    "run_seconds": 120,
+    "call_seconds": 30,
+    "groq_concurrency": 3,
+    "transport_retries": 2,
+    "schema_repairs": 2,
+    "synthesis_repairs": 1,
+    "retrieval_attempts": 3,
+    "trend_searches": 2
+  },
+  "metrics": {
+    "duration_ms": 8966.534884999419,
+    "groq_calls": 8,
+    "tool_calls": 2,
+    "search_calls": 0,
+    "token_usage": 513,
+    "retrieval_attempts": 1,
+    "stages": [
+      {
+        "stage": "profile",
+        "duration_ms": 417.4268079987087,
+        "status": "success"
+      },
+      {
+        "stage": "retrieval",
+        "duration_ms": 7733.165702000406,
+        "status": "success"
+      },
+      {
+        "stage": "style",
+        "duration_ms": 421.6048639973451,
+        "status": "unavailable"
+      },
+      {
+        "stage": "trend",
+        "duration_ms": 419.0286399971228,
+        "status": "unavailable"
+      },
+      {
+        "stage": "nutrition",
+        "duration_ms": 533.2952199969441,
+        "status": "success"
+      },
+      {
+        "stage": "recommendation",
+        "duration_ms": 263.72591700055636,
+        "status": "failure"
+      }
+    ]
+  },
+  "provider_usage": [
+    {
+      "model": "qwen/qwen3.8-27b",
+      "elapsed_ms": 414.26514200065867,
+      "prompt_tokens": 271,
+      "completion_tokens": 3,
+      "total_tokens": 274
+    },
+    {
+      "model": "qwen/qwen3.8-27b",
+      "elapsed_ms": 383.5524780006381,
+      "prompt_tokens": 220,
+      "completion_tokens": 19,
+      "total_tokens": 239
+    }
+  ],
+  "http_outcomes": [
+    {
+      "status": 200,
+      "request_bytes": 3445,
+      "error_markers": {
+        "schema": false,
+        "context": false,
+        "token": false,
+        "large": false,
+        "permission": false,
+        "referenc": false,
+        "json": false,
+        "valid": false,
+        "max": false,
+        "security": false,
+        "blocked": false,
+        "request": false,
+        "rate": false,
+        "limit": false
+      }
+    },
+    {
+      "status": 200,
+      "request_bytes": 1537,
+      "error_markers": {
+        "schema": false,
+        "context": false,
+        "token": false,
+        "large": false,
+        "permission": false,
+        "referenc": false,
+        "json": false,
+        "valid": false,
+        "max": false,
+        "security": false,
+        "blocked": false,
+        "request": false,
+        "rate": false,
+        "limit": false
+      }
+    },
+    {
+      "status": 413,
+      "request_bytes": 39934,
+      "error_markers": {
+        "schema": false,
+        "context": false,
+        "token": true,
+        "large": true,
+        "permission": false,
+        "referenc": false,
+        "json": false,
+        "valid": false,
+        "max": false,
+        "security": false,
+        "blocked": false,
+        "request": true,
+        "rate": false,
+        "limit": true
+      }
+    },
+    {
+      "status": 413,
+      "request_bytes": 35891,
+      "error_markers": {
+        "schema": false,
+        "context": false,
+        "token": true,
+        "large": true,
+        "permission": false,
+        "referenc": false,
+        "json": false,
+        "valid": false,
+        "max": false,
+        "security": false,
+        "blocked": false,
+        "request": true,
+        "rate": false,
+        "limit": true
+      }
+    },
+    {
+      "status": 413,
+      "request_bytes": 61294,
+      "error_markers": {
+        "schema": false,
+        "context": false,
+        "token": true,
+        "large": true,
+        "permission": false,
+        "referenc": false,
+        "json": false,
+        "valid": false,
+        "max": false,
+        "security": false,
+        "blocked": false,
+        "request": true,
+        "rate": false,
+        "limit": true
+      }
+    },
+    {
+      "status": 413,
+      "request_bytes": 23754,
+      "error_markers": {
+        "schema": false,
+        "context": false,
+        "token": true,
+        "large": true,
+        "permission": false,
+        "referenc": false,
+        "json": false,
+        "valid": false,
+        "max": false,
+        "security": false,
+        "blocked": false,
+        "request": true,
+        "rate": false,
+        "limit": true
+      }
+    },
+    {
+      "status": 413,
+      "request_bytes": 69071,
+      "error_markers": {
+        "schema": false,
+        "context": false,
+        "token": true,
+        "large": true,
+        "permission": false,
+        "referenc": false,
+        "json": false,
+        "valid": false,
+        "max": false,
+        "security": false,
+        "blocked": false,
+        "request": true,
+        "rate": false,
+        "limit": true
+      }
+    },
+    {
+      "status": 413,
+      "request_bytes": 69220,
+      "error_markers": {
+        "schema": false,
+        "context": false,
+        "token": true,
+        "large": true,
+        "permission": false,
+        "referenc": false,
+        "json": false,
+        "valid": false,
+        "max": false,
+        "security": false,
+        "blocked": false,
+        "request": true,
+        "rate": false,
+        "limit": true
+      }
+    }
+  ],
+  "candidate_count": 16,
+  "final": {
+    "code": "validation_failed",
+    "retryable": false,
+    "status": "failure"
+  },
+  "branch_statuses": {
+    "trend": "unavailable",
+    "style": "unavailable",
+    "nutrition": "success"
+  },
+  "trend_search_summary": [
+    {
+      "status": "available",
+      "cache_status": "hit",
+      "search_calls": 0,
+      "excluded_count": 0,
+      "dated_evidence_count": 5
+    }
+  ],
+  "checkpoint_completed": true,
+  "minimal_schema_probe": {
+    "purpose": "Distinguish unsupported schema from large catalog-request failure",
+    "status": 200,
+    "catalog_data_sent": false,
+    "empty_assessments_returned": true,
+    "usage": {
+      "prompt_tokens": 18,
+      "completion_tokens": 9,
+      "total_tokens": 27
+    }
+  },
+  "combined_live_usage": {
+    "full_graph_runs": 2,
+    "graph_groq_calls": 16,
+    "schema_probe_groq_calls": 1,
+    "groq_successful_responses_with_usage": 5,
+    "reported_total_tokens": 1052,
+    "tavily_network_search_calls": 1,
+    "tavily_credits": null,
+    "limitation": "Rejected calls have no reported token usage; Tavily credits were not exposed in the graph contract"
+  },
+  "diagnosis": "Six catalog-bearing requests were rejected with HTTP 413 and fixed error markers for token, large, request and limit. A minimal request using the style schema returned HTTP 200. No raw error bodies, organization identifiers, prompts or credentials are recorded.",
+  "official_rate_limit_reference": "https://console.groq.com/docs/rate-limits",
+  "cleanup_verified_at": "2026-10-04T15:54:20.024475+00:00",
+  "cleanup_verified": {
+    "restaurants": 210,
+    "recipes": 109,
+    "text_embeddings": 770,
+    "browser_sessions": 0,
+    "conversations": 0,
+    "foodwise_checkpoints.checkpoints": 0,
+    "foodwise_checkpoints.checkpoint_blobs": 0,
+    "foodwise_checkpoints.checkpoint_writes": 0
+  }
+}
