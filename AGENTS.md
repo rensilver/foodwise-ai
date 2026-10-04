@@ -2,13 +2,13 @@
 
 ## Purpose, scope, and current status
 
-Build a local English-language IBM capstone restaurant/recipe recommender: six LangGraph agents, multi-source RAG, PostgreSQL/pgvector, Groq, MCP, live trends, FastAPI and Next.js.
+Build a local English-language IBM capstone restaurant/recipe recommender: six LangGraph agents, multi-source RAG, PostgreSQL/pgvector, OpenAI, MCP, live trends, FastAPI and Next.js.
 
 **Product name:** use `foodwise-ai` with this exact spelling and casing in frontend branding and page metadata. Import `PRODUCT_NAME` from `frontend/src/lib/product.ts` for product labels and titles.
 
 V1 includes follow-ups, preferences, image upload/search, cited recommendations and local CRUD. Defer public hosting, multi-user accounts, social-media connectors, verified nutrition and large-scale indexing.
 
-**Status:** Phases 0–6 ingestion, retrieval/fusion, MCP and dated live trends are verified. Sanitized course code, PDFs, the recovered ZIP and 109 recipe images remain local and Git-ignored; source reports are committed. Six-agent orchestration and Phase 8 API are implemented; live smoke failed on Groq token limits; frontend pending. [CHECKLIST.md](CHECKLIST.md) records evidence/blockers.
+**Status:** Phases 0–6 are verified; six agents and Phase 8 API are implemented; frontend pending. Course artifacts/media remain local and Git-ignored. [CHECKLIST.md](CHECKLIST.md) records evidence and OpenAI migration verification separately from historical provider failures.
 
 Start at this repository root; read these instructions and the relevant checklist phase. Preserve course artifacts, user changes and completion marks. Implement only requested scope; the roadmap does not authorize other phases. Completion requires verification evidence.
 
@@ -31,7 +31,7 @@ Baseline (2026-10-02): 12 PDFs, 12 notebooks, two scripts, one excluded environm
 | [09 — Chatbot interface](<docs/09_Reading_ Assignment Overview_ Build a Chatbot Interface for the Recommendation System.pdf>) | Intent, preferences, follow-ups, progress, catalog administration. Replace Gradio with Next.js. |
 | [10 — MCP server](<docs/10_Assignment Overview_ Build an MCP Server.pdf>) | Resource exposure and restaurant/vibe/review tools. |
 | [11 — MCP client](<docs/11_Assignment Overview_ Build an MCP Client.pdf>) | Discovery and stdio integration; reassess legacy roots/sampling examples. |
-| [12 — Full MCP application](<docs/12_Assignment Overview_ Build a Full MCP Application.pdf>) | Runtime tool discovery and bounded tool use; replace WatsonX/Gradio with Groq/FastAPI/Next.js. |
+| [12 — Full MCP application](<docs/12_Assignment Overview_ Build a Full MCP Application.pdf>) | Runtime tool discovery and bounded tool use; replace WatsonX/Gradio with OpenAI/FastAPI/Next.js. |
 
 ### Notebooks and code
 
@@ -45,9 +45,9 @@ Baseline (2026-10-02): 12 PDFs, 12 notebooks, two scripts, one excluded environm
 | [Fusion](02_design_a_multimodal_rag_system/M2L3_Lab.ipynb) | Weighted mixed evidence list; needs entity-level aggregation. |
 | [Fusion DONE copy](<02_design_a_multimodal_rag_system/M2L3 DONE/M2L3_Lab.ipynb>) | Same cell source as fusion notebook; preserve as course artifact. |
 | [Agent definitions](03_agents/M3L1_Design_Specialized_Agents.ipynb) | Six prompts and tasks; uses OpenAI directly. Reuse responsibilities, not provider setup. |
-| [Agent workflow](03_agents/M3L2_Implement_Multi_Agent_Systems.ipynb) | Groq and thread pool; retrieval is simulated by an LLM, not connected to a database. |
+| [Agent workflow](03_agents/M3L2_Implement_Multi_Agent_Systems.ipynb) | Legacy provider and thread pool; retrieval is simulated by an LLM, not connected to a database. |
 | [Original workflow](03_agents/originals/M3L2_Implement_Multi_Agent_Systems.ipynb) | Near-duplicate with different installation cells; also contains a credential literal. |
-| [Chatbot](03_agents/M3L3_Build_Chatbot_Interface.ipynb) | Groq/Gradio, mock recommendations, placeholder catalog writes. |
+| [Chatbot](03_agents/M3L3_Build_Chatbot_Interface.ipynb) | Legacy provider/Gradio, mock recommendations, placeholder catalog writes. |
 | [Original chatbot](03_agents/originals/M3L3_Build_Chatbot_Interface.ipynb) | OpenAI variant and incomplete exercises; same mock integration concept. |
 | [Restaurant management](01_build_a_structured_generative_ai_application/restaurant_data_management.py) | JSON CLI CRUD, Pydantic and WatsonX repair. Replace length-based IDs, relative-path storage, and silent load failures. |
 | [MCP client](04_mcp/client.py) | Anthropic sampling, stdio discovery, three lookup demos; referenced `server.py` is absent. |
@@ -68,12 +68,12 @@ Baseline (2026-10-02): 12 PDFs, 12 notebooks, two scripts, one excluded environm
 
 Use content-based personalization, not collaborative filtering. Source data lacks social histories, measured nutrients, comprehensive allergens and live trends; preserve unknowns.
 
-**Blockers:** owner reports exposed Groq key revoked/replaced; original Git history still needs separate publication review. Six formerly unmapped paragraphs now have reviewed, hash-bound additions; 16 same-name/location pairs remain explicitly reported for entity review. Preserve IDs. Local media must be restored separately on clean checkout.
+**Blockers:** owner reports exposed legacy-provider key revoked/replaced; original Git history still needs separate publication review. Six formerly unmapped paragraphs now have reviewed, hash-bound additions; 16 same-name/location pairs remain explicitly reported for entity review. Preserve IDs. Local media must be restored separately on clean checkout.
 
 ## Target architecture and package boundaries
 
 ```text
-Browser -> Next.js -> FastAPI -> LangGraph -> Groq
+Browser -> Next.js -> FastAPI -> LangGraph -> OpenAI
                               |       |
                               |       +-> MCP client -> FastMCP
                               |                         |-> retrieval services -> PostgreSQL/pgvector
@@ -96,7 +96,7 @@ backend/src/food_recommender/
   infrastructure/
     persistence/   # models/, repositories/, search/, indexing/, engine/UoW/checkpoints
     embeddings/    # local MiniLM/CLIP execution and lazy loading
-    providers/     # Groq inference and Tavily search
+    providers/     # OpenAI inference and Tavily search
     media/         # files, decoding and approved-host downloads
   api/             # FastAPI routes, schemas, dependencies and SSE
   mcp/             # FastMCP server/client, tools and resources
@@ -108,7 +108,7 @@ frontend/src/{app,features,components,lib}/
 frontend/tests/, evaluation/, infra/, compose.yaml, .env.example
 ```
 
-Use Python 3.12/`uv`, Pydantic, SQLAlchemy 2, Alembic, async psycopg, FastAPI, LangGraph, `langchain-groq`, Sentence Transformers, Transformers/CLIP and FastMCP. Frontend: Next.js App Router, strict TypeScript, `pnpm`, Tailwind CSS, shadcn/ui. Lock compatible dependencies/runtime/container versions in Phase 1; avoid notebook pins and floating deployment tags.
+Use Python 3.12/`uv`, Pydantic, SQLAlchemy 2, Alembic, async psycopg, FastAPI, LangGraph, `httpx`, Sentence Transformers, Transformers/CLIP and FastMCP. Frontend: Next.js App Router, strict TypeScript, `pnpm`, Tailwind CSS, shadcn/ui. Lock compatible dependencies/runtime/container versions in Phase 1; avoid notebook pins and floating deployment tags.
 
 Follow [package organization](backend/PACKAGES.md) in every phase. `domain` imports no other layer; `application`, `retrieval` and `ingestion` never import adapters, entrypoints or provider/ORM SDKs. Place narrow ports beside consuming use cases; wire adapters in `composition.py` or entrypoints. Split packages by responsibility.
 
@@ -167,12 +167,12 @@ flowchart TD
 
 | Agent | Inputs and typed output | Allowed capabilities | Failure behavior |
 | --- | --- | --- | --- |
-| User Profile Generator | Current message, explicit fields, prior profile, optional synthetic reviews -> `ProfileResult` with intent, preferences, hard constraints and clarification | Groq structured extraction; application-supplied scoped history | Preserve known constraints; ask clarification or return a typed failure, never replace restrictions with empty defaults. |
+| User Profile Generator | Current message, explicit fields, prior profile, optional synthetic reviews -> `ProfileResult` with intent, preferences, hard constraints and clarification | OpenAI structured extraction; application-supplied scoped history | Preserve known constraints; ask clarification or return a typed failure, never replace restrictions with empty defaults. |
 | RAG Retriever | Validated profile, intent, image ID -> `RetrievalResult` with candidates, evidence, attempts and gaps | Allowlisted restaurant/recipe/review/image MCP tools | Bounded refinement; distinguish empty results from tool/DB failure; do not fabricate candidates. |
-| Food Trend Analyst | Profile and complete candidate set -> `TrendAnalysis` with dated evidence and candidate associations | `search_food_trends` through MCP; Groq analysis | Use eligible cached evidence or report unavailable trends; synthesis may continue without trend claims. |
-| Food Style Expert | Profile, canonical candidate data and evidence -> `StyleAnalysis` per candidate | Groq structured analysis only | Report unavailable analysis; continue using retrieved facts without invented style conclusions. |
-| Nutrition Expert | Explicit restrictions and canonical ingredients/evidence for all candidates -> `NutritionAnalysis` with supported/conflicting/unknown assessments | Deterministic ingredient checks plus Groq structured analysis | Keep deterministic exclusions; unknown stays unknown. Under hard restrictions, withhold unverifiable candidates. |
-| Recommendation Expert | Profile, candidates, all three branch outcomes -> `RecommendationResult` | Groq structured synthesis and deterministic output validation; no new search | Reject unknown IDs, unsupported citations and constraint violations. One repair attempt, then a typed failure; never output unsafe fallback suggestions. |
+| Food Trend Analyst | Profile and complete candidate set -> `TrendAnalysis` with dated evidence and candidate associations | `search_food_trends` through MCP; OpenAI analysis | Use eligible cached evidence or report unavailable trends; synthesis may continue without trend claims. |
+| Food Style Expert | Profile, canonical candidate data and evidence -> `StyleAnalysis` per candidate | OpenAI structured analysis only | Report unavailable analysis; continue using retrieved facts without invented style conclusions. |
+| Nutrition Expert | Explicit restrictions and canonical ingredients/evidence for all candidates -> `NutritionAnalysis` with supported/conflicting/unknown assessments | Deterministic ingredient checks plus OpenAI structured analysis | Keep deterministic exclusions; unknown stays unknown. Under hard restrictions, withhold unverifiable candidates. |
+| Recommendation Expert | Profile, candidates, all three branch outcomes -> `RecommendationResult` | OpenAI structured synthesis and deterministic output validation; no new search | Reject unknown IDs, unsupported citations and constraint violations. One repair attempt, then a typed failure; never output unsafe fallback suggestions. |
 
 Typed state holds messages, profile, categories, run ID, evidence, independent expert results, final result and errors. Nodes return changed fields only; parallel branches cannot overwrite shared status/messages. Reducers are for intentional append-only collections.
 
@@ -180,13 +180,13 @@ Run profile/retrieval sequentially, then fan out three asynchronous experts. An 
 
 Use PostgreSQL checkpoints and UUID thread IDs. Reset transient results each turn; retain history/preferences. Explicit corrections override inference; omissions never erase restrictions. Clarify contradictions. Allow one active run/conversation, reject concurrent turns and propagate cancellation. Refresh cannot resume cancelled work; a new explicit request uses retained context.
 
-Bound RAG/trend tool use. Configurable defaults: two transient-error retries with jitter/backoff and `Retry-After`, 30-second calls, 120-second runs, three concurrent Groq calls/process. Repairs/retries share the run budget; report exhaustion.
+Bound RAG/trend tool use. Configurable defaults: two transient-error retries with jitter/backoff and `Retry-After`, 30-second calls, 120-second runs, three concurrent OpenAI calls/process. Repairs/retries share the run budget; report exhaustion.
 
-## Groq, MCP, and live trend evidence
+## OpenAI, MCP, and live trend evidence
 
-Configuration: `GROQ_API_KEY`, `GROQ_MODEL`, `GROQ_VISION_MODEL`, `TAVILY_API_KEY`, `DATABASE_URL`, `MCP_SERVER_URL`, `MEDIA_ROOT`, `ADMIN_PASSWORD_HASH`. Preserve text model `qwen/qwen3.8-27b`; initially use it for independently configurable vision. Validate access/capabilities only in opt-in setup/smoke checks. Never silently switch providers/models. Embeddings use local CPU by default, not Groq.
+Configuration: `OPENAI_API_KEY`, `OPENAI_MODEL`, `OPENAI_VISION_MODEL`, `TAVILY_API_KEY`, `DATABASE_URL`, `MCP_SERVER_URL`, `MEDIA_ROOT`, `ADMIN_PASSWORD_HASH`. Default text/vision models to `gpt-4o-mini`. Validate access/capabilities only in opt-in setup/smoke checks. Never silently switch providers/models. Embeddings use local CPU by default, not OpenAI.
 
-Validate structured responses with Pydantic and domain rules. Separate tool calls from structured generation: Groq currently restricts structured-output streaming/tool combinations. Stream application progress and emit validated final results. Recheck capabilities on upgrades.
+Validate structured responses with Pydantic and domain rules. Keep tool selection separate from structured generation as an application design choice. Use non-strict JSON Schema guidance; enforce Pydantic/domain validation and bounded repairs. Reject refusals and incomplete responses. Stream application progress and emit validated final results. Recheck capabilities on upgrades.
 
 Implement FastMCP tools with typed arguments/results and shared use cases:
 
@@ -201,7 +201,7 @@ Implement FastMCP tools with typed arguments/results and shared use cases:
 
 Expose culinary-map, manifest and provenance resources. Discover schemas, enforce per-agent allowlists and validate arguments/results. Manage connections centrally, not one server per call. Test Streamable HTTP and stdio; stdio uses stdout for protocol and stderr for logs.
 
-All MCP tools are read-only from the agent's perspective; internal search-cache writes are permitted. No arbitrary SQL, file reads, shell execution, catalog mutation, dynamic server URLs, or LLM-requested new tools. Keep Groq calls in the application. Do not port Anthropic sampling into the new runtime. Roots describe intended scope, not enforceable filesystem isolation; use validated paths, mount boundaries, and OS permissions.
+All MCP tools are read-only from the agent's perspective; internal search-cache writes are permitted. No arbitrary SQL, file reads, shell execution, catalog mutation, dynamic server URLs, or LLM-requested new tools. Keep OpenAI calls in the application. Do not port Anthropic sampling into the new runtime. Roots describe intended scope, not enforceable filesystem isolation; use validated paths, mount boundaries, and OS permissions.
 
 Trend search defaults: at most two searches per run, five results per search, 90-day evidence window, and 24-hour cache TTL. Queries contain culinary concepts and broad geography, not user IDs, review history, allergies, or other private profile details. Store excerpts, URLs, publication dates where provided, and retrieval timestamps. Cached results must still satisfy evidence freshness; retrieval time is not publication time. Unknown publication dates cannot support current-trend claims. Validate claims against excerpts and cite their actual sources. Live trends may influence catalog choices but cannot create new restaurant facts. On timeout, missing credentials, stale evidence, or no results, label trend analysis unavailable and continue without those claims.
 
@@ -259,7 +259,7 @@ Local admin uses a configured password hash, HttpOnly SameSite cookies, expiry/l
 
 Track phases 0–11, evidence and exit gates in [CHECKLIST.md](CHECKLIST.md). Scaffolding may proceed during owner-led rotation/image recovery; preserve release blockers.
 
-Planned quality tools: Ruff formatting/lint, mypy, pytest/pytest-asyncio, real PostgreSQL/pgvector integration tests, ESLint, TypeScript checking, Vitest/Testing Library, Playwright and accessibility checks. Add project scripts in Phase 1 before documenting them as runnable. Normal CI uses fake Groq/Tavily boundaries and pre-provisioned models/fixtures, with no paid provider calls. Live smoke tests are explicit opt-in and use fresh credentials.
+Planned quality tools: Ruff formatting/lint, mypy, pytest/pytest-asyncio, real PostgreSQL/pgvector integration tests, ESLint, TypeScript checking, Vitest/Testing Library, Playwright and accessibility checks. Add project scripts in Phase 1 before documenting them as runnable. Normal CI uses fake OpenAI/Tavily boundaries and pre-provisioned models/fixtures, with no paid provider calls. Live smoke tests are explicit opt-in and use fresh credentials.
 
 Required scenarios: import reconciliation and idempotency; image identity; filters/fusion and empty results; six-node dependency order, overlapping expert execution and single synthesis; checkpoints and conversation isolation; follow-up restrictions; citations and unknown IDs; allergen/unknown evidence; both MCP transports; malformed provider responses, timeout/429/cancellation; CRUD/vector atomicity and version conflicts; image validation and injection attempts; accessible browser journeys.
 
@@ -269,12 +269,12 @@ Release requires validated images, real retrieval, six agents, live dated trends
 
 ## Official references
 
-Approved design references; recheck version-specific behavior on upgrades.
+Recheck version-specific behavior on upgrades.
 
 - [Codex project instructions and discovery](https://learn.chatgpt.com/docs/agent-configuration/agents-md): keep this file within the default 32 KiB combined instruction budget; use the checklist for detailed progress.
 - [LangGraph workflows](https://docs.langchain.com/oss/python/langgraph/workflows-agents) and [persistence](https://docs.langchain.com/oss/python/langgraph/persistence): graph execution and checkpoint contracts.
 - [pgvector](https://github.com/pgvector/pgvector): cosine search, exact/approximate behavior and filtered-index caveats.
-- [Groq structured outputs](https://console.groq.com/docs/structured-outputs), [vision](https://console.groq.com/docs/vision), and [models](https://console.groq.com/docs/models): provider capabilities and configurable model selection.
+- [OpenAI structured outputs](https://developers.openai.com/api/docs/guides/structured-outputs), [vision](https://developers.openai.com/api/docs/guides/images-vision), and [models](https://developers.openai.com/api/docs/models/gpt-4o-mini): provider capabilities and configurable model selection.
 - [MCP architecture](https://modelcontextprotocol.io/docs/learn/architecture) and [client concepts](https://modelcontextprotocol.io/docs/learn/client-concepts): tools/resources, advisory roots, and sampling deprecation in current guidance.
 - [FastMCP documentation](https://gofastmcp.com/getting-started/welcome): server/client transport and lifecycle guidance.
 - [Tavily Search](https://docs.tavily.com/documentation/api-reference/endpoint/search): dated search results and bounded queries.

@@ -92,10 +92,10 @@ setup, admin cookies/CSRF, private uploads, client replay handling and readiness
 Schema generation and drift commands are documented in the
 [frontend contract guide](../../frontend/README.md#generated-api-contracts-phase-8).
 
-No paid Groq/Tavily calls or pretrained model downloads were made in this phase.
+No paid OpenAI/Tavily calls or pretrained model downloads were made in this phase.
 The HTTP graph tests use fake inference and fixture embeddings with real
 PostgreSQL, MCP tools and checkpoints; pretrained embeddings are covered by
 separate offline regression tests. These tests verify API behavior, not measured
 live provider quality/latency. [Phase 7 live acceptance](../phase7/README.md)
-remains blocked by the recorded Groq HTTP 413 token limits. Phase 8 does not
+requires separate OpenAI verification; the recorded HTTP 413 failure used the previous provider. Phase 8 does not
 resolve that blocker or satisfy the deferred full-release/browser acceptance gates.

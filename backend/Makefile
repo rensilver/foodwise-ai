@@ -64,16 +64,16 @@ smoke-food-trends:
 	@test "$$ENABLE_LIVE_TAVILY" = "1" || (echo "Set ENABLE_LIVE_TAVILY=1 to authorize the live smoke"; exit 2)
 	uv run --locked python scripts/smoke_food_trends.py --enable-live --env-file ../.env --output ../evaluation/phase6/live_smoke_report.json
 
-.PHONY: check-groq-capabilities smoke-agent-graph
+.PHONY: check-openai-capabilities smoke-agent-graph
 # Explicit opt-in only; ordinary checks and readiness never call paid providers.
-check-groq-capabilities:
-	@test "$$ENABLE_LIVE_GROQ" = "1" || (echo "Set ENABLE_LIVE_GROQ=1 to authorize capability probes"; exit 2)
-	uv run --locked python scripts/check_groq_capabilities.py --enable-live --env-file ../.env --output ../evaluation/phase7/groq_capabilities.json
+check-openai-capabilities:
+	@test "$$ENABLE_LIVE_OPENAI" = "1" || (echo "Set ENABLE_LIVE_OPENAI=1 to authorize capability probes"; exit 2)
+	uv run --locked python scripts/check_openai_capabilities.py --enable-live --env-file ../.env --output ../evaluation/openai-migration/capabilities.json
 
 # An optional second environment file supplies explicit local database/model paths.
 smoke-agent-graph:
 	@test "$$ENABLE_LIVE_GRAPH" = "1" || (echo "Set ENABLE_LIVE_GRAPH=1 to authorize the paid full graph smoke and catalog transfer"; exit 2)
-	uv run --locked python scripts/smoke_agent_graph.py --enable-live --env-file ../.env $(if $(GRAPH_SERVICE_ENV_FILE),--env-file "$(GRAPH_SERVICE_ENV_FILE)",) --output ../evaluation/phase7/live_graph_report.json
+	uv run --locked python scripts/smoke_agent_graph.py --enable-live --env-file ../.env $(if $(GRAPH_SERVICE_ENV_FILE),--env-file "$(GRAPH_SERVICE_ENV_FILE)",) --output ../evaluation/openai-migration/live_graph_report.json
 
 .PHONY: api-schema api-schema-check
 api-schema:

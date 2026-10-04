@@ -18,7 +18,8 @@ SDK_ROOTS = {
     "starlette",
     "fastmcp",
     "httpx",
-    "langchain_groq",
+    "openai",
+    "langchain_openai",
     "langgraph",
     "tavily",
     "sentence_transformers",
@@ -132,7 +133,7 @@ import food_recommender.agents.graph
 import food_recommender.agents.runner
 for prefix in (
     "food_recommender.infrastructure", "food_recommender.mcp",
-    "groq", "sqlalchemy", "psycopg", "fastmcp",
+    "openai", "sqlalchemy", "psycopg", "fastmcp",
     "torch", "transformers", "sentence_transformers",
 ):
     assert not any(name == prefix or name.startswith(prefix + ".") for name in sys.modules), prefix

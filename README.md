@@ -2,7 +2,7 @@
 
 An English-language, local restaurant and recipe recommender based on the IBM
 capstone. The planned application combines six LangGraph agents, cited text and
-image retrieval, PostgreSQL/pgvector, Groq, MCP, and live food trend search.
+image retrieval, PostgreSQL/pgvector, OpenAI API (`gpt-4o-mini`), MCP, and live food trend search.
 
 Phase 0 is verified, the P01-01 project layout is scaffolded, and P01-02 pins
 the runtimes and backend/frontend dependency graphs. P01-03 adds validated
@@ -21,8 +21,9 @@ Phase 2 persistence, transactional repositories and conversation cleanup are
 verified. Phase 3 ingestion/media and [Phase 4 text retrieval](evaluation/phase4/README.md)
 and [Phase 5 multimodal retrieval/fusion](evaluation/phase5/README.md) are verified.
 Phase 6 MCP/live trends and Phase 7 graph implementations are present.
-The Phase 7 full live graph smoke ran and failed on Groq token limits;
-live recommendation acceptance remains open. [Phase 8](evaluation/phase8/README.md)
+The [OpenAI migration smoke](evaluation/openai-migration/README.md) returned five
+validated recommendations; style/trend analysis was unavailable, so full live
+acceptance remains open. [Phase 8](evaluation/phase8/README.md)
 adds verified FastAPI conversations/SSE, private images, browsing, administrator
 CRUD and generated TypeScript contracts. Frontend journeys remain Phase 9 work.
 
@@ -48,3 +49,9 @@ Use [.env.example](.env.example) to fill missing local settings without replacin
 an existing `.env`. The [backend configuration guide](backend/README.md#local-setup-and-offline-diagnostics)
 documents an offline, redacted configuration check; the
 [frontend guide](frontend/README.md) documents the browser-secret guard and tests.
+
+OpenAI is the sole inference provider. Set `OPENAI_API_KEY` in the ignored root
+`.env`; `OPENAI_MODEL` and `OPENAI_VISION_MODEL` independently default to
+`gpt-4o-mini`. Embeddings remain local CPU models. After pulling this migration,
+run `uv sync --locked` from `backend/` and rebuild any Compose backend/MCP images.
+See the [migration evidence and limits](evaluation/openai-migration/README.md).

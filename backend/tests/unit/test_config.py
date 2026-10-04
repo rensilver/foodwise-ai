@@ -29,7 +29,7 @@ def encoded_hash(*, memory: int = 65536, iterations: int = 3) -> str:
 
 def environment() -> dict[str, str]:
     return {
-        "GROQ_API_KEY": "synthetic-groq-credential",
+        "OPENAI_API_KEY": "synthetic-openai-credential",
         "DATABASE_URL": "postgresql://demo:synthetic-db-password@db:5432/foodwise",
         "MCP_SERVER_URL": "http://mcp:8001/mcp",
         "MEDIA_ROOT": "/tmp/foodwise-config-test-media",
@@ -41,10 +41,10 @@ class SettingsTests(unittest.TestCase):
     def test_environment_defaults_and_typed_values(self) -> None:
         with patch.dict(os.environ, environment(), clear=True):
             settings = load_settings()
-        self.assertEqual(settings.groq_model, "qwen/qwen3.8-27b")
-        self.assertEqual(settings.groq_vision_model, "qwen/qwen3.8-27b")
+        self.assertEqual(settings.openai_model, "gpt-4o-mini")
+        self.assertEqual(settings.openai_vision_model, "gpt-4o-mini")
         self.assertEqual(
-            settings.groq_api_key.get_secret_value(), environment()["GROQ_API_KEY"]
+            settings.openai_api_key.get_secret_value(), environment()["OPENAI_API_KEY"]
         )
         self.assertTrue(
             settings.database_url.get_secret_value().startswith("postgresql+psycopg://")
@@ -55,21 +55,21 @@ class SettingsTests(unittest.TestCase):
 
     def test_provider_overrides_are_independent(self) -> None:
         values = environment() | {
-            "GROQ_MODEL": "configured/text-model",
-            "GROQ_VISION_MODEL": "configured/vision-model",
+            "OPENAI_MODEL": "configured/text-model",
+            "OPENAI_VISION_MODEL": "configured/vision-model",
             "TAVILY_API_KEY": "synthetic-tavily-credential",
         }
         with patch.dict(os.environ, values, clear=True):
             settings = load_settings()
-        self.assertEqual(settings.groq_model, values["GROQ_MODEL"])
-        self.assertEqual(settings.groq_vision_model, values["GROQ_VISION_MODEL"])
+        self.assertEqual(settings.openai_model, values["OPENAI_MODEL"])
+        self.assertEqual(settings.openai_vision_model, values["OPENAI_VISION_MODEL"])
         self.assertEqual(
             settings.tavily_api_key.get_secret_value(), values["TAVILY_API_KEY"]
         )
         with patch.dict(
-            os.environ, environment() | {"GROQ_MODEL": "custom-text"}, clear=True
+            os.environ, environment() | {"OPENAI_MODEL": "custom-text"}, clear=True
         ):
-            self.assertEqual(load_settings().groq_vision_model, "qwen/qwen3.8-27b")
+            self.assertEqual(load_settings().openai_vision_model, "gpt-4o-mini")
 
     def test_blank_tavily_means_unavailable(self) -> None:
         for blank in ("", "   "):
@@ -99,10 +99,10 @@ class SettingsTests(unittest.TestCase):
 
     def test_invalid_values_are_rejected(self) -> None:
         invalid = {
-            "GROQ_API_KEY": ["contains spaces", "secret\n"],
+            "OPENAI_API_KEY": ["contains spaces", "secret\n"],
             "TAVILY_API_KEY": ["contains spaces", "secret\n"],
-            "GROQ_MODEL": ["", "  ", "model name", "model\n"],
-            "GROQ_VISION_MODEL": ["", "model name"],
+            "OPENAI_MODEL": ["", "  ", "model name", "model\n"],
+            "OPENAI_VISION_MODEL": ["", "model name"],
             "DATABASE_URL": [
                 "sqlite:///database.db",
                 "postgresql+asyncpg://u:p@db/name",
@@ -156,7 +156,7 @@ class SettingsTests(unittest.TestCase):
             settings.model_dump_json(),
         )
         for output in outputs:
-            for field in ("GROQ_API_KEY", "TAVILY_API_KEY", "ADMIN_PASSWORD_HASH"):
+            for field in ("OPENAI_API_KEY", "TAVILY_API_KEY", "ADMIN_PASSWORD_HASH"):
                 self.assertNotIn(values[field], output)
             self.assertNotIn("synthetic-db-password", output)
         for field in values:
@@ -177,14 +177,14 @@ class SettingsTests(unittest.TestCase):
             env_file = Path(directory) / ".env"
             env_file.write_text(
                 "\n".join(f"{key}='{value}'" for key, value in environment().items())
-                + "\nGROQ_MODEL=file-model\nUNRELATED_SETTING=ignored\n",
+                + "\nOPENAI_MODEL=file-model\nUNRELATED_SETTING=ignored\n",
                 encoding="utf-8",
             )
             with patch.dict(
-                os.environ, {"GROQ_MODEL": "environment-model"}, clear=True
+                os.environ, {"OPENAI_MODEL": "environment-model"}, clear=True
             ):
                 settings = load_settings(env_file=env_file)
-            self.assertEqual(settings.groq_model, "environment-model")
+            self.assertEqual(settings.openai_model, "environment-model")
             with (
                 patch.dict(os.environ, {}, clear=True),
                 patch("os.getcwd", return_value=directory),
@@ -194,8 +194,8 @@ class SettingsTests(unittest.TestCase):
 
     def test_initialization_overrides_environment(self) -> None:
         with patch.dict(os.environ, environment(), clear=True):
-            settings = Settings(GROQ_MODEL="injected-model")
-            self.assertEqual(settings.groq_model, "injected-model")
+            settings = Settings(OPENAI_MODEL="injected-model")
+            self.assertEqual(settings.openai_model, "injected-model")
 
     def test_environment_names_are_exactly_the_documented_uppercase_aliases(
         self,
@@ -231,7 +231,7 @@ class SettingsTests(unittest.TestCase):
                 load_settings()
         message = str(caught.exception)
         for guidance in (
-            "fresh Groq API key",
+            "fresh OpenAI API key",
             "PostgreSQL connection URL",
             "HTTP(S) MCP endpoint",
             "absolute media directory",
@@ -242,7 +242,9 @@ class SettingsTests(unittest.TestCase):
 
     def test_invalid_configuration_has_safe_corrective_guidance(self) -> None:
         with patch.dict(
-            os.environ, environment() | {"GROQ_MODEL": "private bad model"}, clear=True
+            os.environ,
+            environment() | {"OPENAI_MODEL": "private bad model"},
+            clear=True,
         ):
             with self.assertRaises(ConfigurationError) as caught:
                 load_settings()
@@ -265,7 +267,7 @@ class SettingsTests(unittest.TestCase):
                     self.assertIn("Configuration valid", output)
                     self.assertIn("Live trends unavailable", output)
                 else:
-                    self.assertIn("GROQ_API_KEY", output)
+                    self.assertIn("OPENAI_API_KEY", output)
                     self.assertIn(".env.example", output)
 
     def test_example_requires_only_local_secrets_and_preserves_model_defaults(
@@ -276,31 +278,31 @@ class SettingsTests(unittest.TestCase):
             with self.assertRaises(ConfigurationError) as caught:
                 load_settings(env_file=env_file)
         message = str(caught.exception)
-        for field in ("GROQ_API_KEY", "ADMIN_PASSWORD_HASH"):
+        for field in ("OPENAI_API_KEY", "ADMIN_PASSWORD_HASH"):
             self.assertIn(field, message)
         for field in ("DATABASE_URL", "MCP_SERVER_URL", "MEDIA_ROOT"):
             self.assertNotIn(field, message)
         with patch.dict(
             os.environ,
             {
-                "GROQ_API_KEY": environment()["GROQ_API_KEY"],
+                "OPENAI_API_KEY": environment()["OPENAI_API_KEY"],
                 "ADMIN_PASSWORD_HASH": encoded_hash(),
             },
             clear=True,
         ):
             settings = load_settings(env_file=env_file)
-        self.assertEqual(settings.groq_model, "qwen/qwen3.8-27b")
-        self.assertEqual(settings.groq_vision_model, settings.groq_model)
+        self.assertEqual(settings.openai_model, "gpt-4o-mini")
+        self.assertEqual(settings.openai_vision_model, settings.openai_model)
         self.assertIsNone(settings.tavily_api_key)
 
     def test_loading_is_not_cached_and_settings_are_frozen(self) -> None:
         with patch.dict(os.environ, environment(), clear=True):
             first = load_settings()
-            os.environ["GROQ_MODEL"] = "new-model"
+            os.environ["OPENAI_MODEL"] = "new-model"
             second = load_settings()
-        self.assertNotEqual(first.groq_model, second.groq_model)
+        self.assertNotEqual(first.openai_model, second.openai_model)
         with self.assertRaises(ValidationError):
-            first.groq_model = "mutated"
+            first.openai_model = "mutated"
 
     def test_import_and_loading_do_not_require_services_or_create_media(self) -> None:
         result = subprocess.run(

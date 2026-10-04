@@ -1,4 +1,4 @@
-"""Opt-in six-role graph over real stdio MCP, PostgreSQL/pgvector, Groq and Tavily."""
+"""Opt-in six-role graph over real stdio MCP, PostgreSQL/pgvector, OpenAI and Tavily."""
 
 import argparse
 import asyncio
@@ -10,7 +10,7 @@ from pathlib import Path
 from uuid import uuid4
 
 import httpx
-from check_groq_capabilities import ProbeSettings
+from check_openai_capabilities import ProbeSettings
 from fastmcp import Client
 from fastmcp.client.transports import StdioTransport
 from sqlalchemy.ext.asyncio import async_sessionmaker
@@ -28,7 +28,7 @@ from food_recommender.infrastructure.persistence.checkpoints import (
 from food_recommender.infrastructure.persistence.engine import create_database_engine
 from food_recommender.infrastructure.persistence.runs import PostgresConversationRuns
 from food_recommender.infrastructure.persistence.unit_of_work import PostgresUnitOfWork
-from food_recommender.infrastructure.providers.groq import GroqStructuredInference
+from food_recommender.infrastructure.providers.openai import OpenAIStructuredInference
 from food_recommender.mcp.client import AgentMCP
 
 SEED_QUERY = "Recommend Italian recipes featuring tomato and basil, such as pizza."
@@ -84,8 +84,8 @@ async def smoke(provider_settings, mcp_settings):
             AgentMCP(client, "rag", session_id=owner) as rag,
             AgentMCP(client, "trend", run_id=run_id) as trend,
         ):
-            provider = GroqStructuredInference(
-                http, provider_settings.GROQ_API_KEY, provider_settings.GROQ_MODEL
+            provider = OpenAIStructuredInference(
+                http, provider_settings.OPENAI_API_KEY, provider_settings.OPENAI_MODEL
             )
             trend_tools = RecordingTools(trend)
             roles = build_workflow_roles(provider, rag, trend_tools)
@@ -123,12 +123,12 @@ async def smoke(provider_settings, mcp_settings):
             "verified_at": datetime.now(UTC).isoformat(),
             "enabled_explicitly": True,
             "seed_query": SEED_QUERY,
-            "model": provider_settings.GROQ_MODEL,
+            "model": provider_settings.OPENAI_MODEL,
             "transport": "stdio MCP subprocess with real PostgreSQL exact pgvector/MiniLM retrieval",
             "limits": {
                 "run_seconds": 120,
                 "call_seconds": 30,
-                "groq_concurrency": 3,
+                "openai_concurrency": 3,
                 "transport_retries": 2,
                 "schema_repairs": 2,
                 "synthesis_repairs": 1,
@@ -191,7 +191,7 @@ def main():
     parser.add_argument(
         "--enable-live",
         action="store_true",
-        help="Permit paid Groq and at most two Tavily requests under the 120-second run budget",
+        help="Permit paid OpenAI and at most two Tavily requests under the 120-second run budget",
     )
     parser.add_argument("--env-file", type=Path, action="append", default=[])
     parser.add_argument("--output", type=Path, required=True)

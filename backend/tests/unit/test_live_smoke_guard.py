@@ -22,7 +22,7 @@ def test_live_smoke_requires_explicit_enable(tmp_path):
 
 
 @pytest.mark.parametrize(
-    "filename", ["check_groq_capabilities.py", "smoke_agent_graph.py"]
+    "filename", ["check_openai_capabilities.py", "smoke_agent_graph.py"]
 )
 def test_phase7_live_checks_require_explicit_enable(tmp_path, filename):
     script = Path(__file__).parents[2] / "scripts" / filename

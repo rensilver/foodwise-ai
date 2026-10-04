@@ -292,7 +292,7 @@ async def evaluate(args):
                 "max": max(latencies),
             },
             "violations": violations,
-            "usage": {"groq_calls": 0, "trend_searches": 0, "provider_tokens": 0},
+            "usage": {"openai_calls": 0, "trend_searches": 0, "provider_tokens": 0},
             "queries": rows,
         }
         args.output.parent.mkdir(parents=True, exist_ok=True)

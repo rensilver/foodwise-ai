@@ -468,7 +468,7 @@ async def evaluate(args):
             "violations": violations,
             "image_only_checks": checks,
             "clip_text_to_image_checks": text_image_checks,
-            "usage": {"groq_calls": 0, "trend_searches": 0, "provider_tokens": 0},
+            "usage": {"openai_calls": 0, "trend_searches": 0, "provider_tokens": 0},
             "queries": rows,
         }
         args.output.parent.mkdir(parents=True, exist_ok=True)

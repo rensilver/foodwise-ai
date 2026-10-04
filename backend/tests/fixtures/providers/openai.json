@@ -2,7 +2,7 @@
   "id": "fixture-completion",
   "object": "chat.completion",
   "created": 0,
-  "model": "qwen/qwen3.8-27b",
+  "model": "gpt-4o-mini",
   "choices": [
     {
       "index": 0,

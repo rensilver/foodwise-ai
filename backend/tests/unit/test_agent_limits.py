@@ -37,7 +37,7 @@ async def test_transient_retries_are_bounded_and_recorded():
         assert await provider.generate([], {}) == "{}"
     finally:
         current_budget.reset(token)
-    assert underlying.calls == budget.groq_calls == 3
+    assert underlying.calls == budget.openai_calls == 3
     assert waits == [0.25, 0.5]
 
 

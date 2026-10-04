@@ -13,12 +13,12 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy.engine import make_url
 from sqlalchemy.exc import ArgumentError
 
-DEFAULT_GROQ_MODEL = "qwen/qwen3.8-27b"
+DEFAULT_OPENAI_MODEL = "gpt-4o-mini"
 _SETUP_GUIDANCE = {
-    "GROQ_API_KEY": "Set a fresh Groq API key without whitespace or controls.",
-    "GROQ_MODEL": "Set a model identifier without whitespace; default: qwen/qwen3.8-27b.",
-    "GROQ_VISION_MODEL": (
-        "Set a vision model identifier without whitespace; default: qwen/qwen3.8-27b."
+    "OPENAI_API_KEY": "Set a fresh OpenAI API key without whitespace or controls.",
+    "OPENAI_MODEL": "Set a model identifier without whitespace; default: gpt-4o-mini.",
+    "OPENAI_VISION_MODEL": (
+        "Set a vision model identifier without whitespace; default: gpt-4o-mini."
     ),
     "TAVILY_API_KEY": (
         "Set a fresh Tavily API key without whitespace or leave it blank "
@@ -64,10 +64,12 @@ class Settings(BaseSettings):
         hide_input_in_errors=True,
     )
 
-    groq_api_key: SecretStr = Field(validation_alias="GROQ_API_KEY")
-    groq_model: str = Field(default=DEFAULT_GROQ_MODEL, validation_alias="GROQ_MODEL")
-    groq_vision_model: str = Field(
-        default=DEFAULT_GROQ_MODEL, validation_alias="GROQ_VISION_MODEL"
+    openai_api_key: SecretStr = Field(validation_alias="OPENAI_API_KEY")
+    openai_model: str = Field(
+        default=DEFAULT_OPENAI_MODEL, validation_alias="OPENAI_MODEL"
+    )
+    openai_vision_model: str = Field(
+        default=DEFAULT_OPENAI_MODEL, validation_alias="OPENAI_VISION_MODEL"
     )
     tavily_api_key: SecretStr | None = Field(
         default=None, validation_alias="TAVILY_API_KEY"
@@ -95,7 +97,7 @@ class Settings(BaseSettings):
             return None
         return value
 
-    @field_validator("groq_api_key", "tavily_api_key")
+    @field_validator("openai_api_key", "tavily_api_key")
     @classmethod
     def validate_api_key(cls, value: SecretStr | None) -> SecretStr | None:
         if value is not None:
@@ -108,7 +110,7 @@ class Settings(BaseSettings):
                 )
         return value
 
-    @field_validator("groq_model", "groq_vision_model")
+    @field_validator("openai_model", "openai_vision_model")
     @classmethod
     def validate_model_name(cls, value: str) -> str:
         # Check syntax only. Provider access/capabilities need an opt-in smoke check.

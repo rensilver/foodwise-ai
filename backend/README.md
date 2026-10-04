@@ -12,7 +12,7 @@ migrations, async transactional repositories, optimistic versions, supported
 LangGraph checkpoints and retryable conversation/media deletion. Phase 3 adds
 validated ingestion/media; Phases 4–6 add cited multimodal retrieval and MCP.
 Phase 7 implements six-agent execution; Phase 8 adds owned HTTP/SSE and catalog
-administration. Live graph acceptance is blocked by Groq token limits. P01-02 pins Python 3.12.14 in
+administration. OpenAI live graph acceptance is tracked separately from historical provider failures. P01-02 pins Python 3.12.14 in
 [.python-version](.python-version), uv 0.12.5 in
 [pyproject.toml](pyproject.toml), and framework/provider dependencies in
 [uv.lock](uv.lock). Hatchling packages `src/food_recommender` for editable
@@ -30,7 +30,7 @@ uv run --locked python -c "import food_recommender; import fastapi; import fastm
 `uv sync --locked` installs the resolved dependency graph and fails if the
 manifest and lock disagree. The environment is created in the ignored `.venv/`.
 Dependencies cover FastAPI/Pydantic, SQLAlchemy 2/Alembic/async psycopg/pgvector,
-LangGraph/PostgreSQL checkpoints, Groq, FastMCP, Tavily, and local embeddings.
+LangGraph/PostgreSQL checkpoints, OpenAI, FastMCP, Tavily, and local embeddings.
 Linux and Windows use CPU-only PyTorch from an explicit index; macOS uses
 PyPI CPU wheels, following the [uv PyTorch guide](https://docs.astral.sh/uv/guides/integration/pytorch/).
 Embedding model weights are separate downloads scheduled for retrieval work;
@@ -52,14 +52,14 @@ importing the module does not load credentials. Environment names are
 case-sensitive. A dotenv file is read only when selected with
 `load_settings(env_file=Path("/absolute/path/to/.env"))`. It may contain settings
 for other services, which this model ignores. Process environment values take
-precedence over that file. Direct `Settings(GROQ_MODEL="configured-model", ...)`
+precedence over that file. Direct `Settings(OPENAI_MODEL="configured-model", ...)`
 values take precedence over environment values for dependency injection and tests.
 
 | Environment variable | Contract |
 | --- | --- |
-| `GROQ_API_KEY` | Required nonempty secret token, without whitespace/control characters. |
-| `GROQ_MODEL` | Defaults to `qwen/qwen3.8-27b`; explicit blank/invalid identifiers fail validation. |
-| `GROQ_VISION_MODEL` | Independently configurable; initially defaults to `qwen/qwen3.8-27b`, even if the text model is overridden. |
+| `OPENAI_API_KEY` | Required nonempty secret token, without whitespace/control characters. |
+| `OPENAI_MODEL` | Defaults to `gpt-4o-mini`; explicit blank/invalid identifiers fail validation. |
+| `OPENAI_VISION_MODEL` | Independently configurable; initially defaults to `gpt-4o-mini`, even if the text model is overridden. |
 | `TAVILY_API_KEY` | Optional secret token. Missing or whitespace-only values become `None`, indicating unavailable live trends. |
 | `DATABASE_URL` | Required PostgreSQL URL with a user, host, database and valid optional port. `postgresql://` is normalized to `postgresql+psycopg://`; other drivers are rejected. The complete URL is stored as a secret. |
 | `MCP_SERVER_URL` | Required HTTP(S) endpoint; credentials, query strings, fragments and port zero are rejected. Internal Compose hostnames are accepted. |
@@ -99,7 +99,7 @@ opt-in future work; providers/models are never switched automatically.
 Use the root [.env.example](../.env.example) as the template for a root `.env`
 only if you do not already have local configuration. Keep an existing `.env`
 and add missing entries manually. Required credentials are deliberately blank:
-supply a fresh `GROQ_API_KEY` and your own `ADMIN_PASSWORD_HASH`. Leave
+supply a fresh `OPENAI_API_KEY` and your own `ADMIN_PASSWORD_HASH`. Leave
 `TAVILY_API_KEY` blank for unavailable live trends, or supply a fresh key.
 The example's PostgreSQL and MCP endpoints describe separately provisioned
 host-run services; they do not start them. Add URL-encoded database credentials
@@ -335,7 +335,7 @@ uv run --locked alembic check
 ```
 
 The [migration environment](migrations/env.py) accepts `postgresql://` or
-`postgresql+psycopg://`, reads no dotenv file and needs no Groq/Tavily/admin
+`postgresql+psycopg://`, reads no dotenv file and needs no OpenAI/Tavily/admin
 configuration. Migrations are explicit operations; application startup does not
 run them. These commands currently run from the host checkout; the existing
 backend container does not package the Alembic files. The migration template
@@ -614,7 +614,7 @@ agent scheduling and the user/admin HTTP journeys remain their later phases.
 
 Run imports explicitly after `uv run --locked alembic upgrade head`, from
 `backend/`. Imports use `DATABASE_URL` and an absolute `MEDIA_ROOT`; they do not
-require or call Groq/Tavily. An explicit `--env-file` before the subcommand can
+require or call OpenAI/Tavily. An explicit `--env-file` before the subcommand can
 load local configuration without printing it. Environment values take precedence.
 
 ```bash
@@ -646,7 +646,7 @@ durable cleanup queue. No startup import, table wipe, or global index reset is
 performed. A completed import may still contain reported unresolved items;
 rejected items or configuration/dependency failures exit with status 2.
 
-For a provider-backed administrator preview, explicitly enable Groq by supplying
+For a provider-backed administrator preview, explicitly enable OpenAI by supplying
 a fresh key and the configured model, then write the result to ignored storage:
 
 ```bash
@@ -659,8 +659,8 @@ A preview validates fields without catalog writes. Import extraction services
 allow two repairs and quarantine invalid output with source references. Vision
 inference has a separate injected model and content/model/version cache; supplied
 captions bypass inference. The configured model never changes automatically.
-The adapter follows [Groq structured outputs](https://console.groq.com/docs/structured-outputs)
-and [vision input guidance](https://console.groq.com/docs/vision); live capability
+The adapter follows [OpenAI structured outputs](https://developers.openai.com/api/docs/guides/structured-outputs)
+and [vision input guidance](https://developers.openai.com/api/docs/guides/images-vision); live capability
 checks remain explicit opt-in work, independent of offline ingestion tests.
 
 ## Multi-source text retrieval (Phase 4)
@@ -669,7 +669,7 @@ checks remain explicit opt-in work, independent of offline ingestion tests.
 retrieval without inference-generated candidates. Indexing is an explicit local
 operation after migrations and Phase 3 ingestion. Startup does not download models
 or rebuild indexes. Select your intended database via `DATABASE_URL`; commands do
-not load dotenv files. No Groq/Tavily credentials are needed.
+not load dotenv files. No OpenAI/Tavily credentials are needed.
 
 From `backend/`, provision the pinned public Apache-2.0 MiniLM weights once:
 
@@ -731,7 +731,7 @@ contains at most 20 unique entities per category. No approximate index is used;
 Outcomes distinguish success, no results, unavailable dependencies and invalid
 requests. Database/provider exception messages are not returned; cancellation
 propagates. Calls have a default 30-second deadline and one CPU encoding operation
-at a time per service instance. Groq, trend search, image search, MCP wiring and
+at a time per service instance. OpenAI, trend search, image search, MCP wiring and
 HTTP/frontend flows remain their later phases.
 
 Run `make evaluate-text` on the full seeded and indexed corpus to reproduce the
@@ -839,7 +839,7 @@ runtime; multiple replicas would require shared run-budget coordination.
 Tavily news/basic requests return at most five items. Cache TTL is 24 hours;
 publication freshness is 90 days, revalidated when reading and citing evidence.
 Missing/unknown/stale evidence, credentials, cache failures and provider failures
-return explicit unavailable outcomes. Groq analysis stays in the application.
+return explicit unavailable outcomes. OpenAI analysis stays in the application.
 
 Use `make verify-mcp-catalog` with a seeded database and provisioned models for
 both real transports. The live command requires deliberate opt-in:
@@ -875,25 +875,30 @@ is retained; explicit field corrections or evidence-backed removals can change i
 Contradictory changes request clarification.
 
 Defaults in `application.reliability.RunLimits` are 30 seconds/call, 120 seconds/run,
-two transient transport retries, two schema repairs and three simultaneous Groq
+two transient transport retries, two schema repairs and three simultaneous OpenAI
 calls. Use a shared process semaphore/provider. Repairs, retries and batches share
 the same run deadline. Output state records safe stage timing and call/token/search
 usage; logs omit prompts, catalog/private context, response bodies and credentials.
-Groq structured requests never combine tools or streaming, following the
-[official structured-output contract](https://console.groq.com/docs/structured-outputs).
-[Vision documentation](https://console.groq.com/docs/vision) and the opt-in capability
+The OpenAI adapter calls Chat Completions through the existing HTTPX client with
+`store=false`. Tool selection and structured generation are separate non-streaming
+requests by application design. Schemas contain optional/defaulted fields and open
+mappings, so `json_schema` uses `strict=false`; local Pydantic/domain validation
+and bounded repairs remain mandatory. Refusals and incomplete responses fail safely.
+See [OpenAI structured outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
+[Vision documentation](https://developers.openai.com/api/docs/guides/images-vision) and the opt-in capability
 probe verify the independently configured models without fallback.
 
 Phase 8 exposes the graph through POST/SSE with browser ownership, persistence and
 disconnect cancellation. Browser presentation remains Phase 9 work.
 
-The opt-in commands are `ENABLE_LIVE_GROQ=1 make check-groq-capabilities` and
+The opt-in commands are `ENABLE_LIVE_OPENAI=1 make check-openai-capabilities` and
 `ENABLE_LIVE_GRAPH=1 make smoke-agent-graph`. The graph target sends synthetic
-catalog evidence to Groq and fixed public culinary concepts to Tavily. Supply
+catalog evidence to OpenAI and fixed public culinary concepts to Tavily. Supply
 `GRAPH_SERVICE_ENV_FILE=/absolute/path/to/private-services.env` when database,
 media and model settings are in a separate ignored file. These commands are
 independent of `make check`; see the [Phase 7 report](../evaluation/phase7/README.md)
-for actual results and the unresolved Groq HTTP 413 live-acceptance blocker.
+for historical results and the [OpenAI migration report](../evaluation/openai-migration/README.md)
+for the passing recommendation smoke with unavailable style/trend experts.
 
 ## Phase 8 HTTP contract
 
@@ -986,8 +991,8 @@ and failures preserve the prior record/version/retrieval data. Updates retain
 existing media and image vectors.
 
 Readiness checks database, writable media, MCP discovery, admin/checkpoint schema
-presence and pinned encoder manifest/files. This does not verify Groq/Tavily
-credentials or resolve the existing live graph token-limit blocker. Errors before
+presence and pinned encoder manifest/files. This does not verify OpenAI/Tavily
+credentials or establish full live expert acceptance. Errors before
 streaming use the shared structured error envelope and appropriate status
 (`401`, `403`, `404`, `409`, `422`, `503`); validation responses omit submitted
 secrets/content. See the [Phase 8 evidence](../evaluation/phase8/README.md).

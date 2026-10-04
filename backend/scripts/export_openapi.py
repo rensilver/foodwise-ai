@@ -21,7 +21,7 @@ def schema_text() -> str:
     # Synthetic encoding satisfies startup syntax validation only. No provider,
     # admin password or database credential is read, connected or exported.
     settings = Settings(
-        GROQ_API_KEY=SCHEMA_TOKEN,
+        OPENAI_API_KEY=SCHEMA_TOKEN,
         DATABASE_URL="postgresql://offline:offline@localhost/offline",
         MCP_SERVER_URL="http://localhost:8001/mcp",
         MEDIA_ROOT=Path("/tmp/foodwise-schema"),

@@ -60,12 +60,12 @@ def provider_transport() -> httpx.MockTransport:
     def respond(request: httpx.Request) -> httpx.Response:
         body = json.loads(request.content)
         if (
-            request.url.host == "api.groq.com"
-            and request.url.path == "/openai/v1/chat/completions"
+            request.url.host == "api.openai.com"
+            and request.url.path == "/v1/chat/completions"
         ):
-            assert body["model"] == "qwen/qwen3.8-27b"
+            assert body["model"] == "gpt-4o-mini"
             assert body["messages"] == [{"role": "user", "content": "Fixture request"}]
-            name = "groq"
+            name = "openai"
         elif request.url.host == "api.tavily.com" and request.url.path == "/search":
             assert body["query"] == "fixture culinary concept"
             assert body["max_results"] == 1

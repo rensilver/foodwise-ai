@@ -28,7 +28,7 @@ ranking changes. Rankings reproduced exactly on the second request for every que
 | Offline CPU model loading time | 5.51 seconds |
 | Evaluation process peak RSS | 569.79 MiB |
 | Fabricated entities/citations, constraint/scope violations, duplicates | 0 |
-| Groq calls, provider tokens, trend searches | 0 |
+| Inference calls, provider tokens, trend searches | 0 |
 
 Relevance averages cover 15 positive query/category pairs; timings cover all 17
 queries. Diversity excludes empty lists and treats unknown cuisine as no diversity

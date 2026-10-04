@@ -1,4 +1,9 @@
-"""Groq structured generation boundary; independent text/vision configuration."""
+"""OpenAI Chat Completions boundary; independent text/vision configuration.
+
+Schemas retain optional/defaulted fields and open mappings, so generation uses
+non-strict JSON Schema guidance. Callers enforce Pydantic and domain contracts
+with bounded repairs; provider output is never treated as validated evidence.
+"""
 
 import asyncio
 import json
@@ -16,7 +21,7 @@ from food_recommender.application.inference import InferenceError
 from food_recommender.application.reliability import current_budget
 
 
-class GroqStructuredInference:
+class OpenAIStructuredInference:
     def __init__(
         self,
         client: httpx.AsyncClient,
@@ -72,7 +77,11 @@ class GroqStructuredInference:
             }
         )
         try:
-            content = payload["choices"][0]["message"]["content"]
+            choice = payload["choices"][0]
+            message = choice["message"]
+            if message.get("refusal") or choice.get("finish_reason", "stop") != "stop":
+                raise InferenceError()
+            content = message["content"]
             if not isinstance(content, str):
                 raise ValueError
             return content
@@ -84,13 +93,14 @@ class GroqStructuredInference:
         async with self.semaphore:
             try:
                 response = await self.client.post(
-                    "https://api.groq.com/openai/v1/chat/completions",
+                    "https://api.openai.com/v1/chat/completions",
                     headers={
                         "Authorization": f"Bearer {self.api_key.get_secret_value()}"
                     },
                     json={
                         "model": self.model,
                         "stream": False,
+                        "store": False,
                         "max_completion_tokens": 4096,
                         **body,
                     },
@@ -164,7 +174,13 @@ class GroqStructuredInference:
             }
         )
         try:
-            calls = payload["choices"][0]["message"].get("tool_calls", [])
+            choice = payload["choices"][0]
+            message = choice["message"]
+            if message.get("refusal") or choice.get(
+                "finish_reason", "tool_calls"
+            ) not in {"stop", "tool_calls"}:
+                raise ValueError
+            calls = message.get("tool_calls", [])
             if not isinstance(calls, list) or len(calls) > 6:
                 raise ValueError
             result = []

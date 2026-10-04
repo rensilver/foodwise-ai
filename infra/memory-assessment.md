@@ -53,7 +53,7 @@ readiness, MCP initialization/discovery, vector cosine operations, actual
 PostgreSQL memory settings, enforced container limits, limited database
 privileges, read-only MCP media, data persistence after recreation and
 redacted dependency failures. No tested container was OOM-killed or
-automatically restarted. No Groq/Tavily calls or pretrained-model downloads
+automatically restarted. No OpenAI/Tavily calls or pretrained-model downloads
 occurred.
 
 `python infra/verify_compose.py --low-memory --build` also completed both
@@ -87,7 +87,7 @@ serve as a host-process `TMPDIR`; it is unrelated to Docker's internal build
 filesystem. Existing `.env` settings and secrets were not read or changed.
 
 MiniLM and CLIP dependencies are installed, but the current API/MCP paths
-do not import/load their models. Groq executes language-model inference
+do not import/load their models. OpenAI executes language-model inference
 remotely; six agent roles do not imply six resident local LLMs. For future
 embedding work, use CPU inference, one resident owner per model, small
 batches and bounded jobs; measure cold-load, ingestion and image-query peaks

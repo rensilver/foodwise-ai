@@ -4,7 +4,7 @@ import httpx
 import pytest
 from pydantic import SecretStr
 
-from food_recommender.infrastructure.providers.groq import GroqStructuredInference
+from food_recommender.infrastructure.providers.openai import OpenAIStructuredInference
 
 
 @pytest.mark.asyncio
@@ -36,7 +36,7 @@ async def test_tool_selection_is_separate_and_rejects_undiscovered_tools():
         )
 
     async with httpx.AsyncClient(transport=httpx.MockTransport(respond)) as client:
-        provider = GroqStructuredInference(
+        provider = OpenAIStructuredInference(
             client, SecretStr("synthetic-test"), "configured"
         )
         calls = await provider.select_tools(
@@ -68,7 +68,7 @@ async def test_structured_generation_never_includes_tools():
         )
 
     async with httpx.AsyncClient(transport=httpx.MockTransport(respond)) as client:
-        provider = GroqStructuredInference(
+        provider = OpenAIStructuredInference(
             client, SecretStr("synthetic-test"), "configured"
         )
         assert (
@@ -102,7 +102,7 @@ async def test_arbitrary_tool_name_and_nonobject_response_are_safe_failures():
                 lambda request: httpx.Response(200, json=payload)
             )
         ) as client:
-            provider = GroqStructuredInference(
+            provider = OpenAIStructuredInference(
                 client, SecretStr("synthetic-test"), "configured"
             )
             with pytest.raises(InferenceError) as failure:
@@ -126,7 +126,7 @@ async def test_rate_limit_retry_after_http_date_is_honored_without_response_text
             )
         )
     ) as client:
-        provider = GroqStructuredInference(
+        provider = OpenAIStructuredInference(
             client, SecretStr("synthetic-test"), "configured", clock=lambda: now
         )
         with pytest.raises(InferenceError) as failed:

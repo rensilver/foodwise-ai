@@ -31,7 +31,7 @@ _COUNTERS = {
     "retrieval_attempts",
     "token_usage",
     "search_calls",
-    "groq_calls",
+    "openai_calls",
     "tool_calls",
 }
 

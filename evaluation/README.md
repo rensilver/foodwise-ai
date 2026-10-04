@@ -20,7 +20,9 @@ runtime culinary knowledge base.
 checks and five measured text/image fusion settings, with explicit scope limits.
 
 [Phase 6](phase6/README.md) records real MCP transports and dated Tavily evidence.
-[Phase 7](phase7/README.md) records graph/checkpoint verification and opt-in Groq
-capabilities, with the executed live graph's Groq token-limit blocker stated explicitly.
+[Phase 7](phase7/README.md) preserves the original graph/checkpoint and provider
+verification. The [OpenAI migration](openai-migration/README.md) records passing
+text/vision probes and five validated recommendations, with unavailable
+style/trend experts and full live acceptance still open.
 [Phase 8](phase8/README.md) records HTTP/SSE, private media, admin transactions,
 package/migration boundaries and generated frontend-contract verification.

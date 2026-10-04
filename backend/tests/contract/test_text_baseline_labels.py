@@ -57,11 +57,11 @@ def test_report_matches_versioned_labels_and_has_zero_grounding_violations():
     assert report["source_hashes"] == labels["source_hashes"]
     assert not any(report["violations"].values())
     assert report["dimension"] == 384 and report["device"] == "cpu"
-    assert report["usage"] == {
-        "groq_calls": 0,
-        "trend_searches": 0,
-        "provider_tokens": 0,
-    }
+    # Preserve old measurements while accepting reports from the migrated CLI.
+    assert report["usage"] in [
+        {provider: 0, "trend_searches": 0, "provider_tokens": 0}
+        for provider in ("groq_calls", "openai_calls")
+    ]
     assert {row["id"] for row in report["queries"]} == {
         q["id"] for q in labels["queries"]
     }

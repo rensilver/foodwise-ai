@@ -13,16 +13,16 @@ from PIL import Image
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from food_recommender.infrastructure.providers.groq import GroqStructuredInference
+from food_recommender.infrastructure.providers.openai import OpenAIStructuredInference
 
 
 class ProbeSettings(BaseSettings):
     model_config = SettingsConfigDict(
         extra="ignore", case_sensitive=True, hide_input_in_errors=True
     )
-    GROQ_API_KEY: SecretStr
-    GROQ_MODEL: str = "qwen/qwen3.8-27b"
-    GROQ_VISION_MODEL: str = "qwen/qwen3.8-27b"
+    OPENAI_API_KEY: SecretStr
+    OPENAI_MODEL: str = "gpt-4o-mini"
+    OPENAI_VISION_MODEL: str = "gpt-4o-mini"
 
 
 async def probe(settings: ProbeSettings) -> dict[str, object]:
@@ -40,10 +40,10 @@ async def probe(settings: ProbeSettings) -> dict[str, object]:
     outcomes = []
     async with httpx.AsyncClient(follow_redirects=False) as client:
         for capability, model, media in (
-            ("text_structured", settings.GROQ_MODEL, None),
-            ("vision_structured", settings.GROQ_VISION_MODEL, image),
+            ("text_structured", settings.OPENAI_MODEL, None),
+            ("vision_structured", settings.OPENAI_VISION_MODEL, image),
         ):
-            provider = GroqStructuredInference(client, settings.GROQ_API_KEY, model)
+            provider = OpenAIStructuredInference(client, settings.OPENAI_API_KEY, model)
             try:
                 expected = {"ok": True} if media is None else {"color": "red"}
                 selected_schema = (

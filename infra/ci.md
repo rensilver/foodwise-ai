@@ -21,9 +21,9 @@ services and fixtures below.
 
 ## External providers and models
 
-[Test support](../backend/tests/conftest.py) provides canned Groq/Tavily
-responses through `httpx.MockTransport`; [SDK contracts](../backend/tests/contract/test_offline_fixtures.py)
-exercise both pinned clients with synthetic credentials. Fake endpoints reject
+[Test support](../backend/tests/conftest.py) provides canned OpenAI/Tavily
+responses through `httpx.MockTransport`; [Provider contracts](../backend/tests/contract/test_offline_fixtures.py)
+exercise the OpenAI HTTP adapter and Tavily client with synthetic credentials. Fake endpoints reject
 unexpected requests. An automatic fixture blocks external Python socket
 connections and DNS resolution while allowing loopback integration services.
 Existing service tests use injected/mocked readiness boundaries. Tests do not

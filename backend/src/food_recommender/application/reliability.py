@@ -19,14 +19,14 @@ class RunLimits:
     run_seconds: float = 120
     transport_retries: int = 2
     schema_repairs: int = 2
-    groq_concurrency: int = 3
+    openai_concurrency: int = 3
 
     def __post_init__(self) -> None:
         if not (
             0 < self.call_seconds <= self.run_seconds <= 120
             and 0 <= self.transport_retries <= 2
             and 0 <= self.schema_repairs <= 2
-            and 1 <= self.groq_concurrency <= 3
+            and 1 <= self.openai_concurrency <= 3
         ):
             raise ValueError("Unsupported run limits")
 
@@ -40,7 +40,7 @@ class RunBudget:
     limits: RunLimits
     clock: Callable[[], float] = time.monotonic
     started: float = field(init=False)
-    groq_calls: int = 0
+    openai_calls: int = 0
     tool_calls: int = 0
     search_calls: int = 0
     token_usage: int = 0
@@ -59,7 +59,7 @@ class RunBudget:
     def summary(self) -> dict[str, Any]:
         return {
             "duration_ms": (self.clock() - self.started) * 1000,
-            "groq_calls": self.groq_calls,
+            "openai_calls": self.openai_calls,
             "tool_calls": self.tool_calls,
             "search_calls": self.search_calls,
             "token_usage": self.token_usage,
@@ -87,7 +87,7 @@ class BudgetedInference:
         self.semaphore = (
             semaphore
             if semaphore is not None
-            else asyncio.Semaphore(limits.groq_concurrency)
+            else asyncio.Semaphore(limits.openai_concurrency)
         )
         self.sleep, self.jitter = sleep, jitter
 
@@ -112,7 +112,7 @@ class BudgetedInference:
                     try:
                         async with self.semaphore:
                             if budget:
-                                budget.groq_calls += 1
+                                budget.openai_calls += 1
                             return await self.inference.generate(
                                 messages, schema, image=image
                             )

@@ -3,7 +3,7 @@
 This guide starts from the repository root and covers the FastAPI API,
 FastMCP tools/resources and Next.js startup page. Phase 8 implements recommendation,
 catalog, upload and administrator HTTP flows; their browser UI/proxy remains
-Phase 9 work. Health checks make no Groq/Tavily calls and load no embedding models.
+Phase 9 work. Health checks make no OpenAI/Tavily calls and load no embedding models.
 
 ## Locked setup
 
@@ -61,7 +61,7 @@ test -e .env || cp .env.example .env
 
 Fill missing settings using [.env.example](../.env.example) and the
 [configuration guide](../backend/README.md#backend-configuration). Keep existing
-owner configuration. Use a fresh Groq key, a locally generated Argon2id
+owner configuration. Use a fresh OpenAI key, a locally generated Argon2id
 administrator hash and distinct database passwords. Tavily may remain blank;
 live trends then remain unavailable. Never copy the root dotenv file into
 `frontend/` or export backend settings into the frontend shell.
@@ -219,7 +219,7 @@ and loopback permissions; resolve sandbox denials before assessing results.
 | Culinary ingestion | The [Phase 3 seed CLI](../backend/README.md#seed-ingestion-phase-3) is validated, resumable and verified on the full local corpus. | Phase 3, P03-01 through P03-10 verified. |
 | Text retrieval | [Phase 4 indexing/search/evaluation](../backend/README.md#multi-source-text-retrieval-phase-4) uses pinned CPU MiniLM and real PostgreSQL. | Phase 4, P04-01 through P04-09 verified. |
 | Source audit | `python scripts/phase0_audit.py` from the root is implemented. It requires local course/data/media artifacts and writes Phase 0 reports. It does not populate PostgreSQL. | Phase 0 evidence. |
-| Provider capability smoke tests | Explicit opt-in Tavily/Groq probes are implemented. The full graph ran and failed on Groq HTTP 413 token limits. Health/offline tests make no paid calls. | P06-12, P07-01 and P07-14 recorded; live graph acceptance open. |
+| Provider capability smoke tests | Explicit opt-in Tavily/OpenAI probes are implemented. The historical graph failed with the previous provider; OpenAI verification is recorded separately. Health/offline tests make no paid calls. | P06-12, P07-01 and P07-14 recorded; live graph acceptance open. |
 | Recommendation/admin API | [Phase 8 API contract](../backend/README.md#phase-8-http-contract) covers browser ownership, SSE, uploads, admin origin/CSRF and atomic CRUD. Backend `MINILM_ROOT`, application migrations and supported checkpoint setup are required for full readiness. | P08-01 through P08-12 verified; browser UI/proxy remains Phase 9. |
 | Full clean-checkout release | Local media/course recovery, application migrations, ingestion and acceptance flows remain required. | P11-01 through P11-09. |
 
