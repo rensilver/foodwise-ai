@@ -16,6 +16,7 @@ from food_recommender.api.schemas import (
     ConversationResponse,
     DeletionResponse,
     HistoryResponse,
+    StreamContract,
 )
 from food_recommender.api.sse import EventStreamResponse, encode_events
 from food_recommender.application.conversations import ConversationService
@@ -55,7 +56,13 @@ async def delete(
     return DeletionResponse.model_validate(await service.delete(owner, conversation_id))
 
 
-@router.post("/{conversation_id}/messages", response_class=StreamingResponse)
+@router.post(
+    "/{conversation_id}/messages",
+    status_code=200,
+    response_class=EventStreamResponse,
+    response_description="SSE frames whose JSON data follows StreamContract. Never automatically replay a disconnected POST; read history instead.",
+    response_model=StreamContract,
+)
 async def submit(
     conversation_id: UUID,
     request: MessageSubmission,

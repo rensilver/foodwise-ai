@@ -1,12 +1,13 @@
 """HTTP response contracts, sharing the application's domain types."""
 
 from datetime import datetime
-from typing import Literal
+from typing import Annotated, Literal
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field, RootModel
 
 from food_recommender.application.ports import MessageSnapshot
+from food_recommender.domain.events import ProgressEvents
 from food_recommender.domain.preferences import Preferences
 
 
@@ -36,3 +37,9 @@ class LiveResponse(ResponseModel):
 class HealthResponse(ResponseModel):
     status: Literal["ready", "unavailable"]
     dependencies: dict[str, Literal["ready", "unavailable"]]
+
+
+class StreamContract(
+    RootModel[Annotated[ProgressEvents, Field(discriminator="event")]]
+):
+    """One SSE data payload, with the event discriminator used by the runtime."""

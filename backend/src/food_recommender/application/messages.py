@@ -13,8 +13,12 @@ from pydantic import field_validator
 from food_recommender.application.activity import Progress
 from food_recommender.application.contracts import (
     event_adapter,
+    nutrition_outcome_adapter,
     profile_adapter,
     recommendation_outcome_adapter,
+    retrieval_outcome_adapter,
+    style_outcome_adapter,
+    trend_outcome_adapter,
 )
 from food_recommender.application.errors import ApplicationError, ErrorCode
 from food_recommender.application.ports import UnitOfWork
@@ -158,8 +162,25 @@ class MessageService:
                         json.dumps(state.get("final"))
                     )
                     if isinstance(result, AgentSuccess):
+                        retrieval = retrieval_outcome_adapter.validate_json(
+                            json.dumps(state["retrieval"])
+                        )
+                        if not isinstance(retrieval, AgentSuccess):
+                            raise ValueError("Missing candidate evidence")
                         final = RecommendationsEvent(
-                            turn.conversation, turn.run, result.result
+                            turn.conversation,
+                            turn.run,
+                            result.result,
+                            evidence=retrieval.result.candidates,
+                            trend=trend_outcome_adapter.validate_json(
+                                json.dumps(state["trend"])
+                            ),
+                            style=style_outcome_adapter.validate_json(
+                                json.dumps(state["style"])
+                            ),
+                            nutrition=nutrition_outcome_adapter.validate_json(
+                                json.dumps(state["nutrition"])
+                            ),
                         )
                         outcome = "completed"
                     else:

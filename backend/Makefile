@@ -23,7 +23,7 @@ provision-test-models:
 	@test -n "$$TEST_MODEL_ROOT" || (echo "Set TEST_MODEL_ROOT to an ignored model-fixture directory"; exit 2)
 	uv run --locked python scripts/provision_test_models.py "$$TEST_MODEL_ROOT"
 
-check: lint format-check typecheck test
+check: lint format-check typecheck api-schema-check test
 
 # Explicit pretrained retrieval operations; no models or provider keys at startup.
 .PHONY: provision-minilm index-text evaluate-text
@@ -74,3 +74,10 @@ check-groq-capabilities:
 smoke-agent-graph:
 	@test "$$ENABLE_LIVE_GRAPH" = "1" || (echo "Set ENABLE_LIVE_GRAPH=1 to authorize the paid full graph smoke and catalog transfer"; exit 2)
 	uv run --locked python scripts/smoke_agent_graph.py --enable-live --env-file ../.env $(if $(GRAPH_SERVICE_ENV_FILE),--env-file "$(GRAPH_SERVICE_ENV_FILE)",) --output ../evaluation/phase7/live_graph_report.json
+
+.PHONY: api-schema api-schema-check
+api-schema:
+	uv run --locked python scripts/export_openapi.py
+
+api-schema-check:
+	uv run --locked python scripts/export_openapi.py --check

@@ -41,6 +41,8 @@ async def encode_events(
 
 
 class EventStreamResponse(StreamingResponse):
+    media_type = "text/event-stream"
+
     def __init__(
         self, stream: AsyncIterator[bytes], *, release: Callable[[], Awaitable[None]]
     ) -> None:
