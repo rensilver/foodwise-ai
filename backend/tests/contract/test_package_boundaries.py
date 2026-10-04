@@ -85,7 +85,7 @@ assert set(Base.metadata.tables) == {
     "documents", "media", "text_embeddings", "image_embeddings",
     "browser_sessions", "conversations", "profiles", "demo_profiles",
     "messages", "conversation_media", "trend_cache", "trend_evidence",
-    "media_cleanup_jobs", "ingestion_checkpoints",
+    "media_cleanup_jobs", "ingestion_checkpoints", "admin_sessions",
 }
 for table in Base.metadata.tables.values():
     for foreign_key in table.foreign_keys:

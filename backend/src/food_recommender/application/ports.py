@@ -14,6 +14,7 @@ from food_recommender.domain.preferences import Preferences
 from food_recommender.domain.values import Category, EntityRef
 
 if TYPE_CHECKING:
+    from food_recommender.application.admin import AdminRepository
     from food_recommender.application.media import MediaRepository
 
 
@@ -126,6 +127,7 @@ class MediaCleanupRepository(Protocol):
 
 class UnitOfWork(Protocol):
     media: MediaRepository
+    admin: AdminRepository
     catalog: CatalogRepository
     conversations: ConversationRepository
     trends: TrendRepository

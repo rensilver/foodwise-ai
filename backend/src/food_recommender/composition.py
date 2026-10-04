@@ -19,6 +19,7 @@ from food_recommender.agents.nodes.style import FoodStyleExpert
 from food_recommender.agents.nodes.trend import FoodTrendAnalyst
 from food_recommender.agents.runner import GraphRunner
 from food_recommender.application.activity import Progress, observer
+from food_recommender.application.admin import AdminService
 from food_recommender.application.browse import BrowseService
 from food_recommender.application.catalog import CatalogService
 from food_recommender.application.conversations import ConversationService
@@ -40,6 +41,7 @@ from food_recommender.application.workflow import (
     ToolGateway,
     TurnRequest,
 )
+from food_recommender.infrastructure.auth import Argon2Verification
 from food_recommender.infrastructure.config import Settings
 from food_recommender.infrastructure.embeddings.lazy import LazyCLIP, LazyMiniLM
 from food_recommender.infrastructure.health import backend_readiness, local_readiness
@@ -123,6 +125,10 @@ def build_backend_services(
         ),
         catalog=CatalogService(transactions, cleanup),
         browse=BrowseService(transactions),
+        admin=AdminService(
+            transactions,
+            Argon2Verification(settings.admin_password_hash.get_secret_value()),
+        ),
         conversations=ConversationService(transactions, cleanup),
         media_cleanup=cleanup,
     )

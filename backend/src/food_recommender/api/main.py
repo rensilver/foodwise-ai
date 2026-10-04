@@ -12,9 +12,11 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from food_recommender.api.body_limits import BodyLimits
 from food_recommender.api.dependencies import get_services
+from food_recommender.api.routers.admin_session import router as admin_session_router
 from food_recommender.api.routers.catalog import router as catalog_router
 from food_recommender.api.routers.conversations import router as conversation_router
 from food_recommender.api.routers.media import router as media_router
+from food_recommender.api.security import safe_browser_write
 from food_recommender.application.errors import ErrorCode
 from food_recommender.application.services import Services
 from food_recommender.composition import build_backend_services
@@ -49,6 +51,7 @@ def create_app(
 
     app = FastAPI(title="foodwise-ai", docs_url=None, redoc_url=None, lifespan=lifespan)
     app.state.services = services
+    app.state.allowed_origins = settings.allowed_origins
     app.add_middleware(
         TrustedHostMiddleware, allowed_hosts=["localhost", "127.0.0.1", "backend"]
     )
@@ -86,7 +89,8 @@ def create_app(
         payload, status = health_payload(await services.readiness.check())
         return JSONResponse(payload, status_code=status)
 
-    app.include_router(conversation_router)
+    app.include_router(conversation_router, dependencies=[Depends(safe_browser_write)])
     app.include_router(catalog_router)
-    app.include_router(media_router)
+    app.include_router(media_router, dependencies=[Depends(safe_browser_write)])
+    app.include_router(admin_session_router)
     return app

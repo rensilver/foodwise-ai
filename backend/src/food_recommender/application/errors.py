@@ -4,6 +4,8 @@ from enum import StrEnum
 
 
 class ErrorCode(StrEnum):
+    UNAUTHORIZED = "unauthorized"
+    FORBIDDEN = "forbidden"
     INVALID_REQUEST = "invalid_request"
     NOT_FOUND = "not_found"
     CONFLICT = "conflict"
