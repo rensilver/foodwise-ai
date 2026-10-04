@@ -497,7 +497,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 **Verification:** deterministic graph/provider tests and explicitly enabled end-to-end Groq smoke test.
 
 - [x] P07-01 Implement a configurable Groq adapter for structured outputs and tool selection as separate calls; validate text/vision capabilities with fresh credentials in opt-in setup.
-- [ ] P07-02 Implement the User Profile Generator for restaurant/recipe/both intent, explicit and inferred preferences, optional scoped demo reviews and clarification.
+- [x] P07-02 Implement the User Profile Generator for restaurant/recipe/both intent, explicit and inferred preferences, optional scoped demo reviews and clarification.
 - [ ] P07-03 Preserve restrictions across follow-ups, apply explicit corrections, and handle contradictory statements without silently resetting the profile.
 - [ ] P07-04 Implement the RAG Retriever's source plan, evidence sufficiency checks and at most two refinements after initial retrieval; preserve hard constraints.
 - [ ] P07-05 Implement the Food Trend Analyst with dated MCP evidence, candidate associations and explicit unavailable outcomes.
@@ -514,7 +514,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 
 **Exit criterion:** all six roles operate on real retrieved data, synthesis waits for branch outcomes, follow-ups persist correctly, and failures cannot fabricate compliant results.
 
-**Evidence / blockers:** In progress. P07-01: separate structured/tool-selection requests, discovered-schema validation, safe provider errors and opt-in text/vision probe. Offline Groq contracts pass; live probe evidence will be recorded in P07-14.
+**Evidence / blockers:** In progress. P07-01: separate structured/tool-selection requests, discovered-schema validation, safe provider errors and opt-in text/vision probe. P07-02: four profile intent, explicit-preference, scope and malformed-response tests pass; provider SDKs stay behind the inference port. Offline Groq contracts pass; live probe evidence will be recorded in P07-14.
 
 ## Phase 8 — FastAPI contracts and application behavior
 
