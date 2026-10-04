@@ -96,6 +96,7 @@ class RecommendationExpert:
                         "repair": repair,
                     },
                     RESULT_ADAPTER,
+                    repairs=0,
                 )
                 evidence = tuple(c.evidence for c in eligible)
                 validate_recommendations(

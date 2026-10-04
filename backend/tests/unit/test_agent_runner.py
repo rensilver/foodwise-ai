@@ -70,3 +70,27 @@ async def test_concurrent_turn_rejected_cancelled_work_never_resumes_on_read():
     assert new["final"]["status"] == "success"
     assert new["run_id"] != state["run_id"]
     assert synthesis.calls == 1
+
+
+@pytest.mark.asyncio
+async def test_run_deadline_persists_exhaustion_and_releases_active_run():
+    from food_recommender.application.reliability import RunLimits
+
+    owner, conversation = uuid4(), uuid4()
+    started, ready = set(), asyncio.Event()
+    branches = [
+        Branch(kind, started, ready) for kind in ("trends", "style", "nutrition")
+    ]
+    retrieval = SlowRetrieval()
+    runner = GraphRunner(
+        build_graph(
+            WorkflowRoles(Profile(), retrieval, *branches, Synthesis(branches)),
+            checkpointer=InMemorySaver(),
+        ),
+        Leases(owner, conversation),
+        limits=RunLimits(call_seconds=0.02, run_seconds=0.05),
+    )
+    result = await runner.run(owner, conversation, TurnRequest(message="rice"))
+    assert result["lifecycle"] == "exhausted"
+    assert result["final"]["code"] == "budget_exhausted"
+    assert not runner.active

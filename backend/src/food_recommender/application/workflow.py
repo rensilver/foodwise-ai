@@ -49,3 +49,9 @@ class RunLease(Protocol):
 
 class ConversationRuns(Protocol):
     def lease(self, conversation_id: UUID, session_id: UUID) -> RunLease: ...
+
+
+class ToolTransportError(Exception):
+    def __init__(self, *, retryable: bool = False, retry_after: float = 0) -> None:
+        super().__init__("Tool transport unavailable")
+        self.retryable, self.retry_after = retryable, retry_after

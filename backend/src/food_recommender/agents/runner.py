@@ -1,6 +1,7 @@
 """Owned UUID threads, one active turn and explicit cancellation; never resume on read."""
 
 import asyncio
+import logging
 from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
@@ -10,6 +11,11 @@ from langchain_core.runnables import RunnableConfig
 from langgraph.graph.state import CompiledStateGraph
 
 from food_recommender.application.errors import ApplicationError, ErrorCode
+from food_recommender.application.reliability import (
+    RunBudget,
+    RunLimits,
+    current_budget,
+)
 from food_recommender.application.workflow import ConversationRuns, TurnRequest
 
 
@@ -26,8 +32,10 @@ class GraphRunner:
         runs: ConversationRuns,
         *,
         new_id: Callable[[], UUID] = uuid4,
+        limits: RunLimits = RunLimits(),
     ) -> None:
         self.graph, self.runs, self.new_id = graph, runs, new_id
+        self.limits = limits
         self.active: dict[UUID, ActiveRun] = {}
 
     async def run(
@@ -47,28 +55,65 @@ class GraphRunner:
                 state = await self.graph.aget_state(config)
                 if state.values and state.values.get("session_id") != str(session_id):
                     raise ApplicationError(ErrorCode.NOT_FOUND)
+                budget = RunBudget(self.limits)
+                token = current_budget.set(budget)
+                run_id = self.new_id()
                 try:
-                    result = await self.graph.ainvoke(
-                        {
-                            "request": request.model_dump(
-                                mode="json", exclude_unset=True
-                            ),
-                            "conversation_id": str(conversation_id),
-                            "session_id": str(session_id),
-                            "run_id": str(self.new_id()),
-                            "lifecycle": "running",
-                        },
-                        config,
-                    )
+                    async with asyncio.timeout(budget.remaining()):
+                        result = await self.graph.ainvoke(
+                            {
+                                "request": request.model_dump(
+                                    mode="json", exclude_unset=True
+                                ),
+                                "conversation_id": str(conversation_id),
+                                "session_id": str(session_id),
+                                "run_id": str(run_id),
+                                "lifecycle": "running",
+                            },
+                            config,
+                        )
+                    updates = {"lifecycle": "completed", "metrics": budget.summary()}
                     await self.graph.aupdate_state(
-                        config, {"lifecycle": "completed"}, as_node="recommendation"
+                        config, updates, as_node="recommendation"
                     )
-                    return dict(result)
+                    logging.getLogger("foodwise").info(
+                        "",
+                        extra={
+                            "event": "run_completed",
+                            "run_id": run_id,
+                            **budget.summary(),
+                        },
+                    )
+                    return {**dict(result), **updates}
+                except TimeoutError:
+                    updates = {
+                        "lifecycle": "exhausted",
+                        "metrics": budget.summary(),
+                        "final": {
+                            "status": "failure",
+                            "code": "budget_exhausted",
+                            "retryable": False,
+                        },
+                    }
+                    await self.graph.aupdate_state(
+                        config, updates, as_node="recommendation"
+                    )
+                    logging.getLogger("foodwise").info(
+                        "",
+                        extra={
+                            "event": "run_exhausted",
+                            "run_id": run_id,
+                            **budget.summary(),
+                        },
+                    )
+                    saved = await self.graph.aget_state(config)
+                    return dict(saved.values)
                 except asyncio.CancelledError:
                     await self.graph.aupdate_state(
                         config,
                         {
                             "lifecycle": "cancelled",
+                            "metrics": budget.summary(),
                             "final": {
                                 "status": "failure",
                                 "code": "cancelled",
@@ -78,6 +123,8 @@ class GraphRunner:
                         as_node="recommendation",
                     )
                     raise
+                finally:
+                    current_budget.reset(token)
         finally:
             self.active.pop(conversation_id, None)
 

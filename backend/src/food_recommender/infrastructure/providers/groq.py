@@ -10,6 +10,7 @@ from jsonschema import Draft202012Validator  # type: ignore[import-untyped]
 from pydantic import SecretStr
 
 from food_recommender.application.inference import InferenceError
+from food_recommender.application.reliability import current_budget
 
 
 class GroqStructuredInference:
@@ -111,6 +112,11 @@ class GroqStructuredInference:
             except (ValueError, TypeError):
                 raise InferenceError(schema_error=True) from None
             usage = payload.get("usage", {})
+            budget = current_budget.get()
+            if budget and type(usage.get("total_tokens")) is int:
+                budget.token_usage += usage["total_tokens"]
+            if len(self.usage) >= 1024:
+                self.usage.pop(0)
             self.usage.append(
                 {
                     "model": self.model,

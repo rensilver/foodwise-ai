@@ -1,9 +1,13 @@
 """Six real LangGraph roles with sequential retrieval and an explicit barrier join."""
 
 import json
+import logging
+import time
+from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from typing import Any
 
+from langchain_core.runnables import RunnableLambda
 from langgraph.checkpoint.base import BaseCheckpointSaver
 from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
@@ -22,6 +26,7 @@ from food_recommender.application.contracts import (
     style_outcome_adapter,
     trend_outcome_adapter,
 )
+from food_recommender.application.reliability import current_budget
 from food_recommender.application.workflow import TurnRequest
 from food_recommender.domain.experts import AgentSuccess, AgentUnavailable
 
@@ -62,6 +67,7 @@ def build_graph(
             "nutrition": None,
             "final": None,
             "errors": [],
+            "metrics": {},
             "messages": [request.message],
         }
 
@@ -138,7 +144,50 @@ def build_graph(
         ("nutrition", nutrition),
         ("recommendation", synthesize),
     ):
-        graph.add_node(name, node)
+
+        def timed_node(
+            stage: str, function: Callable[[GraphState], Awaitable[dict[str, Any]]]
+        ) -> Callable[[GraphState], Awaitable[dict[str, Any]]]:
+            async def invoke(state: GraphState) -> dict[str, Any]:
+                started = time.monotonic()
+                updates = await function(state)
+                budget = current_budget.get()
+                if budget:
+                    duration = (time.monotonic() - started) * 1000
+                    budget.stages.append(
+                        {
+                            "stage": stage,
+                            "duration_ms": duration,
+                            "status": (
+                                updates.get(
+                                    {
+                                        "profile": "profile_outcome",
+                                        "recommendation": "final",
+                                    }.get(stage, stage)
+                                )
+                                or {}
+                            ).get("status", "success"),
+                        }
+                    )
+                    if stage == "retrieval":
+                        budget.retrieval_attempts = (
+                            (updates.get("retrieval") or {})
+                            .get("result", {})
+                            .get("attempts", 0)
+                        )
+                    logging.getLogger("foodwise").info(
+                        "",
+                        extra={
+                            "event": "agent_completed",
+                            "stage": stage,
+                            "duration_ms": duration,
+                        },
+                    )
+                return updates
+
+            return invoke
+
+        graph.add_node(name, RunnableLambda(timed_node(name, node)))
     graph.add_node("reset_turn", reset_turn)
     graph.add_edge(START, "reset_turn")
     graph.add_edge("reset_turn", "profile")

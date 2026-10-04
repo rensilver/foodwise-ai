@@ -16,13 +16,23 @@ from food_recommender.application.errors import ErrorCode
 
 request_id: ContextVar[UUID | None] = ContextVar("request_id", default=None)
 run_id: ContextVar[UUID | None] = ContextVar("run_id", default=None)
-_EVENTS = {"request_completed", "request_failed", "request_cancelled", "diagnostic"}
+_EVENTS = {
+    "request_completed",
+    "request_failed",
+    "request_cancelled",
+    "diagnostic",
+    "agent_completed",
+    "run_completed",
+    "run_exhausted",
+}
 _COUNTERS = {
     "status",
     "duration_ms",
     "retrieval_attempts",
     "token_usage",
     "search_calls",
+    "groq_calls",
+    "tool_calls",
 }
 
 
@@ -44,6 +54,16 @@ class StructuredFormatter(logging.Formatter):
             value = getattr(record, name, context.get())
             if isinstance(value, UUID):
                 payload[name] = str(value)
+        stage = getattr(record, "stage", None)
+        if stage in {
+            "profile",
+            "retrieval",
+            "trend",
+            "style",
+            "nutrition",
+            "recommendation",
+        }:
+            payload["stage"] = stage
         code = getattr(record, "error_code", None)
         if isinstance(code, ErrorCode):
             payload["error_code"] = code.value
