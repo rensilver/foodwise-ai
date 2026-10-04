@@ -1,14 +1,21 @@
 """Narrow persistence boundaries; no SDK/ORM objects cross these ports."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 from datetime import date, datetime
 from types import TracebackType
-from typing import Protocol
+from typing import TYPE_CHECKING, Protocol
 from uuid import UUID
 
 from food_recommender.domain.catalog import CatalogSnapshot, PreparedCatalog
+from food_recommender.domain.evidence import Citation
 from food_recommender.domain.preferences import Preferences
-from food_recommender.domain.values import EntityRef
+from food_recommender.domain.values import Category, EntityRef
+
+if TYPE_CHECKING:
+    from food_recommender.application.admin import AdminRepository
+    from food_recommender.application.media import MediaRepository
 
 
 @dataclass(frozen=True)
@@ -47,13 +54,17 @@ class CachedTrends:
 
 
 class CatalogRepository(Protocol):
+    async def browse(
+        self, category: Category, filters: dict[str, object]
+    ) -> tuple[tuple[CatalogSnapshot, ...], int]: ...
+    async def citations(self, ref: EntityRef) -> tuple[Citation, ...]: ...
     async def get(self, ref: EntityRef) -> CatalogSnapshot: ...
     async def create(self, prepared: PreparedCatalog) -> CatalogSnapshot: ...
     async def replace(
         self, ref: EntityRef, prepared: PreparedCatalog, expected_version: int
     ) -> CatalogSnapshot: ...
     async def delete(
-        self, ref: EntityRef, expected_version: int
+        self, ref: EntityRef, expected_version: int, *, include_reviews: bool = False
     ) -> tuple[str, ...]: ...
 
 
@@ -115,12 +126,14 @@ class MediaCleanupRepository(Protocol):
 
 
 class UnitOfWork(Protocol):
+    media: MediaRepository
+    admin: AdminRepository
     catalog: CatalogRepository
     conversations: ConversationRepository
     trends: TrendRepository
     cleanup: MediaCleanupRepository
 
-    async def __aenter__(self) -> "UnitOfWork": ...
+    async def __aenter__(self) -> UnitOfWork: ...
     async def __aexit__(
         self,
         exc_type: type[BaseException] | None,

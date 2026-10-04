@@ -4,7 +4,14 @@ from dataclasses import dataclass, field
 from typing import Literal
 from uuid import UUID
 
-from food_recommender.domain.experts import FailureCode
+from food_recommender.domain.evidence import CandidateEvidence
+from food_recommender.domain.experts import (
+    ExpertOutcome,
+    FailureCode,
+    NutritionAnalysis,
+    StyleAnalysis,
+    TrendAnalysis,
+)
 from food_recommender.domain.recommendations import RecommendationResult
 from food_recommender.domain.values import AgentRole, nonempty
 
@@ -34,6 +41,12 @@ class RecommendationsEvent:
     conversation_id: UUID
     run_id: UUID
     result: RecommendationResult
+    evidence: tuple[CandidateEvidence, ...] = field(default=(), kw_only=True)
+    trend: ExpertOutcome[TrendAnalysis] | None = field(default=None, kw_only=True)
+    style: ExpertOutcome[StyleAnalysis] | None = field(default=None, kw_only=True)
+    nutrition: ExpertOutcome[NutritionAnalysis] | None = field(
+        default=None, kw_only=True
+    )
     event: Literal["recommendations"] = field(default="recommendations", kw_only=True)
 
 

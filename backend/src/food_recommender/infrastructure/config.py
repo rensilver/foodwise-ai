@@ -75,6 +75,17 @@ class Settings(BaseSettings):
     database_url: SecretStr = Field(validation_alias="DATABASE_URL")
     mcp_server_url: AnyHttpUrl = Field(validation_alias="MCP_SERVER_URL")
     media_root: Path = Field(validation_alias="MEDIA_ROOT")
+    minilm_root: Path | None = Field(default=None, validation_alias="MINILM_ROOT")
+    allowed_origins: tuple[str, ...] = Field(
+        default=(
+            "http://localhost",
+            "http://localhost:3000",
+            "http://127.0.0.1:3000",
+            "http://localhost:8000",
+            "http://127.0.0.1:8000",
+        ),
+        validation_alias="ALLOWED_ORIGINS",
+    )
     admin_password_hash: SecretStr = Field(validation_alias="ADMIN_PASSWORD_HASH")
 
     @field_validator("tavily_api_key", mode="before")

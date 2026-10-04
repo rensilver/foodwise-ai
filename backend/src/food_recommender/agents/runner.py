@@ -3,6 +3,7 @@
 import asyncio
 import logging
 from collections.abc import Callable
+from contextlib import nullcontext
 from dataclasses import dataclass
 from typing import Any
 from uuid import UUID, uuid4
@@ -39,7 +40,13 @@ class GraphRunner:
         self.active: dict[UUID, ActiveRun] = {}
 
     async def run(
-        self, session_id: UUID, conversation_id: UUID, request: TurnRequest
+        self,
+        session_id: UUID,
+        conversation_id: UUID,
+        request: TurnRequest,
+        *,
+        run_id: UUID | None = None,
+        leased: bool = False,
     ) -> dict[str, Any]:
         if not isinstance(session_id, UUID) or not isinstance(conversation_id, UUID):
             raise ApplicationError(ErrorCode.INVALID_REQUEST)
@@ -51,13 +58,17 @@ class GraphRunner:
         self.active[conversation_id] = ActiveRun(session_id, task)
         config: RunnableConfig = {"configurable": {"thread_id": str(conversation_id)}}
         try:
-            async with self.runs.lease(conversation_id, session_id):
+            async with (
+                nullcontext()
+                if leased
+                else self.runs.lease(conversation_id, session_id)
+            ):
                 state = await self.graph.aget_state(config)
                 if state.values and state.values.get("session_id") != str(session_id):
                     raise ApplicationError(ErrorCode.NOT_FOUND)
                 budget = RunBudget(self.limits)
                 token = current_budget.set(budget)
-                run_id = self.new_id()
+                run_id = run_id or self.new_id()
                 try:
                     async with asyncio.timeout(budget.remaining()):
                         result = await self.graph.ainvoke(

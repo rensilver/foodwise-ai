@@ -1,4 +1,4 @@
-# Backend scaffold
+# foodwise-ai backend
 
 Package responsibilities, dependency rules and CLI path changes are documented in
 [Package organization](PACKAGES.md).
@@ -10,8 +10,9 @@ application readiness dependencies, typed failures and structured logging.
 Phase 2 adds shared domain contracts, catalog/provenance/vector/context
 migrations, async transactional repositories, optimistic versions, supported
 LangGraph checkpoints and retryable conversation/media deletion. Phase 3 adds
-validated ingestion/media; Phase 4 adds measured, cited text retrieval. Agent
-execution, image retrieval and HTTP domain routes remain planned. P01-02 pins Python 3.12.14 in
+validated ingestion/media; Phases 4–6 add cited multimodal retrieval and MCP.
+Phase 7 implements six-agent execution; Phase 8 adds owned HTTP/SSE and catalog
+administration. Live graph acceptance is blocked by Groq token limits. P01-02 pins Python 3.12.14 in
 [.python-version](.python-version), uv 0.12.5 in
 [pyproject.toml](pyproject.toml), and framework/provider dependencies in
 [uv.lock](uv.lock). Hatchling packages `src/food_recommender` for editable
@@ -64,6 +65,8 @@ values take precedence over environment values for dependency injection and test
 | `MCP_SERVER_URL` | Required HTTP(S) endpoint; credentials, query strings, fragments and port zero are rejected. Internal Compose hostnames are accepted. |
 | `MEDIA_ROOT` | Required absolute, non-root path without `..` or NUL bytes. Loading does not create or inspect the directory. |
 | `ADMIN_PASSWORD_HASH` | Required Argon2id v19 PHC encoding; plaintext and other hash formats are rejected. |
+| `MINILM_ROOT` | Optional absolute path to the provisioned pinned MiniLM bundle. Required for admin writes and backend readiness; no automatic download. Compose mounts it read-only. |
+| `ALLOWED_ORIGINS` | Optional JSON array of permitted browser origins. Defaults to localhost/127.0.0.1 with ports 3000/8000, plus `http://localhost`. Administrator requests must provide an allowed `Origin`. |
 
 The administrator hash policy accepts memory costs of 19,456–262,144 KiB,
 2–10 iterations and 1–16 parallel lanes, with a 16–64 byte salt and a 32–64
@@ -71,8 +74,8 @@ byte digest in canonical unpadded base64. Its minimum costs follow the
 [OWASP Argon2id guidance](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#argon2id).
 Validation checks encoding and bounded costs. Generate a unique password hash
 locally with an Argon2id PHC-capable tool using those costs and keep the password
-separate; password verification and administrator sessions are future
-authentication work. This project does not ship a default administrator password.
+separate. Phase 8 verifies passwords off the event loop and stores revocable
+administrator sessions. This project does not ship a default administrator password.
 
 Settings are immutable and loaded afresh on each call. Each process factory
 loads them once and injects them into its readiness adapter through the
@@ -406,7 +409,7 @@ limits and upload storage remain Phase 3/8 work. P02-06/P02-09 below add session
 ownership, conversation cleanup and safe file deletion. Document construction and token-aware chunking remain
 Phase 4 work; ingestion must validate offsets against the actual parent text.
 P02-04 through P02-09 below implement vector/full-text storage and transactional
-repositories. HTTP validation and CRUD routes remain Phase 8.
+repositories. Phase 8 exposes validated CRUD through shared application use cases.
 
 [Real PostgreSQL provenance contracts](tests/integration/test_provenance_models.py)
 cover base/augmented/revised artifacts, unresolved raw text, type namespaces,
@@ -435,7 +438,9 @@ The [Makefile](Makefile) requires GNU Make; each target also shows its direct
 | `make format` | Apply Ruff formatting to `src`, `tests`, `scripts` and `migrations`. |
 | `make typecheck` | Strict mypy on all runtime packages, with Pydantic's plugin. |
 | `make test` | Discover all tests under `tests`, including unittest and explicit async tests. |
-| `make check` | Run lint, formatting check, typecheck and tests; fail on the first failed target. |
+| `make check` | Run lint, formatting check, typecheck, OpenAPI drift check and tests; fail on the first failed target. |
+| `make api-schema` | Export deterministic OpenAPI without contacting dependencies. Regenerate frontend types afterward. |
+| `make api-schema-check` | Reject drift between the current API and the committed OpenAPI. |
 | `make test-integration` | Run real database contracts; requires the disposable `TEST_DATABASE_URL`. |
 | `make provision-test-models` | Generate seeded local CPU fixtures; requires an ignored `TEST_MODEL_ROOT`. |
 
@@ -544,7 +549,7 @@ session and authorize before access. A profile save is a complete supplied
 snapshot; Phase 7 supplies follow-up merging rules. Trend reads exclude expired
 or future cache entries; publication-date eligibility remains Phase 6. Backend
 composition exposes `Services.transactions`, constructs no database connections
-until use and disposes its pool at shutdown. Routes are Phase 8 work.
+until use and disposes its pool at shutdown. Phase 8 routers use injected services.
 
 ## Persistence integrity acceptance (P02-08)
 
@@ -786,7 +791,7 @@ active weights and report limitations. Unauthorized query images abort; a
 missing index cannot masquerade as a genuine empty search. Images do not prove
 allergen absence, and unknown hard restrictions remain excluded. Static decoded
 JPEG/PNG/WebP inputs are bounded at 10 MiB and 20 megapixels. HTTP uploads and
-browser sessions remain Phase 8 work.
+browser sessions are enforced by Phase 8 HTTP use cases.
 
 For offline pretrained contracts, set `TEST_CLIP_ROOT="$CLIP_ROOT"` alongside
 `TEST_MINILM_ROOT="$MINILM_ROOT"` and the existing disposable test settings.
@@ -879,8 +884,8 @@ Groq structured requests never combine tools or streaming, following the
 [Vision documentation](https://console.groq.com/docs/vision) and the opt-in capability
 probe verify the independently configured models without fallback.
 
-HTTP/SSE delivery, browser conversations and administrator flows remain Phase 8–9
-work. The graph is callable locally; no recommendation route is added in Phase 7.
+Phase 8 exposes the graph through POST/SSE with browser ownership, persistence and
+disconnect cancellation. Browser presentation remains Phase 9 work.
 
 The opt-in commands are `ENABLE_LIVE_GROQ=1 make check-groq-capabilities` and
 `ENABLE_LIVE_GRAPH=1 make smoke-agent-graph`. The graph target sends synthetic
@@ -888,4 +893,105 @@ catalog evidence to Groq and fixed public culinary concepts to Tavily. Supply
 `GRAPH_SERVICE_ENV_FILE=/absolute/path/to/private-services.env` when database,
 media and model settings are in a separate ignored file. These commands are
 independent of `make check`; see the [Phase 7 report](../evaluation/phase7/README.md)
-for actual results and the current live-smoke approval status.
+for actual results and the unresolved Groq HTTP 413 live-acceptance blocker.
+
+## Phase 8 HTTP contract
+
+The injected FastAPI factory serves `/api/v1`; `/openapi.json` exposes the
+contract. Start it using the [developer workflow](../infra/development.md).
+Run application migrations through `0009_admin`, initialize the supported
+LangGraph checkpoint schema with the existing [checkpoint setup](#conversations-profiles-trends-and-checkpoints-p02-06),
+restore/ingest local media and index the intended catalog. Provision the pinned
+MiniLM bundle and set backend `MINILM_ROOT` before administrator writes. Compose
+mounts this bundle read-only for both backend and MCP. Missing preparation
+capabilities return `503` without changing catalog data.
+
+| Endpoint under `/api/v1` | Behavior |
+| --- | --- |
+| `POST /conversations` | Create a conversation and, when needed, a local browser-session cookie. |
+| `GET /conversations/{id}` | Return owned messages and preferences; never execute/resume the graph. |
+| `DELETE /conversations/{id}` | Delete owned history, profile, checkpoints and unshared images; expose retryable `cleanup_pending`. Active runs receive `409`. |
+| `POST /conversations/{id}/messages` | Validate and persist the request, then stream typed progress and final results. |
+| `GET /restaurants`, `/recipes`; `GET /restaurants/{id}`, `/recipes/{id}` | Browse paginated synthetic catalog records and cited source details. |
+| `POST /media`; `GET /media/{id}` | Upload a validated image or read a browser-owned image. |
+| `POST /admin/session`; `DELETE /admin/session` | Authenticate the configured local administrator or revoke the session. |
+| `POST /admin/extractions/preview` | Validate an unstructured restaurant/recipe description without persistence. |
+| `POST /admin/restaurants`, `/admin/recipes` | Create records with server-issued IDs and prepared text retrieval data. |
+| `PATCH`, `DELETE /admin/restaurants/{id}`, `/admin/recipes/{id}` | Update/delete with expected versions and explicit delete intent. |
+| `GET /health/live`; `GET /health/ready` | Process health and dependency readiness without paid calls or model loading. |
+
+Browser-session cookies are HttpOnly, SameSite Strict and scoped to `/`.
+Only hashes of the opaque session tokens are stored. Ownership is independent
+of administrator authority; wrong-owner conversations/images return `404`.
+Keep cookies with requests. Supplied browser origins must be allowed by backend
+`ALLOWED_ORIGINS`; cross-site requests are rejected. The default allowed hosts
+are localhost, 127.0.0.1 and the internal Compose backend hostname.
+
+Submit a message with JSON such as:
+
+```json
+{
+  "message": "Suggest an Italian recipe",
+  "client_request_id": "7291ed93-932f-4fe9-9609-6389a0f791e8"
+}
+```
+
+The contract also accepts optional `explicit`, `categories`, `demo_profile_id` and
+`media_id`; use the generated schema for exact constraints. Every intentional
+new turn uses a fresh client UUID. A replayed UUID returns `409`, and only one
+active turn is allowed per conversation across processes. Restrictions persist
+through follow-ups unless explicitly corrected.
+
+Use browser `fetch` for POST streams. Each SSE frame has an event name and JSON
+data described by `StreamContract`: `progress`, `clarification`,
+`recommendations`, `error`, or terminal `done`. Data includes conversation/run
+IDs; cited recommendations include candidate evidence and expert outcomes.
+Activity events show stage status without chain-of-thought. Comment heartbeats
+arrive every 15 seconds while idle, with buffering disabled and no SSE replay ID.
+The service commits validated final responses and profile changes before emitting
+their payload. A disconnect cancels the producer/graph and releases the run lease.
+Refetch history to discover whether completion was persisted; never
+automatically resubmit a disconnected POST. Provider failures after headers use
+typed `error`/`done` events without private details or stack traces.
+
+Browse uses `limit` (1–100), `offset` (0–100000), `q` and `cuisine`;
+restaurants additionally accept `location` and `max_price_band` (1–4).
+Restaurant-only filters are rejected on recipes. Details retain unknown/null
+catalog fields and source citations. Catalog data is explicitly labeled synthetic.
+
+Upload multipart field `file` with decoded JPEG, PNG or WebP, at most 10 MiB and
+20 megapixels. Animated, malformed and unsupported content is rejected. Images
+are stored as metadata-free PNGs under generated private storage names; the
+receipt supplies an opaque `id`, MIME type, dimensions and byte size. Use that ID in
+message requests, never a path. Reads send `private, no-store` and `nosniff`.
+Body middleware bounds chunked and declared-size uploads before multipart parsing.
+
+Administrator login takes `{"password":"your local administrator password"}`
+and requires an allowed `Origin`. Its response supplies `csrf_token` and
+`expires_at`, and sets an HttpOnly SameSite Strict cookie scoped to `/api/v1/admin`.
+Send `X-CSRF-Token` plus `Origin` on previews, writes and logout. Sessions expire
+after eight hours; stored session/CSRF values are hashes, login replaces the old
+session and logout revokes it. HTTPS sets Secure cookies; local HTTP uses the
+loopback deployment. No default password is provided.
+
+Preview takes `category` and `text`; returned validated fields require a separate
+explicit create submission. Creates take `fields`; partial updates take `fields`
+and `expected_version`. Immutable IDs/source identity are never client-editable.
+Delete bodies require `expected_version` and `confirm_id` equal to the path ID.
+Confirmed restaurant deletion also removes linked reviews and retrieval rows;
+raw source payloads remain as provenance. Files with no remaining references are
+queued for cleanup. Version conflicts return `409`. Text preparation happens
+before the final transaction; catalog, documents and vectors commit together,
+and failures preserve the prior record/version/retrieval data. Updates retain
+existing media and image vectors.
+
+Readiness checks database, writable media, MCP discovery, admin/checkpoint schema
+presence and pinned encoder manifest/files. This does not verify Groq/Tavily
+credentials or resolve the existing live graph token-limit blocker. Errors before
+streaming use the shared structured error envelope and appropriate status
+(`401`, `403`, `404`, `409`, `422`, `503`); validation responses omit submitted
+secrets/content. See the [Phase 8 evidence](../evaluation/phase8/README.md).
+
+For schema changes run `make api-schema` here, then `pnpm api:generate` from
+`frontend/`. `make check` rejects OpenAPI drift; frontend `pnpm check` rejects
+generated TypeScript drift. Export is offline and never reads owner credentials.

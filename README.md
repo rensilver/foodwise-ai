@@ -21,8 +21,10 @@ Phase 2 persistence, transactional repositories and conversation cleanup are
 verified. Phase 3 ingestion/media and [Phase 4 text retrieval](evaluation/phase4/README.md)
 and [Phase 5 multimodal retrieval/fusion](evaluation/phase5/README.md) are verified.
 Phase 6 MCP/live trends and Phase 7 graph implementations are present.
-The Phase 7 full live graph smoke awaits explicit data-transfer approval;
-recommendation interfaces remain planned.
+The Phase 7 full live graph smoke ran and failed on Groq token limits;
+live recommendation acceptance remains open. [Phase 8](evaluation/phase8/README.md)
+adds verified FastAPI conversations/SSE, private images, browsing, administrator
+CRUD and generated TypeScript contracts. Frontend journeys remain Phase 9 work.
 
 For this machine's memory constraints, see the [measured host assessment](infra/memory-assessment.md)
 and [optional low-memory Compose setup](infra/README.md#running-with-limited-ram).

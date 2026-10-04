@@ -33,9 +33,13 @@ class CatalogService:
             await self.cleanup.run()
         return result
 
-    async def delete(self, ref: EntityRef, *, expected_version: int) -> tuple[str, ...]:
+    async def delete(
+        self, ref: EntityRef, *, expected_version: int, include_reviews: bool = False
+    ) -> tuple[str, ...]:
         async with self.transactions() as transaction:
-            keys = await transaction.catalog.delete(ref, expected_version)
+            keys = await transaction.catalog.delete(
+                ref, expected_version, include_reviews=include_reviews
+            )
             await transaction.commit()
         if self.cleanup is not None:
             await self.cleanup.run(keys=keys)

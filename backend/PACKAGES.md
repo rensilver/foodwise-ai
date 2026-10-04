@@ -50,10 +50,10 @@ food_recommender/
         __init__.py             # explicit registry; exports complete Base metadata
         base.py, mixins.py       # declarative base and shared columns
         catalog.py, provenance.py, embeddings.py
-        context.py, trends.py, cleanup.py, ingestion.py
+        context.py, trends.py, cleanup.py, ingestion.py, admin.py
       repositories/             # SQL-backed port implementations, grouped by use case
         catalog.py, conversations.py, trends.py, media_cleanup.py
-        lookups.py, resources.py
+        lookups.py, resources.py, admin.py, media.py
       search/                   # PostgreSQL text/image queries and shared SQL filters
       indexing/                 # prepared document/vector writes for text/images
       engine.py                 # explicit engine factory
@@ -169,3 +169,35 @@ context is supplied explicitly with a matching demo-profile scope. Graph imports
 never load embeddings, open connections or contact providers. Boundary tests
 cover the permitted LangGraph/LangChain dependencies and prevent concrete adapter
 imports into nodes or core rules.
+
+## Phase 8 API boundaries
+
+`api/routers/` parses HTTP requests and invokes injected application services.
+`api/schemas.py` owns HTTP request/response envelopes; shared culinary, evidence
+and SSE payloads reuse core contracts. `api/dependencies.py` resolves capabilities
+and browser ownership. `api/security.py` handles HTTP cookies, origins and CSRF;
+`api/sse.py` owns framing, heartbeat and disconnect behavior. Routers never import
+one another or concrete database, model, graph or provider adapters.
+
+Focused application modules own conversations, messages, browsing, media,
+administrator authentication, extraction previews and catalog preparation.
+They depend on narrow ports and the shared unit of work. Message preparation
+validates ownership and persists the replay ID before streaming; final output is
+validated and committed before emission. Preparation computes text embeddings
+before catalog transactions; SQL atomicity and optimistic versions stay in the
+catalog repository. Confirmed admin restaurant deletion includes linked reviews;
+ordinary catalog deletion retains its protective foreign-key behavior. Both
+retain raw provenance, and media cleanup uses the existing transactional queue.
+
+`composition.py` wires the persisted graph, centrally managed inference/MCP,
+repositories, password verification, CPU embedding and image/file adapters.
+Process construction performs no provider calls or model loading. Production
+message submission and conversation deletion share PostgreSQL run leases,
+preventing deletion from waiting on an active turn.
+
+`models/admin.py` is registered explicitly in `models/__init__.py` and matched by
+reversible migration `0009_admin`. Password verification lives in
+`infrastructure/auth.py`; authentication SQL lives in `repositories/admin.py`.
+Boundary contracts reject adapter imports into API handlers/core modules;
+integration tests check exact complete model/migration parity, rollback,
+version conflicts, cancellation and removal of retrieval rows.

@@ -3,7 +3,7 @@
 from dataclasses import asdict, fields
 from typing import Any, cast
 
-from sqlalchemy import delete, insert, select, update
+from sqlalchemy import Select, delete, func, insert, select, update
 from sqlalchemy.dialects.postgresql import insert as upsert
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -14,10 +14,12 @@ from food_recommender.domain.catalog import (
     RecipeData,
     RestaurantData,
 )
+from food_recommender.domain.evidence import Citation, CitationKind
 from food_recommender.domain.values import Category, EntityRef
 from food_recommender.infrastructure.persistence.models.catalog import (
     Recipe,
     Restaurant,
+    Review,
 )
 from food_recommender.infrastructure.persistence.models.cleanup import MediaCleanupJob
 from food_recommender.infrastructure.persistence.models.embeddings import (
@@ -53,6 +55,75 @@ class PostgresCatalogRepository:
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
 
+    async def browse(
+        self, category: Category, filters: dict[str, object]
+    ) -> tuple[tuple[CatalogSnapshot, ...], int]:
+        model = model_for(EntityRef(category, "browse"))
+        conditions = []
+        for key in ("cuisine", "location"):
+            value = filters.get(key)
+            if value is not None:
+                conditions.append(
+                    getattr(model, "normalized_" + key) == str(value).strip().casefold()
+                )
+        if filters.get("price_band") is not None:
+            conditions.append(Restaurant.price_band <= filters["price_band"])
+        if filters.get("q"):
+            query = (
+                str(filters["q"])
+                .replace("\\", "\\\\")
+                .replace("%", "\\%")
+                .replace("_", "\\_")
+            )
+            conditions.append(model.name.ilike("%" + query + "%", escape="\\"))
+        total = await self.session.scalar(
+            select(func.count()).select_from(model).where(*conditions)
+        )
+        rows = (
+            await self.session.scalars(
+                select(model)
+                .where(*conditions)
+                .order_by(model.id)
+                .limit(cast(int, filters["limit"]))
+                .offset(cast(int, filters["offset"]))
+            )
+        ).all()
+        return tuple(
+            snapshot(cast(Restaurant | Recipe, row)) for row in rows
+        ), total or 0
+
+    async def citations(self, ref: EntityRef) -> tuple[Citation, ...]:
+        link = (
+            SourceRecord.restaurant_id
+            if ref.category == Category.RESTAURANT
+            else SourceRecord.recipe_id
+        )
+        rows = (
+            await self.session.execute(
+                select(Document, SourceRecord, Source)
+                .join(SourceRecord, Document.source_record_id == SourceRecord.id)
+                .join(Source, SourceRecord.source_id == Source.id)
+                .where(link == ref.id)
+                .order_by(Document.id)
+                .limit(20)
+            )
+        ).all()
+        return tuple(
+            Citation(
+                id=document.id,
+                kind=CitationKind.CATALOG,
+                source_id=source.id,
+                excerpt=document.text[:1500],
+                entity=ref,
+                record_id=record.record_id,
+                document_id=document.id,
+                published_on=source.published_on,
+                retrieved_at=source.retrieved_at,
+                attribution=cast(Any, document.attribution),
+            )
+            for document, record, source in rows
+        )
+
     async def get(self, ref: EntityRef) -> CatalogSnapshot:
         row = await self.session.get(model_for(ref), ref.id, populate_existing=True)
         if row is None:
@@ -84,16 +155,29 @@ class PostgresCatalogRepository:
         ):
             raise ApplicationError(ErrorCode.INVALID_REQUEST)
 
-    async def _remove_content(self, ref: EntityRef) -> tuple[str, ...]:
+    async def _remove_content(
+        self, ref: EntityRef, *, preserve_media: bool = False
+    ) -> tuple[str, ...]:
         link = (
             SourceRecord.restaurant_id
             if ref.category == Category.RESTAURANT
             else SourceRecord.recipe_id
         )
-        record_ids = select(SourceRecord.id).where(link == ref.id)
-        await self.session.execute(
-            delete(Document).where(Document.source_record_id.in_(record_ids))
+        return await self._remove_records(
+            select(SourceRecord.id).where(link == ref.id), preserve_media=preserve_media
         )
+
+    async def _remove_records(
+        self, record_ids: Select[str], *, preserve_media: bool = False
+    ) -> tuple[str, ...]:
+        await self.session.execute(
+            delete(Document).where(
+                Document.source_record_id.in_(record_ids),
+                *([Document.media_id.is_(None)] if preserve_media else []),
+            )
+        )
+        if preserve_media:
+            return ()
         keys = tuple(
             (
                 await self.session.execute(
@@ -132,11 +216,13 @@ class PostgresCatalogRepository:
         if changed is None:
             raise ApplicationError(ErrorCode.CONFLICT)
         # Remove old retrieval rows; source/raw revisions survive as provenance.
-        await self._remove_content(ref)
+        await self._remove_content(ref, preserve_media=prepared.preserve_media)
         await self._write_content(prepared)
         return await self.get(ref)
 
-    async def delete(self, ref: EntityRef, expected_version: int) -> tuple[str, ...]:
+    async def delete(
+        self, ref: EntityRef, expected_version: int, *, include_reviews: bool = False
+    ) -> tuple[str, ...]:
         self._validate(ref, expected_version)
         model = model_for(ref)
         # Lock by updating the version before removing linked retrieval content.
@@ -150,6 +236,19 @@ class PostgresCatalogRepository:
             await self.get(ref)
             raise ApplicationError(ErrorCode.CONFLICT)
         keys = await self._remove_content(ref)
+        if ref.category == Category.RESTAURANT and include_reviews:
+            reviews = select(Review.id).where(Review.restaurant_id == ref.id)
+            keys += await self._remove_records(
+                select(SourceRecord.id).where(SourceRecord.review_id.in_(reviews))
+            )
+            await self.session.execute(
+                update(SourceRecord)
+                .where(SourceRecord.review_id.in_(reviews))
+                .values(review_id=None)
+            )
+            await self.session.execute(
+                delete(Review).where(Review.restaurant_id == ref.id)
+            )
         link = (
             SourceRecord.restaurant_id
             if ref.category == Category.RESTAURANT

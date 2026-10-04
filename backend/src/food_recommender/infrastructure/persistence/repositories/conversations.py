@@ -37,7 +37,7 @@ class PostgresConversationRepository:
             Conversation.id == conversation_id, Conversation.session_id == session_id
         )
         if lock:
-            statement = statement.with_for_update()
+            statement = statement.with_for_update(key_share=True)
         row = await self.session.scalar(statement)
         if row is None:
             raise ApplicationError(ErrorCode.NOT_FOUND)

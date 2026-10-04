@@ -63,3 +63,31 @@ class LocalMediaFiles:
                 return data
         finally:
             os.close(directory)
+
+    async def write(self, storage_key: str, content: bytes) -> None:
+        if re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*", storage_key) is None:
+            raise ApplicationError(ErrorCode.INVALID_REQUEST)
+        try:
+            await asyncio.to_thread(self._write, storage_key, content)
+        except OSError as error:
+            raise ApplicationError(ErrorCode.DEPENDENCY_UNAVAILABLE) from error
+
+    def _write(self, storage_key: str, content: bytes) -> None:
+        directory = os.open(self.root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        try:
+            descriptor = os.open(
+                storage_key,
+                os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                0o600,
+                dir_fd=directory,
+            )
+            try:
+                with os.fdopen(descriptor, "wb") as file:
+                    file.write(content)
+                    file.flush()
+                    os.fsync(file.fileno())
+            except BaseException:
+                os.unlink(storage_key, dir_fd=directory)
+                raise
+        finally:
+            os.close(directory)

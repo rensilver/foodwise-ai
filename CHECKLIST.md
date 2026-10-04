@@ -524,22 +524,22 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 
 **Verification:** HTTP integration tests with real database and fake provider boundaries.
 
-- [ ] P08-01 Implement `/api/v1` conversation creation, history and deletion with browser-session ownership and conversation-data cleanup.
-- [ ] P08-02 Implement message submission with text/preferences/media IDs and typed SSE progress, clarification, recommendations, error and terminal done events.
-- [ ] P08-03 Add heartbeats, buffering controls and client-disconnect cancellation; commit completed responses before final events and prevent automatic POST replay.
-- [ ] P08-04 Implement paginated restaurant/recipe browse and detail endpoints with validated filters and source-backed fields.
-- [ ] P08-05 Implement authorized media upload/read with 10 MiB/20-megapixel limits, JPEG/PNG/WebP decoding, generated filenames and metadata stripping.
-- [ ] P08-06 Implement local administrator login/logout, hashed password verification, HttpOnly SameSite cookies, expiry, CSRF/origin checks and limited access.
-- [ ] P08-07 Implement extraction previews and explicit catalog create/update/delete operations; validate IDs, versions and delete intent on the server.
-- [ ] P08-08 Prepare embeddings before final writes, atomically commit catalog/retrieval changes, and return conflicts without partially changing data.
-- [ ] P08-09 Implement liveness/readiness and structured errors; keep stack traces and paid provider calls out of health responses.
-- [ ] P08-10 Generate frontend TypeScript contracts from OpenAPI and add a check for schema/type drift.
-- [ ] P08-11 Test HTTP/SSE contracts, pre/post-stream errors, session isolation, cancellation, retries by clients, invalid uploads, auth/CSRF and CRUD failure atomicity.
-- [ ] P08-12 Keep API routers/schemas/SSE over focused application use cases and injected adapters; register new ORM mappings explicitly and verify migration parity and transaction contracts.
+- [x] P08-01 Implement `/api/v1` conversation creation, history and deletion with browser-session ownership and conversation-data cleanup.
+- [x] P08-02 Implement message submission with text/preferences/media IDs and typed SSE progress, clarification, recommendations, error and terminal done events.
+- [x] P08-03 Add heartbeats, buffering controls and client-disconnect cancellation; commit completed responses before final events and prevent automatic POST replay.
+- [x] P08-04 Implement paginated restaurant/recipe browse and detail endpoints with validated filters and source-backed fields.
+- [x] P08-05 Implement authorized media upload/read with 10 MiB/20-megapixel limits, JPEG/PNG/WebP decoding, generated filenames and metadata stripping.
+- [x] P08-06 Implement local administrator login/logout, hashed password verification, HttpOnly SameSite cookies, expiry, CSRF/origin checks and limited access.
+- [x] P08-07 Implement extraction previews and explicit catalog create/update/delete operations; validate IDs, versions and delete intent on the server.
+- [x] P08-08 Prepare embeddings before final writes, atomically commit catalog/retrieval changes, and return conflicts without partially changing data.
+- [x] P08-09 Implement liveness/readiness and structured errors; keep stack traces and paid provider calls out of health responses.
+- [x] P08-10 Generate frontend TypeScript contracts from OpenAPI and add a check for schema/type drift.
+- [x] P08-11 Test HTTP/SSE contracts, pre/post-stream errors, session isolation, cancellation, retries by clients, invalid uploads, auth/CSRF and CRUD failure atomicity.
+- [x] P08-12 Keep API routers/schemas/SSE over focused application use cases and injected adapters; register new ORM mappings explicitly and verify migration parity and transaction contracts.
 
 **Exit criterion:** the typed API supports the full recommendation/admin flow safely, updates retrieval data consistently, and has a verified frontend contract.
 
-**Evidence / blockers:** _Pending._
+**Evidence / blockers:** Verified on 2026-10-04 on `feature/phase8-fastapi-contract`, with one dedicated commit per P08-01–12. Owned conversations, replay-protected typed POST/SSE, six-stage progress, heartbeats/disconnect cancellation, persisted final responses, source-backed browsing, bounded private images, Argon2id admin sessions/CSRF, extraction previews and optimistic CRUD are implemented. Text embeddings are prepared before atomic catalog/document/vector writes; failures retain prior data and updates retain image vectors. Confirmed restaurant deletion cleans linked reviews/retrieval while retaining raw provenance. Complete ORM registration and migration parity, core/API boundaries, active/completed-run deletion, offline OpenAPI export and generated TypeScript drift are verified. Final backend `make check` passed Ruff/format, strict mypy, schema drift and 463 tests without skips on real PostgreSQL/pgvector and offline pretrained models. Frontend `pnpm check` passed type drift, ESLint/TypeScript, one component test and five configuration/build tests. Both drift checks rejected deliberate temporary changes. Document checks, prior completion marks, source inventories, the 32 KiB instruction budget, whitespace and secret scans passed. [Phase 8 evidence](evaluation/phase8/README.md) records coverage, reproduction and limits. No paid provider calls or model downloads occurred; owner configuration/artifacts remain preserved. **Phase 7 live Groq token-limit acceptance remains open**; frontend/proxy/browser journeys remain Phase 9 scope.
 
 ## Phase 9 — Next.js frontend and administration
 

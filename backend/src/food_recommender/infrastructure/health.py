@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import tempfile
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -79,11 +80,53 @@ async def backend_readiness(settings: Settings) -> dict[str, bool]:
         except (httpx.HTTPError, ValueError):
             return False
 
-    local, mcp = await asyncio.gather(
+    async def schema_available() -> bool:
+        try:
+            dsn = settings.database_url.get_secret_value().replace(
+                "postgresql+psycopg://", "postgresql://", 1
+            )
+            async with asyncio.timeout(5):
+                async with await psycopg.AsyncConnection.connect(
+                    dsn, connect_timeout=3
+                ) as connection:
+                    cursor = await connection.execute(
+                        "SELECT to_regclass('admin_sessions') IS NOT NULL AND to_regclass('foodwise_checkpoints.checkpoints') IS NOT NULL"
+                    )
+                    row = await cursor.fetchone()
+                    return row is not None and row[0] is True
+        except Exception:
+            return False
+
+    def encoder_available() -> bool:
+        from food_recommender.retrieval.embedding_contracts import (
+            MINILM_MODEL,
+            MINILM_REVISION,
+        )
+
+        if settings.minilm_root is None:
+            return False
+        try:
+            root = settings.minilm_root.resolve()
+            manifest = json.loads((root / "foodwise-model.json").read_text())
+            return (
+                (manifest.get("model"), manifest.get("revision"))
+                == (MINILM_MODEL, MINILM_REVISION)
+                and bool(manifest.get("files"))
+                and all(
+                    root in (root / name).resolve().parents and (root / name).is_file()
+                    for name in manifest["files"]
+                )
+            )
+        except (OSError, ValueError, TypeError, KeyError):
+            return False
+
+    local, mcp, schema, encoder = await asyncio.gather(
         local_readiness(settings.database_url.get_secret_value(), settings.media_root),
         mcp_available(),
+        schema_available(),
+        asyncio.to_thread(encoder_available),
     )
-    return local | {"mcp": mcp}
+    return local | {"mcp": mcp, "schema": schema, "catalog_encoder": encoder}
 
 
 def health_payload(dependencies: dict[str, bool]) -> tuple[dict[str, object], int]:

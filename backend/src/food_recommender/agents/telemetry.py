@@ -7,7 +7,9 @@ from typing import Any
 from uuid import UUID
 
 from food_recommender.agents.state import GraphState
+from food_recommender.application.activity import observer
 from food_recommender.application.reliability import current_budget
+from food_recommender.domain.values import AgentRole
 
 
 def timed_node(
@@ -15,7 +17,41 @@ def timed_node(
 ) -> Callable[[GraphState], Awaitable[dict[str, Any]]]:
     async def invoke(state: GraphState) -> dict[str, Any]:
         started = time.monotonic()
+        roles = dict(
+            zip(
+                (
+                    "profile",
+                    "retrieval",
+                    "trend",
+                    "style",
+                    "nutrition",
+                    "recommendation",
+                ),
+                AgentRole,
+                strict=True,
+            )
+        )
+        callback = observer.get()
+        if callback:
+            await callback(roles[stage], "started")
         updates = await function(state)
+        if callback:
+            status = (
+                updates.get(
+                    {"profile": "profile_outcome", "recommendation": "final"}.get(
+                        stage, stage
+                    )
+                )
+                or {}
+            ).get("status")
+            await callback(
+                roles[stage],
+                "failed"
+                if status == "failure"
+                else "unavailable"
+                if status == "unavailable"
+                else "completed",
+            )
         budget = current_budget.get()
         if budget:
             duration = (time.monotonic() - started) * 1000

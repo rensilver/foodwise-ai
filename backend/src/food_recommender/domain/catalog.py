@@ -230,6 +230,7 @@ class PreparedCatalog:
     media: tuple[MediaData, ...] = ()
     text_embeddings: tuple[EmbeddingData, ...] = ()
     image_embeddings: tuple[EmbeddingData, ...] = ()
+    preserve_media: bool = False
 
     def __post_init__(self) -> None:
         for values in (

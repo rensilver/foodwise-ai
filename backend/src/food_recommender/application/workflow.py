@@ -44,11 +44,17 @@ class ToolGateway(Protocol):
 
 class RunLease(Protocol):
     async def __aenter__(self) -> None: ...
-    async def __aexit__(self, *args: Any) -> None: ...
+    async def __aexit__(self, *args: Any) -> bool | None: ...
 
 
 class ConversationRuns(Protocol):
-    def lease(self, conversation_id: UUID, session_id: UUID) -> RunLease: ...
+    def lease(
+        self,
+        conversation_id: UUID,
+        session_id: UUID,
+        *,
+        protect_context: bool = True,
+    ) -> RunLease: ...
 
 
 class ToolTransportError(Exception):

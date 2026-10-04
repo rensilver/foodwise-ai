@@ -11,6 +11,8 @@ from food_recommender.application.errors import ApplicationError, ErrorCode
 from food_recommender.infrastructure.observability import Runtime, request_id, run_id
 
 _ERRORS = {
+    ErrorCode.UNAUTHORIZED: (401, "Administrator authentication is required.", False),
+    ErrorCode.FORBIDDEN: (403, "The request is not permitted.", False),
     ErrorCode.INVALID_REQUEST: (422, "The request is invalid.", False),
     ErrorCode.NOT_FOUND: (404, "The requested resource was not found.", False),
     ErrorCode.CONFLICT: (409, "The request conflicts with the current state.", False),
