@@ -500,7 +500,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 - [x] P07-02 Implement the User Profile Generator for restaurant/recipe/both intent, explicit and inferred preferences, optional scoped demo reviews and clarification.
 - [x] P07-03 Preserve restrictions across follow-ups, apply explicit corrections, and handle contradictory statements without silently resetting the profile.
 - [x] P07-04 Implement the RAG Retriever's source plan, evidence sufficiency checks and at most two refinements after initial retrieval; preserve hard constraints.
-- [ ] P07-05 Implement the Food Trend Analyst with dated MCP evidence, candidate associations and explicit unavailable outcomes.
+- [x] P07-05 Implement the Food Trend Analyst with dated MCP evidence, candidate associations and explicit unavailable outcomes.
 - [ ] P07-06 Implement the Food Style Expert for all candidates with supported cuisine/flavor/preparation assessments and unavailable-analysis behavior.
 - [ ] P07-07 Implement the Nutrition Expert with deterministic ingredient checks, supported/conflicting/unknown assessments and strict exclusion behavior.
 - [ ] P07-08 Implement the Recommendation Expert for up to five results/category, all expert outcomes, explanations and validated candidate/source references.
@@ -514,7 +514,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 
 **Exit criterion:** all six roles operate on real retrieved data, synthesis waits for branch outcomes, follow-ups persist correctly, and failures cannot fabricate compliant results.
 
-**Evidence / blockers:** In progress. P07-01: separate structured/tool-selection requests, discovered-schema validation, safe provider errors and opt-in text/vision probe. P07-02: four profile intent, explicit-preference, scope and malformed-response tests pass; provider SDKs stay behind the inference port. P07-03: seven profile tests pass, including retained omissions, explicit removal, ambiguous changes and prevented inferred downgrades. P07-04: bounded source planning and refinements, category filters, scoped reviews, canonical fusion and deterministic rechecks; empty searches and dependency failures tested separately. Offline Groq contracts pass; live probe evidence will be recorded in P07-14.
+**Evidence / blockers:** In progress. P07-01: separate structured/tool-selection requests, discovered-schema validation, safe provider errors and opt-in text/vision probe. P07-02: four profile intent, explicit-preference, scope and malformed-response tests pass; provider SDKs stay behind the inference port. P07-03: seven profile tests pass, including retained omissions, explicit removal, ambiguous changes and prevented inferred downgrades. P07-04: bounded source planning and refinements, category filters, scoped reviews, canonical fusion and deterministic rechecks; empty searches and dependency failures tested separately. P07-05: public culinary queries, freshness at analysis handoff, source-excerpt claims and candidate associations verified; stale/unsupported trends return unavailable. Offline Groq contracts pass; live probe evidence will be recorded in P07-14.
 
 ## Phase 8 — FastAPI contracts and application behavior
 
