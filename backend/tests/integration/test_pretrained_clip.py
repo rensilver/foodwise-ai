@@ -5,7 +5,8 @@ from pathlib import Path
 import pytest
 from PIL import Image
 
-from food_recommender.infrastructure.clip_encoder import CLIPEncoder, validate_clip
+from food_recommender.infrastructure.embeddings.clip import CLIPEncoder
+from food_recommender.retrieval.embedding_contracts import validate_clip
 
 
 @pytest.fixture(scope="module")

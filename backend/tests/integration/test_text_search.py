@@ -3,8 +3,8 @@ from test_ingestion_store import seed_store as seed_store
 from test_text_index import Encoder
 
 from food_recommender.domain.values import Category
-from food_recommender.infrastructure.text_index import TextIndexer
-from food_recommender.infrastructure.text_search import PostgresTextSearch
+from food_recommender.infrastructure.persistence.indexing.text import TextIndexer
+from food_recommender.infrastructure.persistence.search.text import PostgresTextSearch
 from food_recommender.ingestion.adapters import (
     adapt_recipe,
     adapt_restaurant,
@@ -163,7 +163,9 @@ async def test_missing_or_incompatible_stored_revision_is_dependency_error(
 ):
     from sqlalchemy import delete, update
 
-    from food_recommender.infrastructure.embeddings import TextEmbedding
+    from food_recommender.infrastructure.persistence.models.embeddings import (
+        TextEmbedding,
+    )
     from food_recommender.retrieval.service import TextRetrieval
 
     store, connection = seed_store
@@ -196,7 +198,7 @@ async def test_unindexed_catalog_is_unavailable_instead_of_a_genuine_empty_searc
 ):
     from sqlalchemy import delete
 
-    from food_recommender.infrastructure.provenance import Document
+    from food_recommender.infrastructure.persistence.models.provenance import Document
     from food_recommender.retrieval.service import TextRetrieval
 
     store, connection = seed_store

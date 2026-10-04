@@ -22,17 +22,24 @@ from sqlalchemy.ext.asyncio import async_sessionmaker
 from food_recommender.composition import build_multimodal_retrieval
 from food_recommender.domain.preferences import Constraint
 from food_recommender.domain.values import Category, ConstraintKind, Origin, Strength
-from food_recommender.infrastructure.catalog import Recipe, Restaurant, Review
-from food_recommender.infrastructure.clip_encoder import CLIPEncoder
-from food_recommender.infrastructure.embeddings import ImageEmbedding, TextEmbedding
-from food_recommender.infrastructure.persistence import create_database_engine
-from food_recommender.infrastructure.provenance import (
+from food_recommender.infrastructure.embeddings.clip import CLIPEncoder
+from food_recommender.infrastructure.embeddings.minilm import MiniLMEncoder
+from food_recommender.infrastructure.persistence.engine import create_database_engine
+from food_recommender.infrastructure.persistence.models.catalog import (
+    Recipe,
+    Restaurant,
+    Review,
+)
+from food_recommender.infrastructure.persistence.models.embeddings import (
+    ImageEmbedding,
+    TextEmbedding,
+)
+from food_recommender.infrastructure.persistence.models.provenance import (
     Document,
     Media,
     Source,
     SourceRecord,
 )
-from food_recommender.infrastructure.text_encoder import MiniLMEncoder
 from food_recommender.retrieval.late_fusion import FusionWeights
 from food_recommender.retrieval.metrics import ndcg, recall
 from food_recommender.retrieval.models import TextPlan

@@ -7,20 +7,22 @@ import pytest
 from sqlalchemy import insert, select
 from sqlalchemy.exc import IntegrityError
 
-from food_recommender.infrastructure.checkpoints import (
+from food_recommender.infrastructure.persistence.checkpoints import (
     checkpoint_saver,
     setup_checkpoints,
 )
-from food_recommender.infrastructure.context import (
+from food_recommender.infrastructure.persistence.models.context import (
     BrowserSession,
     Conversation,
     ConversationMedia,
     Message,
     Profile,
+)
+from food_recommender.infrastructure.persistence.models.provenance import Media
+from food_recommender.infrastructure.persistence.models.trends import (
     TrendCache,
     TrendEvidence,
 )
-from food_recommender.infrastructure.provenance import Media
 
 
 @pytest.fixture

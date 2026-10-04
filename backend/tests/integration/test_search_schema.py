@@ -4,7 +4,7 @@ from sqlalchemy import insert, select, text, update
 from test_provenance_models import document
 from test_provenance_models import provenance as provenance
 
-from food_recommender.infrastructure.provenance import Document
+from food_recommender.infrastructure.persistence.models.provenance import Document
 
 
 def test_full_text_is_derived_on_insert_and_update(provenance):

@@ -13,8 +13,8 @@ from sqlalchemy.ext.asyncio import async_sessionmaker
 from test_repositories import bundle
 from test_repositories import repositories as repositories
 
+from food_recommender.application.catalog import CatalogService
 from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.application.persistence import CatalogService
 from food_recommender.application.ports import CachedTrends, TrendItem
 from food_recommender.domain.catalog import PreparedCatalog, RecipeData, RestaurantData
 from food_recommender.domain.preferences import Constraint, Preferences
@@ -25,18 +25,27 @@ from food_recommender.domain.values import (
     Origin,
     Strength,
 )
-from food_recommender.infrastructure.catalog import Recipe, Restaurant, Review
-from food_recommender.infrastructure.context import (
-    DemoProfile,
+from food_recommender.infrastructure.persistence.engine import create_database_engine
+from food_recommender.infrastructure.persistence.models.catalog import (
+    Recipe,
+    Restaurant,
+    Review,
+)
+from food_recommender.infrastructure.persistence.models.context import DemoProfile
+from food_recommender.infrastructure.persistence.models.embeddings import (
+    ImageEmbedding,
+    TextEmbedding,
+)
+from food_recommender.infrastructure.persistence.models.provenance import (
+    Document,
+    Media,
+    SourceRecord,
+)
+from food_recommender.infrastructure.persistence.models.trends import (
     TrendCache,
     TrendEvidence,
 )
-from food_recommender.infrastructure.embeddings import ImageEmbedding, TextEmbedding
-from food_recommender.infrastructure.persistence import (
-    PostgresUnitOfWork,
-    create_database_engine,
-)
-from food_recommender.infrastructure.provenance import Document, Media, SourceRecord
+from food_recommender.infrastructure.persistence.unit_of_work import PostgresUnitOfWork
 
 
 @pytest.mark.asyncio

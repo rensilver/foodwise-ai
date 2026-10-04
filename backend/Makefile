@@ -33,7 +33,7 @@ provision-minilm:
 
 index-text:
 	@test -n "$$DATABASE_URL" -a -n "$$MINILM_ROOT" || (echo "Set DATABASE_URL and MINILM_ROOT"; exit 2)
-	uv run --locked python -m food_recommender.retrieval.cli --model-root "$$MINILM_ROOT" index
+	uv run --locked python -m food_recommender.cli.text --model-root "$$MINILM_ROOT" index
 
 evaluate-text:
 	@test -n "$$DATABASE_URL" -a -n "$$MINILM_ROOT" || (echo "Set DATABASE_URL and MINILM_ROOT"; exit 2)
@@ -46,7 +46,7 @@ provision-clip:
 
 index-images:
 	@test -n "$$DATABASE_URL" -a -n "$$CLIP_ROOT" -a -n "$$MEDIA_ROOT" || (echo "Set DATABASE_URL, CLIP_ROOT and MEDIA_ROOT"; exit 2)
-	uv run --locked python -m food_recommender.retrieval.image_cli --clip-root "$$CLIP_ROOT" index
+	uv run --locked python -m food_recommender.cli.image --clip-root "$$CLIP_ROOT" index
 
 .PHONY: evaluate-multimodal
 evaluate-multimodal:

@@ -4,10 +4,10 @@ from test_ingestion_store import seed_store as seed_store
 from test_text_search import populate
 
 from food_recommender.domain.values import Category
-from food_recommender.infrastructure.image_index import ImageIndexer
-from food_recommender.infrastructure.image_search import PostgresImageSearch
-from food_recommender.infrastructure.media import LocalMediaFiles
-from food_recommender.infrastructure.text_index import TextIndexer
+from food_recommender.infrastructure.media.files import LocalMediaFiles
+from food_recommender.infrastructure.persistence.indexing.image import ImageIndexer
+from food_recommender.infrastructure.persistence.indexing.text import TextIndexer
+from food_recommender.infrastructure.persistence.search.image import PostgresImageSearch
 from food_recommender.retrieval.image_service import ImageRetrieval
 from food_recommender.retrieval.models import TextPlan
 from food_recommender.retrieval.multimodal import MultimodalRetrieval
@@ -65,7 +65,9 @@ async def test_image_only_combined_queries_exact_filters_and_hard_constraints(
 
     from food_recommender.domain.preferences import Constraint
     from food_recommender.domain.values import ConstraintKind, Origin, Strength
-    from food_recommender.infrastructure.query_media import AuthorizedQueryMedia
+    from food_recommender.infrastructure.persistence.query_media import (
+        AuthorizedQueryMedia,
+    )
 
     store, _ = seed_store
     search, text_encoder = await populate(store, tmp_path)
@@ -135,7 +137,9 @@ async def test_missing_stale_and_partial_image_vectors_report_degradation(
 ):
     from sqlalchemy import update
 
-    from food_recommender.infrastructure.embeddings import ImageEmbedding
+    from food_recommender.infrastructure.persistence.models.embeddings import (
+        ImageEmbedding,
+    )
 
     store, connection = seed_store
     search, encoder = await populate(store, tmp_path)

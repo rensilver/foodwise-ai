@@ -8,7 +8,12 @@ from sqlalchemy import delete, insert, select, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from food_recommender.infrastructure.catalog import Base, Recipe, Restaurant, Review
+from food_recommender.infrastructure.persistence.models.base import Base
+from food_recommender.infrastructure.persistence.models.catalog import (
+    Recipe,
+    Restaurant,
+    Review,
+)
 
 
 def restaurant(**changes: object) -> dict[str, object]:

@@ -1,5 +1,8 @@
 # Backend scaffold
 
+Package responsibilities, dependency rules and CLI path changes are documented in
+[Package organization](PACKAGES.md).
+
 The application package is `src/food_recommender`. P01-03 adds validated
 configuration in the infrastructure package. P01-05 adds FastAPI and FastMCP
 startup factories and local health probes. P01-08 adds composition roots,
@@ -175,7 +178,7 @@ avoids changing process logging in an embedding application or test.
 have no framework/provider imports. Raise `ApplicationError(code)` at a use-case
 boundary and preserve an adapter exception with `raise ... from error` when
 needed. Never use provider text or profile content as a public message. The
-shared [HTTP boundary](src/food_recommender/infrastructure/http.py) returns
+shared [HTTP boundary](src/food_recommender/transport/http.py) returns
 `{"error":{"code":...,"message":...,"retryable":...},"request_id":...}` using
 fixed messages and Pydantic schemas; the API exposes the unexpected readiness
 error schema in OpenAPI. API validation and HTTP exceptions use the same
@@ -283,7 +286,7 @@ PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run --locked pytest -p pytest_asyncio.plugin
 
 ## Catalog persistence and migrations (P02-02)
 
-The [catalog mappings](src/food_recommender/infrastructure/catalog.py) live in
+The [catalog mappings](src/food_recommender/infrastructure/persistence/models/catalog.py) live in
 infrastructure, outside the framework-independent domain package. Importing
 them creates no engine or connection. The
 [initial revision](migrations/versions/0001_catalog.py) creates `restaurants`,
@@ -357,7 +360,7 @@ the sections below and the verified Phase 2 exit gate in the checklist.
 
 ## Source, document and media provenance (P02-03)
 
-The [provenance mappings](src/food_recommender/infrastructure/provenance.py) extend
+The [provenance mappings](src/food_recommender/infrastructure/persistence/models/provenance.py) extend
 the catalog metadata. The migration environment imports
 `infrastructure.cleanup` to register the complete application metadata; imports
 perform no database or filesystem I/O. The
@@ -525,7 +528,7 @@ source/media associations, model compatibility, dimensions and normalization
 before the final transaction. Prepare full content and vectors outside the
 transaction; never call inference inside a write.
 
-[CatalogService](src/food_recommender/application/persistence.py) uses an injected
+[CatalogService](src/food_recommender/application/catalog.py) uses an injected
 unit-of-work factory. The async PostgreSQL adapter commits canonical data,
 source/raw provenance, documents, media and vectors together. Revision
 `0006_versions` adds positive versions; replace/delete use conditional writes
@@ -610,7 +613,7 @@ require or call Groq/Tavily. An explicit `--env-file` before the subcommand can
 load local configuration without printing it. Environment values take precedence.
 
 ```bash
-uv run --locked python -m food_recommender.ingestion.cli import
+uv run --locked python -m food_recommender.cli.ingestion import
 ```
 
 The default inputs are the five committed JSON artifacts, raw culinary map,
@@ -642,7 +645,7 @@ For a provider-backed administrator preview, explicitly enable Groq by supplying
 a fresh key and the configured model, then write the result to ignored storage:
 
 ```bash
-uv run --locked python -m food_recommender.ingestion.cli preview \
+uv run --locked python -m food_recommender.cli.ingestion preview \
   --category restaurant --input /absolute/path/description.txt \
   --output ../.local-tmp/ingestion/preview.json
 ```
@@ -671,8 +674,8 @@ export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
 export TOKENIZERS_PARALLELISM=false HF_HUB_DISABLE_PROGRESS_BARS=1
 make provision-minilm
 make index-text
-uv run --locked python -m food_recommender.retrieval.cli --model-root "$MINILM_ROOT" search "tomato basil pizza" --category recipe --source recipe --cuisine Italian
-uv run --locked python -m food_recommender.retrieval.cli --model-root "$MINILM_ROOT" search "cozy greenhouse" --category restaurant --source restaurant --location "Silver Lake" --max-price-band 4
+uv run --locked python -m food_recommender.cli.text --model-root "$MINILM_ROOT" search "tomato basil pizza" --category recipe --source recipe --cuisine Italian
+uv run --locked python -m food_recommender.cli.text --model-root "$MINILM_ROOT" search "cozy greenhouse" --category restaurant --source restaurant --location "Silver Lake" --max-price-band 4
 ```
 
 Model provisioning requires public Hugging Face network access and writes only to
@@ -763,8 +766,8 @@ unchanged inference. Startup never downloads models or wipes vectors.
 Search the shared multimodal service from `backend/`:
 
 ```bash
-uv run --locked python -m food_recommender.retrieval.multimodal_cli "tomato basil pizza" --minilm-root "$MINILM_ROOT" --clip-root "$CLIP_ROOT" --category recipe --source recipe
-uv run --locked python -m food_recommender.retrieval.multimodal_cli --clip-root "$CLIP_ROOT" --image-only --media-id "$CATALOG_MEDIA_ID" --session-id 00000000-0000-0000-0000-000000000001 --category recipe --source recipe
+uv run --locked python -m food_recommender.cli.multimodal "tomato basil pizza" --minilm-root "$MINILM_ROOT" --clip-root "$CLIP_ROOT" --category recipe --source recipe
+uv run --locked python -m food_recommender.cli.multimodal --clip-root "$CLIP_ROOT" --image-only --media-id "$CATALOG_MEDIA_ID" --session-id 00000000-0000-0000-0000-000000000001 --category recipe --source recipe
 ```
 
 Set `CATALOG_MEDIA_ID` to a `media_ids` value returned by the first search.

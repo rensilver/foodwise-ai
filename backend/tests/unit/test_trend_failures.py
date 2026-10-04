@@ -7,7 +7,7 @@ import pytest
 from pydantic import SecretStr
 
 from food_recommender.application.trends import TrendRequest, TrendService
-from food_recommender.infrastructure.tavily import TavilySearch
+from food_recommender.infrastructure.providers.tavily import TavilySearch
 
 
 @pytest.mark.parametrize(

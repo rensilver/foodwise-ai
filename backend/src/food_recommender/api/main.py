@@ -16,12 +16,8 @@ from food_recommender.application.services import Services
 from food_recommender.composition import build_backend_services
 from food_recommender.infrastructure.config import Settings, load_settings
 from food_recommender.infrastructure.health import backend_readiness, health_payload
-from food_recommender.infrastructure.http import (
-    ErrorEnvelope,
-    ObservedHTTP,
-    error_response,
-)
 from food_recommender.infrastructure.observability import Runtime, configure_logging
+from food_recommender.transport.http import ErrorEnvelope, ObservedHTTP, error_response
 
 
 def create_app(

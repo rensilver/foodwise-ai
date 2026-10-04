@@ -1,6 +1,6 @@
 import pytest
 
-from food_recommender.infrastructure.clip_encoder import (
+from food_recommender.retrieval.embedding_contracts import (
     CLIP_MODEL,
     CLIP_REVISION,
     validate_clip,

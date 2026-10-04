@@ -6,10 +6,10 @@ from test_image_index import image_item
 from test_ingestion_store import seed_store as seed_store
 
 from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.infrastructure.context import BrowserSession
-from food_recommender.infrastructure.media import LocalMediaFiles
-from food_recommender.infrastructure.provenance import Media
-from food_recommender.infrastructure.query_media import AuthorizedQueryMedia
+from food_recommender.infrastructure.media.files import LocalMediaFiles
+from food_recommender.infrastructure.persistence.models.context import BrowserSession
+from food_recommender.infrastructure.persistence.models.provenance import Media
+from food_recommender.infrastructure.persistence.query_media import AuthorizedQueryMedia
 
 
 @pytest.mark.asyncio
@@ -63,8 +63,10 @@ async def test_image_to_image_service_resolves_only_authorized_ids(
 ):
     from test_image_index import Encoder
 
-    from food_recommender.infrastructure.image_index import ImageIndexer
-    from food_recommender.infrastructure.image_search import PostgresImageSearch
+    from food_recommender.infrastructure.persistence.indexing.image import ImageIndexer
+    from food_recommender.infrastructure.persistence.search.image import (
+        PostgresImageSearch,
+    )
     from food_recommender.retrieval.image_service import ImageRetrieval
     from food_recommender.retrieval.models import TextPlan
 

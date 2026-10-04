@@ -16,7 +16,6 @@ from food_recommender.api.dependencies import get_services
 from food_recommender.api.main import create_app
 from food_recommender.application.errors import ApplicationError, ErrorCode
 from food_recommender.application.services import Services
-from food_recommender.infrastructure.http import ObservedHTTP
 from food_recommender.infrastructure.observability import (
     Runtime,
     StructuredFormatter,
@@ -26,6 +25,7 @@ from food_recommender.infrastructure.observability import (
 )
 from food_recommender.mcp.server import MCPSettings
 from food_recommender.mcp.server import create_app as create_mcp_app
+from food_recommender.transport.http import ObservedHTTP
 
 CANARY = "synthetic-private-profile-and-credential"
 IDENTIFIER = UUID("11111111-1111-4111-8111-111111111111")

@@ -5,12 +5,9 @@ import httpx
 import pytest
 from PIL import Image
 
+from food_recommender.infrastructure.media.downloads import CourseDownloader
 from food_recommender.ingestion.adapters import SourceError
-from food_recommender.ingestion.images import (
-    CourseDownloader,
-    prepare_image,
-    recipe_archive,
-)
+from food_recommender.ingestion.images import prepare_image, recipe_archive
 
 
 def png():
@@ -198,7 +195,7 @@ def test_storage_symlink_and_decode_limits(tmp_path, monkeypatch):
     ],
 )
 async def test_bounded_download_failures(kind, monkeypatch):
-    import food_recommender.ingestion.images as module
+    import food_recommender.infrastructure.media.downloads as module
 
     monkeypatch.setattr(module, "MAX_BYTES", 100)
     calls = []

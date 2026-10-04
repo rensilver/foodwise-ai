@@ -15,10 +15,14 @@ from food_recommender.application.ports import TrendItem
 from food_recommender.application.services import Services
 from food_recommender.application.trends import TrendRequest, TrendService
 from food_recommender.composition import build_multimodal_retrieval
-from food_recommender.infrastructure.lookups import PostgresLookups
 from food_recommender.infrastructure.mcp_config import MCPSettings
-from food_recommender.infrastructure.mcp_resources import PostgresCatalogResources
-from food_recommender.infrastructure.persistence import PostgresUnitOfWork
+from food_recommender.infrastructure.persistence.repositories.lookups import (
+    PostgresLookups,
+)
+from food_recommender.infrastructure.persistence.repositories.resources import (
+    PostgresCatalogResources,
+)
+from food_recommender.infrastructure.persistence.unit_of_work import PostgresUnitOfWork
 from food_recommender.mcp.client import AgentMCP
 from food_recommender.mcp.server import create_server
 

@@ -7,7 +7,7 @@ import pytest
 from pydantic import SecretStr, ValidationError
 
 from food_recommender.application.trends import TrendRequest
-from food_recommender.infrastructure.tavily import TavilySearch
+from food_recommender.infrastructure.providers.tavily import TavilySearch
 
 
 @pytest.mark.asyncio

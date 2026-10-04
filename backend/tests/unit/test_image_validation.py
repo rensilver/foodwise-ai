@@ -3,7 +3,7 @@ import io
 import pytest
 from PIL import Image
 
-from food_recommender.infrastructure.clip_encoder import MAX_BYTES, decode_image
+from food_recommender.infrastructure.media.images import MAX_BYTES, decode_image
 
 
 @pytest.mark.parametrize("format", ["JPEG", "PNG", "WEBP"])

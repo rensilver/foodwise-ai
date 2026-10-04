@@ -4,12 +4,12 @@ import pytest
 from sqlalchemy import func, select
 from test_ingestion_store import seed_store as seed_store
 
-from food_recommender.infrastructure.embeddings import TextEmbedding
-from food_recommender.infrastructure.text_encoder import MINILM_MODEL, MINILM_REVISION
-from food_recommender.infrastructure.text_index import TextIndexer
+from food_recommender.infrastructure.persistence.indexing.text import TextIndexer
+from food_recommender.infrastructure.persistence.models.embeddings import TextEmbedding
 from food_recommender.ingestion.adapters import adapt_recipe
 from food_recommender.ingestion.models import SeedItem
 from food_recommender.ingestion.seed import artifact, source_record
+from food_recommender.retrieval.embedding_contracts import MINILM_MODEL, MINILM_REVISION
 
 
 class Encoder:
@@ -60,7 +60,7 @@ async def test_index_batches_are_hash_idempotent_and_preserve_canonical_ingredie
 async def test_caption_chunk_preserves_imported_attribution_and_media_reference(
     seed_store, tmp_path
 ):
-    from food_recommender.infrastructure.provenance import Document
+    from food_recommender.infrastructure.persistence.models.provenance import Document
     from food_recommender.ingestion.adapters import adapt_recipe
     from food_recommender.ingestion.seed import caption_document
 

@@ -4,7 +4,7 @@ import asyncio
 from uuid import UUID
 
 from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.infrastructure.clip_encoder import validate_clip
+from food_recommender.retrieval.embedding_contracts import validate_clip
 from food_recommender.retrieval.models import ImageHit, TextPlan
 from food_recommender.retrieval.ports import ImageEncoder, ImageSearch, QueryMedia
 

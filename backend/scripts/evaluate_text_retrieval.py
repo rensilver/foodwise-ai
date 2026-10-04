@@ -19,12 +19,20 @@ from sqlalchemy.ext.asyncio import async_sessionmaker
 
 from food_recommender.domain.preferences import Constraint
 from food_recommender.domain.values import Category, ConstraintKind, Origin, Strength
-from food_recommender.infrastructure.catalog import Recipe, Restaurant, Review
-from food_recommender.infrastructure.embeddings import TextEmbedding
-from food_recommender.infrastructure.persistence import create_database_engine
-from food_recommender.infrastructure.provenance import Document, Source, SourceRecord
-from food_recommender.infrastructure.text_encoder import MiniLMEncoder
-from food_recommender.infrastructure.text_search import PostgresTextSearch
+from food_recommender.infrastructure.embeddings.minilm import MiniLMEncoder
+from food_recommender.infrastructure.persistence.engine import create_database_engine
+from food_recommender.infrastructure.persistence.models.catalog import (
+    Recipe,
+    Restaurant,
+    Review,
+)
+from food_recommender.infrastructure.persistence.models.embeddings import TextEmbedding
+from food_recommender.infrastructure.persistence.models.provenance import (
+    Document,
+    Source,
+    SourceRecord,
+)
+from food_recommender.infrastructure.persistence.search.text import PostgresTextSearch
 from food_recommender.retrieval.metrics import ndcg, recall
 from food_recommender.retrieval.models import TextPlan
 from food_recommender.retrieval.service import TextRetrieval

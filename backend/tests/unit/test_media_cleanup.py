@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.infrastructure.media import LocalMediaFiles
+from food_recommender.infrastructure.media.files import LocalMediaFiles
 
 
 @pytest.mark.asyncio
