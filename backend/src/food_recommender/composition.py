@@ -19,6 +19,7 @@ from food_recommender.agents.nodes.style import FoodStyleExpert
 from food_recommender.agents.nodes.trend import FoodTrendAnalyst
 from food_recommender.agents.runner import GraphRunner
 from food_recommender.application.activity import Progress, observer
+from food_recommender.application.browse import BrowseService
 from food_recommender.application.catalog import CatalogService
 from food_recommender.application.conversations import ConversationService
 from food_recommender.application.inference import Inference
@@ -116,6 +117,7 @@ def build_backend_services(
         close=close,
         messages=MessageService(transactions, workflow, runs),
         catalog=CatalogService(transactions, cleanup),
+        browse=BrowseService(transactions),
         conversations=ConversationService(transactions, cleanup),
         media_cleanup=cleanup,
     )

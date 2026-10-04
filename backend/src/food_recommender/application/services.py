@@ -4,6 +4,7 @@ from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from typing import Protocol
 
+from food_recommender.application.browse import BrowseService
 from food_recommender.application.catalog import CatalogService
 from food_recommender.application.conversations import ConversationService
 from food_recommender.application.lookups import LookupService
@@ -27,6 +28,7 @@ class Services:
     transactions: Callable[[], UnitOfWork] | None = None
     close: Callable[[], Awaitable[None]] | None = None
     catalog: CatalogService | None = None
+    browse: BrowseService | None = None
     conversations: ConversationService | None = None
     messages: MessageService | None = None
     media_cleanup: MediaCleanupService | None = None
