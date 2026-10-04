@@ -48,7 +48,7 @@ class PostgresConversationRuns:
                         Conversation.id == conversation_id,
                         Conversation.session_id == session_id,
                     )
-                    .with_for_update(read=True)
+                    .with_for_update(read=True, key_share=True)
                 )
                 if owned is None:
                     raise ApplicationError(ErrorCode.NOT_FOUND)

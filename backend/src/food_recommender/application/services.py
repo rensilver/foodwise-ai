@@ -8,6 +8,7 @@ from food_recommender.application.catalog import CatalogService
 from food_recommender.application.conversations import ConversationService
 from food_recommender.application.lookups import LookupService
 from food_recommender.application.media_cleanup import MediaCleanupService
+from food_recommender.application.messages import MessageService
 from food_recommender.application.ports import UnitOfWork
 from food_recommender.application.resources import CatalogResources
 from food_recommender.application.trends import TrendService
@@ -27,6 +28,7 @@ class Services:
     close: Callable[[], Awaitable[None]] | None = None
     catalog: CatalogService | None = None
     conversations: ConversationService | None = None
+    messages: MessageService | None = None
     media_cleanup: MediaCleanupService | None = None
     lookups: LookupService | None = None
     retrieval: MultimodalRetrieval | None = None
