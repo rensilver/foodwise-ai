@@ -1,6 +1,6 @@
 import pytest
 
-from food_recommender.infrastructure.text_encoder import (
+from food_recommender.retrieval.embedding_contracts import (
     MINILM_MODEL,
     MINILM_REVISION,
     validate_query,

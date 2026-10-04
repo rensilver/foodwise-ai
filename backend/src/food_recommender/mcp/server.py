@@ -14,7 +14,6 @@ from food_recommender.application.services import Services
 from food_recommender.application.trends import TrendService
 from food_recommender.composition import build_mcp_services
 from food_recommender.infrastructure.health import health_payload
-from food_recommender.infrastructure.http import ObservedHTTP
 from food_recommender.infrastructure.mcp_config import MCPSettings as MCPSettings
 from food_recommender.infrastructure.observability import Runtime, configure_logging
 from food_recommender.mcp.resources import register_resources
@@ -24,6 +23,7 @@ from food_recommender.mcp.tools import (
     register_trends,
 )
 from food_recommender.retrieval.multimodal import MultimodalRetrieval
+from food_recommender.transport.http import ObservedHTTP
 
 
 def create_server(

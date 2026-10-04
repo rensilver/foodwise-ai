@@ -1,7 +1,7 @@
 import pytest
 
 from food_recommender.domain.values import Category
-from food_recommender.infrastructure.clip_encoder import CLIP_MODEL, CLIP_REVISION
+from food_recommender.retrieval.embedding_contracts import CLIP_MODEL, CLIP_REVISION
 from food_recommender.retrieval.image_service import ImageRetrieval
 from food_recommender.retrieval.models import TextPlan
 

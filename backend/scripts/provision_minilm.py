@@ -6,7 +6,7 @@ import sys
 import urllib.request
 from pathlib import Path
 
-from food_recommender.infrastructure.text_encoder import MINILM_MODEL, MINILM_REVISION
+from food_recommender.retrieval.embedding_contracts import MINILM_MODEL, MINILM_REVISION
 
 FILES = (
     "config.json",

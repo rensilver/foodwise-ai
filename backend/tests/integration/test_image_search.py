@@ -3,9 +3,9 @@ from test_image_index import Encoder, image_item
 from test_ingestion_store import seed_store as seed_store
 
 from food_recommender.domain.values import Category
-from food_recommender.infrastructure.image_index import ImageIndexer
-from food_recommender.infrastructure.image_search import PostgresImageSearch
-from food_recommender.infrastructure.media import LocalMediaFiles
+from food_recommender.infrastructure.media.files import LocalMediaFiles
+from food_recommender.infrastructure.persistence.indexing.image import ImageIndexer
+from food_recommender.infrastructure.persistence.search.image import PostgresImageSearch
 from food_recommender.retrieval.models import TextPlan
 
 
@@ -68,7 +68,10 @@ async def test_review_images_are_scoped_to_profile_and_actual_restaurant(
     from sqlalchemy import insert, select
     from test_text_search import populate
 
-    from food_recommender.infrastructure.provenance import Media, SourceRecord
+    from food_recommender.infrastructure.persistence.models.provenance import (
+        Media,
+        SourceRecord,
+    )
 
     store, connection = seed_store
     await populate(store, tmp_path)

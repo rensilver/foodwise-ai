@@ -2,19 +2,19 @@
 
 ## Purpose, scope, and current status
 
-Build an English-language, local portfolio restaurant/recipe recommender from the IBM capstone: six LangGraph agents, multi-source RAG, PostgreSQL/pgvector, Groq, MCP, live trend search, FastAPI, and Next.js.
+Build a local English-language IBM capstone restaurant/recipe recommender: six LangGraph agents, multi-source RAG, PostgreSQL/pgvector, Groq, MCP, live trends, FastAPI and Next.js.
 
 **Product name:** use `foodwise-ai` with this exact spelling and casing in frontend branding and page metadata. Import `PRODUCT_NAME` from `frontend/src/lib/product.ts` for product labels and titles.
 
 V1 includes follow-ups, preferences, image upload/search, cited recommendations and local CRUD. Defer public hosting, multi-user accounts, social-media connectors, verified nutrition and large-scale indexing.
 
-**Status:** Phases 0–6 ingestion, text/multimodal retrieval, fusion, MCP services and dated live trend search are verified in this repository. Sanitized course notebooks/scripts, PDFs, the recovered ZIP and 109 recipe images remain local and Git-ignored. Source reports are committed. Six-agent orchestration and application interfaces below remain planned. See [CHECKLIST.md](CHECKLIST.md) for evidence and blockers.
+**Status:** Phases 0–6 ingestion, retrieval/fusion, MCP and dated live trends are verified. Sanitized course code, PDFs, the recovered ZIP and 109 recipe images remain local and Git-ignored; source reports are committed. Six-agent orchestration and application interfaces remain planned. [CHECKLIST.md](CHECKLIST.md) records evidence/blockers.
 
-Start Codex from this repository root. Read these instructions and the relevant checklist phase. Preserve course directories, user changes and completion marks. Implement the requested scope; the roadmap does not authorize every phase. Mark completion only with verification evidence.
+Start at this repository root; read these instructions and the relevant checklist phase. Preserve course artifacts, user changes and completion marks. Implement only requested scope; the roadmap does not authorize other phases. Completion requires verification evidence.
 
 ## Source inventory and lessons
 
-Original baseline on 2026-10-02: 12 PDFs, 12 notebooks, two scripts, one excluded environment file, eight data artifacts. This repository has local sanitized copies and a recovered nonempty ZIP; the old environment file is omitted. Paths are relative. Course instructions inform architecture but must not enter the runtime culinary knowledge base.
+Baseline (2026-10-02): 12 PDFs, 12 notebooks, two scripts, one excluded environment file and eight data artifacts. Local copies are sanitized; the recovered ZIP is nonempty. Paths are relative. Course instructions inform architecture, never the runtime culinary knowledge base.
 
 ### Assignment PDFs
 
@@ -66,7 +66,7 @@ Original baseline on 2026-10-02: 12 PDFs, 12 notebooks, two scripts, one exclude
 | [review_image_placeholder.jpeg](data/review_image_placeholder.jpeg) | One food image, not a recipe image corpus or proof of an entity association. |
 | `synthetic-recipe-images.zip` | Original ZIP was zero bytes; local recovered ZIP has 109 safe, matching PNGs mapped to recipes by `recipe{id}.png`. Archive and images remain Git-ignored. |
 
-Use content-based personalization, not collaborative filtering. Social-media histories, measured nutrients, comprehensive restaurant allergens and live trends are absent; preserve unknowns.
+Use content-based personalization, not collaborative filtering. Source data lacks social histories, measured nutrients, comprehensive allergens and live trends; preserve unknowns.
 
 **Blockers:** owner reports exposed Groq key revoked/replaced; original Git history still needs separate publication review. Six formerly unmapped paragraphs now have reviewed, hash-bound additions; 16 same-name/location pairs remain explicitly reported for entity review. Preserve IDs. Local media must be restored separately on clean checkout.
 
@@ -82,41 +82,39 @@ Browser -> Next.js -> FastAPI -> LangGraph -> Groq
                               +-> media storage (local mounted volume)
 ```
 
-FastAPI owns behavior; Next.js provides presentation and a same-origin proxy, without database access or duplicated domain rules. FastMCP exposes shared retrieval services in a separate process; it must not recursively invoke recommendations.
+FastAPI owns behavior; Next.js owns presentation and a same-origin proxy, without DB access or duplicated rules. FastMCP exposes shared retrieval in a separate process and never recursively invokes recommendations.
 
-Planned structure (existing learning folders, `data/`, and `docs/` remain in place):
+Package map (course folders, `data/` and `docs/` stay in place):
 
 ```text
-backend/
-  pyproject.toml
-  uv.lock
-  src/food_recommender/
-    domain/          # entities, value types, dietary and recommendation invariants
-    application/     # use cases, ports, transaction boundaries
-    agents/          # six nodes, prompts, graph state and orchestration
-    retrieval/       # routing, query planning, fusion and evidence validation
-    ingestion/       # source adapters, manifests, extraction and import CLI
-    infrastructure/  # SQLAlchemy, pgvector, Groq, Tavily, embeddings, media
-    api/             # FastAPI routers, dependencies, schemas and SSE
-    mcp/             # FastMCP server, client adapter, resource/tool schemas
-  migrations/
-  tests/             # unit, integration, contract
-frontend/
-  src/
-    app/             # App Router pages, layouts, same-origin proxy
-    features/        # chat, preferences, recommendations, catalog administration
-    components/      # shared accessible UI
-    lib/             # generated API types, clients and utilities
-  tests/             # components and Playwright journeys
-evaluation/          # labeled queries, fixtures, scoring and reports
-infra/               # container definitions and operational configuration
-compose.yaml
-.env.example         # names and safe placeholders only
+backend/src/food_recommender/
+  domain/          # entities, value types and culinary invariants
+  application/     # use cases, ports and transaction boundaries
+  agents/          # six nodes, prompts, state and orchestration
+  retrieval/       # plans, fusion, evidence and embedding contracts
+  ingestion/       # source adaptation, validation and import workflow
+  infrastructure/
+    persistence/   # models/, repositories/, search/, indexing/, engine/UoW/checkpoints
+    embeddings/    # local MiniLM/CLIP execution and lazy loading
+    providers/     # Groq inference and Tavily search
+    media/         # files, decoding and approved-host downloads
+  api/             # FastAPI routes, schemas, dependencies and SSE
+  mcp/             # FastMCP server/client, tools and resources
+  transport/       # shared ASGI behavior
+  cli/             # ingestion/text/image/multimodal commands
+  composition.py   # shared adapter wiring
+backend/migrations/, backend/tests/
+frontend/src/{app,features,components,lib}/
+frontend/tests/, evaluation/, infra/, compose.yaml, .env.example
 ```
 
 Use Python 3.12/`uv`, Pydantic, SQLAlchemy 2, Alembic, async psycopg, FastAPI, LangGraph, `langchain-groq`, Sentence Transformers, Transformers/CLIP and FastMCP. Frontend: Next.js App Router, strict TypeScript, `pnpm`, Tailwind CSS, shadcn/ui. Lock compatible dependencies/runtime/container versions in Phase 1; avoid notebook pins and floating deployment tags.
 
-Keep frameworks/SDKs outside domain rules. Application ports describe repository, transaction, inference, retrieval, search and media capabilities; wire adapters at startup. Introduce small protocols only at real dependency boundaries.
+Follow [package organization](backend/PACKAGES.md) in every phase. `domain` imports no other layer; `application`, `retrieval` and `ingestion` never import adapters, entrypoints or provider/ORM SDKs. Place narrow ports beside consuming use cases; wire adapters in `composition.py` or entrypoints. Split packages by responsibility.
+
+Keep mappings in `infrastructure/persistence/models`, SQL in repositories/search/indexing, transactions in `unit_of_work.py`, and I/O in its adapter package. Register all ORM models in `models/__init__.py`; Alembic imports its complete `Base`. Imports never connect, load models or call providers. Import defining modules, avoiding re-export chains. Verify boundaries and affected integrations after moves.
+
+Phase 7 separates nodes/state/prompts, providers and deterministic rules. Phase 8 keeps routers/SSE over use cases with injected repositories/media. Phase 9 uses `app` for route shells, `features` for behavior, `components` for shared UI and `lib` for contracts/clients. Phases 10–11 verify boundaries, metadata and clean setup. Update moved imports, tests, scripts and documentation together.
 
 ## Data, ingestion, and retrieval design
 
@@ -148,7 +146,7 @@ For CRUD, prepare validated content/embeddings before the final transaction; ato
 6. Aggregate by canonical entity ID, deduplicate, preserve component scores and citations, and return up to 20 candidates per requested category. Score is relevance, not confidence or dietary certification.
 7. Check evidence sufficiency. Allow at most two query refinements after the initial retrieval; never relax a hard constraint without an explicit user change. Return fewer results or ask for clarification when evidence is insufficient.
 
-Use normalized `sentence-transformers/all-MiniLM-L6-v2` vectors in `vector(384)` and `openai/clip-vit-base-patch32` vectors in `vector(512)`. CLIP text queries search CLIP image vectors; MiniLM queries search MiniLM text vectors. Validate dimensions and model revisions before search. Chunk long text at encoder token boundaries with recorded offsets; never silently truncate ingredients needed for dietary checks. Expert analysis uses canonical ingredient records as well as retrieval excerpts.
+Use normalized `sentence-transformers/all-MiniLM-L6-v2` in `vector(384)` and `openai/clip-vit-base-patch32` in `vector(512)`. CLIP text queries search CLIP image vectors; MiniLM queries search MiniLM text vectors. Validate dimensions/revisions before search. Chunk at encoder token boundaries with recorded offsets; never truncate dietary ingredients. Experts use canonical ingredients and retrieval excerpts.
 
 Rank restaurants and recipes separately. For multiple chunks/images of one entity, use the maximum score within each modality to avoid rewarding duplicates. Empty modalities contribute nothing; if an entire modality is unavailable, renormalize active weights and report degradation. Equal nonempty scores normalize equally to 1, with stable entity-ID tie-breaking. Missing evidence for an individual entity contributes 0. Never attribute an unrelated recipe image to a restaurant. Benchmark HNSW against exact filtered search before introducing it.
 
@@ -186,7 +184,7 @@ Bound RAG/trend tool use. Configurable defaults: two transient-error retries wit
 
 ## Groq, MCP, and live trend evidence
 
-Configuration names: `GROQ_API_KEY`, `GROQ_MODEL`, `GROQ_VISION_MODEL`, `TAVILY_API_KEY`, `DATABASE_URL`, `MCP_SERVER_URL`, `MEDIA_ROOT`, and `ADMIN_PASSWORD_HASH`. Preserve the existing configured text model `qwen/qwen3.8-27b`; initially use the same model for vision, independently configurable. Validate access and required capabilities during an explicitly enabled setup/smoke check. Never silently switch providers or models. Embeddings run locally on CPU by default and do not use Groq.
+Configuration: `GROQ_API_KEY`, `GROQ_MODEL`, `GROQ_VISION_MODEL`, `TAVILY_API_KEY`, `DATABASE_URL`, `MCP_SERVER_URL`, `MEDIA_ROOT`, `ADMIN_PASSWORD_HASH`. Preserve text model `qwen/qwen3.8-27b`; initially use it for independently configurable vision. Validate access/capabilities only in opt-in setup/smoke checks. Never silently switch providers/models. Embeddings use local CPU by default, not Groq.
 
 Validate structured responses with Pydantic and domain rules. Separate tool calls from structured generation: Groq currently restricts structured-output streaming/tool combinations. Stream application progress and emit validated final results. Recheck capabilities on upgrades.
 
@@ -227,7 +225,7 @@ Shared types cover preferences/constraints, `CandidateEvidence`, expert outcomes
 
 SSE events are `progress`, `clarification`, `recommendations`, `error`, and terminal `done`, with conversation/run IDs. Validate the request before starting the stream; errors after headers use typed events without stack traces. Send heartbeats, disable proxy buffering, and cancel work on client disconnect. Persist the completed response before emitting its final payload. Do not automatically replay a disconnected POST; refetch conversation history to determine whether it completed.
 
-Next.js includes responsive chat, preferences, uploads, cards/details, citations, follow-ups, examples and admin CRUD/previews. Implement empty/pending/degraded/error states, keyboard navigation, focus/labels, mobile layouts and sanitized Markdown. Show activity, not chain-of-thought. Label the synthetic course catalog honestly.
+Next.js provides responsive chat, preferences, uploads, cards/details, citations, follow-ups, examples and admin CRUD/previews. Include empty/pending/degraded/error states, keyboard/focus/label accessibility, mobile layouts and sanitized Markdown. Show activity, not chain-of-thought; label the synthetic catalog.
 
 Local admin uses a configured password hash, HttpOnly SameSite cookies, expiry/logout and CSRF/origin checks. Separate conversation ownership from admin authority. Confirm deletes in UI and validate server-side. Secrets never enter `NEXT_PUBLIC_*`.
 
@@ -235,9 +233,9 @@ Local admin uses a configured password hash, HttpOnly SameSite cookies, expiry/l
 
 ### Implementation discipline
 
-- Use red/green/refactor TDD for behavior and bug fixes. Test observable contracts. Documentation changes require document checks, not application tests.
-- Apply SOLID through focused services, substitutable adapters, narrow interfaces and dependency inversion. Use repository, unit-of-work, strategy and adapter patterns where justified; prefer composition.
-- Use clear names, focused functions, boundary I/O and typed errors; never disguise failures as success. Use async I/O and bounded off-loop CPU/image work.
+- Use red/green/refactor TDD for behavior/bug fixes and test observable contracts. Documentation-only changes need document checks.
+- Apply SOLID with focused services, substitutable adapters, narrow interfaces and dependency inversion. Use repository/UoW/strategy/adapter patterns where justified; prefer composition.
+- Use clear names, focused functions, boundary I/O and typed failures. Keep I/O async and CPU/image work bounded and off-loop.
 - Inject clocks, IDs and providers for tests. Log run IDs, durations, failures, retrieval attempts and token/search usage; redact secrets and profile/image content.
 - Make scoped changes, run relevant checks and report actual results. Label planned commands clearly; avoid unrelated dependencies or abstractions.
 
@@ -259,7 +257,7 @@ Local admin uses a configured password hash, HttpOnly SameSite cookies, expiry/l
 
 ## Verification, release, and checklist coordination
 
-Track phases 0–11 in [CHECKLIST.md](CHECKLIST.md), including evidence and exit gates. Scaffolding may proceed while owner-led rotation or image recovery is pending; preserve release blockers.
+Track phases 0–11, evidence and exit gates in [CHECKLIST.md](CHECKLIST.md). Scaffolding may proceed during owner-led rotation/image recovery; preserve release blockers.
 
 Planned quality tools: Ruff formatting/lint, mypy, pytest/pytest-asyncio, real PostgreSQL/pgvector integration tests, ESLint, TypeScript checking, Vitest/Testing Library, Playwright and accessibility checks. Add project scripts in Phase 1 before documenting them as runnable. Normal CI uses fake Groq/Tavily boundaries and pre-provisioned models/fixtures, with no paid provider calls. Live smoke tests are explicit opt-in and use fresh credentials.
 
@@ -271,7 +269,7 @@ Release requires validated images, real retrieval, six agents, live dated trends
 
 ## Official references
 
-These references informed the approved design; recheck version-specific behavior during dependency upgrades.
+Approved design references; recheck version-specific behavior on upgrades.
 
 - [Codex project instructions and discovery](https://learn.chatgpt.com/docs/agent-configuration/agents-md): keep this file within the default 32 KiB combined instruction budget; use the checklist for detailed progress.
 - [LangGraph workflows](https://docs.langchain.com/oss/python/langgraph/workflows-agents) and [persistence](https://docs.langchain.com/oss/python/langgraph/persistence): graph execution and checkpoint contracts.

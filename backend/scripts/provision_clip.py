@@ -6,11 +6,8 @@ import sys
 import urllib.request
 from pathlib import Path
 
-from food_recommender.infrastructure.clip_encoder import (
-    CLIP_FILES,
-    CLIP_MODEL,
-    CLIP_REVISION,
-)
+from food_recommender.infrastructure.embeddings.clip import CLIP_FILES
+from food_recommender.retrieval.embedding_contracts import CLIP_MODEL, CLIP_REVISION
 
 
 def main():

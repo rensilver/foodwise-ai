@@ -5,7 +5,7 @@ import os
 
 from sqlalchemy.engine import make_url
 
-from food_recommender.infrastructure.checkpoints import setup_checkpoints
+from food_recommender.infrastructure.persistence.checkpoints import setup_checkpoints
 
 
 def main() -> None:

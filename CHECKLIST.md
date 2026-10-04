@@ -8,6 +8,46 @@ Use stable task IDs when recording work. Mark an item `[x]` only after its behav
 
 The first release is local, English-language, and includes all six agents, multimodal retrieval, live trends and local CRUD. See the deferred section for work outside v1. Independent scaffolding can continue while source recovery or owner-led credential rotation is pending; blocked tasks remain visible.
 
+## Package organization — Cross-phase maintenance
+
+Follow the [package guide](backend/PACKAGES.md) and AGENTS.md dependency rules
+through all remaining phases. This maintenance work does not complete a roadmap
+phase or authorize new product behavior.
+
+- [x] ORG-01 Group infrastructure into persistence models/repositories/search/indexing, embeddings, providers and media; separate engine/UoW and explicit ORM registration.
+- [x] ORG-02 Separate application use cases and process entrypoints; remove concrete adapter imports from core retrieval/ingestion and update maintained commands/imports.
+- [x] ORG-03 Verify dependency boundaries, isolated complete ORM registration, unchanged migration parity, existing behavior and documentation links/instruction budget.
+
+**Evidence / blockers:** Verified 2026-10-04. The [package guide](backend/PACKAGES.md)
+records the review, responsibility map, dependency rules, CLI path changes and
+Phase 7–11 placement guidance. Infrastructure now separates persistence models,
+repositories, SQL search/indexing, engine/UoW/checkpoints, providers, embeddings
+and media. Application catalog/conversation/cleanup use cases are separate;
+CLI wiring and shared ASGI behavior have dedicated packages. Model/vector
+validation lives in retrieval contracts; approved-host HTTP downloads live in
+infrastructure. Alembic uses the explicit complete model registry.
+
+New [package contracts](backend/tests/contract/test_package_boundaries.py)
+first reproduced core-to-adapter and transport coupling, then passed after the
+refactor; cold-process registration resolves all 19 tables and foreign keys
+without importing engines, repositories, providers or model runtimes. Existing
+migration/model parity and transaction tests pass without migration changes.
+Using the installed locked environment, `.venv/bin/ruff check src tests scripts
+migrations`, `.venv/bin/ruff format --check src tests scripts migrations` and
+`.venv/bin/mypy` passed (109 source files). The full offline
+`PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest -p pytest_asyncio.plugin -q`
+passed **394 tests and 64 subtests, no skips**, with explicit disposable
+`foodwise_test` PostgreSQL/pgvector and existing local model-fixture/MiniLM/CLIP
+paths. Both MCP transports and pretrained encoders passed; no paid calls.
+The four new CLI modules passed `--help`; maintained links, Markdown fences,
+unique/preserved checklist IDs, AGENTS.md size (32,679 bytes), `git diff --check`
+and the redacting source scan passed. The sandbox could not run async/loopback
+checks, so the complete suite used approved execution outside the sandbox and a
+separate disposable database. Existing phase marks, course artifacts, configured
+models, dependencies, application database and release blockers are preserved;
+the frontend layout remains unchanged. Future-phase organization tasks below
+remain unchecked.
+
 ## Phase 0 — Baseline, credentials, and source recovery
 
 **Prerequisites:** reviewed AGENTS.md and preserved existing user changes.
@@ -87,7 +127,7 @@ Red/green verification first produced two failures and six missing-fixture error
 
 `make check` from `backend/` with CI settings passed Ruff lint/formatting (21 files), strict mypy (13 runtime files) and all 32 tests in 8.77 seconds, including four [real PostgreSQL/pgvector contracts](backend/tests/integration/test_postgres.py): limited-role privileges/versions, vector adapter roundtrips and cosine ordering in both dimensions, transaction rollback preserving prior data after a partial invalid write, and actual async database/media readiness. Real database testing caught and corrected assumptions about temporary-table permission and the locked adapter's `Vector` return type; the test role keeps the Compose permission policy. Test table creation/data rolled back, a subsequent query found zero public tables, and the disposable container/storage were removed. A normal local `make test` without integration/model settings passed 27 tests with five explicit skips in 2.76 seconds. From `frontend/`, `pnpm check` passed lint, TypeScript, one component test and all five configuration/build tests; `pnpm test:e2e` with CI settings passed one production Chromium journey in 28.3 seconds. Official actionlint 1.7.12 (release checksum verified) accepted the workflow, and pinned action inputs/hashes were checked against their official repositories. Source scanning found zero findings across 62 files; documentation checks and `git diff --check` passed. Locked backend dependencies were restored after discovering a missing existing interpreter, using disk-backed workspace caches; dependency manifests/locks, owner configuration and course artifacts were unchanged. Network installation, local Docker and subprocess test execution used automatically approved sandbox escalations. No paid provider calls or pretrained-model downloads occurred. Hosted GitHub execution awaits a push; local validation does not claim a hosted green run. P01-08/P01-09 and the Phase 1 exit gate remain open.
 
-P01-08 verified on 2026-10-02: [composition roots](backend/src/food_recommender/composition.py) bind validated settings to the implemented application readiness port without connecting services or loading models. Both factories accept explicit services/runtime dependencies; FastAPI routes support [dependency overrides](backend/src/food_recommender/api/dependencies.py), and MCP uses its separate database/media settings with read-only media checks. [Shared application failures](backend/src/food_recommender/application/errors.py) use framework-independent codes. The [HTTP boundary](backend/src/food_recommender/infrastructure/http.py) maps application/unexpected failures to fixed Pydantic error envelopes with request IDs; API validation and HTTP errors omit input/detail text. Existing health payloads and native MCP JSON-RPC responses retain their contracts. Cancellation and failures after headers propagate; future SSE/tool-specific error handling remains later work.
+P01-08 verified on 2026-10-02: [composition roots](backend/src/food_recommender/composition.py) bind validated settings to the implemented application readiness port without connecting services or loading models. Both factories accept explicit services/runtime dependencies; FastAPI routes support [dependency overrides](backend/src/food_recommender/api/dependencies.py), and MCP uses its separate database/media settings with read-only media checks. [Shared application failures](backend/src/food_recommender/application/errors.py) use framework-independent codes. The [HTTP boundary](backend/src/food_recommender/transport/http.py) maps application/unexpected failures to fixed Pydantic error envelopes with request IDs; API validation and HTTP errors omit input/detail text. Existing health payloads and native MCP JSON-RPC responses retain their contracts. Cancellation and failures after headers propagate; future SSE/tool-specific error handling remains later work.
 
 [JSON logging](backend/src/food_recommender/infrastructure/observability.py) configures existing Python SDK/Uvicorn handlers on stderr with allowlisted events, UUIDs, codes and numeric metrics. Messages, exception/stack text, URLs, headers, paths, profile/image content and arbitrary extras are omitted. Request IDs are generated independently of incoming headers; request/run context resets after completion/failure/cancellation and stays isolated during overlapping requests. Clock, ID generation and logging can be injected. Run/token/search/retrieval metric fields are supported for future orchestration, not measured by the health scaffold. Unknown SDK/server messages become limited `diagnostic` records; arbitrary direct writes are outside the Python logging formatter. [Backend guidance](backend/README.md#composition-errors-and-logging-p01-08) documents wiring, mappings, process logging and extension boundaries.
 
@@ -152,7 +192,7 @@ frontend contract generation remain later tasks. Existing
 source-mapping/publication/media blockers remain.
 
 P02-02 verified on 2026-10-03 with Python 3.12.14, PostgreSQL 16.14 and
-pgvector 0.8.6. [Catalog mappings](backend/src/food_recommender/infrastructure/catalog.py)
+pgvector 0.8.6. [Catalog mappings](backend/src/food_recommender/infrastructure/persistence/models/catalog.py)
 define restaurant/recipe/review tables with explicit string primary keys,
 separate type namespaces, unique logical-source/record pairs and a restrictive
 review-to-restaurant foreign key. Names and source IDs must be nonblank; database
@@ -192,7 +232,7 @@ unique checklist IDs, and `git diff --check` passed. P02-03 onward and the Phase
 exit gate remain open.
 
 P02-03 verified on 2026-10-03 with Python 3.12.14, PostgreSQL 16.14 and
-pgvector 0.8.6. [Provenance mappings](backend/src/food_recommender/infrastructure/provenance.py)
+pgvector 0.8.6. [Provenance mappings](backend/src/food_recommender/infrastructure/persistence/models/provenance.py)
 add source artifacts, raw source records, documents and catalog media. Physical
 file/URL/admin revisions retain logical dataset IDs, original locators, SHA-256
 hashes, timezone-aware creation/retrieval timestamps and nullable publication
@@ -470,6 +510,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 - [ ] P07-12 Enforce timeouts, concurrency, transport/schema retry limits and the run deadline; record stage latency, usage and exhaustion without leaking prompts or keys.
 - [ ] P07-13 Test actual branch overlap, join completion, branch failures, invalid JSON, unknown IDs/citations, insufficient results, checkpoint continuity and conflicting concurrent turns.
 - [ ] P07-14 Run an opt-in full graph smoke test through real MCP/pgvector/Groq/Tavily with a known seed query; record outcome, limits and usage.
+- [ ] P07-15 Follow package boundaries for graph state/nodes/prompts, deterministic rules, provider/MCP ports and checkpoint adapters; extend boundary contracts for new graph dependencies.
 
 **Exit criterion:** all six roles operate on real retrieved data, synthesis waits for branch outcomes, follow-ups persist correctly, and failures cannot fabricate compliant results.
 
@@ -494,6 +535,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 - [ ] P08-09 Implement liveness/readiness and structured errors; keep stack traces and paid provider calls out of health responses.
 - [ ] P08-10 Generate frontend TypeScript contracts from OpenAPI and add a check for schema/type drift.
 - [ ] P08-11 Test HTTP/SSE contracts, pre/post-stream errors, session isolation, cancellation, retries by clients, invalid uploads, auth/CSRF and CRUD failure atomicity.
+- [ ] P08-12 Keep API routers/schemas/SSE over focused application use cases and injected adapters; register new ORM mappings explicitly and verify migration parity and transaction contracts.
 
 **Exit criterion:** the typed API supports the full recommendation/admin flow safely, updates retrieval data consistently, and has a verified frontend contract.
 
@@ -518,6 +560,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 - [ ] P09-09 Add local admin sign-in, extraction preview, create/edit forms, version-conflict handling and confirmed deletion.
 - [ ] P09-10 Test pending, empty, error, trend-unavailable and partial-image states plus mobile layout and keyboard-only journeys.
 - [ ] P09-11 Run Playwright journeys for text/image recommendations, retained preferences, citations and CRUD; verify changes become searchable.
+- [ ] P09-12 Keep route/proxy shells, feature behavior, shared UI and generated contracts in their documented frontend locations; verify backend rules are not duplicated.
 
 **Exit criterion:** a nontechnical user can request/refine recommendations and an administrator can maintain the catalog without mock results or placeholder writes.
 
@@ -543,6 +586,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 - [ ] P10-10 Recheck upload/archive/network restrictions, admin/session/CSRF behavior, sanitized rendering and redacted logs; scan source and built assets for secrets.
 - [ ] P10-11 Measure stage/end-to-end latency, local embedding resource use, token usage and search calls; report machine details and cold/warm behavior.
 - [ ] P10-12 Run all offline unit/integration/contract/browser checks and explicit live smoke tests separately; record every skipped or blocked check honestly.
+- [ ] P10-13 Run package-boundary and cold ORM-registration contracts alongside acceptance checks; review new adapters for SDK leakage, circular imports and import-time I/O.
 
 **Exit criterion:** acceptance fixtures satisfy grounding/constraint invariants, required failure cases pass, and quality/performance results are reproducible without unsupported claims.
 
@@ -565,6 +609,7 @@ P03-10 verified on 2026-10-03: Imported and independently audited the complete c
 - [ ] P11-07 Publish local setup/troubleshooting instructions and measured limits: synthetic catalog, sparse histories, unknown dietary evidence, provider requirements and unavailable capabilities.
 - [ ] P11-08 Confirm the complete-release gate: validated imagery, real RAG, six-agent graph, live search integration, frontend/admin usability and passing acceptance tests.
 - [ ] P11-09 Review all checklist marks and evidence with the user; preserve unresolved/deferred items and document the final tested versions.
+- [ ] P11-10 Rehearse documented module/CLI paths and model registration from a clean checkout; align package guidance, scripts and links with the release structure.
 
 **Exit criterion:** another developer can reproduce the full local application and its demonstrated behavior; degraded modes are documented, not used to conceal missing release requirements.
 

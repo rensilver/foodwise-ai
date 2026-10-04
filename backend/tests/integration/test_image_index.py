@@ -7,13 +7,13 @@ from sqlalchemy import select
 from test_ingestion_store import seed_store as seed_store
 
 from food_recommender.domain.catalog import MediaData
-from food_recommender.infrastructure.clip_encoder import CLIP_MODEL, CLIP_REVISION
-from food_recommender.infrastructure.embeddings import ImageEmbedding
-from food_recommender.infrastructure.image_index import ImageIndexer
-from food_recommender.infrastructure.media import LocalMediaFiles
+from food_recommender.infrastructure.media.files import LocalMediaFiles
+from food_recommender.infrastructure.persistence.indexing.image import ImageIndexer
+from food_recommender.infrastructure.persistence.models.embeddings import ImageEmbedding
 from food_recommender.ingestion.adapters import adapt_recipe
 from food_recommender.ingestion.models import SeedItem
 from food_recommender.ingestion.seed import artifact, caption_document, source_record
+from food_recommender.retrieval.embedding_contracts import CLIP_MODEL, CLIP_REVISION
 
 
 class Encoder:

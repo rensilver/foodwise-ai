@@ -6,8 +6,14 @@ from sqlalchemy.exc import DBAPIError, IntegrityError, StatementError
 from test_provenance_models import HASH, document, media
 from test_provenance_models import provenance as provenance
 
-from food_recommender.infrastructure.embeddings import ImageEmbedding, TextEmbedding
-from food_recommender.infrastructure.provenance import Document, Media
+from food_recommender.infrastructure.persistence.models.embeddings import (
+    ImageEmbedding,
+    TextEmbedding,
+)
+from food_recommender.infrastructure.persistence.models.provenance import (
+    Document,
+    Media,
+)
 
 
 def embedding(**changes):

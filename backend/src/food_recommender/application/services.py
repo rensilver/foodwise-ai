@@ -4,12 +4,10 @@ from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from typing import Protocol
 
+from food_recommender.application.catalog import CatalogService
+from food_recommender.application.conversations import ConversationService
 from food_recommender.application.lookups import LookupService
-from food_recommender.application.persistence import (
-    CatalogService,
-    ConversationService,
-    MediaCleanupService,
-)
+from food_recommender.application.media_cleanup import MediaCleanupService
 from food_recommender.application.ports import UnitOfWork
 from food_recommender.application.resources import CatalogResources
 from food_recommender.application.trends import TrendService

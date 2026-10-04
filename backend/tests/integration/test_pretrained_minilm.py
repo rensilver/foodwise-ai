@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from food_recommender.infrastructure.text_encoder import MiniLMEncoder
+from food_recommender.infrastructure.embeddings.minilm import MiniLMEncoder
 
 
 def test_pretrained_cpu_encoder_preserves_token_budget_and_semantics():

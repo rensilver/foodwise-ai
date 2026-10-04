@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from food_recommender.application.errors import ApplicationError
-from food_recommender.infrastructure.media import LocalMediaFiles
+from food_recommender.infrastructure.media.files import LocalMediaFiles
 
 
 def test_mcp_has_no_inference_sampling_shell_or_mutation_imports():

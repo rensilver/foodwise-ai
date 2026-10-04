@@ -9,28 +9,30 @@ from sqlalchemy import insert, select, text
 from test_repositories import bundle
 from test_repositories import repositories as repositories
 
+from food_recommender.application.catalog import CatalogService
+from food_recommender.application.conversations import ConversationService
 from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.application.persistence import (
-    CatalogService,
-    ConversationService,
-    MediaCleanupService,
-)
+from food_recommender.application.media_cleanup import MediaCleanupService
 from food_recommender.domain.preferences import Preferences
-from food_recommender.infrastructure.catalog import Recipe
-from food_recommender.infrastructure.checkpoints import (
+from food_recommender.infrastructure.media.files import LocalMediaFiles
+from food_recommender.infrastructure.persistence.checkpoints import (
     checkpoint_saver,
     setup_checkpoints,
 )
-from food_recommender.infrastructure.cleanup import MediaCleanupJob
-from food_recommender.infrastructure.context import (
+from food_recommender.infrastructure.persistence.models.catalog import Recipe
+from food_recommender.infrastructure.persistence.models.cleanup import MediaCleanupJob
+from food_recommender.infrastructure.persistence.models.context import (
     Conversation,
     ConversationMedia,
     Message,
     Profile,
 )
-from food_recommender.infrastructure.media import LocalMediaFiles
-from food_recommender.infrastructure.persistence import PostgresUnitOfWork
-from food_recommender.infrastructure.provenance import Document, Media, SourceRecord
+from food_recommender.infrastructure.persistence.models.provenance import (
+    Document,
+    Media,
+    SourceRecord,
+)
+from food_recommender.infrastructure.persistence.unit_of_work import PostgresUnitOfWork
 
 
 async def seed(factory, media_root):
@@ -309,8 +311,12 @@ async def test_committed_erasure_survives_reopened_database_connection(
     from sqlalchemy.ext.asyncio import async_sessionmaker
 
     from food_recommender.domain.catalog import PreparedCatalog, RecipeData
-    from food_recommender.infrastructure.context import BrowserSession
-    from food_recommender.infrastructure.persistence import create_database_engine
+    from food_recommender.infrastructure.persistence.engine import (
+        create_database_engine,
+    )
+    from food_recommender.infrastructure.persistence.models.context import (
+        BrowserSession,
+    )
 
     engine = create_database_engine(database_url)
     owner, conversation, catalog_id = uuid4(), uuid4(), str(uuid4())

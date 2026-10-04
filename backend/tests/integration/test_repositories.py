@@ -8,16 +8,14 @@ import pytest_asyncio
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import async_sessionmaker
 
+from food_recommender.application.catalog import CatalogService
 from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.application.persistence import CatalogService
 from food_recommender.domain.catalog import PreparedCatalog, RecipeData
 from food_recommender.domain.preferences import Preferences
 from food_recommender.domain.values import Category, EntityRef
-from food_recommender.infrastructure.catalog import Recipe
-from food_recommender.infrastructure.persistence import (
-    PostgresUnitOfWork,
-    create_database_engine,
-)
+from food_recommender.infrastructure.persistence.engine import create_database_engine
+from food_recommender.infrastructure.persistence.models.catalog import Recipe
+from food_recommender.infrastructure.persistence.unit_of_work import PostgresUnitOfWork
 
 
 @pytest_asyncio.fixture
@@ -206,8 +204,15 @@ def bundle(identity="1", *, name="Rice", description="Rice and peas", document_i
 
 @pytest.mark.asyncio
 async def test_prepared_catalog_documents_and_vectors_commit_together(repositories):
-    from food_recommender.infrastructure.embeddings import ImageEmbedding, TextEmbedding
-    from food_recommender.infrastructure.provenance import Document, Media, SourceRecord
+    from food_recommender.infrastructure.persistence.models.embeddings import (
+        ImageEmbedding,
+        TextEmbedding,
+    )
+    from food_recommender.infrastructure.persistence.models.provenance import (
+        Document,
+        Media,
+        SourceRecord,
+    )
 
     factory, connection = repositories
     service = CatalogService(lambda: PostgresUnitOfWork(factory))
@@ -246,8 +251,13 @@ async def test_prepared_catalog_documents_and_vectors_commit_together(repositori
 
 @pytest.mark.asyncio
 async def test_late_document_failure_rolls_back_entire_prepared_create(repositories):
-    from food_recommender.infrastructure.embeddings import TextEmbedding
-    from food_recommender.infrastructure.provenance import Document, SourceRecord
+    from food_recommender.infrastructure.persistence.models.embeddings import (
+        TextEmbedding,
+    )
+    from food_recommender.infrastructure.persistence.models.provenance import (
+        Document,
+        SourceRecord,
+    )
 
     factory, connection = repositories
     service = CatalogService(lambda: PostgresUnitOfWork(factory))

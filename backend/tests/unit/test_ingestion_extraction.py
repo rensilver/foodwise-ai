@@ -65,7 +65,7 @@ async def test_groq_request_contract_preserves_model_and_has_no_tools():
     import httpx
     from pydantic import SecretStr
 
-    from food_recommender.infrastructure.groq_ingestion import GroqStructuredInference
+    from food_recommender.infrastructure.providers.groq import GroqStructuredInference
 
     def respond(request):
         body = json.loads(request.content)

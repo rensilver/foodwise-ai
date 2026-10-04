@@ -9,13 +9,17 @@ from sqlalchemy import func, select, update
 from sqlalchemy.ext.asyncio import async_sessionmaker
 
 from food_recommender.application.errors import ApplicationError
-from food_recommender.infrastructure.catalog import Recipe, Restaurant, Review
-from food_recommender.infrastructure.ingestion import (
-    IngestionCheckpoint,
-    PostgresIngestionStore,
+from food_recommender.infrastructure.persistence.engine import create_database_engine
+from food_recommender.infrastructure.persistence.ingestion import PostgresIngestionStore
+from food_recommender.infrastructure.persistence.models.catalog import (
+    Recipe,
+    Restaurant,
+    Review,
 )
-from food_recommender.infrastructure.persistence import create_database_engine
-from food_recommender.infrastructure.provenance import SourceRecord
+from food_recommender.infrastructure.persistence.models.ingestion import (
+    IngestionCheckpoint,
+)
+from food_recommender.infrastructure.persistence.models.provenance import SourceRecord
 from food_recommender.ingestion.adapters import (
     adapt_recipe,
     adapt_restaurant,
