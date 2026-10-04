@@ -1,5 +1,7 @@
 """Validated POST streams and stored completion over the real database."""
 
+# ruff: noqa: F811
+
 import json
 from dataclasses import replace
 from uuid import UUID, uuid4
@@ -21,7 +23,14 @@ class Workflow:
         await progress(AgentRole.USER_PROFILE_GENERATOR, "completed")
         if request.message == "fail":
             raise RuntimeError("private exception content")
-        return {"profile": {"clarification": "Which city?"}, "final": None}
+        return {
+            "profile": {
+                "categories": ["recipe"],
+                "preferences": {},
+                "clarification": "Which city?",
+            },
+            "final": None,
+        }
 
 
 def events(response):
@@ -97,3 +106,145 @@ async def test_pre_stream_validation_and_post_stream_safe_failure(api):  # noqa:
     assert [e["event"] for e in events(failure)] == ["progress", "error", "done"]
     assert "private exception" not in failure.text
     assert events(failure)[-1]["outcome"] == "failed"
+
+
+@pytest.mark.asyncio
+async def test_completed_recommendations_include_citations_and_are_committed_before_delivery(
+    api,
+):  # noqa: F811
+    from pydantic_core import to_jsonable_python
+    from tests.unit.agent_fixtures import candidate
+
+    from food_recommender.application.contracts import event_adapter
+    from food_recommender.domain.events import RecommendationsEvent
+    from food_recommender.domain.experts import (
+        AgentSuccess,
+        AgentUnavailable,
+        ProfileResult,
+        RetrievalResult,
+    )
+    from food_recommender.domain.preferences import Preferences
+    from food_recommender.domain.recommendations import (
+        Recommendation,
+        RecommendationResult,
+    )
+    from food_recommender.domain.values import Category
+
+    client, app, services = api
+    food = candidate()
+
+    class Completed:
+        async def execute(self, owner, conversation, run, request, progress):
+            return to_jsonable_python(
+                {
+                    "profile": ProfileResult((Category.RECIPE,), Preferences()),
+                    "retrieval": AgentSuccess(RetrievalResult((food.evidence,), 1)),
+                    "catalog": (food,),
+                    "trend": AgentUnavailable("trends_unavailable"),
+                    "style": AgentUnavailable("style_unavailable"),
+                    "nutrition": AgentUnavailable("nutrition_unavailable"),
+                    "final": AgentSuccess(
+                        RecommendationResult(
+                            (
+                                Recommendation(
+                                    food.evidence.entity,
+                                    food.evidence.citations[0].excerpt,
+                                    (food.evidence.citations[0].id,),
+                                ),
+                            )
+                        )
+                    ),
+                }
+            )
+
+    service = MessageService(services.conversations.transactions, Completed())
+    app.state.services = replace(services, messages=service)
+    identity = (await client.post("/api/v1/conversations")).json()["id"]
+    owner, _ = await services.conversations.session(
+        client.cookies.get("foodwise_session")
+    )
+    from food_recommender.application.messages import MessageSubmission
+
+    turn = await service.prepare(
+        owner,
+        UUID(identity),
+        MessageSubmission(message="rice", client_request_id=uuid4()),
+    )
+    async for event in service.events(turn):
+        if isinstance(event, RecommendationsEvent):
+            _, messages, _ = await services.conversations.history(owner, UUID(identity))
+            assert len(messages) == 2
+            assert event.evidence[0].citations[0].document_id
+            assert event_adapter.validate_json(event_adapter.dump_json(event)) == event
+
+
+@pytest.mark.asyncio
+async def test_unexpected_failure_is_stored_and_stale_clarification_cannot_mask_failure(
+    api,
+):  # noqa: F811
+    client, app, services = api
+
+    class Broken:
+        async def execute(self, *args):
+            return {
+                "profile": {"clarification": "Old question"},
+                "profile_outcome": {
+                    "status": "failure",
+                    "code": "invalid_response",
+                    "retryable": False,
+                },
+                "final": {
+                    "status": "failure",
+                    "code": "invalid_response",
+                    "retryable": False,
+                },
+            }
+
+    app.state.services = replace(
+        services, messages=MessageService(services.conversations.transactions, Broken())
+    )
+    identity = (await client.post("/api/v1/conversations")).json()["id"]
+    response = await client.post(
+        f"/api/v1/conversations/{identity}/messages",
+        json={"message": "rice", "client_request_id": str(uuid4())},
+    )
+    assert [e["event"] for e in events(response)] == ["error", "done"]
+    history = (await client.get(f"/api/v1/conversations/{identity}")).json()
+    assert any(
+        message["payload"].get("event") == "error" for message in history["messages"]
+    )
+
+
+@pytest.mark.asyncio
+async def test_stream_deadline_emits_stored_budget_failure(api):  # noqa: F811
+    import asyncio
+
+    from food_recommender.application.reliability import RunLimits
+
+    client, app, services = api
+
+    class Stalled:
+        async def execute(self, *args):
+            await asyncio.Event().wait()
+
+    app.state.services = replace(
+        services,
+        messages=MessageService(
+            services.conversations.transactions,
+            Stalled(),
+            limits=RunLimits(call_seconds=0.01, run_seconds=0.01),
+        ),
+    )
+    identity = (await client.post("/api/v1/conversations")).json()["id"]
+    response = await client.post(
+        f"/api/v1/conversations/{identity}/messages",
+        json={"message": "rice", "client_request_id": str(uuid4())},
+    )
+    data = events(response)
+    assert [e["event"] for e in data] == ["error", "done"]
+    assert data[0]["code"] == "budget_exhausted"
+    history = (await client.get(f"/api/v1/conversations/{identity}")).json()
+    assert any(
+        message["payload"].get("code") == "budget_exhausted"
+        for message in history["messages"]
+    )

@@ -21,6 +21,7 @@ from food_recommender.domain.experts import (
 )
 from food_recommender.domain.preferences import Preferences
 from food_recommender.domain.recommendations import RecommendationResult
+from food_recommender.retrieval.late_fusion import FusedCandidate
 from food_recommender.retrieval.multimodal import MultimodalOutcome
 from food_recommender.retrieval.outcomes import TextRetrievalOutcome
 
@@ -91,4 +92,10 @@ text_retrieval_adapter: TypeAdapter[TextRetrievalOutcome] = TypeAdapter(
 type MultimodalContract = MultimodalOutcome
 multimodal_adapter: TypeAdapter[MultimodalOutcome] = TypeAdapter(
     MultimodalContract, config=_CONFIG
+)
+
+
+type CatalogContract = tuple[FusedCandidate, ...]
+catalog_adapter: TypeAdapter[tuple[FusedCandidate, ...]] = TypeAdapter(
+    CatalogContract, config=_CONFIG
 )

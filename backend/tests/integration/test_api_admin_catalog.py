@@ -236,3 +236,49 @@ async def test_text_edits_preserve_existing_media_and_noop_provenance(repositori
     assert (await connection.execute(select(ImageEmbedding.id))).scalars().all() == [
         "clip-1"
     ]
+
+
+@pytest.mark.asyncio
+async def test_http_embedding_failure_keeps_catalog_and_returns_typed_error(
+    api, repositories
+):  # noqa: F811
+    client, app, services = api
+    factory, _ = repositories
+
+    def transactions():
+        return PostgresUnitOfWork(factory)
+
+    administration = AdminCatalogService(
+        CatalogService(transactions),
+        BrowseService(transactions),
+        CatalogPreparation(Encoder()),
+        Preview(),
+    )
+    app.state.services = replace(
+        services,
+        admin=AdminService(transactions, Passwords()),
+        admin_catalog=administration,
+        browse=BrowseService(transactions),
+    )
+    origin = {"origin": "http://localhost"}
+    logged = await client.post(
+        "/api/v1/admin/session", json={"password": "fixture"}, headers=origin
+    )
+    headers = {**origin, "x-csrf-token": logged.json()["csrf_token"]}
+    created = await client.post(
+        "/api/v1/admin/recipes",
+        json={"fields": {"name": "Rice", "ingredients": ["rice"]}},
+        headers=headers,
+    )
+    identity = created.json()["data"]["id"]
+    administration.preparer = CatalogPreparation()
+    failure = await client.patch(
+        "/api/v1/admin/recipes/" + identity,
+        json={"expected_version": 1, "fields": {"name": "Peas"}},
+        headers=headers,
+    )
+    assert failure.status_code == 503
+    assert failure.json()["error"]["code"] == "dependency_unavailable"
+    detail = (await client.get("/api/v1/recipes/" + identity)).json()
+    assert detail["version"] == 1 and detail["data"]["name"] == "Rice"
+    assert detail["citations"][0]["excerpt"].startswith("name: Rice")
