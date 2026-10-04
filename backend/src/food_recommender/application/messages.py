@@ -63,6 +63,12 @@ class PreparedTurn:
     run: UUID
     request: MessageSubmission
     lease: RunLease
+    released: bool = False
+
+    async def close(self) -> None:
+        if not self.released:
+            self.released = True
+            await self.lease.__aexit__(None, None, None)
 
 
 class LocalRuns:
@@ -199,4 +205,4 @@ class MessageService:
         finally:
             task.cancel()
             await asyncio.gather(task, return_exceptions=True)
-            await turn.lease.__aexit__(None, None, None)
+            await turn.close()

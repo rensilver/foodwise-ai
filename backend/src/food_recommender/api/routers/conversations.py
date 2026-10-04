@@ -17,7 +17,7 @@ from food_recommender.api.schemas import (
     DeletionResponse,
     HistoryResponse,
 )
-from food_recommender.api.sse import encode_events
+from food_recommender.api.sse import EventStreamResponse, encode_events
 from food_recommender.application.conversations import ConversationService
 from food_recommender.application.errors import ApplicationError, ErrorCode
 from food_recommender.application.messages import MessageSubmission
@@ -65,6 +65,6 @@ async def submit(
     if services.messages is None:
         raise ApplicationError(ErrorCode.DEPENDENCY_UNAVAILABLE)
     turn = await services.messages.prepare(owner, conversation_id, request)
-    return StreamingResponse(
-        encode_events(services.messages.events(turn)), media_type="text/event-stream"
+    return EventStreamResponse(
+        encode_events(services.messages.events(turn)), release=turn.close
     )
