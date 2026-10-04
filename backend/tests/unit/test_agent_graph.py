@@ -119,3 +119,42 @@ async def test_next_turn_clears_transient_results_but_retains_profile_and_histor
     assert all(second[key] is None for key in ("trend", "style", "nutrition"))
     assert profile.priors[1].preferences.location == "California"
     assert "rice" in second["messages"]
+
+
+class BrokenBranch:
+    async def run(self, *args):
+        raise RuntimeError("untrusted branch error")
+
+
+@pytest.mark.asyncio
+async def test_failed_branch_is_joined_and_synthesis_still_runs_once():
+    class CompletedBranch:
+        async def run(self, *args):
+            return AgentUnavailable("style_unavailable")
+
+    class CompletedNutrition:
+        async def run(self, *args):
+            return AgentUnavailable("nutrition_unavailable")
+
+    class JoinedSynthesis:
+        calls = 0
+
+        async def run(self, profile, candidates, trend, style, nutrition):
+            self.calls += 1
+            assert trend.status == style.status == nutrition.status == "unavailable"
+            return AgentSuccess(RecommendationResult(()))
+
+    synthesis = JoinedSynthesis()
+    graph = build_graph(
+        WorkflowRoles(
+            Profile(),
+            Retrieval(),
+            BrokenBranch(),
+            CompletedBranch(),
+            CompletedNutrition(),
+            synthesis,
+        )
+    )
+    result = await graph.ainvoke({"request": {"message": "rice"}})
+    assert synthesis.calls == 1
+    assert result["final"]["status"] == "success"

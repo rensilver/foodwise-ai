@@ -147,3 +147,45 @@ async def test_two_adapters_contend_for_one_database_run_lease(workflow_store):
         assert denied.value.code == ErrorCode.NOT_FOUND
     async with second.lease(conversation, owner):
         pass
+
+
+@pytest.mark.asyncio
+async def test_cancelled_real_checkpoint_can_only_restart_on_explicit_new_turn(
+    database_url, workflow_store
+):
+    from tests.unit.test_agent_runner import SlowRetrieval
+
+    engine, owner, stranger, conversation = workflow_store
+    retrieval = SlowRetrieval()
+    actual = roles()
+    controlled = WorkflowRoles(
+        actual.profile,
+        retrieval,
+        actual.trend,
+        actual.style,
+        actual.nutrition,
+        actual.recommendation,
+    )
+    async with checkpoint_saver(database_url) as saver:
+        runner = GraphRunner(
+            build_graph(controlled, checkpointer=saver),
+            PostgresConversationRuns(engine),
+        )
+        task = asyncio.create_task(
+            runner.run(owner, conversation, TurnRequest(message="rice"))
+        )
+        await asyncio.wait_for(retrieval.entered.wait(), 2)
+        assert await runner.cancel(owner, conversation)
+        assert task.cancelled()
+    async with checkpoint_saver(database_url) as saver:
+        runner = GraphRunner(
+            build_graph(roles(), checkpointer=saver), PostgresConversationRuns(engine)
+        )
+        saved = await runner.read(owner, conversation)
+        assert saved["lifecycle"] == "cancelled"
+        assert saved["final"]["code"] == "cancelled"
+        resumed = await runner.run(
+            owner, conversation, TurnRequest(message="explicit new request")
+        )
+        assert resumed["run_id"] != saved["run_id"]
+        assert resumed["final"]["status"] == "success"

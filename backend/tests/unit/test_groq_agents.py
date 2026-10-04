@@ -77,3 +77,34 @@ async def test_structured_generation_never_includes_tools():
             )
             == '{"ok":true}'
         )
+
+
+@pytest.mark.asyncio
+async def test_arbitrary_tool_name_and_nonobject_response_are_safe_failures():
+    from food_recommender.application.inference import InferenceError
+
+    for payload in (
+        {
+            "choices": [
+                {
+                    "message": {
+                        "tool_calls": [
+                            {"function": {"name": "delete_catalog", "arguments": "{}"}}
+                        ]
+                    }
+                }
+            ]
+        },
+        [],
+    ):
+        async with httpx.AsyncClient(
+            transport=httpx.MockTransport(
+                lambda request: httpx.Response(200, json=payload)
+            )
+        ) as client:
+            provider = GroqStructuredInference(
+                client, SecretStr("synthetic-test"), "configured"
+            )
+            with pytest.raises(InferenceError) as failure:
+                await provider.select_tools([], {"search_recipes": {"type": "object"}})
+            assert str(failure.value) == "Inference unavailable"
