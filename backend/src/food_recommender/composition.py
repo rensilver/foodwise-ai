@@ -139,7 +139,12 @@ def build_backend_services(
         catalog=catalog,
         browse=browse,
         admin_catalog=AdminCatalogService(
-            catalog, browse, CatalogPreparation(), preview
+            catalog,
+            browse,
+            CatalogPreparation(
+                LazyMiniLM(settings.minilm_root) if settings.minilm_root else None
+            ),
+            preview,
         ),
         admin=AdminService(
             transactions,

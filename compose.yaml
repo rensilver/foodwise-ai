@@ -62,9 +62,11 @@ services:
       ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH:?Set a quoted Argon2id ADMIN_PASSWORD_HASH in your local .env}
       DATABASE_URL: postgresql+psycopg://foodwise:${FOODWISE_DB_PASSWORD:?Set FOODWISE_DB_PASSWORD}@db:5432/foodwise
       MCP_SERVER_URL: http://mcp:8001/mcp
+      MINILM_ROOT: /var/lib/foodwise/models/minilm
       MEDIA_ROOT: /var/lib/foodwise/media
     volumes:
       - media_data:/var/lib/foodwise/media
+      - ${MINILM_ROOT:-./.local-tmp/minilm}:/var/lib/foodwise/models/minilm:ro
     ports: ["127.0.0.1:8000:8000"]
     depends_on:
       db: {condition: service_healthy}

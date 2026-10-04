@@ -154,7 +154,9 @@ class PostgresCatalogRepository:
         ):
             raise ApplicationError(ErrorCode.INVALID_REQUEST)
 
-    async def _remove_content(self, ref: EntityRef) -> tuple[str, ...]:
+    async def _remove_content(
+        self, ref: EntityRef, *, preserve_media: bool = False
+    ) -> tuple[str, ...]:
         link = (
             SourceRecord.restaurant_id
             if ref.category == Category.RESTAURANT
@@ -162,8 +164,13 @@ class PostgresCatalogRepository:
         )
         record_ids = select(SourceRecord.id).where(link == ref.id)
         await self.session.execute(
-            delete(Document).where(Document.source_record_id.in_(record_ids))
+            delete(Document).where(
+                Document.source_record_id.in_(record_ids),
+                *([Document.media_id.is_(None)] if preserve_media else []),
+            )
         )
+        if preserve_media:
+            return ()
         keys = tuple(
             (
                 await self.session.execute(
@@ -202,7 +209,7 @@ class PostgresCatalogRepository:
         if changed is None:
             raise ApplicationError(ErrorCode.CONFLICT)
         # Remove old retrieval rows; source/raw revisions survive as provenance.
-        await self._remove_content(ref)
+        await self._remove_content(ref, preserve_media=prepared.preserve_media)
         await self._write_content(prepared)
         return await self.get(ref)
 

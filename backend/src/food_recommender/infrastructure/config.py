@@ -75,6 +75,7 @@ class Settings(BaseSettings):
     database_url: SecretStr = Field(validation_alias="DATABASE_URL")
     mcp_server_url: AnyHttpUrl = Field(validation_alias="MCP_SERVER_URL")
     media_root: Path = Field(validation_alias="MEDIA_ROOT")
+    minilm_root: Path | None = Field(default=None, validation_alias="MINILM_ROOT")
     allowed_origins: tuple[str, ...] = Field(
         default=(
             "http://localhost",
