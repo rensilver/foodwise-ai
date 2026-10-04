@@ -1,4 +1,4 @@
-"""FastAPI startup scaffold; recommendation routes arrive in later phases."""
+"""Versioned FastAPI entrypoint over injected application capabilities."""
 
 from collections.abc import AsyncIterator, Awaitable, Callable
 from contextlib import asynccontextmanager
@@ -8,15 +8,16 @@ from fastapi import Depends, FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException
-from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from food_recommender.api.body_limits import BodyLimits
 from food_recommender.api.dependencies import get_services
+from food_recommender.api.hosts import LocalHosts
 from food_recommender.api.routers.admin_catalog import router as admin_catalog_router
 from food_recommender.api.routers.admin_session import router as admin_session_router
 from food_recommender.api.routers.catalog import router as catalog_router
 from food_recommender.api.routers.conversations import router as conversation_router
 from food_recommender.api.routers.media import router as media_router
+from food_recommender.api.schemas import HealthResponse, LiveResponse
 from food_recommender.api.security import safe_browser_write
 from food_recommender.application.errors import ErrorCode
 from food_recommender.application.services import Services
@@ -50,12 +51,20 @@ def create_app(
             if services.close is not None:
                 await services.close()
 
-    app = FastAPI(title="foodwise-ai", docs_url=None, redoc_url=None, lifespan=lifespan)
+    app = FastAPI(
+        title="foodwise-ai",
+        version="1.0.0",
+        docs_url=None,
+        redoc_url=None,
+        lifespan=lifespan,
+        responses={
+            status: {"model": ErrorEnvelope}
+            for status in (400, 401, 403, 404, 409, 422, 500, 503)
+        },
+    )
     app.state.services = services
     app.state.allowed_origins = settings.allowed_origins
-    app.add_middleware(
-        TrustedHostMiddleware, allowed_hosts=["localhost", "127.0.0.1", "backend"]
-    )
+    app.add_middleware(LocalHosts)
     app.add_middleware(BodyLimits)
     app.add_middleware(ObservedHTTP, runtime=runtime)
 
@@ -68,6 +77,8 @@ def create_app(
     @app.exception_handler(HTTPException)
     async def http_error(request: Request, error: HTTPException) -> JSONResponse:
         code = {
+            401: ErrorCode.UNAUTHORIZED,
+            403: ErrorCode.FORBIDDEN,
             404: ErrorCode.NOT_FOUND,
             409: ErrorCode.CONFLICT,
             503: ErrorCode.DEPENDENCY_UNAVAILABLE,
@@ -79,11 +90,15 @@ def create_app(
         )
         return error_response(code, status=error.status_code)
 
-    @app.get("/api/v1/health/live")
-    async def live() -> dict[str, str]:
-        return {"status": "alive"}
+    @app.get("/api/v1/health/live", response_model=LiveResponse)
+    async def live() -> LiveResponse:
+        return LiveResponse()
 
-    @app.get("/api/v1/health/ready", responses={500: {"model": ErrorEnvelope}})
+    @app.get(
+        "/api/v1/health/ready",
+        response_model=HealthResponse,
+        responses={503: {"model": HealthResponse}},
+    )
     async def ready(
         services: Annotated[Services, Depends(get_services)],
     ) -> JSONResponse:

@@ -1,6 +1,7 @@
 """HTTP response contracts, sharing the application's domain types."""
 
 from datetime import datetime
+from typing import Literal
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict
@@ -26,3 +27,12 @@ class HistoryResponse(ConversationResponse):
 class DeletionResponse(ResponseModel):
     conversation_id: UUID
     cleanup_pending: bool
+
+
+class LiveResponse(ResponseModel):
+    status: Literal["alive"] = "alive"
+
+
+class HealthResponse(ResponseModel):
+    status: Literal["ready", "unavailable"]
+    dependencies: dict[str, Literal["ready", "unavailable"]]
