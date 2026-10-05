@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-05",
+  "offline": {
+    "backend_unit_contract": {
+      "passed": 373,
+      "skipped": 0
+    },
+    "backend_integration": {
+      "passed": 172,
+      "initial_skipped": 2,
+      "skipped_resolved_by_pretrained_rerun": 2
+    },
+    "frontend_unit": 25,
+    "frontend_configuration": 5,
+    "browser_accessibility": 10,
+    "browser_real_api_database_mcp": 5,
+    "ruff": "passed",
+    "format": "passed",
+    "mypy": "passed",
+    "openapi_drift": "passed"
+  },
+  "live": {
+    "openai_text_vision": "passed",
+    "tavily_dated_smoke": "passed",
+    "six_agent_graph": "passed with style and trend unavailable; not full-release quality acceptance"
+  },
+  "initial_failures": [
+    "sandbox subprocess restrictions; rerun outside sandbox",
+    "trend smoke lacked explicit DATABASE_URL and MEDIA_ROOT; corrected with isolated database and local media"
+  ],
+  "limitations": [
+    "physical assistive technology unavailable",
+    "no full representative-corpus live acceptance claim",
+    "live graph retrieved one real candidate and used eight model attempts; report retains measured tokens and stages"
+  ]
+}

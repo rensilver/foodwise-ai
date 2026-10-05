@@ -131,3 +131,22 @@ Graph measurements exclude DB, browser and provider/network latency; embedding
 probes run separately. This is a reproducible local baseline, not live service
 performance. One summary contract passed after its initial missing-module failure.
 Run `make measure-phase10` with the ignored pretrained model directories present.
+
+## P10-12 — Separate offline and live checks
+
+[Verification manifest](verification_report.json): 373 unit/contract tests;
+172 integration tests, with the two initially skipped pretrained tests rerun
+successfully; 25 frontend unit tests, five configuration checks, ten production
+browser/accessibility checks (54.0 s), and five real API/PostgreSQL/HTTP MCP
+journeys (1.2 min). Ruff, format, mypy and OpenAPI drift passed. External
+network is blocked in normal pytest fixtures. Tests used isolated port 55440.
+
+Explicit live checks are separate: [text/vision capability probes](live_openai_capabilities.json),
+[dated Tavily smoke](live_trends_smoke.json), and [six-agent graph smoke](live_graph_smoke.json)
+passed. The graph took 26.80 s, eight actual model attempts, 12,580 reported
+tokens and one live search; it retrieved one real candidate. Style and trend
+analysis were unavailable, so this is a degraded integration check and does not
+close full-release acceptance. The independent trend smoke returned dated
+evidence. Initial trend configuration failures were corrected by explicitly
+selecting the disposable database and local media. No owner service was changed.
+Physical-device/spoken assistive-technology testing remains unavailable.

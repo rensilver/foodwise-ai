@@ -645,7 +645,7 @@ Historical planning verification: 122 local document links resolved, Markdown fe
 - [x] P10-09 Test request deadlines, provider concurrency, cancellation, concurrent conversations, per-conversation run exclusion and checkpoint isolation.
 - [x] P10-10 Recheck upload/archive/network restrictions, admin/session/CSRF behavior, sanitized rendering and redacted logs; scan source and built assets for secrets.
 - [x] P10-11 Measure stage/end-to-end latency, local embedding resource use, token usage and search calls; report machine details and cold/warm behavior.
-- [ ] P10-12 Run all offline unit/integration/contract/browser checks and explicit live smoke tests separately; record every skipped or blocked check honestly.
+- [x] P10-12 Run all offline unit/integration/contract/browser checks and explicit live smoke tests separately; record every skipped or blocked check honestly.
 - [ ] P10-13 Run package-boundary and cold ORM-registration contracts alongside acceptance checks; review new adapters for SDK leakage, circular imports and import-time I/O.
 - [ ] P10-14 Validate the [Langfuse Cloud plan](infra/langfuse-plan.md): record region, plan/quota, retention/deletion capabilities and locked SDK compatibility, starting with the reviewed Python v4.16.0 candidate and rechecking the Cloud legacy-API cutoff; configure a dedicated Cloud project and server-side keys only during implementation, with no local Langfuse stack or unapproved paid subscription.
 - [ ] P10-15 Implement optional infrastructure tracing with injected no-op defaults, lazy lifecycle wiring, bounded export/shutdown and privacy allowlists; keep core packages, existing logs, readiness and application contracts independent of Langfuse.

@@ -1,0 +1,273 @@
+{
+  "verified_at": "2026-10-05T19:09:36.047293+00:00",
+  "enabled_explicitly": true,
+  "seed_query": "Recommend Italian recipes featuring tomato and basil, such as pizza.",
+  "model": "gpt-4o-mini",
+  "transport": "stdio MCP subprocess with real PostgreSQL exact pgvector/MiniLM retrieval",
+  "limits": {
+    "run_seconds": 120,
+    "call_seconds": 30,
+    "openai_concurrency": 3,
+    "transport_retries": 2,
+    "schema_repairs": 2,
+    "synthesis_repairs": 1,
+    "retrieval_attempts": 3,
+    "trend_searches": 2
+  },
+  "metrics": {
+    "duration_ms": 26802.246977000323,
+    "openai_calls": 8,
+    "tool_calls": 2,
+    "search_calls": 1,
+    "token_usage": 12580,
+    "retrieval_attempts": 1,
+    "stages": [
+      {
+        "stage": "profile",
+        "duration_ms": 1747.7570310002193,
+        "status": "success"
+      },
+      {
+        "stage": "retrieval",
+        "duration_ms": 8460.91958299803,
+        "status": "success"
+      },
+      {
+        "stage": "nutrition",
+        "duration_ms": 1778.408981001121,
+        "status": "success"
+      },
+      {
+        "stage": "style",
+        "duration_ms": 3329.7554980017594,
+        "status": "unavailable"
+      },
+      {
+        "stage": "trend",
+        "duration_ms": 13247.827139999572,
+        "status": "unavailable"
+      },
+      {
+        "stage": "recommendation",
+        "duration_ms": 3322.12259500011,
+        "status": "success"
+      }
+    ]
+  },
+  "provider_usage": [
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 1742.9291139997076,
+      "prompt_tokens": 664,
+      "completion_tokens": 31,
+      "total_tokens": 695
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 1228.057751999586,
+      "prompt_tokens": 278,
+      "completion_tokens": 23,
+      "total_tokens": 301
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 1777.27106599923,
+      "prompt_tokens": 1059,
+      "completion_tokens": 77,
+      "total_tokens": 1136
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 3328.361751002376,
+      "prompt_tokens": 986,
+      "completion_tokens": 232,
+      "total_tokens": 1218
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 2787.8930649967515,
+      "prompt_tokens": 2339,
+      "completion_tokens": 230,
+      "total_tokens": 2569
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 2314.5387270014908,
+      "prompt_tokens": 2364,
+      "completion_tokens": 183,
+      "total_tokens": 2547
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 2774.397791999945,
+      "prompt_tokens": 2389,
+      "completion_tokens": 238,
+      "total_tokens": 2627
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 3320.4959060021793,
+      "prompt_tokens": 1226,
+      "completion_tokens": 261,
+      "total_tokens": 1487
+    }
+  ],
+  "candidate_count": 1,
+  "retrieved_ids": [
+    {
+      "category": "recipe",
+      "id": "1"
+    }
+  ],
+  "profile_outcome": {
+    "result": {
+      "categories": [
+        "recipe"
+      ],
+      "preferences": {
+        "cuisines": [
+          "Italian"
+        ],
+        "flavors": [
+          "tomato",
+          "basil"
+        ],
+        "constraints": [],
+        "location": null,
+        "price_band": null
+      },
+      "clarification": null
+    },
+    "status": "success"
+  },
+  "branch_outcomes": {
+    "trend": {
+      "code": "trends_unavailable",
+      "status": "unavailable"
+    },
+    "style": {
+      "code": "style_unavailable",
+      "status": "unavailable"
+    },
+    "nutrition": {
+      "result": {
+        "assessments": [
+          {
+            "entity": {
+              "category": "recipe",
+              "id": "1"
+            },
+            "state": "unknown",
+            "citation_ids": [
+              "c1e6f494fcae3384788ba7906ecb27556248ec78fcdf4ef33fb0ab14b2f348f0"
+            ],
+            "limitations": [
+              "No verified nutrient quantities or cross-contact safety evidence"
+            ]
+          }
+        ]
+      },
+      "status": "success"
+    }
+  },
+  "trend_search_outcomes": [
+    {
+      "status": "available",
+      "evidence": [
+        {
+          "id": "3fd3a620-4759-4dd6-afe5-1fa52deeed36",
+          "url": "https://www.latimes.com/california/newsletter/2026-07-10/mangia-exhibit-italian-american-museum-of-los-angeles",
+          "excerpt": "# The history of Italian American food runs through L.A., stunning new exhibit shows. ## Your morning catch-up: The new Italian American cuisine exhibit, El Ni\u00f1o is a virtual certainty and more big stories. The Evolution of Italian Food in the United States,\u201d an awesome new exhibit at the Italian American Museum of Los Angeles (IAMLA) on Olvera Street. \u201cMangia!\u201d showcases the different trends of Italian cuisine in this country via exhibits-within-exhibits devoted to their origins, including produce like tomatoes, products like cheese and coffee, and the Italian immigrants behind such all-American brands as Planter\u2019s Peanuts, Tropicana orange juice and McDonald\u2019s Big Mac. A wall is even dedicated to clothing from Italian restaurants from across the country \u2014 T-shirts and hats, of course, but also bibs and even baby onesies \u2014 along with a map of the United States dotted with the locations and names of the oldest Italian restaurants in different regions of the country.",
+          "published_on": "2026-07-10",
+          "retrieved_at": "2026-10-05T19:09:24.800218Z"
+        },
+        {
+          "id": "2fe02c54-a97a-487a-9676-aac058f37f01",
+          "url": "https://www.cbsnews.com/gooddaysacramento/video/new-menu-items-cocktails-at-pietros-trattoria/",
+          "excerpt": "# New menu items & cocktails at Pietro's Trattoria! Pietro's Trattoria is a family-owned California Italian restaurant located in the heart of Lodi Wine Country. Today, Pietro's blends seasonal California ingredients with Italian-American traditions through a menu of housemade pastas, wood-fired pizzas, handmade breads, and thoughtfully curated wines and cocktails.",
+          "published_on": "2026-08-25",
+          "retrieved_at": "2026-10-05T19:09:24.800230Z"
+        },
+        {
+          "id": "ec8e18dc-ed65-4158-8c71-a5482fc234b9",
+          "url": "https://www.sfgate.com/food/article/bon-appetit-best-new-restaurants-sf-22401213.php",
+          "excerpt": "# Bon Appetit names 2 SF restaurants among best new restaurants of 2026. While the past year\u2019s economic uncertainty led to many restaurants playing it safe, Bon App\u00e9tit still sniffed out 19 new restaurants across the United States it deemed exciting and visionary in 2026. Two San Francisco restaurants are among the magazine\u2019s top new restaurants in the country: trendy pizza destination Jules and Mexican fine dining eatery Maria Isabel. Jules, which opened in the Lower Haight in May 2025, quickly became one of the toughest reservations in San Francisco. \u201cThe tamal is Laura\u2019s platonic ideal of the dish: puffy and airy, light and delicate enough to melt a bit on your tongue, dotted with unctuous Santa Barbara sea urchin and drenched in a foamy corn crema,\u201d Bon\u00a0App\u00e9tit wrote. *For all things fascinating in Bay Area food, sign up for our Eat the Bay newsletter here.*. Madeline Wells is a senior food reporter at SFGATE, where she has covered the Bay Area restaurant scene\u00a0since 2019.",
+          "published_on": "2026-08-24",
+          "retrieved_at": "2026-10-05T19:09:24.800234Z"
+        },
+        {
+          "id": "5ceaf6ae-cd2b-498e-bdd8-fa44b19715d5",
+          "url": "https://www.sfchronicle.com/food/restaurants/article/yutori-restaurant-opening-palo-alto-22442762.php",
+          "excerpt": "# This Bay Area Japanese food emporium just got an ambitious new restaurant. Just like the rest of Yutori, the restaurant is inspired by the many trips that owner Jerome Ito\u00a0\u2014 a former Google sushi chef and the owner of local udon shop Taro San and poke chain Go Fish Poke Bar\u00a0\u2014 and his wife, Linh Tran-Ito, have made to Japan. The restaurant\u2019s menu is geared toward family-style dining, such as a bone-in\u00a0tonkatsu for two or whole roasted branzino lettuce wrap with shiso salsa verde and rayu chili oil, meant for two to three people to share. The Nikkei ceviche ($32), a style developed by Japanese immigrants to Peru, comes with tuna, salmon and halibut cured in lime juice, sitting atop a pool of black sesame sauce and roasted kombu oil. Itameshi pastas, a style that melds Italian and Japanese influences, are also on offer, such as a mentaiko-topped seafood pasta with lobster, clam and scallops in a lobster dashi broth ($58).",
+          "published_on": "2026-09-24",
+          "retrieved_at": "2026-10-05T19:09:24.800237Z"
+        },
+        {
+          "id": "da1429e9-d171-4c22-9dc6-9c4201b86ee9",
+          "url": "https://www.cbsnews.com/losangeles/video/teleferic-barcelona-brings-spanish-cuisine-to-southern-california/",
+          "excerpt": "# Teleferic Barcelona brings spanish cuisine to Southern California. Teleferic Barcelona, which just opened a new location in Newport Beach, brings Spanish cuisine to Southern California. Chef Oscar Cabezzas joined CBS LA to show off part of the menu.",
+          "published_on": "2026-09-06",
+          "retrieved_at": "2026-10-05T19:09:24.800240Z"
+        }
+      ],
+      "reason": null,
+      "cache_status": "miss",
+      "search_calls": 1,
+      "excluded_count": 0,
+      "limitation": "Web excerpts are untrusted evidence; validate claims against dated excerpts"
+    }
+  ],
+  "final": {
+    "result": {
+      "recommendations": [
+        {
+          "entity": {
+            "category": "recipe",
+            "id": "1"
+          },
+          "explanation": "name: Classic Margherita Pizza\ncuisine: Italian\ningredients: 1 pizza dough ball (about 260g)\n2 tablespoons tomato sauce\n1 cup shredded mozzarella cheese\n6-8 fresh basil leaves\n1 tablespoon olive oil\npinch of salt\noptional: grated parmesan\ndirections: Preheat oven to 250\u00b0C (482\u00b0F) with a baking stone if available.\nRoll out dough to a 12-inch circle on a floured surface.\nSpread tomato sauce evenly over dough, leaving a 1/2-inch border.\nScatter mozzarella cheese over sauce.\nBake on the stone for 10-12 minutes until crust is crisp and cheese melts.\nFinish with basil leaves, drizzle with olive oil, and season with salt and optional parmesan.\nSlice and serve immediately.",
+          "citation_ids": [
+            "c1e6f494fcae3384788ba7906ecb27556248ec78fcdf4ef33fb0ab14b2f348f0"
+          ],
+          "limitations": [
+            "Image modality has no eligible evidence; active weights renormalized",
+            "No verified nutrient quantities or cross-contact safety evidence"
+          ]
+        }
+      ],
+      "limitations": [
+        "Trend analysis unavailable",
+        "Style analysis unavailable",
+        "Image modality has no eligible evidence; active weights renormalized",
+        "Synthetic course catalog; relevance is not dietary certification",
+        "No verified nutrient quantities or cross-contact safety evidence"
+      ]
+    },
+    "status": "success"
+  },
+  "catalog_citations": [
+    {
+      "id": "c1e6f494fcae3384788ba7906ecb27556248ec78fcdf4ef33fb0ab14b2f348f0",
+      "kind": "catalog",
+      "source_id": "admin-source:c3b616867a60266888f4bd5570e1e0dd82108a09a3fa553112cf7b3d2d1aac35",
+      "excerpt": "name: Classic Margherita Pizza\ncuisine: Italian\ningredients: 1 pizza dough ball (about 260g)\n2 tablespoons tomato sauce\n1 cup shredded mozzarella cheese\n6-8 fresh basil leaves\n1 tablespoon olive oil\npinch of salt\noptional: grated parmesan\ndirections: Preheat oven to 250\u00b0C (482\u00b0F) with a baking stone if available.\nRoll out dough to a 12-inch circle on a floured surface.\nSpread tomato sauce evenly over dough, leaving a 1/2-inch border.\nScatter mozzarella cheese over sauce.\nBake on the stone for 10-12 minutes until crust is crisp and cheese melts.\nFinish with basil leaves, drizzle with olive oil, and season with salt and optional parmesan.\nSlice and serve immediately.",
+      "entity": {
+        "category": "recipe",
+        "id": "1"
+      },
+      "record_id": "1",
+      "document_id": "c1e6f494fcae3384788ba7906ecb27556248ec78fcdf4ef33fb0ab14b2f348f0",
+      "url": null,
+      "published_on": null,
+      "retrieved_at": null,
+      "attribution": "source"
+    }
+  ],
+  "checkpoint_completed": true,
+  "reference_validation_passed": true,
+  "passed": true,
+  "limitations": [
+    "One seed query demonstrates integration, not recommendation quality",
+    "Unavailable or irrelevant live trend evidence does not produce trend claims"
+  ]
+}
