@@ -162,3 +162,24 @@ resolves all 20 tables and foreign keys without loading adapters/models.
 Existing graph/API contracts continue to reject concrete I/O leakage.
 Static checks and OpenAPI drift passed. New telemetry cold-import checks are
 recorded with their implementation in P10-15.
+
+## P10-15 — Optional tracing infrastructure
+
+A narrow recommendation observation port has injected no-op defaults; SDK/OTel
+imports remain lazy inside `infrastructure/telemetry`. Composition owns the
+process client and shutdown. Disabled tracing does not construct the SDK, open
+sockets or start exporter threads. Credentials alone never enable exports; the
+conversation deletion/retention verification flag remains false by default.
+
+Explicit sanitized scopes exclude graph content, exceptions and automatic
+framework callbacks. The final OTLP exporter rebuilds spans, discarding all
+events, links, resources, exception status text and nonallowlisted attributes.
+Network exports have a two-second timeout and 256 KiB request bound; batch size
+is 32 and SDK queue is bounded at at most 2,048 observations. Shutdown has a
+three-second application wait and uses a daemon worker, so a hung exporter
+cannot occupy the asyncio default executor during process exit.
+
+18 lazy initialization/privacy/package tests passed, including serialized real
+SDK OTLP with fake export and injected private input/output/metadata/events.
+Mypy passed (169 source files); OpenAPI remains unchanged. SDK internals still
+start background managers when enabled; overhead is measured in P10-19.

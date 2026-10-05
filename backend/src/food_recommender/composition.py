@@ -66,6 +66,8 @@ from food_recommender.infrastructure.persistence.search.text import PostgresText
 from food_recommender.infrastructure.persistence.unit_of_work import PostgresUnitOfWork
 from food_recommender.infrastructure.providers.openai import OpenAIStructuredInference
 from food_recommender.infrastructure.providers.tavily import TavilySearch
+from food_recommender.infrastructure.telemetry.config import TelemetrySettings
+from food_recommender.infrastructure.telemetry.langfuse import LazyTracing
 from food_recommender.ingestion.extraction import (
     ExtractionResult,
     ExtractionService,
@@ -104,6 +106,7 @@ def build_backend_services(
     settings: Settings,
     *,
     probe: Callable[[Settings], Awaitable[dict[str, bool]]] = backend_readiness,
+    telemetry_settings: TelemetrySettings | None = None,
 ) -> Services:
     engine = create_database_engine(settings.database_url.get_secret_value())
     sessions = async_sessionmaker(engine, expire_on_commit=False)
@@ -117,7 +120,8 @@ def build_backend_services(
     inference = OpenAIStructuredInference(
         http, settings.openai_api_key, settings.openai_model
     )
-    workflow = PersistedWorkflow(settings, inference, runs)
+    tracing = LazyTracing(telemetry_settings or TelemetrySettings())
+    workflow = PersistedWorkflow(settings, inference, runs, tracing=tracing)
     catalog = CatalogService(transactions, cleanup)
     browse = BrowseService(transactions)
     preview = AdminExtractionPreview(
@@ -125,6 +129,7 @@ def build_backend_services(
     )
 
     async def close() -> None:
+        await tracing.close()
         await http.aclose()
         await engine.dispose()
 
@@ -243,9 +248,15 @@ def build_workflow_roles(
 
 class PersistedWorkflow:
     def __init__(
-        self, settings: Settings, inference: Inference, runs: ConversationRuns
+        self,
+        settings: Settings,
+        inference: Inference,
+        runs: ConversationRuns,
+        *,
+        tracing: LazyTracing | None = None,
     ) -> None:
         self.settings, self.runs = settings, runs
+        self.tracing = tracing or LazyTracing(TelemetrySettings())
         self.inference = BudgetedInference(inference, semaphore=asyncio.Semaphore(3))
         self.client = configured_client(settings)
 
