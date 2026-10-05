@@ -135,7 +135,10 @@ logs on stderr, described in the
 The scaffold exposes Streamable HTTP at `/mcp`; stdio and culinary tools are
 Phase 6 work. Stop each development server with Ctrl+C.
 
-Start Next.js from `frontend/`, in a shell without backend settings:
+Start Next.js from `frontend/`, in a shell without backend settings. The
+same-origin proxy defaults to `http://127.0.0.1:8000`; for another local API port,
+set only the server-side `FOODWISE_API_ORIGIN` in this shell. Compose supplies
+`http://backend:8000`. See the [frontend guide](../frontend/README.md#setup-and-local-servers):
 
 ```bash
 pnpm dev
@@ -220,7 +223,7 @@ and loopback permissions; resolve sandbox denials before assessing results.
 | Text retrieval | [Phase 4 indexing/search/evaluation](../backend/README.md#multi-source-text-retrieval-phase-4) uses pinned CPU MiniLM and real PostgreSQL. | Phase 4, P04-01 through P04-09 verified. |
 | Source audit | `python scripts/phase0_audit.py` from the root is implemented. It requires local course/data/media artifacts and writes Phase 0 reports. It does not populate PostgreSQL. | Phase 0 evidence. |
 | Provider capability smoke tests | Explicit opt-in Tavily/OpenAI probes are implemented. The historical graph failed with the previous provider; OpenAI verification is recorded separately. Health/offline tests make no paid calls. | P06-12, P07-01 and P07-14 recorded; live graph acceptance open. |
-| Recommendation/admin API | [Phase 8 API contract](../backend/README.md#phase-8-http-contract) covers browser ownership, SSE, uploads, admin origin/CSRF and atomic CRUD. Backend `MINILM_ROOT`, application migrations and supported checkpoint setup are required for full readiness. | P08-01 through P08-12 verified; browser UI/proxy remains Phase 9. |
+| Recommendation/admin API | [Phase 8 API contract](../backend/README.md#phase-8-http-contract) covers browser ownership, SSE, uploads, admin origin/CSRF and atomic CRUD. Backend `MINILM_ROOT`, application migrations and supported checkpoint setup are required for full readiness. | P08-01 through P08-12 verified; Phase 9 browser/proxy evidence is tracked separately. |
 | Full clean-checkout release | Local media/course recovery, application migrations, ingestion and acceptance flows remain required. | P11-01 through P11-09. |
 
 From `backend/`, preview the implemented application migrations without connecting:

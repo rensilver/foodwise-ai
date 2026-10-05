@@ -15,10 +15,12 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:install": "playwright install chromium",
-    "check": "pnpm api:check && pnpm lint && pnpm typecheck && pnpm test",
+    "check": "pnpm api:check && pnpm format:check && pnpm lint && pnpm typecheck && pnpm test",
     "api:generate": "node scripts/api-contracts.mjs",
     "api:check": "node scripts/api-contracts.mjs --check",
-    "test:e2e:integration": "playwright test --config playwright.integration.config.ts"
+    "test:e2e:integration": "playwright test --config playwright.integration.config.ts",
+    "format": "prettier --write src tests scripts *.ts *.mts *.mjs *.json *.md",
+    "format:check": "prettier --check src tests scripts *.ts *.mts *.mjs *.json *.md"
   },
   "packageManager": "pnpm@12.8.1",
   "engines": {
@@ -54,6 +56,7 @@
     "tailwindcss": "4.3.3",
     "typescript": "5.9.3",
     "vite": "8.3.2",
-    "vitest": "5.0.3"
+    "vitest": "5.0.3",
+    "prettier": "3.6.2"
   }
 }

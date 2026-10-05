@@ -73,6 +73,14 @@ Real API verification on 2026-10-05: **4 browser journeys passed (56.2 s)**;
 **18 unit/component tests passed** and strict TypeScript passed. Final combined
 quality results are recorded below after the package and telemetry checks.
 
+Package review (P09-12): administrator operations are separated into a focused
+hook, route shells compose features, generated contracts are excluded from manual
+formatting, and import checks prevent provider/database/telemetry SDK dependencies
+in presentation code. Standalone packaging carries PostCSS and public font assets;
+Compose configures only the internal API origin for the frontend. Formatting,
+lint, strict TypeScript, **22 unit/component tests**, **5 configuration checks**
+and **9 responsive/accessibility browser tests (56.7 s)** passed after refactoring.
+
 ## Reproduction
 
 Use the locked Node/pnpm/Python environment. Ordinary frontend checks need no
@@ -106,7 +114,10 @@ seeds original recipe/restaurant identities using ingestion adapters and indexes
 the matching recipe1 image. It binds only `127.0.0.1:8119`; the frontend binds
 `127.0.0.1:3100`. The fixture administrator password is test-only and never used
 by production. Fixture data/media remain in the isolated test environment.
-Run backend database tests and this harness sequentially, because their migration
-fixtures intentionally create/drop application tables. Stop the disposable
+Run backend database tests before seeding this harness, using a fresh disposable
+service. Their migration/downgrade fixtures expect an empty application schema;
+recreate the test service before rerunning them after browser journeys. Never
+reset the owner’s database. The first combined rerun demonstrated these fixture
+collisions; a clean disposable service resolves the setup issue. Stop the disposable
 container after testing. Full model/data recovery and release rehearsal remain
 Phase 11 scope.

@@ -1,166 +1,110 @@
 # foodwise-ai frontend
 
-The product name is **foodwise-ai**, with this exact spelling and casing.
-[product.ts](src/lib/product.ts) exports `PRODUCT_NAME` for UI headings,
-navigation labels, and browser/page metadata when those interfaces are
-implemented. The private package in [package.json](package.json) uses the same
-name. P01-05 adds a minimal English startup page, product metadata and
-`/health/live`; recommendations and catalog interfaces remain planned.
+The English meal workspace implements chat, owned follow-ups, explicit preferences,
+image drafts, cited recommendations, catalog browse/details and local administration.
+Branding and metadata import `PRODUCT_NAME` from [product.ts](src/lib/product.ts).
+The synthetic teaching catalog and unknown/degraded evidence are labeled explicitly.
 
-The [Phase 9 design and delivery plan](DESIGN_PLAN.md) defines the meal-choice
-workspace, visual tokens, responsive wireframes, interaction states and
-verification gates. Follow it alongside the
-[Phase 9 checklist](../CHECKLIST.md#phase-9--nextjs-frontend-and-administration).
-It records planned work, including a catalog-image delivery dependency;
-it does not establish implemented UI or browser acceptance.
+Use the [design plan](DESIGN_PLAN.md) and [Phase 9 evidence](../evaluation/phase9/README.md)
+for interaction contracts, visual critique and verification limits.
 
-The folders reserve the approved Next.js App Router layout.
-See the [developer workflow](../infra/development.md) for setup, local servers
-and checks across both packages.
+## Setup and local servers
 
-P01-02 pins Node 24.19.0 in the root [.nvmrc](../.nvmrc) and pnpm 12.8.1 in
-[package.json](package.json). The manifest and [pnpm-lock.yaml](pnpm-lock.yaml)
-lock Next.js 16.3.8, React 19.3.0, Tailwind CSS 4.3.3, TypeScript 5.9.3,
-matching React/Node type definitions, and the Radix/utilities used by shadcn/ui.
-The shadcn components themselves will be generated into the repository during
-UI work. Node type definitions follow the runtime's major version (24).
-
-Use Node 24.19.0 and pnpm 12.8.1. If using nvm, run `nvm install` and `nvm use`
-at the repository root; install pnpm with `npm install --global pnpm@12.8.1`.
-Then run from `frontend/`:
+Use Node **24.19.0** and pnpm **12.8.1**, locked in the root `.nvmrc` and manifest.
+From `frontend/`:
 
 ```bash
 pnpm install --frozen-lockfile
-pnpm exec next --version
-pnpm exec tsc --version
+pnpm dev
 ```
 
-[pnpm-workspace.yaml](pnpm-workspace.yaml) enforces runtime versions, exact new
-dependency declarations, and compatible peers using the current
-[pnpm settings format](https://pnpm.io/settings). It also retains pnpm's explicit
-version exceptions for the resolved Node types and Lucide release-age checks.
-pnpm 12 records its package-manager dependency in the first YAML document of
-the lockfile and the application graph in the second.
-Installation was verified on Linux x86_64. See the official
-[Next.js installation guide](https://nextjs.org/docs/app/getting-started/installation)
-and [pnpm installation guide](https://pnpm.io/installation) for tool setup.
+Run FastAPI separately following the [developer guide](../infra/development.md).
+The same-origin `/api/v1` proxy defaults to `http://127.0.0.1:8000`.
+`FOODWISE_API_ORIGIN` is a server-only setting accepting the fixed local hosts
+`localhost`, `127.0.0.1` or Compose `backend`, without a path or credentials.
+Compose supplies `http://backend:8000`. The browser always calls relative URLs.
+Use matching allowed browser origins in backend configuration.
 
-P01-05 adds the strict TypeScript configuration required by the startup page,
-and enables Next.js standalone output for the container. From `frontend/`,
-run `pnpm dev` for a localhost development
-server or `pnpm build` for a production build. The
-[Compose guide](../infra/README.md) starts the standalone production server
-and documents health checks and synthetic-configuration verification.
+Keep the root `.env` in the backend process. Never copy it into `frontend/` or
+export backend configuration into the Next.js process. The Next configuration
+rejects all `NEXT_PUBLIC_*` and backend-only configuration without printing values.
+No provider, database or administrator credentials belong in browser code.
+Cookies are forwarded with their separate Set-Cookie headers; administrator
+CSRF tokens stay in memory and expire with the local grant. No localStorage
+credentials or ownership IDs are used.
 
-| Location | Responsibility |
-| --- | --- |
-| `src/app` | Pages, layouts, and the same-origin API proxy. |
-| `src/features/chat` | Conversation UI, follow-ups, progress, and image upload controls. |
-| `src/features/preferences` | Explicit preferences and hard dietary constraint controls. |
-| `src/features/recommendations` | Result cards, details, citations, and limitations. |
-| `src/features/catalog` | Catalog browsing and administrator previews and CRUD forms. |
-| `src/components` | Shared accessible presentation components. |
-| `src/lib` | Generated OpenAPI types, API clients, and shared utilities. |
-| `tests/components` | Component and accessibility tests. |
-| `tests/e2e` | Playwright browser journeys. |
+`pnpm build` creates standalone production output. The container and browser
+startup script include `.next/static` and `public`, including local OFL font
+assets. Tailwind v4 uses [postcss.config.mjs](postcss.config.mjs). Shared controls
+use the installed Radix, CVA and Tailwind utilities following shadcn conventions.
+Font attribution and licenses live in [public/fonts](public/fonts/README.md).
 
-FastAPI owns application behavior. The frontend uses its API through a
-same-origin proxy in Phase 9. Phase 8 supplies generated OpenAPI contracts.
-Provider secrets and database access stay on the server.
+## Package boundaries
 
-## Generated API contracts (Phase 8)
+| Location                       | Responsibility                                                             |
+| ------------------------------ | -------------------------------------------------------------------------- |
+| `src/app`                      | Thin route shells, navigation/metadata, same-origin proxy and liveness.    |
+| `src/features/chat`            | Owned history, editable drafts, POST SSE, recovery, activity and images.   |
+| `src/features/preferences`     | Explicit additions/removals and hard/soft control presentation.            |
+| `src/features/recommendations` | Category results, canonical facts, evidence and limitations.               |
+| `src/features/catalog`         | URL-based browsing/details, admin session hook and typed forms.            |
+| `src/components/ui`            | Shared buttons and accessible confirmation dialogs.                        |
+| `src/lib`                      | Generated contracts, typed HTTP client, SSE framing and product/utilities. |
 
-[openapi.json](src/lib/api/openapi.json) is exported from FastAPI;
-[generated.ts](src/lib/api/generated.ts) is generated by pinned
-`openapi-typescript` 7.13.0. Do not edit either artifact manually. After changing
-backend schemas, run `make api-schema` from `backend/`, then `pnpm api:generate`
-from `frontend/`. `make api-schema-check` checks the server export and
-`pnpm api:check` checks TypeScript generation; both run in their package's normal
-check command.
+Route pages compose features; they do not perform application behavior. The
+admin hook owns asynchronous session/catalog work; its workspace renders controls.
+Features do not import route shells, shared components do not import features,
+and library code does not import UI. Boundary tests enforce these dependencies.
+FastAPI owns constraints, ranking, ownership, validation, embeddings, transactions
+and version checks. Form conversion handles only primitive types and presentation;
+there is no copied allergen dictionary, SQL, retrieval scoring or provider SDK.
 
-Import `components` and `paths` from `src/lib/api/generated.ts` for future clients.
-`components["schemas"]["StreamContract"]` is the discriminated union of the five
-SSE data events, including citations and expert outcomes. Use browser `fetch` for
-POST streams, preserve the required `client_request_id`, and refetch history after
-a disconnect; resubmitting that ID receives `409`. The [API guide](../backend/README.md#phase-8-http-contract)
-documents cookies, media and administrator CSRF requirements. UI and proxy
-implementation remain Phase 9 tasks.
+Image results use entity-bound catalog receipts. Uploads use owned media IDs.
+Sources are rendered as escaped React text with only validated HTTP(S) links;
+raw HTML and Markdown execution are unsupported. There is no arbitrary URL fetch.
 
-P01-04 adds [next.config.mjs](next.config.mjs), which rejects all
-`NEXT_PUBLIC_*` variables during development and production configuration
-loading. It also rejects the backend configuration names and both Compose
-database password names, including
-unprefixed values: client components can read those during server rendering
-and expose them in HTML. The scaffold needs no public environment settings. The guard runs
-after Next.js loads frontend dotenv files and never prints variable values.
-It also leaves Next.js `env` empty: that option can expose values in browser
-bundles even without a public prefix. See the official
-[environment-variable guide](https://nextjs.org/docs/app/guides/environment-variables)
-and [Next.js env option](https://nextjs.org/docs/app/api-reference/config/next-config-js/env).
+The POST stream reads incrementally with browser `fetch`, tracks conversation/run
+identity and requires terminal `done`. On disconnect or Stop, it loads owned
+history and preserves the draft. Refresh can restore an incomplete draft from
+saved history. Sending again is always an explicit action with a fresh request
+ID; refresh never replays inference. One active turn is enforced by both UI and API.
 
-Keep the root `.env` for the backend; do not copy it into the frontend, export
-its settings into the frontend process or inject them into client code. Use
-separate process environments for backend and frontend. Future proxy configuration
-belongs on the Next.js server. If a public setting becomes necessary later,
-add an explicit reviewed allowlist and tests before enabling it.
+## Generated API contracts
 
-Run the offline configuration checks with `pnpm test:config` from `frontend/`
-after locked installation.
-
-The tests use synthetic values, exercise Next.js configuration/dotenv loading,
-and confirm that a build with backend canaries fails before rendering. A
-temporary minimal application built with a clean environment then verifies
-browser JavaScript and HTML contain no private canary. Temporary fixtures are deleted afterward; these
-checks do not call external providers. The separate Compose smoke test boots
-the committed startup application with synthetic configuration.
-The Node test runner needs subprocess support. Full application bundle checks
-must be repeated as UI/proxy code is implemented.
+[openapi.json](src/lib/api/openapi.json) comes from FastAPI and
+[generated.ts](src/lib/api/generated.ts) from pinned `openapi-typescript`.
+Do not edit these files manually or duplicate API schemas. After backend schema
+changes, run `make api-schema` in `backend/`, then `pnpm api:generate` here.
+`pnpm api:check` verifies drift. API client bodies/results and SSE events derive
+from generated `paths` and `components`; TypeScript does not replace backend
+runtime validation. See the [HTTP contract](../backend/README.md#phase-8-http-contract).
 
 ## Quality scripts (P01-06)
 
-All commands below run from **`frontend/`**, using the pinned Node/pnpm versions
-after `pnpm install --frozen-lockfile`.
+All commands run from `frontend/` after locked installation.
 
-| Command | Check or action |
-| --- | --- |
-| `pnpm lint` | ESLint flat configuration with Next.js Core Web Vitals and TypeScript rules; warnings fail. |
-| `pnpm lint:fix` | Apply ESLint's available fixes. |
-| `pnpm typecheck` | Strict TypeScript check of application code, test code and test configurations. |
-| `pnpm test:unit` | Vitest component/unit tests with jsdom and Testing Library. |
-| `pnpm test:watch` | Watch component/unit tests during development. |
-| `pnpm test:config` | Node configuration/security contracts, including an isolated production build. |
-| `pnpm test` | Run component/unit and configuration suites once. |
-| `pnpm check` | Run lint, typecheck and both test suites, stopping on failure. |
-| `pnpm test:e2e:install` | Download the Chromium version required by the locked Playwright package. |
-| `pnpm test:e2e` | Build the app, start a local production server and run Chromium journeys. |
-| `pnpm test:e2e:ui` | Run browser tests with Playwright's interactive UI. |
+| Command                              | Check or action                                                                        |
+| ------------------------------------ | -------------------------------------------------------------------------------------- |
+| `pnpm check`                         | Contract drift, formatting, ESLint, strict TypeScript, units and configuration builds. |
+| `pnpm format` / `pnpm format:check`  | Pinned Prettier; generated contracts and assets are excluded.                          |
+| `pnpm lint:fix`                      | Apply ESLint fixes; recheck afterward.                                                 |
+| `pnpm api:generate`                  | Regenerate contracts from the committed backend export.                                |
+| `pnpm test:unit` / `pnpm test:watch` | Vitest and Testing Library behavior/boundary tests.                                    |
+| `pnpm test:config`                   | Environment isolation including an isolated production build.                          |
+| `pnpm test:e2e:install`              | Install the locked Chromium binaries once.                                             |
+| `pnpm test:e2e` / `pnpm test:e2e:ui` | Production Chromium UI states, keyboard, axe and responsive review.                    |
+| `pnpm test:e2e:integration`          | Real FastAPI/PostgreSQL/checkpoint/HTTP MCP journeys with controlled inference.        |
 
-[ESLint configuration](eslint.config.mjs) covers source, tests and configuration
-files, excluding generated Next.js files and browser reports. ESLint 9.39.5
-matches the supported peers of Next.js 16.3.8's React/import/accessibility
-plugins; recheck those peers before upgrading to ESLint 10.
-See the [Next.js ESLint guide](https://nextjs.org/docs/app/api-reference/config/eslint).
-The [pnpm build policy](pnpm-workspace.yaml) disables only the locked
-`unrs-resolver@1.12.2` fallback postinstall downloader; ESLint resolves imports
-using the package's locked optional native binding. Unreviewed dependency
-scripts still fail installation.
+Normal checks and mocked browser tests require no backend, provider credentials
+or model downloads. Real journeys require an isolated `foodwise_test` database,
+restored recipe1 media and provisioned offline models; follow the
+[reproduction instructions](../evaluation/phase9/README.md#reproduction).
+Paid live acceptance is separate and opt-in. Do not run database suites concurrently.
 
-[Vitest configuration](vitest.config.mts) discovers only
-`tests/components/**/*.test.tsx` and `tests/unit/**/*.test.ts`. The
-[setup file](tests/setup.ts) registers DOM assertions and cleans rendered
-components after each test. React's JSX transform uses Vite's React plugin.
-Vitest covers synchronous components; use Playwright for async Server
-Components as described in the [Next.js Vitest guide](https://nextjs.org/docs/app/guides/testing/vitest).
-Node configuration tests and Playwright specs have separate runners.
-
-Install Chromium once before running browser tests. Linux machines may also
-need OS libraries: `pnpm exec playwright install-deps chromium` installs them
-and may require administrator privileges. See the
-[Playwright system requirements](https://playwright.dev/docs/intro#system-requirements).
-
-On hosts with limited RAM and a RAM-backed `/tmp`, keep browser downloads and
-scratch files in the ignored, disk-backed workspace directory. Run from
-`frontend/` in the same shell for installation and testing:
+Keep port `127.0.0.1:3100` free for browser tests (plus 8119 for real API fixtures).
+Each suite builds `.next`, starts standalone production output and shuts it down;
+run builds and browser suites sequentially. For limited RAM, reuse disk-backed
+ignored browser/scratch storage:
 
 ```bash
 mkdir -p ../.local-tmp/playwright ../.local-tmp/scratch
@@ -170,29 +114,7 @@ pnpm test:e2e:install
 pnpm test:e2e
 ```
 
-Set those paths again in later shells to reuse the downloaded browser.
-Playwright selects the revision required by its locked package; repeat the
-installation after an upgrade. See the
-[memory guide](../infra/README.md#running-with-limited-ram) for host limits.
-
-[Browser configuration](playwright.config.ts) builds the production app and
-uses the [startup script](scripts/start-e2e.mjs) to copy static/public assets
-and start the standalone server on `127.0.0.1:3100`, matching the container.
-It refuses to reuse an existing server,
-and shuts it down afterward. Keep that port free and run builds/browser tests
-sequentially: they share `.next`. Reports/traces under `test-results/` and
-`playwright-report/` are Git-ignored; view a retained failure trace with
-`pnpm exec playwright show-trace <trace.zip>`.
-
-These suites need no backend service, `.env`, credentials or model downloads.
-They verify the startup page, product metadata, liveness and configuration
-isolation. The browser installation downloads browser binaries; test runs make
-no paid provider calls. [CI](../infra/ci.md) runs these checks and the Chromium
-startup journey; full accessible application journeys remain later tasks.
-
-P01-06-02 passed on 2026-10-02 with Node 24.19.0, pnpm 12.8.1 and locked
-Playwright 1.63.0: Chromium/Headless Shell revision 1243 (153.0.8010.12)
-installed successfully, and `pnpm test:e2e` passed the production startup
-journey (one test, 28.3 seconds including build/server startup). Existing Linux
-libraries were sufficient. This verifies the scaffold; full application
-journeys remain planned.
+The locked ESLint/Vitest/Playwright configuration is documented by the manifests.
+Unreviewed dependency lifecycle scripts fail installation. Screenshots, logs,
+traces, uploads and course media remain Git-ignored. View retained browser traces
+with `pnpm exec playwright show-trace <trace.zip>`.

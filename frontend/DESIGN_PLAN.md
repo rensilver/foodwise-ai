@@ -1,8 +1,8 @@
 # Phase 9 frontend design and delivery plan
 
-Status: planned, 2026-10-05. This document expands
-[Phase 9](../CHECKLIST.md#phase-9--nextjs-frontend-and-administration);
-it does not mark implementation or browser verification complete.
+Status: implemented and reviewed, 2026-10-05. This document defines the
+[Phase 9](../CHECKLIST.md#phase-9--nextjs-frontend-and-administration) contracts.
+See [recorded evidence](../evaluation/phase9/README.md) for verification and limits.
 The [frontend-design skill](../.agents/skills/frontend-design/SKILL.md)
 informs the visual direction and review process. Existing API contracts and
 [project rules](../AGENTS.md) govern behavior.
@@ -36,14 +36,14 @@ selection accent. Keep most of the screen quiet so the meal choices carry the
 personality. The following six colors define the initial light theme; verify
 actual text, focus and control contrast in implementation before accepting it.
 
-| Token | Value | Role |
-| --- | --- | --- |
-| Porcelain | `#F5F8FC` | Page background |
-| Plate | `#FFFFFF` | Composer, open dialogs and selected content surfaces |
-| Ink | `#18283B` | Primary text |
-| Slate | `#536579` | Supporting text and control outlines |
-| Cobalt | `#214CB5` | Primary actions, links and focus indicators |
-| Saffron | `#F0C76A` | Selected category with Ink text; never a safety signal |
+| Token     | Value     | Role                                                   |
+| --------- | --------- | ------------------------------------------------------ |
+| Porcelain | `#F5F8FC` | Page background                                        |
+| Plate     | `#FFFFFF` | Composer, open dialogs and selected content surfaces   |
+| Ink       | `#18283B` | Primary text                                           |
+| Slate     | `#536579` | Supporting text and control outlines                   |
+| Cobalt    | `#214CB5` | Primary actions, links and focus indicators            |
+| Saffron   | `#F0C76A` | Selected category with Ink text; never a safety signal |
 
 Use Bricolage Grotesque at weight 600 for the opening question and section
 headings, and Source Sans 3 at 400/600 for reading, controls and source excerpts.
@@ -147,16 +147,16 @@ listing endpoint or introduce account navigation.
 
 ## Interaction and evidence contracts
 
-| Tasks | Planned behavior and acceptance |
-| --- | --- |
-| P09-02, P09-13 | Use generated types and a fixed server-side backend destination. Preserve cookie paths, status codes, CSRF/origin checks, SSE framing, heartbeats, run IDs and abort propagation. Test split stream chunks and post-header errors. No proxy buffering, cached private responses or automatic message POST retry. Langfuse stays server-side under the existing plan. |
-| P09-03 | “Send” creates one intentional turn with a fresh `client_request_id`; prevent double submission and handle active-run `409`. Restore owned history on refresh. Separate “New conversation” from confirmed “Delete conversation”; deletion explains history/preferences/upload cleanup and handles active-run conflicts and `cleanup_pending`. |
-| P09-04 | Separate “Must avoid” from “Likes,” showing explicit and inferred values where supplied. Display active restrictions beside follow-ups. Send explicit additions/removals using the generated preference contract; omitting a field never means removing a restriction. Explain pending edits apply to the next message; use returned history as persisted truth. Contradictions invite clarification. Location and budget apply to restaurant requests only. |
-| P09-05 | “Add image” has a keyboard-accessible file picker and visible JPEG/PNG/WebP, 10 MiB guidance. Show preview, upload state, server errors and “Remove image.” Prevent sending a pending/failed attachment. Removal detaches it from the draft; it does not claim server deletion. Revoke local object URLs; submit only the returned media ID. Never imply an image establishes ingredients or allergen absence. |
-| P09-06 | Map actual agent events to plain activity, such as “Finding options” and “Checking dietary evidence.” Represent parallel outcomes without a fictional sequential percentage. “Stop” aborts the stream; after a disconnect or cancellation, load history and report the confirmed state. No automatic inference replay. Keep draft text available for an explicit new request. |
-| P09-07 | Render at most five unique items per category from validated results. Show name, supported facts, explanation, relevant limitations, “Sources” and “View details.” Sources disclose excerpts, entity/document identity and available dates; distinguish publication and retrieval dates. Dietary unknowns are text, never a green approval badge. Do not present relevance as confidence or safety. |
-| P09-08 | Browse with URL-backed search, supported category-specific filters and pagination. Retain filters on return from details. Recipe details use canonical ingredients/directions; restaurant details use available cuisine/location/price-band fields. Label dataset ratings and synthetic reviews. Unknown time, nutrition, hours or availability stays unknown. |
-| P09-09 | Separate administrator sign-in from conversation ownership. Support logout/expiry; keep passwords and CSRF tokens out of persistent browser storage. Present extraction as “Preview fields,” followed by an editable review and separate “Create restaurant” or “Create recipe.” Editing uses “Save changes.” On version conflict, preserve the draft and offer the latest record for review, with no automatic overwrite. Confirm deletion with the record name and linked-review impact. |
+| Tasks          | Planned behavior and acceptance                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| P09-02, P09-13 | Use generated types and a fixed server-side backend destination. Preserve cookie paths, status codes, CSRF/origin checks, SSE framing, heartbeats, run IDs and abort propagation. Test split stream chunks and post-header errors. No proxy buffering, cached private responses or automatic message POST retry. Langfuse stays server-side under the existing plan.                                                                                                                       |
+| P09-03         | “Send” creates one intentional turn with a fresh `client_request_id`; prevent double submission and handle active-run `409`. Restore owned history on refresh. Separate “New conversation” from confirmed “Delete conversation”; deletion explains history/preferences/upload cleanup and handles active-run conflicts and `cleanup_pending`.                                                                                                                                              |
+| P09-04         | Separate “Must avoid” from “Likes,” showing explicit and inferred values where supplied. Display active restrictions beside follow-ups. Send explicit additions/removals using the generated preference contract; omitting a field never means removing a restriction. Explain pending edits apply to the next message; use returned history as persisted truth. Contradictions invite clarification. Location and budget apply to restaurant requests only.                               |
+| P09-05         | “Add image” has a keyboard-accessible file picker and visible JPEG/PNG/WebP, 10 MiB guidance. Show preview, upload state, server errors and “Remove image.” Prevent sending a pending/failed attachment. Removal detaches it from the draft; it does not claim server deletion. Revoke local object URLs; submit only the returned media ID. Never imply an image establishes ingredients or allergen absence.                                                                             |
+| P09-06         | Map actual agent events to plain activity, such as “Finding options” and “Checking dietary evidence.” Represent parallel outcomes without a fictional sequential percentage. “Stop” aborts the stream; after a disconnect or cancellation, load history and report the confirmed state. No automatic inference replay. Keep draft text available for an explicit new request.                                                                                                              |
+| P09-07         | Render at most five unique items per category from validated results. Show name, supported facts, explanation, relevant limitations, “Sources” and “View details.” Sources disclose excerpts, entity/document identity and available dates; distinguish publication and retrieval dates. Dietary unknowns are text, never a green approval badge. Do not present relevance as confidence or safety.                                                                                        |
+| P09-08         | Browse with URL-backed search, supported category-specific filters and pagination. Retain filters on return from details. Recipe details use canonical ingredients/directions; restaurant details use available cuisine/location/price-band fields. Label dataset ratings and synthetic reviews. Unknown time, nutrition, hours or availability stays unknown.                                                                                                                             |
+| P09-09         | Separate administrator sign-in from conversation ownership. Support logout/expiry; keep passwords and CSRF tokens out of persistent browser storage. Present extraction as “Preview fields,” followed by an editable review and separate “Create restaurant” or “Create recipe.” Editing uses “Save changes.” On version conflict, preserve the draft and offer the latest record for review, with no automatic overwrite. Confirm deletion with the record name and linked-review impact. |
 
 Render untrusted text with escaped output or sanitized Markdown; disallow raw
 HTML and unsafe link protocols. Citation links use descriptive names. Preserve
@@ -164,18 +164,18 @@ source strings and nulls instead of inventing friendlier but unsupported facts.
 
 ### States and interface copy — P09-10
 
-| State | Visible response and recovery |
-| --- | --- |
-| First visit | “What sounds good?” with editable examples and a working composer; no invented recommendations. |
-| Pending | Announce actual activity politely without reading every heartbeat; keep Stop available and block duplicate Send. |
-| Clarification | Show the server question beside the reply field; preserve active restrictions and uploaded-image context. |
-| No supported matches | Explain the returned evidence gap and offer editing the request; never suggest removing an allergy to fill results. |
-| Trends unavailable | “Current trend information is unavailable.” Keep otherwise valid recommendations and their sources visible. |
-| Partial analysis or imagery | Show the relevant limitation near affected results. Use a compact “Image unavailable” area only where an image was expected; image-free restaurant rows should look intentional. |
-| Upload rejected | Name the server-reported problem and allow selecting another file without clearing the message. |
-| Connection interrupted | “Connection interrupted. Checking saved conversation.” Then show persisted completion or the confirmed incomplete state; sending again requires an explicit action. |
-| Request failed | Explain the safe server error with an actionable retry/edit option; do not show stack traces or hide previous successful results. |
-| Admin expiry/conflict/failure | Preserve unsaved fields in memory, explain sign-in/review/retry, and show success only after server confirmation. |
+| State                         | Visible response and recovery                                                                                                                                                    |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| First visit                   | “What sounds good?” with editable examples and a working composer; no invented recommendations.                                                                                  |
+| Pending                       | Announce actual activity politely without reading every heartbeat; keep Stop available and block duplicate Send.                                                                 |
+| Clarification                 | Show the server question beside the reply field; preserve active restrictions and uploaded-image context.                                                                        |
+| No supported matches          | Explain the returned evidence gap and offer editing the request; never suggest removing an allergy to fill results.                                                              |
+| Trends unavailable            | “Current trend information is unavailable.” Keep otherwise valid recommendations and their sources visible.                                                                      |
+| Partial analysis or imagery   | Show the relevant limitation near affected results. Use a compact “Image unavailable” area only where an image was expected; image-free restaurant rows should look intentional. |
+| Upload rejected               | Name the server-reported problem and allow selecting another file without clearing the message.                                                                                  |
+| Connection interrupted        | “Connection interrupted. Checking saved conversation.” Then show persisted completion or the confirmed incomplete state; sending again requires an explicit action.              |
+| Request failed                | Explain the safe server error with an actionable retry/edit option; do not show stack traces or hide previous successful results.                                                |
+| Admin expiry/conflict/failure | Preserve unsaved fields in memory, explain sign-in/review/retry, and show success only after server confirmation.                                                                |
 
 ## Contract gaps to resolve before image presentation
 
@@ -198,13 +198,13 @@ Keep the existing task IDs and use the following increments. Implementation uses
 red/green/refactor tests for observable behavior; this planning change needs only
 document checks.
 
-| Increment | Tasks | Completion evidence |
-| --- | --- | --- |
-| Foundation | P09-01, P09-02, P09-12, P09-13 | Tokenized shell, route/feature boundaries, generated client/proxy and representative empty/result/error fixtures; verify cookies, streams, secret isolation and the media contract dependency. |
-| One complete meal request | P09-03, P09-06, P09-07 | Request → actual progress → cited response → follow-up → refresh; include clarification, stop, disconnect and no-replay tests. |
-| Preferences and images | P09-04, P09-05 | Retained restrictions and explicit corrections; valid and rejected uploads; media ownership and correct result-image identity. |
-| Catalog and administration | P09-08, P09-09 | Browse/detail, login/logout/expiry, preview without persistence, create/edit/delete, conflict recovery and searchable committed changes. |
-| Review and acceptance | P09-10, P09-11 | State matrix, keyboard/mobile journeys, visual critique and real API/database acceptance evidence. |
+| Increment                  | Tasks                          | Completion evidence                                                                                                                                                                            |
+| -------------------------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Foundation                 | P09-01, P09-02, P09-12, P09-13 | Tokenized shell, route/feature boundaries, generated client/proxy and representative empty/result/error fixtures; verify cookies, streams, secret isolation and the media contract dependency. |
+| One complete meal request  | P09-03, P09-06, P09-07         | Request → actual progress → cited response → follow-up → refresh; include clarification, stop, disconnect and no-replay tests.                                                                 |
+| Preferences and images     | P09-04, P09-05                 | Retained restrictions and explicit corrections; valid and rejected uploads; media ownership and correct result-image identity.                                                                 |
+| Catalog and administration | P09-08, P09-09                 | Browse/detail, login/logout/expiry, preview without persistence, create/edit/delete, conflict recovery and searchable committed changes.                                                       |
+| Review and acceptance      | P09-10, P09-11                 | State matrix, keyboard/mobile journeys, visual critique and real API/database acceptance evidence.                                                                                             |
 
 Use fixtures with real schema shapes and source-backed identities, including
 long names/excerpts, null fields, both categories, no matches and missing images.

@@ -80,6 +80,8 @@ services:
 
   frontend:
     image: foodwise-ai-frontend:0.1.0
+    environment:
+      FOODWISE_API_ORIGIN: http://backend:8000
     build:
       context: .
       dockerfile: infra/frontend.Dockerfile

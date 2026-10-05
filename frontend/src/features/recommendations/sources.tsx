@@ -1,5 +1,71 @@
-import type { Schema } from '../../lib/api/client';
-function safeUrl(value?: string | null): string | undefined { if (!value) return; try { const url = new URL(value); if (['https:','http:'].includes(url.protocol) && !url.username && !url.password) return url.href; } catch { /* Render as text. */ } }
-export function Sources({ citations }: { citations: Schema['Citation'][] }) {
-  return <details><summary>Sources ({citations.length})</summary>{citations.map((citation) => <div className="source" key={citation.id}><blockquote>{citation.excerpt}</blockquote><p className="note">Source: {citation.source_id}<br />{citation.entity && <>Entity: {citation.entity.category} / {citation.entity.id}<br /></>}{citation.document_id && <>Document: {citation.document_id}<br /></>}{citation.record_id && <>Record: {citation.record_id}<br /></>}Attribution: {citation.attribution ?? 'imported'}</p><p className="note">Publication date: {citation.published_on || 'not provided'}{citation.retrieved_at && <><br />Retrieved: <time dateTime={citation.retrieved_at}>{citation.retrieved_at}</time></>}</p>{safeUrl(citation.url) && <a href={safeUrl(citation.url)} target="_blank" rel="noopener noreferrer">Read {citation.source_id}</a>}</div>)}</details>;
+import type { Schema } from "../../lib/api/client";
+function safeUrl(value?: string | null): string | undefined {
+  if (!value) return;
+  try {
+    const url = new URL(value);
+    if (
+      ["https:", "http:"].includes(url.protocol) &&
+      !url.username &&
+      !url.password
+    )
+      return url.href;
+  } catch {
+    /* Render as text. */
+  }
+}
+export function Sources({ citations }: { citations: Schema["Citation"][] }) {
+  return (
+    <details>
+      <summary>Sources ({citations.length})</summary>
+      {citations.map((citation) => (
+        <div className="source" key={citation.id}>
+          <blockquote>{citation.excerpt}</blockquote>
+          <p className="note">
+            Source: {citation.source_id}
+            <br />
+            {citation.entity && (
+              <>
+                Entity: {citation.entity.category} / {citation.entity.id}
+                <br />
+              </>
+            )}
+            {citation.document_id && (
+              <>
+                Document: {citation.document_id}
+                <br />
+              </>
+            )}
+            {citation.record_id && (
+              <>
+                Record: {citation.record_id}
+                <br />
+              </>
+            )}
+            Attribution: {citation.attribution ?? "imported"}
+          </p>
+          <p className="note">
+            Publication date: {citation.published_on || "not provided"}
+            {citation.retrieved_at && (
+              <>
+                <br />
+                Retrieved:{" "}
+                <time dateTime={citation.retrieved_at}>
+                  {citation.retrieved_at}
+                </time>
+              </>
+            )}
+          </p>
+          {safeUrl(citation.url) && (
+            <a
+              href={safeUrl(citation.url)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Read {citation.source_id}
+            </a>
+          )}
+        </div>
+      ))}
+    </details>
+  );
 }
