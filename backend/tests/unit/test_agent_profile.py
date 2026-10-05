@@ -3,7 +3,7 @@ import json
 import pytest
 
 from food_recommender.agents.nodes.profile import UserProfileGenerator
-from food_recommender.application.workflow import TurnRequest
+from food_recommender.application.recommendations.workflow import TurnRequest
 from food_recommender.domain.experts import AgentSuccess, ProfileResult
 from food_recommender.domain.preferences import Constraint, Preferences
 from food_recommender.domain.values import Category, ConstraintKind, Origin, Strength

@@ -6,13 +6,17 @@ from fastmcp import FastMCP
 from mcp.types import ToolAnnotations
 from pydantic import Field
 
-from food_recommender.application.lookups import (
+from food_recommender.application.catalog.lookups import (
     LookupResult,
     LookupService,
     RestaurantMatch,
     ReviewMatch,
 )
-from food_recommender.application.trends import TrendRequest, TrendResult, TrendService
+from food_recommender.application.trends.service import (
+    TrendRequest,
+    TrendResult,
+    TrendService,
+)
 from food_recommender.domain.values import Category
 from food_recommender.mcp.schemas import ImageRequest, SearchRequest
 from food_recommender.retrieval.multimodal import MultimodalOutcome, MultimodalRetrieval

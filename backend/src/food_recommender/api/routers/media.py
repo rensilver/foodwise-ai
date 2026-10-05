@@ -12,7 +12,8 @@ from food_recommender.api.dependencies import (
     get_services,
 )
 from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.application.media import MediaReceipt, MediaService
+from food_recommender.application.media.ports import MediaReceipt
+from food_recommender.application.media.service import MediaService
 from food_recommender.application.services import Services
 
 router = APIRouter(prefix="/api/v1/media", tags=["media"])

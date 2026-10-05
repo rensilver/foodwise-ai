@@ -7,9 +7,12 @@ from pydantic_core import to_jsonable_python
 
 from food_recommender.agents.prompts import RAG
 from food_recommender.agents.structured import structured
-from food_recommender.application.inference import Inference
-from food_recommender.application.reliability import inference_failure
-from food_recommender.application.workflow import ToolGateway, TurnRequest
+from food_recommender.application.recommendations.inference import Inference
+from food_recommender.application.recommendations.reliability import inference_failure
+from food_recommender.application.recommendations.workflow import (
+    ToolGateway,
+    TurnRequest,
+)
 from food_recommender.domain.experts import (
     AgentFailure,
     AgentSuccess,

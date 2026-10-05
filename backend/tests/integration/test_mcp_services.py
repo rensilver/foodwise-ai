@@ -10,10 +10,10 @@ from sqlalchemy import text
 from test_ingestion_store import seed_store as seed_store
 from test_text_search import populate
 
-from food_recommender.application.lookups import LookupService
-from food_recommender.application.ports import TrendItem
+from food_recommender.application.catalog.lookups import LookupService
 from food_recommender.application.services import Services
-from food_recommender.application.trends import TrendRequest, TrendService
+from food_recommender.application.trends.ports import TrendItem
+from food_recommender.application.trends.service import TrendRequest, TrendService
 from food_recommender.composition import build_multimodal_retrieval
 from food_recommender.infrastructure.mcp_config import MCPSettings
 from food_recommender.infrastructure.persistence.repositories.lookups import (

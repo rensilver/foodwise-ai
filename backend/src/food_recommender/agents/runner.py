@@ -11,13 +11,14 @@ from uuid import UUID, uuid4
 from langchain_core.runnables import RunnableConfig
 from langgraph.graph.state import CompiledStateGraph
 
+from food_recommender.application.conversations.ports import ConversationRuns
 from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.application.reliability import (
+from food_recommender.application.recommendations.reliability import (
     RunBudget,
     RunLimits,
     current_budget,
 )
-from food_recommender.application.workflow import ConversationRuns, TurnRequest
+from food_recommender.application.recommendations.workflow import TurnRequest
 
 
 @dataclass

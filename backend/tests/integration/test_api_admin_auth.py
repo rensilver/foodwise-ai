@@ -8,7 +8,7 @@ from argon2 import PasswordHasher
 from test_api_conversations import api  # noqa: F401
 from test_repositories import repositories  # noqa: F401
 
-from food_recommender.application.admin import AdminService
+from food_recommender.application.auth.service import AdminService
 from food_recommender.infrastructure.auth import Argon2Verification
 from food_recommender.infrastructure.persistence.unit_of_work import PostgresUnitOfWork
 

@@ -6,7 +6,7 @@ import httpx
 import pytest
 from pydantic import SecretStr
 
-from food_recommender.application.inference import InferenceError
+from food_recommender.application.recommendations.inference import InferenceError
 from food_recommender.infrastructure.providers.openai import OpenAIStructuredInference
 
 

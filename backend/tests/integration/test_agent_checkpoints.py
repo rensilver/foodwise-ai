@@ -18,7 +18,7 @@ from food_recommender.agents.graph import WorkflowRoles, build_graph
 from food_recommender.agents.nodes.profile import UserProfileGenerator
 from food_recommender.agents.runner import GraphRunner
 from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.application.workflow import TurnRequest
+from food_recommender.application.recommendations.workflow import TurnRequest
 from food_recommender.infrastructure.persistence.checkpoints import (
     checkpoint_saver,
     setup_checkpoints,

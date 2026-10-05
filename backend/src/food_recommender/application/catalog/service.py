@@ -2,8 +2,8 @@
 
 from collections.abc import Callable
 
-from food_recommender.application.media_cleanup import MediaCleanupService
-from food_recommender.application.ports import UnitOfWork
+from food_recommender.application.media.cleanup import MediaCleanupService
+from food_recommender.application.unit_of_work import UnitOfWork
 from food_recommender.domain.catalog import CatalogSnapshot, PreparedCatalog
 from food_recommender.domain.values import EntityRef
 

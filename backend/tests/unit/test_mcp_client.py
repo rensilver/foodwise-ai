@@ -3,7 +3,7 @@ from unittest.mock import AsyncMock
 import pytest
 from fastmcp import Client, FastMCP
 
-from food_recommender.application.lookups import LookupService
+from food_recommender.application.catalog.lookups import LookupService
 from food_recommender.mcp.client import AgentMCP, ToolPolicyError
 from food_recommender.mcp.tools import register_lookups
 

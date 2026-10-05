@@ -1,7 +1,6 @@
 """Validated turn inputs, scoped context and provider-neutral graph dependencies."""
 
 from typing import Any, Protocol
-from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -40,21 +39,6 @@ class TurnRequest(BaseModel):
 
 class ToolGateway(Protocol):
     async def call(self, name: str, arguments: dict[str, Any]) -> Any: ...
-
-
-class RunLease(Protocol):
-    async def __aenter__(self) -> None: ...
-    async def __aexit__(self, *args: Any) -> bool | None: ...
-
-
-class ConversationRuns(Protocol):
-    def lease(
-        self,
-        conversation_id: UUID,
-        session_id: UUID,
-        *,
-        protect_context: bool = True,
-    ) -> RunLease: ...
 
 
 class ToolTransportError(Exception):

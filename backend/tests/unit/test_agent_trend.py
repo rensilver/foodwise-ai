@@ -5,8 +5,8 @@ import pytest
 from tests.unit.agent_fixtures import Reply, candidate
 
 from food_recommender.agents.nodes.trend import FoodTrendAnalyst
-from food_recommender.application.ports import TrendItem
-from food_recommender.application.trends import TrendResult
+from food_recommender.application.trends.ports import TrendItem
+from food_recommender.application.trends.service import TrendResult
 from food_recommender.domain.experts import AgentSuccess, ProfileResult
 from food_recommender.domain.preferences import Preferences
 from food_recommender.domain.values import Category

@@ -6,7 +6,7 @@ import pytest_asyncio
 from test_repositories import repositories  # noqa: F401, F811
 
 from food_recommender.api.main import create_app
-from food_recommender.application.conversations import ConversationService
+from food_recommender.application.conversations.service import ConversationService
 from food_recommender.application.services import Services
 from food_recommender.infrastructure.config import Settings
 from food_recommender.infrastructure.persistence.unit_of_work import PostgresUnitOfWork

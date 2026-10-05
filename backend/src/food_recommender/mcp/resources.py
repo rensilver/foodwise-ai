@@ -2,7 +2,7 @@
 
 from fastmcp import FastMCP
 
-from food_recommender.application.resources import CatalogResources
+from food_recommender.application.catalog.resources import CatalogResources
 
 
 def register_resources(server: FastMCP, store: CatalogResources) -> None:

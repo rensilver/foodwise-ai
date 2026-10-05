@@ -3,40 +3,19 @@
 import hashlib
 import secrets
 from collections.abc import Callable
-from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
-from typing import Protocol
 
+from food_recommender.application.auth.ports import (
+    AdminGrant,
+    AdminRecord,
+    PasswordVerification,
+)
 from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.application.ports import UnitOfWork
+from food_recommender.application.unit_of_work import UnitOfWork
 
 
 def token_hash(token: str) -> str:
     return hashlib.sha256(token.encode()).hexdigest()
-
-
-@dataclass(frozen=True)
-class AdminGrant:
-    token: str
-    csrf_token: str
-    expires_at: datetime
-
-
-@dataclass(frozen=True)
-class AdminRecord:
-    token_hash: str
-    csrf_hash: str
-    expires_at: datetime
-
-
-class PasswordVerification(Protocol):
-    async def verify(self, password: str) -> bool: ...
-
-
-class AdminRepository(Protocol):
-    async def create(self, record: AdminRecord) -> None: ...
-    async def get(self, hashed_token: str) -> AdminRecord | None: ...
-    async def delete(self, hashed_token: str) -> None: ...
 
 
 class AdminService:

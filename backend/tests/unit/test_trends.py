@@ -4,7 +4,7 @@ from uuid import uuid4
 
 import pytest
 
-from food_recommender.application.trends import TrendRequest, TrendService
+from food_recommender.application.trends.service import TrendRequest, TrendService
 
 
 @pytest.mark.asyncio

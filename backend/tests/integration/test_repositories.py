@@ -8,7 +8,7 @@ import pytest_asyncio
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import async_sessionmaker
 
-from food_recommender.application.catalog import CatalogService
+from food_recommender.application.catalog.service import CatalogService
 from food_recommender.application.errors import ApplicationError, ErrorCode
 from food_recommender.domain.catalog import PreparedCatalog, RecipeData
 from food_recommender.domain.preferences import Preferences

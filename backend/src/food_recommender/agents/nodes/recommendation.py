@@ -6,10 +6,12 @@ from pydantic import ConfigDict, TypeAdapter
 
 from food_recommender.agents.prompts import RECOMMENDATION
 from food_recommender.agents.structured import structured
-from food_recommender.application.evidence_rules import supported_span
-from food_recommender.application.inference import Inference
-from food_recommender.application.nutrition_rules import deterministic_nutrition
-from food_recommender.application.reliability import RunExhausted
+from food_recommender.application.recommendations.evidence_rules import supported_span
+from food_recommender.application.recommendations.inference import Inference
+from food_recommender.application.recommendations.nutrition_rules import (
+    deterministic_nutrition,
+)
+from food_recommender.application.recommendations.reliability import RunExhausted
 from food_recommender.domain.experts import (
     AgentFailure,
     AgentSuccess,

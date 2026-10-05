@@ -6,7 +6,7 @@ from sqlalchemy import insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.application.media import MediaReceipt, StoredMedia
+from food_recommender.application.media.ports import MediaReceipt, StoredMedia
 from food_recommender.infrastructure.persistence.models.provenance import Media
 
 

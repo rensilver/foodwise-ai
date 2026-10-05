@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from food_recommender.application.ports import UnitOfWork
+from food_recommender.application.unit_of_work import UnitOfWork
 from food_recommender.domain.catalog import CatalogData
 from food_recommender.domain.evidence import Citation
 from food_recommender.domain.values import Category, EntityRef

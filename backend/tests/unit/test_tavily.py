@@ -6,7 +6,7 @@ import httpx
 import pytest
 from pydantic import SecretStr, ValidationError
 
-from food_recommender.application.trends import TrendRequest
+from food_recommender.application.trends.service import TrendRequest
 from food_recommender.infrastructure.providers.tavily import TavilySearch
 
 

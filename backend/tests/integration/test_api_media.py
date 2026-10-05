@@ -11,7 +11,7 @@ from PIL import Image, PngImagePlugin
 from test_api_conversations import api  # noqa: F401
 from test_repositories import repositories  # noqa: F401
 
-from food_recommender.application.media import MediaService
+from food_recommender.application.media.service import MediaService
 from food_recommender.infrastructure.media.files import LocalMediaFiles
 from food_recommender.infrastructure.media.uploads import ImageSanitizer
 from food_recommender.infrastructure.persistence.unit_of_work import PostgresUnitOfWork
@@ -97,9 +97,9 @@ async def test_media_cleanup_after_conversation_delete_and_foreign_media_rejecte
 ):  # noqa: F811
     from test_api_messages import Workflow
 
-    from food_recommender.application.conversations import ConversationService
-    from food_recommender.application.media_cleanup import MediaCleanupService
-    from food_recommender.application.messages import MessageService
+    from food_recommender.application.conversations.messages import MessageService
+    from food_recommender.application.conversations.service import ConversationService
+    from food_recommender.application.media.cleanup import MediaCleanupService
 
     client, app, services = api
     factory, _ = repositories

@@ -6,14 +6,14 @@ from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
 
 from food_recommender.agents.prompts import PROFILE
 from food_recommender.agents.structured import structured
-from food_recommender.application.inference import Inference
-from food_recommender.application.profile_rules import (
+from food_recommender.application.recommendations.inference import Inference
+from food_recommender.application.recommendations.profile_rules import (
     constraint_key,
     explicit_removal,
     merge_constraints,
 )
-from food_recommender.application.reliability import inference_failure
-from food_recommender.application.workflow import TurnRequest
+from food_recommender.application.recommendations.reliability import inference_failure
+from food_recommender.application.recommendations.workflow import TurnRequest
 from food_recommender.domain.experts import (
     AgentSuccess,
     ExpertOutcome,

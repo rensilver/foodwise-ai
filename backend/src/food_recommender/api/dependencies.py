@@ -5,7 +5,7 @@ from uuid import UUID
 
 from fastapi import Depends, Request, Response
 
-from food_recommender.application.conversations import ConversationService
+from food_recommender.application.conversations.service import ConversationService
 from food_recommender.application.errors import ApplicationError, ErrorCode
 from food_recommender.application.services import Services
 

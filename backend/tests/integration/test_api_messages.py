@@ -10,7 +10,7 @@ import pytest
 from test_api_conversations import api  # noqa: F401
 from test_repositories import repositories  # noqa: F401
 
-from food_recommender.application.messages import MessageService
+from food_recommender.application.conversations.messages import MessageService
 from food_recommender.domain.values import AgentRole
 
 
@@ -115,7 +115,7 @@ async def test_completed_recommendations_include_citations_and_are_committed_bef
     from pydantic_core import to_jsonable_python
     from tests.unit.agent_fixtures import candidate
 
-    from food_recommender.application.contracts import event_adapter
+    from food_recommender.application.recommendations.contracts import event_adapter
     from food_recommender.domain.events import RecommendationsEvent
     from food_recommender.domain.experts import (
         AgentSuccess,
@@ -163,7 +163,7 @@ async def test_completed_recommendations_include_citations_and_are_committed_bef
     owner, _ = await services.conversations.session(
         client.cookies.get("foodwise_session")
     )
-    from food_recommender.application.messages import MessageSubmission
+    from food_recommender.application.conversations.messages import MessageSubmission
 
     turn = await service.prepare(
         owner,
@@ -219,7 +219,7 @@ async def test_unexpected_failure_is_stored_and_stale_clarification_cannot_mask_
 async def test_stream_deadline_emits_stored_budget_failure(api):  # noqa: F811
     import asyncio
 
-    from food_recommender.application.reliability import RunLimits
+    from food_recommender.application.recommendations.reliability import RunLimits
 
     client, app, services = api
 

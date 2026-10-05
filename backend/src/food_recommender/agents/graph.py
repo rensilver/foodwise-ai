@@ -18,13 +18,13 @@ from food_recommender.agents.nodes.style import FoodStyleExpert
 from food_recommender.agents.nodes.trend import FoodTrendAnalyst
 from food_recommender.agents.state import CATALOG_ADAPTER, GraphState
 from food_recommender.agents.telemetry import timed_node
-from food_recommender.application.contracts import (
+from food_recommender.application.recommendations.contracts import (
     nutrition_outcome_adapter,
     profile_adapter,
     style_outcome_adapter,
     trend_outcome_adapter,
 )
-from food_recommender.application.workflow import TurnRequest
+from food_recommender.application.recommendations.workflow import TurnRequest
 from food_recommender.domain.experts import (
     AgentSuccess,
     AgentUnavailable,

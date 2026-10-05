@@ -6,15 +6,13 @@ from psycopg import Error as PsycopgError
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
-from food_recommender.application.admin import AdminRepository
+from food_recommender.application.auth.ports import AdminRepository
+from food_recommender.application.catalog.ports import CatalogRepository
+from food_recommender.application.conversations.ports import ConversationRepository
 from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.application.media import MediaRepository
-from food_recommender.application.ports import (
-    CatalogRepository,
-    ConversationRepository,
-    MediaCleanupRepository,
-    TrendRepository,
-)
+from food_recommender.application.media.cleanup_ports import MediaCleanupRepository
+from food_recommender.application.media.ports import MediaRepository
+from food_recommender.application.trends.ports import TrendRepository
 from food_recommender.infrastructure.persistence.repositories.admin import (
     PostgresAdminRepository,
 )

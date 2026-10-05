@@ -16,10 +16,12 @@ from food_recommender.agents.nodes.recommendation import RecommendationExpert
 from food_recommender.agents.nodes.style import FoodStyleExpert
 from food_recommender.agents.nodes.trend import FoodTrendAnalyst
 from food_recommender.agents.runner import GraphRunner
-from food_recommender.application.contracts import recommendation_outcome_adapter
-from food_recommender.application.reliability import BudgetedInference
-from food_recommender.application.trends import TrendResult
-from food_recommender.application.workflow import TurnRequest
+from food_recommender.application.recommendations.contracts import (
+    recommendation_outcome_adapter,
+)
+from food_recommender.application.recommendations.reliability import BudgetedInference
+from food_recommender.application.recommendations.workflow import TurnRequest
+from food_recommender.application.trends.service import TrendResult
 from food_recommender.domain.experts import AgentSuccess
 from food_recommender.domain.values import Category
 from food_recommender.retrieval.multimodal import MultimodalOutcome

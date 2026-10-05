@@ -7,14 +7,18 @@ from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
 
 from food_recommender.agents.prompts import TREND
 from food_recommender.agents.structured import structured
-from food_recommender.application.evidence_rules import (
+from food_recommender.application.recommendations.evidence_rules import (
     supported_span,
     terms,
     trend_signal,
 )
-from food_recommender.application.inference import Inference
-from food_recommender.application.trends import Concept, TrendResult, trend_citations
-from food_recommender.application.workflow import ToolGateway
+from food_recommender.application.recommendations.inference import Inference
+from food_recommender.application.recommendations.workflow import ToolGateway
+from food_recommender.application.trends.service import (
+    Concept,
+    TrendResult,
+    trend_citations,
+)
 from food_recommender.domain.experts import (
     AgentSuccess,
     AgentUnavailable,

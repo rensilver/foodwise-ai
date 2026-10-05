@@ -3,7 +3,7 @@
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
-from food_recommender.application.lookups import RestaurantMatch, ReviewMatch
+from food_recommender.application.catalog.lookups import RestaurantMatch, ReviewMatch
 from food_recommender.infrastructure.persistence.models.catalog import (
     Restaurant,
     Review,

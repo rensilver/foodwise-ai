@@ -8,8 +8,14 @@ from contextvars import ContextVar
 from dataclasses import dataclass, field
 from typing import Any
 
-from food_recommender.application.inference import Inference, InferenceError
-from food_recommender.application.workflow import ToolGateway, ToolTransportError
+from food_recommender.application.recommendations.inference import (
+    Inference,
+    InferenceError,
+)
+from food_recommender.application.recommendations.workflow import (
+    ToolGateway,
+    ToolTransportError,
+)
 from food_recommender.domain.experts import AgentFailure
 
 

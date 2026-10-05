@@ -11,7 +11,8 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from food_recommender.application.ports import CachedTrends, TrendItem, UnitOfWork
+from food_recommender.application.trends.ports import CachedTrends, TrendItem
+from food_recommender.application.unit_of_work import UnitOfWork
 from food_recommender.domain.evidence import Citation, CitationKind
 
 Concept = Literal[

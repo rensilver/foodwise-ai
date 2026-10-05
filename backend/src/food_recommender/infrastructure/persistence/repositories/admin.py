@@ -3,7 +3,7 @@
 from sqlalchemy import delete, insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from food_recommender.application.admin import AdminRecord
+from food_recommender.application.auth.ports import AdminRecord
 from food_recommender.infrastructure.persistence.models.admin import AdminSession
 
 

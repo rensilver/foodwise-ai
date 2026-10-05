@@ -11,7 +11,7 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 
 from food_recommender.application.services import Services
-from food_recommender.application.trends import TrendService
+from food_recommender.application.trends.service import TrendService
 from food_recommender.composition import build_mcp_services
 from food_recommender.infrastructure.health import health_payload
 from food_recommender.infrastructure.mcp_config import MCPSettings as MCPSettings
