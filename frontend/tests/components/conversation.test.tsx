@@ -32,3 +32,10 @@ test('an interrupted stream loads history once and keeps the draft for explicit 
   expect(screen.getByLabelText('Message')).toHaveValue('rice');
   expect(fetcher.mock.calls.filter(([url]) => url.endsWith('/messages'))).toHaveLength(1);
 });
+test('refresh restores the incomplete draft and pending preference edits without submitting', async () => {
+  const id = '11111111-1111-4111-8111-111111111111';
+  const fetcher = vi.fn(async () => Response.json({ id, preferences: null, messages: [{ id: 'm', role: 'user', content: 'Paused pizza', payload: { categories: ['recipe'], message: 'Paused pizza', explicit: { constraints: [{ kind: 'allergen', value: 'milk', strength: 'hard', origin: 'explicit' }], remove_constraints: [] } } }] }));
+  vi.stubGlobal('fetch', fetcher); render(<MealWorkspace conversationId={id} />);
+  await waitFor(() => expect(screen.getByLabelText('Message')).toHaveValue('Paused pizza'));
+  expect(screen.getByRole('radio', { name: 'Cook' })).toBeChecked(); expect(screen.getByText('milk (allergen, explicit)')).toBeVisible(); expect(fetcher).toHaveBeenCalledTimes(1);
+});

@@ -17,7 +17,8 @@
     "test:e2e:install": "playwright install chromium",
     "check": "pnpm api:check && pnpm lint && pnpm typecheck && pnpm test",
     "api:generate": "node scripts/api-contracts.mjs",
-    "api:check": "node scripts/api-contracts.mjs --check"
+    "api:check": "node scripts/api-contracts.mjs --check",
+    "test:e2e:integration": "playwright test --config playwright.integration.config.ts"
   },
   "packageManager": "pnpm@12.8.1",
   "engines": {
