@@ -96,3 +96,24 @@ def trend_signal(text: str) -> bool:
             )
         )
     )
+
+
+# The demo has no verified medical measurements, operating data or catalog trends.
+# A quote alone cannot certify these claims, even when it is verbatim source text.
+_UNSUPPORTED_CLAIMS = re.compile(
+    r"\b(?:guaranteed?|(?:allergen|peanut|milk|dairy|egg|soy|wheat|sesame|nut)[ -]free|allergy[ -]safe)\b"
+    r"|\bsafe\b.{0,40}\b(?:allerg|peanut|milk|cross[ -]contact)"
+    r"|\b(?:no|zero|without)\b.{0,25}\bcross[ -](?:contact|contamination)\b"
+    r"|\b\d+(?:\.\d+)?\s*(?:kcal|calories|grams?\s+of\s+(?:protein|fat|carbohydrates?|sugar|sodium)|(?:g|mg)\s+(?:protein|fat|carbohydrates?|sugar|sodium))\b"
+    r"|\b(?:protein|fat|carbohydrates?|sugar|sodium)\s*[:=]\s*\d+(?:\.\d+)?\s*(?:g|mg)\b"
+    r"|\$\s*\d+(?:\.\d+)?|\bverified\s+(?:rating|reviews?)\b"
+    r"|\b(?:open\s+(?:until|from|at|daily)|opening\s+hours)\b"
+    r"|\b(?:delivery|reservations?|menu items?)\b.{0,30}\bavailable\b"
+    r"|\b(?:currently\s+(?:popular|viral)|trending|viral)\b",
+    re.IGNORECASE,
+)
+
+
+def publishable_catalog_span(text: str) -> bool:
+    """Conservative demo claim gate; this is not a general natural-language verifier."""
+    return not bool(_UNSUPPORTED_CLAIMS.search(text))

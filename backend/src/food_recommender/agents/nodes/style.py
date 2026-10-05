@@ -4,7 +4,10 @@ from pydantic import ConfigDict, TypeAdapter
 
 from food_recommender.agents.prompts import STYLE
 from food_recommender.agents.structured import structured
-from food_recommender.application.recommendations.evidence_rules import supported_span
+from food_recommender.application.recommendations.evidence_rules import (
+    publishable_catalog_span,
+    supported_span,
+)
 from food_recommender.application.recommendations.inference import Inference
 from food_recommender.domain.experts import (
     AgentSuccess,
@@ -49,7 +52,10 @@ class FoodStyleExpert:
                     if not set(item.citation_ids) <= {c.id for c in evidence.citations}:
                         raise ValueError("Unsupported style citation")
                     if item.state == EvidenceState.CONFLICTING or any(
-                        not supported_span(text, evidence.citations, item.citation_ids)
+                        not publishable_catalog_span(text)
+                        or not supported_span(
+                            text, evidence.citations, item.citation_ids
+                        )
                         for text in item.observations
                     ):
                         raise ValueError("Unsupported style observation")

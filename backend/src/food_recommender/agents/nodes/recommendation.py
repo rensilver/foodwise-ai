@@ -6,7 +6,10 @@ from pydantic import ConfigDict, TypeAdapter
 
 from food_recommender.agents.prompts import RECOMMENDATION
 from food_recommender.agents.structured import structured
-from food_recommender.application.recommendations.evidence_rules import supported_span
+from food_recommender.application.recommendations.evidence_rules import (
+    publishable_catalog_span,
+    supported_span,
+)
 from food_recommender.application.recommendations.inference import Inference
 from food_recommender.application.recommendations.nutrition_rules import (
     deterministic_nutrition,
@@ -67,7 +70,12 @@ class RecommendationExpert:
                         )
                         if not isinstance(outcome, AgentSuccess)
                     ),
-                    *(gap for c in candidates for gap in c.evidence.limitations),
+                    *(
+                        gap
+                        for c in candidates
+                        for gap in c.evidence.limitations
+                        if publishable_catalog_span(gap)
+                    ),
                     "Synthetic course catalog; relevance is not dietary certification",
                     "No verified nutrient quantities or cross-contact safety evidence",
                 )
@@ -109,7 +117,9 @@ class RecommendationExpert:
                 items = []
                 for item in result.recommendations:
                     candidate = by_entity[item.entity]
-                    if not supported_span(
+                    if not publishable_catalog_span(
+                        item.explanation
+                    ) or not supported_span(
                         item.explanation,
                         candidate.evidence.citations,
                         item.citation_ids,
@@ -123,7 +133,11 @@ class RecommendationExpert:
                         replace(
                             item,
                             limitations=(
-                                *candidate.evidence.limitations,
+                                *(
+                                    gap
+                                    for gap in candidate.evidence.limitations
+                                    if publishable_catalog_span(gap)
+                                ),
                                 *known.limitations,
                             ),
                         )

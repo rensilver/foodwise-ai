@@ -38,3 +38,11 @@ Sparse positives are not exhaustive relevance judgments or provider-quality scor
   hard-constraint violations. Full-graph adversarial synthesis attempts forge an
   entity, citation or category and fail after one repair without publishing items.
   Canonical conflicts and unknown allergy compliance continue to abstain.
+- P10-06: 53 claim/acceptance/expert/freshness tests passed. Negative tests
+  first exposed publication of verbatim but unsafe upstream excerpts. A conservative
+  core claim gate now rejects allergy guarantees, quantitative nutrients, unsupported
+  operating/price/rating facts and catalog current-trend assertions in synthesis and
+  style observations. Unsafe tool limitations are dropped; generated medical
+  limitations remain replaced by deterministic text. Dated trends keep their separate
+  freshness/association checks. This bounded phrase gate is not a universal semantic
+  verifier; unknown culinary evidence remains unknown and no certification is claimed.
