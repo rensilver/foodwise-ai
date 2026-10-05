@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-05",
+  "region": "US",
+  "base_url": "https://us.cloud.langfuse.com",
+  "project_access_http": 200,
+  "project_count": 1,
+  "plan": "Hobby (owner confirmed)",
+  "subscription_created": false,
+  "monthly_included_units": 50000,
+  "data_access_days": 30,
+  "automatic_retention_configured": false,
+  "retention_management_supported": false,
+  "observations_v2_requests_per_minute": 30,
+  "ingestion_requests_per_minute": 1000,
+  "deletion": "supported single/batch trace DELETE; asynchronous; stored verification still required",
+  "normal_conversation_export": "disabled pending durable deletion/retention verification",
+  "sdk": "langfuse==4.16.0",
+  "otel_sdk": "1.45.0",
+  "otel_api": "1.45.0",
+  "compatibility": "uv pip check passed; Python 3.12.14; LangGraph 1.2.12; LangChain Core 1.6.6",
+  "legacy_cloud_cutoff": "2026-11-16",
+  "read_api": "/api/public/v2/observations; cursor pagination",
+  "sources": [
+    "https://langfuse.com/docs/compatibility",
+    "https://langfuse.com/pricing",
+    "https://langfuse.com/docs/administration/data-retention",
+    "https://langfuse.com/docs/administration/data-deletion",
+    "https://github.com/langfuse/langfuse-python/releases/tag/v4.16.0"
+  ]
+}

@@ -1,11 +1,11 @@
 # Langfuse adoption plan
 
-Assessment: 2026-10-05. Status: planned, not implemented or benchmarked.
+Assessment: 2026-10-05. Status: feasibility verified; implementation in progress.
 The owner selected Langfuse Cloud with sanitized operational metadata, replacing
 the initial self-hosting preference after reviewing local RAM constraints.
 Work is tracked in [Phases 9–11](../CHECKLIST.md#phase-9--nextjs-frontend-and-administration).
-This document authorizes no installation, service startup, provider calls or
-external account setup. The current change is documentation only.
+The owner explicitly requested P10-11–19 implementation on 2026-10-05.
+The historical planning sections below describe the reviewed design.
 
 ## Fit for foodwise-ai
 
@@ -303,3 +303,27 @@ All 152 checklist IDs and completion marks present before this review were
 preserved. Changes remain limited to this plan and `CHECKLIST.md`; no runtime
 code, dependencies or configuration changed. The SDK candidate and Cloud audit
 remain unverified implementation work, not completed integration evidence.
+
+## P10-14 feasibility evidence — 2026-10-05
+
+[Sanitized feasibility report](../evaluation/phase10/langfuse_feasibility.json).
+Existing dedicated US project keys in ignored `.env` returned HTTP 200 and
+one project; no new account, paid subscription or local stack was created.
+The owner confirmed Hobby with no retention policy. The
+[Hobby limits](https://langfuse.com/pricing) are 50k monthly units and a 30-day
+access window; project quota consumption is not exposed by project-scoped keys.
+[Retention](https://langfuse.com/docs/administration/data-retention) management
+is unavailable on Hobby. This access window does not purge data.
+[Single/batch deletion](https://langfuse.com/docs/administration/data-deletion)
+is supported but asynchronous, with read-back required. Conversation exports
+remain disabled until durable deletion/retention controls can be demonstrated;
+synthetic audit exports are separately bounded.
+
+Pinned `langfuse==4.16.0` resolves with Python 3.12.14, LangGraph 1.2.12,
+LangChain Core 1.6.6 and OpenTelemetry API/SDK/exporter 1.45.0. `uv pip check`
+passed for all 157 installed packages. Current
+[compatibility](https://langfuse.com/docs/compatibility) still sets the legacy
+Cloud cutoff at 2026-11-16. New reads target Observations v2; trace DELETE
+remains a supported mutation despite trace GET deprecation. SDK disable is
+the supported rollback. No CLI or Experiment helpers are required by the
+application; their content-export behavior remains excluded.

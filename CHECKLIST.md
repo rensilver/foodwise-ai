@@ -647,7 +647,7 @@ Historical planning verification: 122 local document links resolved, Markdown fe
 - [x] P10-11 Measure stage/end-to-end latency, local embedding resource use, token usage and search calls; report machine details and cold/warm behavior.
 - [x] P10-12 Run all offline unit/integration/contract/browser checks and explicit live smoke tests separately; record every skipped or blocked check honestly.
 - [x] P10-13 Run package-boundary and cold ORM-registration contracts alongside acceptance checks; review new adapters for SDK leakage, circular imports and import-time I/O.
-- [ ] P10-14 Validate the [Langfuse Cloud plan](infra/langfuse-plan.md): record region, plan/quota, retention/deletion capabilities and locked SDK compatibility, starting with the reviewed Python v4.16.0 candidate and rechecking the Cloud legacy-API cutoff; configure a dedicated Cloud project and server-side keys only during implementation, with no local Langfuse stack or unapproved paid subscription.
+- [x] P10-14 Validate the [Langfuse Cloud plan](infra/langfuse-plan.md): record region, plan/quota, retention/deletion capabilities and locked SDK compatibility, starting with the reviewed Python v4.16.0 candidate and rechecking the Cloud legacy-API cutoff; configure a dedicated Cloud project and server-side keys only during implementation, with no local Langfuse stack or unapproved paid subscription.
 - [ ] P10-15 Implement optional infrastructure tracing with injected no-op defaults, lazy lifecycle wiring, bounded export/shutdown and privacy allowlists; keep core packages, existing logs, readiness and application contracts independent of Langfuse.
 - [ ] P10-16 Trace each recommendation run and its executed stages, actual OpenAI request attempts and MCP client round trips using stable names and specific observation types; verify concurrent parentage, no duplicates, early exits, retries/repairs, cancellation, reported usage and v4 propagation of opaque session/environment/revision attributes without collecting graph content.
 - [ ] P10-17 Test disabled/enabled/unreachable tracing parity, invalid keys, Cloud 429/quota exhaustion, export backpressure, redaction including media/events/exceptions, and zero telemetry network activity when disabled; use fake exporters offline and an opt-in Cloud execute/fetch/audit loop through current observation APIs with bounded polling and cursor pagination.
@@ -664,8 +664,9 @@ points, privacy controls, quota/region decisions and SDK overhead verification.
 The 2026-10-05 [upstream skill review](infra/langfuse-plan.md#review-against-the-langfuse-skill)
 adds current API/version guidance, an observation contract and stored-trace audits;
 content capture, hosted prompts and hosted evaluators remain outside this scope.
-All Langfuse tasks are planned and unverified; account setup, dependency installation
-and runtime changes are not part of this planning update.
+P10-14 feasibility is verified; implementation and Cloud audit evidence are
+tracked separately below. Normal conversation-linked export remains disabled
+until its deletion and retention controls are verified.
 Langfuse is optional operational tooling: integration blockers must remain visible,
 but do not replace or weaken the application's existing release gates.
 
