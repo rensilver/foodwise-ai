@@ -39,3 +39,13 @@ passed nine production browser tests, with zero reported axe violations in all
 scanned states. Corrected screenshots retain both groups and expanded sources at
 all four widths, plus desktop/phone admin conflicts and strict-empty/interrupted
 states. Heading separation and list markers make source facts easier to scan.
+
+The real API screenshots were also inspected under
+`.local-tmp/phase9/real-screenshots/`. The 390 px view delivers the actual restored
+recipe1 pizza image, labeled with its recipe association, above canonical source
+ingredients. Desktop sources preserve the correct catalog identity. Controls,
+image aspect ratio, disclosures and long excerpts remain readable in a single
+vertical scroll. The controlled inference fixture intentionally copies source
+text; these screenshots establish association/layout, not live explanation quality.
+The final evidence report records the expanded 25 unit, ten UI/asset and five
+real API browser checks separately from the initial state review above.

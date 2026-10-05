@@ -1,5 +1,29 @@
 import { expect, test } from "@playwright/test";
 import { PRODUCT_NAME } from "../../src/lib/product";
+import { readFileSync, readdirSync } from "node:fs";
+import { resolve } from "node:path";
+
+test("actual production browser assets exclude backend credentials and telemetry SDKs", () => {
+  const roots = [".next/static", ".next/server/app"];
+  let checked = 0;
+  for (const root of roots) {
+    for (const name of readdirSync(root, { recursive: true }).map(String)) {
+      if (!name.endsWith(root.endsWith("/static") ? ".js" : ".html")) continue;
+      const content = readFileSync(resolve(root, name), "utf8");
+      expect(content, name).not.toMatch(
+        /synthetic-private-canary|LANGFUSE_(?:SECRET_KEY|PUBLIC_KEY|BASE_URL|HOST)|@langfuse|langfuse\.com|OTEL_EXPORTER_OTLP_HEADERS/,
+      );
+      checked += 1;
+    }
+  }
+  expect(checked).toBeGreaterThan(0);
+  const manifest = JSON.parse(readFileSync("package.json", "utf8"));
+  expect(
+    Object.keys({ ...manifest.dependencies, ...manifest.devDependencies }).join(
+      " ",
+    ),
+  ).not.toMatch(/langfuse|opentelemetry/);
+});
 test("production workspace serves local fonts, branding and liveness", async ({
   page,
   request,

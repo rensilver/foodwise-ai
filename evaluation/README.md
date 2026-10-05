@@ -26,3 +26,7 @@ text/vision probes and five validated recommendations, with unavailable
 style/trend experts and full live acceptance still open.
 [Phase 8](phase8/README.md) records HTTP/SSE, private media, admin transactions,
 package/migration boundaries and generated frontend-contract verification.
+
+[Phase 9](phase9/README.md) records frontend accessibility/visual review, owned
+follow-ups, correctly associated images, actual cancellation and persisted/searchable
+CRUD through real API/PostgreSQL/HTTP MCP journeys with controlled inference.

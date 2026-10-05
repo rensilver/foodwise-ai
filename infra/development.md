@@ -1,9 +1,10 @@
 # Developer workflow (P01-09)
 
 This guide starts from the repository root and covers the FastAPI API,
-FastMCP tools/resources and Next.js startup page. Phase 8 implements recommendation,
-catalog, upload and administrator HTTP flows; their browser UI/proxy remains
-Phase 9 work. Health checks make no OpenAI/Tavily calls and load no embedding models.
+FastMCP tools/resources and the Next.js meal workspace. Phase 8 supplies the
+recommendation/catalog/upload/admin HTTP flows; Phase 9 implements their browser
+UI and same-origin proxy. [Frontend evidence](../evaluation/phase9/README.md)
+distinguishes real integration from mocked state checks. Health checks make no OpenAI/Tavily calls and load no embedding models.
 
 ## Locked setup
 
@@ -104,7 +105,8 @@ where the ordinary configuration is appropriate.
 
 Use separate terminals with the working directories stated below. Stop any
 Compose backend/frontend using ports 8000/3000 before starting host servers.
-The Next.js page works independently; its same-origin API proxy is pending.
+The Next.js shell renders independently; chat, catalog and administration use
+its same-origin API proxy and require the running backend.
 
 For backend readiness, first provide a reachable PostgreSQL/pgvector service,
 a reachable MCP service and an existing writable media directory. Set host
@@ -175,7 +177,7 @@ Run independent suites sequentially on this limited-memory host.
 | `backend/` | `make format` | Apply Ruff formatting. Recheck with `make check`. |
 | `backend/` | `make test-integration` | Real PostgreSQL contracts; requires an initialized disposable `TEST_DATABASE_URL`. |
 | `backend/` | `make provision-test-models` | Seeded local CPU fixtures; requires an ignored `TEST_MODEL_ROOT`. |
-| `frontend/` | `pnpm check` | Generated-type drift, ESLint, strict TypeScript, Vitest and Node configuration/build contracts. |
+| `frontend/` | `pnpm check` | Generated-type drift, Prettier, ESLint, strict TypeScript, Vitest and Node configuration/build contracts. |
 | `frontend/` | `pnpm api:generate` | Generate TypeScript from the committed OpenAPI using the pinned generator. |
 | `frontend/` | `pnpm lint:fix` | Apply available ESLint fixes. Recheck with `pnpm check`. |
 | `frontend/` | `pnpm test:watch` | Watch Vitest component/unit tests. |
@@ -187,8 +189,8 @@ Run independent suites sequentially on this limited-memory host.
 GNU Make is needed for backend targets. Direct commands are in the
 [Makefile](../backend/Makefile); focused commands are in the
 [backend quality guide](../backend/README.md#quality-scripts-p01-06).
-Frontend has no separate formatting script or Prettier configuration;
-`pnpm lint:fix` applies only ESLint fixes. See the
+Frontend `pnpm format` and `pnpm format:check` use pinned Prettier, excluding
+generated contracts. `pnpm lint:fix` applies ESLint fixes. See the
 [frontend quality guide](../frontend/README.md#quality-scripts-p01-06) for
 individual scripts, browser libraries and disk-backed download paths.
 Builds and browser tests share `.next`; run them sequentially.

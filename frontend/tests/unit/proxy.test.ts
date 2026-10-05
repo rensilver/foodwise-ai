@@ -21,6 +21,7 @@ test("proxy preserves cookies, origin, CSRF, errors and separate Set-Cookie head
         origin: "http://localhost:3000",
         cookie: "foodwise_admin=x",
         "x-csrf-token": "csrf",
+        "x-request-id": "incoming-correlation",
       },
       body: "{}",
     }),
@@ -34,6 +35,63 @@ test("proxy preserves cookies, origin, CSRF, errors and separate Set-Cookie head
     "http://localhost:3000",
   );
   expect(new Headers(options[1].headers).get("x-csrf-token")).toBe("csrf");
+  expect(new Headers(options[1].headers).get("x-request-id")).toBe(
+    "incoming-correlation",
+  );
+});
+
+test("request disconnect closes an in-flight stream and aborts upstream", async () => {
+  const abort = new AbortController();
+  let upstreamAborted = false;
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(
+      async (_url, options) =>
+        new Response(
+          new ReadableStream({
+            start(stream) {
+              options.signal.addEventListener("abort", () => {
+                upstreamAborted = true;
+                stream.error(new DOMException("Disconnected", "AbortError"));
+              });
+            },
+          }),
+        ),
+    ),
+  );
+  const response = await proxy(
+    new Request("http://localhost:3000/api/v1/conversations/c/messages", {
+      signal: abort.signal,
+    }),
+    ["conversations", "c", "messages"],
+  );
+  const pending = response.body!.getReader().read();
+  abort.abort();
+  await expect(pending).resolves.toMatchObject({ done: true });
+  expect(upstreamAborted).toBe(true);
+});
+
+test("disconnect before headers is cancellation rather than an API failure", async () => {
+  const abort = new AbortController();
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(
+      async (_url, options) =>
+        new Promise((_resolve, reject) => {
+          options.signal.addEventListener("abort", () =>
+            reject(new DOMException("Disconnected", "AbortError")),
+          );
+        }),
+    ),
+  );
+  const response = proxy(
+    new Request("http://localhost:3000/api/v1/conversations", {
+      signal: abort.signal,
+    }),
+    ["conversations"],
+  );
+  abort.abort();
+  await expect(response).resolves.toMatchObject({ status: 499 });
 });
 test("SSE stays unbuffered and cancelling response aborts upstream", async () => {
   let signal: AbortSignal | undefined;

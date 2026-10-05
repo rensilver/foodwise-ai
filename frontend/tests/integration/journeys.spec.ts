@@ -1,6 +1,8 @@
 import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { database, providerCounts } from "./database";
+import { consumeEvents } from "../../src/lib/api/sse";
+import type { StreamEvent } from "../../src/lib/api/client";
 async function send(page: Page, message: string) {
   await page.getByLabel("Message", { exact: true }).fill(message);
   await page.getByRole("button", { name: "Send", exact: true }).click();
@@ -25,8 +27,43 @@ test("text results, citations, refresh, retained restrictions and explicit corre
   page,
   browser,
 }, info) => {
+  const bodies: string[] = [];
+  await page.exposeFunction("capturePhase9Stream", (body: string) =>
+    bodies.push(body),
+  );
+  await page.addInitScript(() => {
+    const originalFetch = window.fetch.bind(window);
+    window.fetch = async (input, init) => {
+      const response = await originalFetch(input, init);
+      const url =
+        typeof input === "string"
+          ? input
+          : input instanceof URL
+            ? input.href
+            : input.url;
+      if (url.endsWith("/messages")) {
+        void response
+          .clone()
+          .text()
+          .then((body) =>
+            (
+              window as unknown as {
+                capturePhase9Stream: (body: string) => Promise<void>;
+              }
+            ).capturePhase9Stream(body),
+          )
+          .catch(() => {});
+      }
+      return response;
+    };
+  });
   await page.goto("/");
   await page.getByRole("radio", { name: "Cook", exact: true }).check();
+  const streamed = page.waitForResponse(
+    (response) =>
+      response.url().endsWith("/messages") &&
+      response.request().method() === "POST",
+  );
   await send(page, "Classic Margherita Pizza");
   await expect(
     page.getByRole("heading", {
@@ -35,6 +72,35 @@ test("text results, citations, refresh, retained restrictions and explicit corre
     }),
   ).toBeVisible();
   const id = conversation(page);
+  const response = await streamed;
+  const requestId = response.headers()["x-request-id"];
+  expect(requestId).toMatch(/^[0-9a-f-]{36}$/);
+  expect(response.headers()["x-accel-buffering"]).toBe("no");
+  const events: StreamEvent[] = [];
+  await expect.poll(() => bodies.length).toBe(1);
+  await consumeEvents(new Response(bodies[0]), id, (event) =>
+    events.push(event),
+  );
+  const runId = events[0].run_id;
+  expect(
+    events.every(
+      (event) => event.run_id === runId && event.conversation_id === id,
+    ),
+  ).toBe(true);
+  expect(events.at(-1)).toMatchObject({ event: "done", outcome: "completed" });
+  expect(
+    new Set(
+      events
+        .filter((event) => event.event === "progress")
+        .map((event) => event.agent),
+    ).size,
+  ).toBe(6);
+  expect(
+    database(
+      "SELECT run_id, payload->>'run_id' FROM messages WHERE conversation_id=%s AND role='assistant'",
+      [id],
+    ),
+  ).toEqual([[runId, runId]]);
   const before = providerCounts().profile_calls;
   expect(
     database("SELECT count(*) FROM messages WHERE conversation_id=%s", [id]),
@@ -420,4 +486,99 @@ test("real administrator preview/create/edit/conflict/delete changes become sear
   await expect(
     page.getByRole("button", { name: "Sign in", exact: true }),
   ).toBeVisible();
+});
+
+test("real restaurant administration and catalog filters, pagination and return URLs agree", async ({
+  page,
+}) => {
+  const name = `Phase9 cafe ${Date.now()}`;
+  await signIn(page);
+  await page.getByLabel("Name", { exact: true }).fill(name);
+  await page.getByLabel("Cuisine", { exact: true }).fill("Italian");
+  await page.getByLabel("Location", { exact: true }).fill("San Francisco");
+  await page.getByLabel("Source price band (1–4)").fill("1");
+  await page.getByLabel("Signature dishes (one per line)").fill("Tomato rice");
+  await page
+    .getByRole("button", { name: "Create restaurant", exact: true })
+    .click();
+  await expect(
+    page.getByRole("status").filter({ hasText: `Saved ${name}` }),
+  ).toBeVisible();
+  const [[id]] = database("SELECT id FROM restaurants WHERE name=%s", [
+    name,
+  ]) as [string][];
+  expect(
+    database(
+      "SELECT count(*) FROM text_embeddings e JOIN documents d ON e.document_id=d.id JOIN source_records r ON d.source_record_id=r.id WHERE r.restaurant_id=%s",
+      [id],
+    ),
+  ).toEqual([[1]]);
+  await page.goto("/catalog/restaurants?limit=1");
+  await expect(page.getByRole("link", { name: "Next page" })).toBeVisible();
+  await page.getByRole("link", { name: "Next page" }).click();
+  await expect(page).toHaveURL(/limit=1&offset=1$/);
+  await expect(page.getByRole("link", { name: "Previous page" })).toBeVisible();
+  await page.getByRole("link", { name: "Previous page" }).click();
+  await expect(page).toHaveURL(/limit=1&offset=0$/);
+  await page.getByLabel("Search by name").fill(name);
+  await page.getByLabel("Cuisine", { exact: true }).fill("Italian");
+  await page.getByLabel("Location", { exact: true }).fill("San Francisco");
+  await page.getByLabel("Maximum source price band").selectOption("1");
+  await page.getByRole("button", { name: "Apply filters" }).click();
+  await expect(page).toHaveURL(/q=Phase9.*price_band=1$/);
+  const returnURL = page.url();
+  await expect(page.getByRole("heading", { name, exact: true })).toBeVisible();
+  await page
+    .getByRole("link", { name: `View details for ${name}`, exact: true })
+    .click();
+  await expect(page.getByRole("heading", { name, exact: true })).toBeVisible();
+  await expect(
+    page.getByText("Local administrator entry", { exact: true }),
+  ).toBeVisible();
+  await page.getByRole("link", { name: "Return to results" }).click();
+  await expect(page).toHaveURL(returnURL);
+  await expect(page.getByLabel("Search by name")).toHaveValue(name);
+  await page.goto("/catalog/restaurants?q=does-not-exist-phase9");
+  await expect(
+    page.getByText("No entries match these filters.", { exact: false }),
+  ).toBeVisible();
+  await page.goto("/catalog/recipes?q=Margherita");
+  await expect(
+    page.getByRole("heading", { name: "Classic Margherita Pizza" }),
+  ).toBeVisible();
+  await expect(page.getByLabel("Location", { exact: true })).toHaveCount(0);
+  await signIn(page);
+  await page.getByLabel("Find entry by name").fill(name);
+  await page.getByRole("button", { name: "Find entries", exact: true }).click();
+  await expect(
+    page.getByRole("option", { name: `${name} (v1)`, exact: true }),
+  ).toBeAttached();
+  await page.getByLabel("Existing entry").selectOption(id);
+  await expect(page.getByLabel("Name", { exact: true })).toHaveValue(name);
+  await page.getByLabel("Name", { exact: true }).fill(`${name} edited`);
+  await page.getByRole("button", { name: "Save changes", exact: true }).click();
+  await expect(
+    page.getByRole("status").filter({ hasText: "version 2" }),
+  ).toBeVisible();
+  expect(
+    database("SELECT name, version FROM restaurants WHERE id=%s", [id]),
+  ).toEqual([[`${name} edited`, 2]]);
+  await page
+    .getByRole("button", { name: `Delete ${name} edited`, exact: true })
+    .click();
+  await expect(page.getByRole("dialog")).toContainText(
+    "Linked synthetic reviews",
+  );
+  await page
+    .getByRole("button", { name: "Confirm deletion", exact: true })
+    .click();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Deleted" }),
+  ).toBeVisible();
+  expect(
+    database("SELECT count(*) FROM restaurants WHERE id=%s", [id]),
+  ).toEqual([[0]]);
+  expect((await page.request.get(`/api/v1/restaurants/${id}`)).status()).toBe(
+    404,
+  );
 });

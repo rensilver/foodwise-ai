@@ -25,7 +25,11 @@ The [OpenAI migration smoke](evaluation/openai-migration/README.md) returned fiv
 validated recommendations; style/trend analysis was unavailable, so full live
 acceptance remains open. [Phase 8](evaluation/phase8/README.md)
 adds verified FastAPI conversations/SSE, private images, browsing, administrator
-CRUD and generated TypeScript contracts. Frontend journeys remain Phase 9 work.
+CRUD and generated TypeScript contracts. [Phase 9](evaluation/phase9/README.md)
+adds the responsive meal workspace, preferences/uploads, cited category results,
+catalog browsing and administrator CRUD. Production browser journeys verify
+real API/database/MCP behavior with controlled inference; live acceptance remains
+separate. Each P09 task has a dedicated commit on the frontend branch.
 
 For this machine's memory constraints, see the [measured host assessment](infra/memory-assessment.md)
 and [optional low-memory Compose setup](infra/README.md#running-with-limited-ram).

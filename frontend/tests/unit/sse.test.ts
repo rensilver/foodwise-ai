@@ -37,3 +37,46 @@ test("unterminated streams and mismatched correlation cannot count as completion
     ),
   ).rejects.toThrow("correlation");
 });
+
+test("mixed run IDs are rejected and typed post-header errors retain correlation", async () => {
+  const encode = (value: unknown) => `data: ${JSON.stringify(value)}\n\n`;
+  await expect(
+    consumeEvents(
+      new Response(
+        encode(event) +
+          encode({
+            event: "done",
+            conversation_id: "c",
+            run_id: "other-run",
+            outcome: "clarification",
+          }),
+      ),
+      "c",
+      () => {},
+    ),
+  ).rejects.toThrow("correlation");
+  const failure = {
+    event: "error",
+    conversation_id: "c",
+    run_id: "r",
+    code: "dependency_unavailable",
+    message: "The provider is unavailable.",
+    retryable: true,
+  };
+  const received: unknown[] = [];
+  await consumeEvents(
+    new Response(
+      encode(failure) +
+        encode({
+          event: "done",
+          conversation_id: "c",
+          run_id: "r",
+          outcome: "failed",
+        }),
+    ),
+    "c",
+    (item) => received.push(item),
+  );
+  expect(received[0]).toEqual(failure);
+  expect(received).toHaveLength(2);
+});

@@ -72,34 +72,39 @@ export async function proxy(
     for (const cookie of upstream.headers.getSetCookie())
       outgoing.append("set-cookie", cookie);
     const reader = upstream.body?.getReader();
+    let cancelled = false;
     const cleanup = () => request.signal.removeEventListener("abort", abort);
     const body = reader
       ? new ReadableStream<Uint8Array>({
           async pull(stream) {
             try {
               const chunk = await reader.read();
+              if (cancelled) return;
               if (chunk.done) {
                 cleanup();
                 stream.close();
               } else stream.enqueue(chunk.value);
             } catch (error) {
               cleanup();
+              if (cancelled) return;
+              if (request.signal.aborted) stream.close();
+              else stream.error(error);
               controller.abort();
-              stream.error(error);
             }
           },
           async cancel() {
+            cancelled = true;
             cleanup();
             controller.abort();
-            await reader.cancel();
+            await reader.cancel().catch(() => {});
           },
         })
       : null;
     if (!reader) cleanup();
     return new Response(body, { status: upstream.status, headers: outgoing });
-  } catch (error) {
+  } catch {
     request.signal.removeEventListener("abort", abort);
-    if (request.signal.aborted) throw error;
+    if (request.signal.aborted) return new Response(null, { status: 499 });
     return Response.json(
       {
         error: {

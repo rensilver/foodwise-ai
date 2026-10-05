@@ -26,7 +26,12 @@ export default function nextConfig() {
   }
   // Client components also render on the server: unprefixed secrets can leak
   // through rendered HTML even when they are absent from browser JavaScript.
-  const misplaced = backendVariables.filter((name) => name in process.env);
+  const misplaced = Object.keys(process.env).filter(
+    (name) =>
+      backendVariables.includes(name) ||
+      name.startsWith("LANGFUSE_") ||
+      name.startsWith("OTEL_"),
+  );
   if (misplaced.length > 0) {
     throw new Error(
       `Remove backend settings from the frontend environment and dotenv files: ${misplaced.join(", ")}. ` +

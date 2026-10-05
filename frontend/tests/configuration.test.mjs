@@ -27,6 +27,12 @@ const privateEnvironment = {
   MCP_SERVER_URL: secret,
   POSTGRES_PASSWORD: secret,
   FOODWISE_DB_PASSWORD: secret,
+  LANGFUSE_SECRET_KEY: secret,
+  LANGFUSE_PUBLIC_KEY: secret,
+  LANGFUSE_BASE_URL: secret,
+  LANGFUSE_HOST: secret,
+  LANGFUSE_CUSTOM_TOKEN: secret,
+  OTEL_EXPORTER_OTLP_HEADERS: secret,
 };
 
 function loadConfiguration(
@@ -133,6 +139,8 @@ test(
           process.env.OPENAI_API_KEY, process.env.TAVILY_API_KEY,
           process.env.DATABASE_URL, process.env.ADMIN_PASSWORD_HASH,
           process.env.MEDIA_ROOT, process.env.MCP_SERVER_URL
+          ,process.env.LANGFUSE_SECRET_KEY, process.env.LANGFUSE_PUBLIC_KEY,
+          process.env.LANGFUSE_BASE_URL, process.env.OTEL_EXPORTER_OTLP_HEADERS
         ])}</pre>;
       }
     `,

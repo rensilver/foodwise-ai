@@ -60,7 +60,8 @@ Real journeys verify SQL persistence and ownership, cited text results, refresh
 without more provider calls, retained restrictions and explicit removal, rejected
 and valid uploads, genuine CLIP image scores and correct recipe1 image delivery,
 private media isolation/deletion, actual cancellation, clarification and no-replay,
-and admin preview/create/edit/conflict/delete with searchable committed changes.
+and recipe/restaurant admin preview/create/edit/conflict/delete with searchable
+committed changes, catalog filters/pagination and return URLs.
 They inspect real document/vector rows rather than relying only on UI notices.
 
 See [visual-review.md](visual-review.md) for critique, corrections and accessibility
@@ -121,3 +122,60 @@ reset the owner’s database. The first combined rerun demonstrated these fixtur
 collisions; a clean disposable service resolves the setup issue. Stop the disposable
 container after testing. Full model/data recovery and release rehearsal remain
 Phase 11 scope.
+
+## Final verification — P09-13
+
+On 2026-10-05 the final combined checks passed:
+
+| Check | Result |
+| --- | --- |
+| Frontend contracts/format/lint/strict types | Passed |
+| Vitest component/unit/boundary contracts | 25 passed |
+| Configuration/dotenv/isolated build contracts | 5 passed |
+| Production UI/accessibility/browser-asset journeys | 10 passed, 46.1 s |
+| Real API/database/checkpoint/HTTP MCP journeys | 5 passed, 58.0 s |
+| Backend Ruff/format/mypy/OpenAPI contracts | Passed |
+| Full backend unit/contract/PostgreSQL suite | 475 passed, 69.31 s; no skips |
+| Redacting source scan | 0 findings |
+
+Versions: Python 3.12.14, Node 24.19.0, pnpm 12.8.1, Next.js 16.3.8,
+Playwright 1.63.0 and axe 4.11.0 on Linux. Both pretrained retrieval integration
+checks were enabled; the harness uses restored original recipe1 media and a
+small seeded catalog. These are acceptance fixtures, not large-corpus quality or
+hardware/latency benchmarks.
+
+The proxy keeps the backend's response request ID and SSE conversation/run IDs.
+The browser test passively clones the same POST response for inspection; it
+verifies all six domain-role progress events, one correlated terminal completion
+and matching persisted assistant run IDs. Unit tests reject mixed identities and
+cover typed post-header errors. Stop and disconnect abort actual fixture inference;
+intentional cancellation closes the local stream without an AbortError stack.
+Upstream failures remain failures; no POST is retried automatically.
+
+Next configuration rejects all `LANGFUSE_*` and `OTEL_*` settings, including
+arbitrary aliases, before rendering. Synthetic canary configuration tests verify
+values are not printed. Import/dependency checks exclude telemetry SDKs from the
+frontend, and a test scans the actual production JavaScript/HTML assets. Follow
+[the Cloud plan](../../infra/langfuse-plan.md) for the later backend integration;
+this phase introduces no telemetry UI, API fields, Cloud account or external calls.
+
+| Task | Concrete evidence |
+| --- | --- |
+| P09-01 | Route shells, local licensed fonts, tokens and four-width keyboard/axe views. |
+| P09-02 | Proxy cookie/CSRF/error/abort contracts, generated drift and entity-scoped image tests. |
+| P09-03 | Real owned history, editable prompts, clarification, duplicate-turn guard and confirmed deletion. |
+| P09-04 | Real saved restrictions, follow-up retention and explicit removal; pending-edit component checks. |
+| P09-05 | Real rejected/valid uploads, preview/draft states, media ownership and matching image delivery. |
+| P09-06 | Six-role activity, actual cancellation, persisted recovery and refresh without more inference. |
+| P09-07 | Separate canonical categories, expandable citations/dates and unknown/degraded evidence. |
+| P09-08 | Real filters, pagination, detail return URLs and category-specific fields. |
+| P09-09 | Real preview without persistence, both CRUD categories, vectors, conflict recovery and deletion. |
+| P09-10 | Responsive/zoom/reduced-motion, focus/keyboard/axe states and recorded visual corrections. |
+| P09-11 | Five real browser/API/PostgreSQL/checkpoint/MCP journeys, separately from mocked UI tests. |
+| P09-12 | Import-boundary tests, thin shells, admin behavior hook, generated clients and standalone assets. |
+| P09-13 | Request/run correlation, SSE/error/cancellation and browser telemetry credential/SDK isolation. |
+
+Each task has its own branch commit; inspect `git log --reverse --grep=P09-`.
+The checklist preserves all other phases' completion marks and release blockers.
+No branch push, public hosting, production database reset or owner configuration
+change was performed.

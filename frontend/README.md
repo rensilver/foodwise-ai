@@ -27,7 +27,9 @@ Use matching allowed browser origins in backend configuration.
 
 Keep the root `.env` in the backend process. Never copy it into `frontend/` or
 export backend configuration into the Next.js process. The Next configuration
-rejects all `NEXT_PUBLIC_*` and backend-only configuration without printing values.
+rejects all `NEXT_PUBLIC_*`, backend-only and `LANGFUSE_*`/`OTEL_*` configuration
+without printing values. Langfuse integration remains backend scope in the
+[Cloud plan](../infra/langfuse-plan.md); no telemetry SDK is a frontend dependency.
 No provider, database or administrator credentials belong in browser code.
 Cookies are forwarded with their separate Set-Cookie headers; administrator
 CSRF tokens stay in memory and expire with the local grant. No localStorage
