@@ -25,5 +25,5 @@ export default function nextConfig() {
     );
   }
   // Never spread process.env or expose backend settings through `env` here.
-  return { output: "standalone" };
+  return { output: "standalone", experimental: { cpus: 2 } };
 }

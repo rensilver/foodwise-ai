@@ -38,3 +38,10 @@ textarea { resize: vertical; } summary { padding: 12px 0; min-height: 44px; }
 @media (min-width: 1100px) { .meal-layout { grid-template-columns: minmax(0, 1fr) 260px; } .preferences { grid-column: 2; grid-row: 1; } .meal-main { grid-column: 1; grid-row: 1; min-width: 0; } .results { grid-template-columns: repeat(2, minmax(0,1fr)); } }
 @media (max-width: 600px) { .workspace { padding: 16px 16px 32px; } .site-nav { padding: 12px 16px; gap: 8px 20px; } .brand { flex-basis: 100%; } .composer { padding: 16px; } .facts { grid-template-columns: 1fr; gap: 0; } .facts dd { margin-bottom: 8px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+/* Reading rhythm restored after Tailwind's reset; spacing conveys hierarchy. */
+h1 { margin: 0 0 12px; } h2 { margin: 0 0 16px; } h3 { margin: 16px 0 8px; }
+p { margin: 0 0 12px; } ul, ol { padding-left: 24px; margin: 8px 0 16px; }
+ul { list-style: disc; } ol { list-style: decimal; }
+label > input, label > select, label > textarea { margin-top: 8px; }
+.actions { margin: 12px 0; } .meal-layout, .results { margin-top: 24px; }
+.preferences h2 { font-size: 20px; } .preferences h3 { font-family: var(--font-sans); font-size: 16px; }
