@@ -223,7 +223,74 @@ Open the frontend address printed by `compose port frontend 3000` to browse the
 synthetic catalog (normally `http://127.0.0.1:3000`). Logs use redacted
 application fields. Stop this stack with `docker compose down`, which preserves
 data. Use `compose down` when the helper selects an isolated project.
-Migration/idempotency/restart acceptance, backup/restore, paid live
-recommendations and administrator demonstrations remain P11-02 through P11-05.
+Migration/idempotency/restart acceptance is documented below. Backup/restore,
+paid live recommendations and administrator demonstrations remain P11-03
+through P11-05.
 Delete volumes only for an explicitly disposable rehearsal project after its
 results have been recorded; preserve the developer's real stack and settings.
+
+## Migration, ingestion and restart verification (P11-02)
+
+After the locked host installation and model/media recovery above, run this
+from the repository root. `--review-cache` selects the nine original review
+download files named by URL hash (`*.bin`), as produced in the import report's
+sibling `downloads/` directory. The verifier copies those inputs into its new
+media volume, then validates/decodes them through the normal importer. It uses
+the recovered ZIP at `data/synthetic-recipe-images.zip` and refuses incomplete
+imports. Choose your recovered cache directory explicitly.
+
+If the initialized stack above still exists, recover its nine cached originals
+with the same `compose` helper before running the verifier:
+
+```bash
+mkdir -p .local-tmp/ingestion
+compose cp backend:/var/lib/foodwise/media/.setup/downloads .local-tmp/ingestion/downloads
+```
+
+Then run:
+
+```bash
+backend/.venv/bin/python infra/verify_persistence.py \
+  --minilm-root "$MINILM_ROOT" \
+  --clip-root "$CLIP_ROOT" \
+  --review-cache .local-tmp/ingestion/downloads \
+  --output .local-tmp/p11-02-report.json
+```
+
+The [verifier](verify_persistence.py) builds the current backend/frontend in a
+new randomly named Compose project, with independent credentials, images,
+volumes and localhost ports. It does not read the root `.env`. Provider settings
+are synthetic, Tavily is absent and Langfuse is disabled. It makes no paid
+provider calls or model/media downloads. Private redacted command logs live in
+the ignored `.local-tmp/p11-02-*/` directory.
+
+It upgrades all Alembic revisions on an empty database, downgrades that empty
+database to base, upgrades again, checks model/migration parity and initializes
+the supported LangGraph schema. It checks HTTP readiness/liveness before
+initialization, after initialization, during database/MCP outages and after
+recovery. Separate adapter probes check missing media and encoder paths.
+Readiness can pass for an empty catalog: it checks dependencies, not catalog
+population or provider access.
+
+Import/index acceptance requires 329 first imports, 329 unchanged repeat imports,
+zero rejects, the 16 existing entity-review issues, 770 MiniLM vectors and 118
+CLIP vectors. Repeated indexing must embed nothing. Complete row hashes include
+IDs, content, provenance, timestamps, versions, vector values and checkpoints;
+media checks include file hashes, sizes and decoding. Repeated migrations and
+checkpoint setup must preserve those snapshots too.
+
+The restart probes create an owned conversation/upload over HTTP, store a
+synthetic message and hard preference through the application repository, and
+save a synthetic control graph through the real PostgreSQL saver. They compare
+all rows and media after `compose restart` and after `compose down`/`up` without
+removing volumes. History, preferences, image bytes, ownership denial and the
+frontend catalog proxy must survive. A new probe process advances the retained
+checkpoint while preserving its restriction; this is a persistence check, not
+the live six-agent demonstration in P11-04.
+
+The verifier removes only its own containers/network/volumes/image tags and
+temporary credentials, then checks existing containers' identities, start times
+and restart counts. A failure exits nonzero and writes a sanitized report;
+inspect its private logs before retrying. Do not substitute an owner's project
+or delete existing volumes. The committed [P11-02 evidence](../evaluation/phase11/README.md#p11-02--migrations-idempotency-readiness-and-restarts)
+records the actual tested result; backup/restore remains P11-03.

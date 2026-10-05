@@ -692,7 +692,7 @@ measurements and explicit gaps do not claim operational readiness.
 **Verification:** clean-checkout rehearsal, restore test and complete user/admin demonstrations.
 
 - [x] P11-01 Rehearse setup from a clean checkout with documented fresh credentials, pinned dependencies, model downloads, media recovery and Compose startup.
-- [ ] P11-02 Verify database migrations, idempotent seed ingestion, readiness behavior and persistence across service restarts.
+- [x] P11-02 Verify database migrations, idempotent seed ingestion, readiness behavior and persistence across service restarts.
 - [ ] P11-03 Back up and restore PostgreSQL plus media; verify catalog links, vectors and conversation/checkpoint behavior after restore.
 - [ ] P11-04 Demonstrate real text and image retrieval, all six agents, live dated trends, citations and conversational refinements.
 - [ ] P11-05 Demonstrate administrator preview/create/edit/delete with atomic searchable updates and cancellation/conflict/error handling.
@@ -729,9 +729,29 @@ DB/admin credentials; it did not read/copy owner provider keys, issue/rotate
 account credentials or invoke paid OpenAI/Tavily/Cloud checks. Automatic approval
 review rejected the proposed owner-key copy before execution; synthetic settings
 provided the safe startup alternative. Existing live evidence remains separate,
-as do P11-02 onward and the complete-release gate. Shared dependency/build caches
+as do P11-03 onward and the complete-release gate. Shared dependency/build caches
 were permitted; this is not a cold-cache or peak-memory measurement. Historical
 publication/source-review and full-release/live-acceptance blockers remain visible.
+
+P11-02 verified on 2026-10-05 against revision
+`ec932fed6169a7713484f6c3ecb8746331596cf6` plus the report's hashed verifier/probe
+scripts. The [49-stage sanitized report](evaluation/phase11/persistence_report.json)
+and [evidence](evaluation/phase11/README.md#p11-02--migrations-idempotency-readiness-and-restarts)
+record fresh nine-revision migrations, empty-database downgrade/re-upgrade,
+model/migration parity and repeatable supported checkpoint setup. Seed import
+created 329 entities; repeat import left all 329 unchanged with zero rejects
+and the same 16 entity-review issues. Repeat indexing embedded nothing and
+preserved 770 text/118 image vectors. All 25 table snapshots and 119 registered
+media files (118 catalog images plus one synthetic upload) survived service
+restart and container recreation using retained volumes. Readiness returned
+503 for missing schema/checkpoints and DB/MCP outages, then recovered to 200;
+liveness stayed 200. Missing media/encoder adapter probes, owned history/image
+reads, stranger denial, retained profile/checkpoint advancement and frontend
+catalog proxy checks passed. Nineteen targeted offline tests, Ruff/document
+checks and the redacting source scan passed. Disposable resources/credentials
+were removed; existing containers' identities/start times/restart counts were
+unchanged. Provider settings were synthetic and tracing disabled. Backup/restore,
+live six-agent demonstrations and the complete-release gate remain separate.
 
 ## Deferred — Outside the first release
 

@@ -1,0 +1,603 @@
+{
+  "task": "P11-02",
+  "date": "2026-10-05",
+  "status": "passed",
+  "steps": [
+    {
+      "label": "source-revision",
+      "returncode": 0,
+      "seconds": 0.003
+    },
+    {
+      "label": "docker-version",
+      "returncode": 0,
+      "seconds": 0.162
+    },
+    {
+      "label": "compose-version",
+      "returncode": 0,
+      "seconds": 0.166
+    },
+    {
+      "label": "compose-config",
+      "returncode": 0,
+      "seconds": 0.217
+    },
+    {
+      "label": "build-backend",
+      "returncode": 0,
+      "seconds": 18.045
+    },
+    {
+      "label": "build-frontend",
+      "returncode": 0,
+      "seconds": 2.086
+    },
+    {
+      "label": "database-start",
+      "returncode": 0,
+      "seconds": 7.032
+    },
+    {
+      "label": "uninitialized-services",
+      "returncode": 0,
+      "seconds": 6.629
+    },
+    {
+      "label": "address-backend",
+      "returncode": 0,
+      "seconds": 0.295
+    },
+    {
+      "label": "migrate-fresh",
+      "returncode": 0,
+      "seconds": 2.402
+    },
+    {
+      "label": "downgrade-empty",
+      "returncode": 0,
+      "seconds": 2.039
+    },
+    {
+      "label": "upgrade-again",
+      "returncode": 0,
+      "seconds": 2.14
+    },
+    {
+      "label": "migration-parity",
+      "returncode": 0,
+      "seconds": 2.049
+    },
+    {
+      "label": "checkpoint-setup",
+      "returncode": 0,
+      "seconds": 1.918
+    },
+    {
+      "label": "copy-review-cache",
+      "returncode": 0,
+      "seconds": 0.891
+    },
+    {
+      "label": "seed-first",
+      "returncode": 0,
+      "seconds": 46.768
+    },
+    {
+      "label": "index-first-text",
+      "returncode": 0,
+      "seconds": 63.611
+    },
+    {
+      "label": "index-first-image",
+      "returncode": 0,
+      "seconds": 39.148
+    },
+    {
+      "label": "snapshot-before-repeat",
+      "returncode": 0,
+      "seconds": 3.518
+    },
+    {
+      "label": "seed-repeat",
+      "returncode": 0,
+      "seconds": 41.695
+    },
+    {
+      "label": "index-repeat-text",
+      "returncode": 0,
+      "seconds": 16.204
+    },
+    {
+      "label": "index-repeat-image",
+      "returncode": 0,
+      "seconds": 10.807
+    },
+    {
+      "label": "snapshot-after-repeat",
+      "returncode": 0,
+      "seconds": 3.469
+    },
+    {
+      "label": "migrate-noop",
+      "returncode": 0,
+      "seconds": 2.025
+    },
+    {
+      "label": "checkpoint-setup-repeat",
+      "returncode": 0,
+      "seconds": 1.915
+    },
+    {
+      "label": "snapshot-after-setup-repeat",
+      "returncode": 0,
+      "seconds": 3.352
+    },
+    {
+      "label": "full-stack-start",
+      "returncode": 0,
+      "seconds": 7.769
+    },
+    {
+      "label": "address-backend",
+      "returncode": 0,
+      "seconds": 0.183
+    },
+    {
+      "label": "context-seed",
+      "returncode": 0,
+      "seconds": 3.042
+    },
+    {
+      "label": "snapshot-before-restart",
+      "returncode": 0,
+      "seconds": 3.42
+    },
+    {
+      "label": "readiness-variants",
+      "returncode": 0,
+      "seconds": 3.045
+    },
+    {
+      "label": "mcp-stop",
+      "returncode": 0,
+      "seconds": 0.527
+    },
+    {
+      "label": "recover-mcp",
+      "returncode": 0,
+      "seconds": 7.57
+    },
+    {
+      "label": "address-backend",
+      "returncode": 0,
+      "seconds": 0.174
+    },
+    {
+      "label": "database-stop",
+      "returncode": 0,
+      "seconds": 0.423
+    },
+    {
+      "label": "recover-database",
+      "returncode": 0,
+      "seconds": 7.587
+    },
+    {
+      "label": "address-backend",
+      "returncode": 0,
+      "seconds": 0.173
+    },
+    {
+      "label": "restart-services",
+      "returncode": 0,
+      "seconds": 1.471
+    },
+    {
+      "label": "wait-after-restart",
+      "returncode": 0,
+      "seconds": 6.39
+    },
+    {
+      "label": "address-backend",
+      "returncode": 0,
+      "seconds": 0.175
+    },
+    {
+      "label": "snapshot-after-restart",
+      "returncode": 0,
+      "seconds": 3.325
+    },
+    {
+      "label": "down-preserve-volumes",
+      "returncode": 0,
+      "seconds": 1.95
+    },
+    {
+      "label": "recreate-services",
+      "returncode": 0,
+      "seconds": 24.236
+    },
+    {
+      "label": "address-backend",
+      "returncode": 0,
+      "seconds": 0.187
+    },
+    {
+      "label": "snapshot-after-recreation",
+      "returncode": 0,
+      "seconds": 3.292
+    },
+    {
+      "label": "context-after-recreation",
+      "returncode": 0,
+      "seconds": 2.986
+    },
+    {
+      "label": "address-frontend",
+      "returncode": 0,
+      "seconds": 0.178
+    },
+    {
+      "label": "cleanup-project",
+      "returncode": 0,
+      "seconds": 1.946
+    },
+    {
+      "label": "cleanup-images",
+      "returncode": 0,
+      "seconds": 1.553
+    }
+  ],
+  "checks": {
+    "before-migrations": {
+      "http_status": 503,
+      "payload": {
+        "status": "unavailable",
+        "dependencies": {
+          "database": "ready",
+          "media": "ready",
+          "mcp": "ready",
+          "schema": "unavailable",
+          "catalog_encoder": "ready"
+        }
+      },
+      "liveness": 200
+    },
+    "before-checkpoints": {
+      "http_status": 503,
+      "payload": {
+        "status": "unavailable",
+        "dependencies": {
+          "database": "ready",
+          "media": "ready",
+          "mcp": "ready",
+          "schema": "unavailable",
+          "catalog_encoder": "ready"
+        }
+      },
+      "liveness": 200
+    },
+    "after-downgrade": {
+      "http_status": 503,
+      "payload": {
+        "status": "unavailable",
+        "dependencies": {
+          "database": "ready",
+          "media": "ready",
+          "mcp": "ready",
+          "schema": "unavailable",
+          "catalog_encoder": "ready"
+        }
+      },
+      "liveness": 200
+    },
+    "empty-catalog-ready": {
+      "http_status": 200,
+      "payload": {
+        "status": "ready",
+        "dependencies": {
+          "database": "ready",
+          "media": "ready",
+          "mcp": "ready",
+          "schema": "ready",
+          "catalog_encoder": "ready"
+        }
+      },
+      "liveness": 200
+    },
+    "seed-first": {
+      "status": "completed",
+      "totals": {
+        "imported": 329,
+        "unchanged": 0,
+        "rejected": 0,
+        "unresolved": 16,
+        "pending": 0
+      }
+    },
+    "index-first-text": {
+      "documents": 770,
+      "embedded": 770,
+      "unchanged": 0
+    },
+    "index-first-image": {
+      "embedded": 118,
+      "media": 118,
+      "unchanged": 0
+    },
+    "seed-repeat": {
+      "status": "completed",
+      "totals": {
+        "imported": 0,
+        "unchanged": 329,
+        "rejected": 0,
+        "unresolved": 16,
+        "pending": 0
+      }
+    },
+    "index-repeat-text": {
+      "documents": 770,
+      "embedded": 0,
+      "unchanged": 770
+    },
+    "index-repeat-image": {
+      "embedded": 0,
+      "media": 118,
+      "unchanged": 118
+    },
+    "repeat-preserves-every-row-and-media-hash": true,
+    "setup-repeat-preserves-every-row": true,
+    "context-seed": {
+      "checkpoint_turns": 1,
+      "messages": 1,
+      "profile_preserved": true
+    },
+    "missing-path-readiness": {
+      "catalog_encoder": {
+        "catalog_encoder": false,
+        "database": true,
+        "mcp": true,
+        "media": true,
+        "schema": true
+      },
+      "media": {
+        "catalog_encoder": true,
+        "database": true,
+        "mcp": true,
+        "media": false,
+        "schema": true
+      }
+    },
+    "mcp-outage": {
+      "http_status": 503,
+      "payload": {
+        "status": "unavailable",
+        "dependencies": {
+          "database": "ready",
+          "media": "ready",
+          "mcp": "unavailable",
+          "schema": "ready",
+          "catalog_encoder": "ready"
+        }
+      },
+      "liveness": 200
+    },
+    "mcp-recovered": {
+      "http_status": 200,
+      "payload": {
+        "status": "ready",
+        "dependencies": {
+          "database": "ready",
+          "media": "ready",
+          "mcp": "ready",
+          "schema": "ready",
+          "catalog_encoder": "ready"
+        }
+      },
+      "liveness": 200
+    },
+    "database-outage": {
+      "http_status": 503,
+      "payload": {
+        "status": "unavailable",
+        "dependencies": {
+          "database": "unavailable",
+          "media": "ready",
+          "mcp": "unavailable",
+          "schema": "unavailable",
+          "catalog_encoder": "ready"
+        }
+      },
+      "liveness": 200
+    },
+    "database-recovered": {
+      "http_status": 200,
+      "payload": {
+        "status": "ready",
+        "dependencies": {
+          "database": "ready",
+          "media": "ready",
+          "mcp": "ready",
+          "schema": "ready",
+          "catalog_encoder": "ready"
+        }
+      },
+      "liveness": 200
+    },
+    "after-restart": {
+      "http_status": 200,
+      "payload": {
+        "status": "ready",
+        "dependencies": {
+          "database": "ready",
+          "media": "ready",
+          "mcp": "ready",
+          "schema": "ready",
+          "catalog_encoder": "ready"
+        }
+      },
+      "liveness": 200
+    },
+    "restart-preserves-every-row-and-media-hash": true,
+    "after-recreation": {
+      "http_status": 200,
+      "payload": {
+        "status": "ready",
+        "dependencies": {
+          "database": "ready",
+          "media": "ready",
+          "mcp": "ready",
+          "schema": "ready",
+          "catalog_encoder": "ready"
+        }
+      },
+      "liveness": 200
+    },
+    "recreation-preserves-every-row-and-media-hash": true,
+    "owned-history-upload-and-stranger-denial": true,
+    "context-after-recreation": {
+      "checkpoint_turns": 2,
+      "messages": 1,
+      "profile_preserved": true
+    },
+    "frontend-proxy-after-recreation": true
+  },
+  "isolation": {
+    "project": "p11-02-0fwahwig",
+    "provider_calls": 0,
+    "owner_dotenv_read": false,
+    "langfuse_enabled": false,
+    "db_and_mcp_ports": "private"
+  },
+  "limitations": [
+    "Cached pinned models and approved-host review downloads reused; new DB/media volumes",
+    "Synthetic context/control-graph probe; live six-agent follow-ups remain P11-04",
+    "Backup/restore remains P11-03; 16 source entity-review pairs preserved"
+  ],
+  "script_hashes": {
+    "infra/verify_persistence.py": "6264b3c9fdce46ee4a02f7b726dbb8520155e8ba55a96851095900d677244e0c",
+    "backend/scripts/probe_phase11_persistence.py": "5ed4d2b6abbdc1659d24f3126c649070194acdc3d3aa6c1037402def49a1eda2"
+  },
+  "source_revision": "ec932fed6169a7713484f6c3ecb8746331596cf6",
+  "docker_version": "29.8.0",
+  "compose_version": "5.5.1",
+  "baseline": {
+    "application_role_limited": true,
+    "media": {
+      "all_hashes_sizes_and_decoding_valid": true,
+      "files": 119,
+      "sha256": "b9606dd5da0e05b59bb8fb8e03da458494281be2fff2772183fd474afb3175af"
+    },
+    "migration": "0009_admin",
+    "pgvector": "0.8.6",
+    "postgres": "16.14 (Debian 16.14-1.pgdg12+1)",
+    "tables": {
+      "foodwise_checkpoints.checkpoint_blobs": {
+        "rows": 1,
+        "sha256": "746daa43cc8fe3b7c880389a2ce83d5f28bce5d70b8648222a02f37648d3cf69"
+      },
+      "foodwise_checkpoints.checkpoint_migrations": {
+        "rows": 10,
+        "sha256": "090fc34f74ecd9965edb799755b32ebdece665d6717adf48a0ad2fa8f3c39efd"
+      },
+      "foodwise_checkpoints.checkpoint_writes": {
+        "rows": 4,
+        "sha256": "b9e2c9ebc6dd03dd0a6c5149494c9e31dedca28ced01320e7ee3719ba28baa64"
+      },
+      "foodwise_checkpoints.checkpoints": {
+        "rows": 3,
+        "sha256": "a6ca8e2607257f49e99a5cd6587f384c1abe9a85d6f9a6cb0ede44017ac6c007"
+      },
+      "public.admin_sessions": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "public.alembic_version": {
+        "rows": 1,
+        "sha256": "55f3eca8d6b9ef9d64645f15e2335eb8e98fc5a2394e144318d15a5e80ca43b7"
+      },
+      "public.browser_sessions": {
+        "rows": 1,
+        "sha256": "45b139b09f36290289abe39ec4beb147230a6a0fd368bb09c63f8542ad1e7650"
+      },
+      "public.conversation_media": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "public.conversations": {
+        "rows": 1,
+        "sha256": "82bf0c7a4a74689a5c927535f06f573fc21085bd7d1aa78bbb3ae46d299d9e4a"
+      },
+      "public.demo_profiles": {
+        "rows": 1,
+        "sha256": "c158029f9b638f97c1a8e108d11f71260b3520d0cdbf1a6fb797847e3ea6b2ec"
+      },
+      "public.documents": {
+        "rows": 1006,
+        "sha256": "7125441db0f5133e2c541815cdb4085d7a2c41533fd81cc7dcefb289fbd4a58b"
+      },
+      "public.image_embeddings": {
+        "rows": 118,
+        "sha256": "22a4dd97f3eea6bc140911c613a8439cfa34e31bbc20599796222eef0a6e0e30"
+      },
+      "public.ingestion_checkpoints": {
+        "rows": 329,
+        "sha256": "9f263a38bf779bd5e092bfc63e6f7687a6f33e08d1bce7cb8c9ebbe5ca67b3e7"
+      },
+      "public.media": {
+        "rows": 119,
+        "sha256": "2d9c9abb34c9e791ffd627e051deb66d41cee5b796b36e6083dd7ccbbc205db3"
+      },
+      "public.media_cleanup_jobs": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "public.messages": {
+        "rows": 1,
+        "sha256": "8b458711a34ff6382f11ca63a9b817481ac0708fd260ec3cbe2fa0e95186ff78"
+      },
+      "public.profiles": {
+        "rows": 1,
+        "sha256": "f76975ee063b4312c9a7e4be37358256ae48933a724562e54387786c3e8a65e1"
+      },
+      "public.recipes": {
+        "rows": 109,
+        "sha256": "b8c4fb856c097d28594e0118440222f7f0f2642b0790b7a97d4f8bdb05366ae7"
+      },
+      "public.restaurants": {
+        "rows": 210,
+        "sha256": "6e8e67247073e684a3ded044f778e789b5bfc064cf0d9fb4bfbc1e55ecf9ee94"
+      },
+      "public.reviews": {
+        "rows": 10,
+        "sha256": "2041aa2e297eddc906e5f81b90e3bfd691ace1755024619bf4847e6a0d26f29a"
+      },
+      "public.source_records": {
+        "rows": 777,
+        "sha256": "4f1d4bdf2bdb715d7f9d87b216a7ec1ec91b23db0de8254b40e76696be895e10"
+      },
+      "public.sources": {
+        "rows": 18,
+        "sha256": "8d35618deb7d872b7fd34b15f8e7a1fdc109641595956632975bd36f6712d83b"
+      },
+      "public.text_embeddings": {
+        "rows": 770,
+        "sha256": "c161efa974bf3e908dc9c01c57be42bd50bf4688e189024b59eaf019b05907d3"
+      },
+      "public.trend_cache": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "public.trend_evidence": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    }
+  },
+  "cleanup": {
+    "project_removed": true,
+    "owner_containers_unchanged": true,
+    "temporary_credentials_removed": true
+  }
+}

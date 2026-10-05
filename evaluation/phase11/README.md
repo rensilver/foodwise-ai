@@ -1,8 +1,8 @@
-# Phase 11 — Local setup rehearsal
+# Phase 11 — Local release verification
 
-Scope is P11-01. Use the [clean-checkout setup guide](../../infra/release-setup.md)
-for the executable sequence. Other Phase 11 tasks and the complete-release gate
-remain separate.
+Recorded scope is P11-01 and P11-02. Use the
+[clean-checkout setup guide](../../infra/release-setup.md) for the executable
+sequence. Other Phase 11 tasks and the complete-release gate remain separate.
 
 ## Checkout, credentials and recovery
 
@@ -67,8 +67,8 @@ the low-memory file plus 2,304 MiB for backend/setup and 1,536 MiB for MCP so
 the old 512 MiB scaffold limit does not constrain one-off CLIP indexing. These
 are ceilings, not peak measurements or proof of resident inference capacity.
 
-Migration/idempotency/restart acceptance, backup/restore, real six-agent/live
-recommendations, administrator journeys and complete-release review remain
+At the close of P11-01, migration/idempotency/restart acceptance, backup/restore,
+real six-agent/live recommendations, administrator journeys and complete-release review remained
 P11-02 onward. Historical source/entity-review/publication blockers are preserved.
 
 The disposable project containers, network, database/media volumes and dedicated
@@ -85,3 +85,80 @@ The redacting source scan found zero findings across 473 files, and
 `git diff --check` passed. No application behavior changed, so unrelated
 application/browser suites were not rerun; the fresh setup itself supplied the
 integration evidence above.
+
+## P11-02 — Migrations, idempotency, readiness and restarts
+
+Verified on 2026-10-05. The [sanitized report](persistence_report.json) records
+49 successful command stages against revision
+`ec932fed6169a7713484f6c3ecb8746331596cf6` plus SHA-256 identities for the two
+new verification scripts. Docker Engine 29.8.0/Compose 5.5.1 run PostgreSQL
+16.14/pgvector 0.8.6 with the limited application role. Use the
+[executable guide](../../infra/release-setup.md#migration-ingestion-and-restart-verification-p11-02)
+to reproduce it. Application behavior and dependency locks are unchanged.
+
+The verifier builds the current production services in an isolated project
+with fresh database/media volumes, synthetic OpenAI settings, no Tavily key
+and tracing disabled. It reuses pinned CPU model bundles, the separately
+recovered recipe ZIP and nine cached approved-host review downloads. The normal
+importer regenerates/validates media; no catalog, vectors or checkpoints are
+copied from the owner's database. No paid provider calls or model/media
+downloads occur.
+
+All nine Alembic revisions upgrade a fresh database, downgrade the still-empty
+database to base and upgrade again to `0009_admin`. `alembic check` reports no
+model/migration differences. Supported LangGraph setup creates its four tables
+and ten library migration records in `foodwise_checkpoints`. Repeating Alembic
+upgrade and checkpoint setup preserves every row hash.
+
+First import creates 210 restaurants, 109 recipes and ten reviews (329 entities),
+with zero rejects and the existing 16 entity-review issues. Repeat import reports
+329 unchanged, zero imports/rejects and the same unresolved issues. The database
+retains 1,006 provenance documents; text indexing selects 770 documents and
+creates 770 vectors. Image indexing creates 118 vectors for 109 recipe and nine
+review images. Repeat indexing embeds nothing: 770 text and 118 image vectors
+are unchanged. All table/media hashes match before and after repeat ingestion
+and indexing, including IDs, versions, timestamps, provenance and vector values.
+
+HTTP readiness returns 503 before application migrations, before checkpoint
+setup and after empty-database downgrade. It returns 200 after initialization,
+even with an empty catalog; readiness is a dependency check. Stopping MCP returns
+503 with MCP unavailable; stopping PostgreSQL returns 503 with database/schema/MCP
+unavailable. Both recover to 200. Liveness remains 200 throughout. Separate real
+adapter probes mark a missing media root or MiniLM bundle unavailable while
+the remaining dependencies pass.
+
+After creating an owned conversation and image upload over HTTP, the probe
+stores one synthetic message and an explicit hard preference through the
+application repository. A synthetic control graph uses the real PostgreSQL
+checkpoint saver. The verifier compares all 25 table hashes and 119 registered
+media files (118 catalog images plus that upload) after `compose restart` and
+after `compose down`/`up` with retained volumes. Every hash matches; all media
+hashes, byte sizes and image decoding pass. Owned history/preferences and image
+bytes survive; strangers receive 404. A new probe process reads the retained
+checkpoint and advances from turn one to turn two with its restriction intact.
+Next.js liveness and same-origin restaurant/recipe catalog reads also pass
+after recreation. This control graph proves saver persistence; real six-agent
+live follow-ups remain P11-04.
+
+An initial harness run exposed reassignment of automatic localhost ports after
+Docker restart; the verifier now resolves the backend address after each
+recovery/restart. A subsequent run was interrupted to correct the distinction
+between 1,006 stored provenance documents and 770 indexed text documents. Both
+earlier disposable projects were cleaned up. The committed report is the final
+successful rerun. A red/green offline regression also verifies that an initial
+Docker-inventory failure removes temporary credentials and records failure.
+
+The final targeted pytest run passes 19 health, package-boundary/cold ORM and
+verifier cleanup tests in 7.96 seconds. The initial sandboxed HTTP test stalled
+and was terminated; the bounded rerun used automatically approved local
+process/network access. Ruff lint/format checks pass for both scripts and the
+regression test. Four Markdown files pass 122 relative link/anchor checks and
+13 Bash syntax blocks. All 152 task IDs remain unique; only P11-02's completion
+mark changes. `AGENTS.md` remains 32,759 bytes. The redacting scan finds zero
+findings across 477 source/build files, and `git diff --check` passes.
+
+Cleanup removes the verifier's containers, network, volumes, dedicated image
+tags and temporary credentials. Existing containers retain their identities,
+start times and restart counts. Owner configuration, datasets and course
+artifacts are preserved. P11-03 onward, live/full-release acceptance, optional
+Cloud operational gates and publication/source-review blockers remain separate.
