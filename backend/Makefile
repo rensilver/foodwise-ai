@@ -85,3 +85,9 @@ api-schema-check:
 .PHONY: evaluate-acceptance
 evaluate-acceptance:
 	uv run --locked python scripts/evaluate_phase10_acceptance.py
+
+.PHONY: evaluate-phase10-retrieval
+evaluate-phase10-retrieval:
+	@test -n "$$DATABASE_URL" -a -n "$$MINILM_ROOT" -a -n "$$CLIP_ROOT" -a -n "$$MEDIA_ROOT" || (echo "Set DATABASE_URL, MINILM_ROOT, CLIP_ROOT and MEDIA_ROOT"; exit 2)
+	uv run --locked python scripts/evaluate_multimodal_retrieval.py --minilm-root "$$MINILM_ROOT" --clip-root "$$CLIP_ROOT" --queries ../evaluation/phase10/retrieval_queries.json --output ../evaluation/phase10/retrieval_report.json
+	uv run --locked python scripts/compare_phase10_retrieval.py

@@ -83,3 +83,51 @@ def test_acceptance_report_is_bound_to_dataset_prompt_and_runtime():
     assert {row["id"] for row in report["cases"]} == {
         case["id"] for case in load_labels()["cases"]
     }
+
+
+def test_retrieval_labels_preserve_initial_comparison_and_personas():
+    labels = json.loads(
+        (ROOT / "evaluation/phase10/retrieval_queries.json").read_text()
+    )
+    baseline_path = ROOT / "evaluation/phase5/queries.json"
+    baseline = json.loads(baseline_path.read_text())
+    assert (
+        labels["baseline_labels_sha256"]
+        == hashlib.sha256(baseline_path.read_bytes()).hexdigest()
+    )
+    assert labels["queries"][:21] == baseline["queries"]
+    assert {q["id"] for q in labels["queries"][21:]} == {
+        "P10-H",
+        "P10-A",
+        "P10-B",
+        "P10-F",
+    }
+
+
+def test_fresh_retrieval_comparison_has_measured_metrics_and_unchanged_defaults():
+    directory = ROOT / "evaluation/phase10"
+    report = json.loads((directory / "retrieval_report.json").read_text())
+    comparison = json.loads((directory / "retrieval_comparison.json").read_text())
+    assert (
+        comparison["measurement_sha256"]
+        == hashlib.sha256(
+            (directory / "retrieval_report.json").read_bytes()
+        ).hexdigest()
+    )
+    assert (
+        report["labels_sha256"]
+        == hashlib.sha256(
+            (directory / "retrieval_queries.json").read_bytes()
+        ).hexdigest()
+    )
+    assert len(report["queries"]) == 25 * 5
+    assert not any(report["violations"].values())
+    assert comparison["selection"] == {
+        "text": 0.6,
+        "image": 0.4,
+        "changed": False,
+        "reason": comparison["selection"]["reason"],
+    }
+    for summary in comparison["all_phase10_queries"].values():
+        for key in ("recall_at_20", "ndcg_at_5", "cuisine_diversity_at_5"):
+            assert 0 <= summary[key] <= 1

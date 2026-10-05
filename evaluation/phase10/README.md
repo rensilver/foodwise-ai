@@ -22,3 +22,14 @@ Sparse positives are not exhaustive relevance judgments or provider-quality scor
   records label/source hashes, exact prompt and rule file hashes, Git base revision,
   installed runtime versions and pinned embedding identities. Inference is explicitly
   fake and embeddings are not executed by this acceptance harness.
+- P10-04: 6 label/metric tests passed; fresh CPU MiniLM/CLIP and exact
+  PostgreSQL retrieval measured 25 queries × five settings × two executions.
+  Corpus: 210 restaurants, 109 recipes, ten reviews, 770 text and 118 image
+  vectors, including all 109 recipe and nine reviewed image associations.
+  [Measurements](retrieval_report.json) and [baseline comparison](retrieval_comparison.json)
+  preserve per-query/category ranks and metrics. Initial 0.6/0.4 gives Recall@20
+  1.000, nDCG@5 0.965 and cuisine diversity@5 0.630 on all Phase 10 labels.
+  The common 21-query comparison is recorded separately. Image-heavy recall
+  drops to 0.977; initial defaults remain unchanged. Empty-label queries are
+  excluded from recall/nDCG means, and identity-image limitations remain explicit.
+  The importer still reports the existing 16 entity-review pairs, with no rejects.
