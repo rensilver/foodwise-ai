@@ -11,6 +11,8 @@ import pytest
 ROOT = Path(__file__).parents[2] / "src" / "food_recommender"
 CORE = {"domain", "application", "retrieval", "ingestion"}
 SDK_ROOTS = {
+    "langfuse",
+    "opentelemetry",
     "sqlalchemy",
     "psycopg",
     "pgvector",
@@ -217,6 +219,26 @@ for prefix in (
     "sqlalchemy", "psycopg", "httpx", "langgraph", "torch", "transformers",
 ):
     assert not any(name == prefix or name.startswith(prefix + ".") for name in sys.modules), prefix
+"""
+    result = subprocess.run(
+        [sys.executable, "-c", script], capture_output=True, text=True, timeout=15
+    )
+    assert result.returncode == 0, result.stderr
+
+
+def test_telemetry_import_is_cold_and_sdk_free():
+    script = """
+import socket, sys
+
+def forbidden(*args, **kwargs):
+    raise AssertionError("Import-time I/O")
+socket.getaddrinfo = forbidden
+socket.socket.connect = forbidden
+import food_recommender.infrastructure.telemetry.config
+import food_recommender.infrastructure.telemetry.langfuse
+import food_recommender.infrastructure.telemetry.redaction
+assert "langfuse" not in sys.modules
+assert "opentelemetry.sdk" not in sys.modules
 """
     result = subprocess.run(
         [sys.executable, "-c", script], capture_output=True, text=True, timeout=15

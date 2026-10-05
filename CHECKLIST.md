@@ -634,25 +634,25 @@ Historical planning verification: 122 local document links resolved, Markdown fe
 
 **Verification:** automated acceptance suite, labeled retrieval evaluation and recorded local performance runs.
 
-- [ ] P10-01 Build source-backed evaluation fixtures for the four PDF personas: health-conscious, adventurous, budget-conscious and family with allergies.
-- [ ] P10-02 Add text/image queries, follow-up corrections, restrictive/no-match cases, missing dietary evidence, and expected abstention/clarification outcomes.
-- [ ] P10-03 Label relevant entity IDs and supporting source evidence; record dataset, model, prompt and embedding revisions with reports.
-- [ ] P10-04 Measure Recall@20, nDCG@5 and diversity; compare text, multimodal and fusion settings against the initial baseline before selecting tuned defaults.
-- [ ] P10-05 Require zero fabricated recommendation/citation IDs and zero hard-constraint violations in deterministic acceptance fixtures.
-- [ ] P10-06 Verify no allergen guarantees, invented nutrient quantities, unverified restaurant facts or unsupported current-trend claims appear in results.
-- [ ] P10-07 Test prompt injection in reviews, captions, web excerpts and MCP responses; prove it cannot enable new tools, expose secrets or mutate the catalog.
-- [ ] P10-08 Test 429/Retry-After, malformed schema output, missing credentials, model capability mismatch, database/MCP downtime and stale/unavailable trend evidence.
-- [ ] P10-09 Test request deadlines, provider concurrency, cancellation, concurrent conversations, per-conversation run exclusion and checkpoint isolation.
-- [ ] P10-10 Recheck upload/archive/network restrictions, admin/session/CSRF behavior, sanitized rendering and redacted logs; scan source and built assets for secrets.
-- [ ] P10-11 Measure stage/end-to-end latency, local embedding resource use, token usage and search calls; report machine details and cold/warm behavior.
-- [ ] P10-12 Run all offline unit/integration/contract/browser checks and explicit live smoke tests separately; record every skipped or blocked check honestly.
-- [ ] P10-13 Run package-boundary and cold ORM-registration contracts alongside acceptance checks; review new adapters for SDK leakage, circular imports and import-time I/O.
-- [ ] P10-14 Validate the [Langfuse Cloud plan](infra/langfuse-plan.md): record region, plan/quota, retention/deletion capabilities and locked SDK compatibility, starting with the reviewed Python v4.16.0 candidate and rechecking the Cloud legacy-API cutoff; configure a dedicated Cloud project and server-side keys only during implementation, with no local Langfuse stack or unapproved paid subscription.
-- [ ] P10-15 Implement optional infrastructure tracing with injected no-op defaults, lazy lifecycle wiring, bounded export/shutdown and privacy allowlists; keep core packages, existing logs, readiness and application contracts independent of Langfuse.
-- [ ] P10-16 Trace each recommendation run and its executed stages, actual OpenAI request attempts and MCP client round trips using stable names and specific observation types; verify concurrent parentage, no duplicates, early exits, retries/repairs, cancellation, reported usage and v4 propagation of opaque session/environment/revision attributes without collecting graph content.
-- [ ] P10-17 Test disabled/enabled/unreachable tracing parity, invalid keys, Cloud 429/quota exhaustion, export backpressure, redaction including media/events/exceptions, and zero telemetry network activity when disabled; use fake exporters offline and an opt-in Cloud execute/fetch/audit loop through current observation APIs with bounded polling and cursor pagination.
-- [ ] P10-18 Export locally computed scores with explicit metric definitions, observation associations and retry deduplication; keep dataset content local and verify that optional Experiment SDK helpers do not export fixture inputs, expected outputs, task outputs or comments. Preserve offline reports and deterministic safety/grounding gates independently of telemetry or LLM judges.
-- [ ] P10-19 Measure SDK memory/latency overhead, queue bounds, export traffic and Cloud volume against a recorded baseline and predeclared limits; test trace-level sampling and score consistency, metadata-only export, supported retention/purge and deletion of conversation-linked traces including delayed exports. Record gaps without claiming operational readiness.
+- [x] P10-01 Build source-backed evaluation fixtures for the four PDF personas: health-conscious, adventurous, budget-conscious and family with allergies.
+- [x] P10-02 Add text/image queries, follow-up corrections, restrictive/no-match cases, missing dietary evidence, and expected abstention/clarification outcomes.
+- [x] P10-03 Label relevant entity IDs and supporting source evidence; record dataset, model, prompt and embedding revisions with reports.
+- [x] P10-04 Measure Recall@20, nDCG@5 and diversity; compare text, multimodal and fusion settings against the initial baseline before selecting tuned defaults.
+- [x] P10-05 Require zero fabricated recommendation/citation IDs and zero hard-constraint violations in deterministic acceptance fixtures.
+- [x] P10-06 Verify no allergen guarantees, invented nutrient quantities, unverified restaurant facts or unsupported current-trend claims appear in results.
+- [x] P10-07 Test prompt injection in reviews, captions, web excerpts and MCP responses; prove it cannot enable new tools, expose secrets or mutate the catalog.
+- [x] P10-08 Test 429/Retry-After, malformed schema output, missing credentials, model capability mismatch, database/MCP downtime and stale/unavailable trend evidence.
+- [x] P10-09 Test request deadlines, provider concurrency, cancellation, concurrent conversations, per-conversation run exclusion and checkpoint isolation.
+- [x] P10-10 Recheck upload/archive/network restrictions, admin/session/CSRF behavior, sanitized rendering and redacted logs; scan source and built assets for secrets.
+- [x] P10-11 Measure stage/end-to-end latency, local embedding resource use, token usage and search calls; report machine details and cold/warm behavior.
+- [x] P10-12 Run all offline unit/integration/contract/browser checks and explicit live smoke tests separately; record every skipped or blocked check honestly.
+- [x] P10-13 Run package-boundary and cold ORM-registration contracts alongside acceptance checks; review new adapters for SDK leakage, circular imports and import-time I/O.
+- [x] P10-14 Validate the [Langfuse Cloud plan](infra/langfuse-plan.md): record region, plan/quota, retention/deletion capabilities and locked SDK compatibility, starting with the reviewed Python v4.16.0 candidate and rechecking the Cloud legacy-API cutoff; configure a dedicated Cloud project and server-side keys only during implementation, with no local Langfuse stack or unapproved paid subscription.
+- [x] P10-15 Implement optional infrastructure tracing with injected no-op defaults, lazy lifecycle wiring, bounded export/shutdown and privacy allowlists; keep core packages, existing logs, readiness and application contracts independent of Langfuse.
+- [x] P10-16 Trace each recommendation run and its executed stages, actual OpenAI request attempts and MCP client round trips using stable names and specific observation types; verify concurrent parentage, no duplicates, early exits, retries/repairs, cancellation, reported usage and v4 propagation of opaque session/environment/revision attributes without collecting graph content.
+- [x] P10-17 Test disabled/enabled/unreachable tracing parity, invalid keys, Cloud 429/quota exhaustion, export backpressure, redaction including media/events/exceptions, and zero telemetry network activity when disabled; use fake exporters offline and an opt-in Cloud execute/fetch/audit loop through current observation APIs with bounded polling and cursor pagination.
+- [x] P10-18 Export locally computed scores with explicit metric definitions, observation associations and retry deduplication; keep dataset content local and verify that optional Experiment SDK helpers do not export fixture inputs, expected outputs, task outputs or comments. Preserve offline reports and deterministic safety/grounding gates independently of telemetry or LLM judges.
+- [x] P10-19 Measure SDK memory/latency overhead, queue bounds, export traffic and Cloud volume against a recorded baseline and predeclared limits; test trace-level sampling and score consistency, metadata-only export, supported retention/purge and deletion of conversation-linked traces including delayed exports. Record gaps without claiming operational readiness.
 
 **Langfuse sequencing:** P10-14 is the feasibility gate; P10-15 precedes P10-16,
 then P10-17 validates isolation before P10-18/19 acceptance. Evaluation fixtures
@@ -664,14 +664,24 @@ points, privacy controls, quota/region decisions and SDK overhead verification.
 The 2026-10-05 [upstream skill review](infra/langfuse-plan.md#review-against-the-langfuse-skill)
 adds current API/version guidance, an observation contract and stored-trace audits;
 content capture, hosted prompts and hosted evaluators remain outside this scope.
-All Langfuse tasks are planned and unverified; account setup, dependency installation
-and runtime changes are not part of this planning update.
+P10-14 feasibility is verified; implementation and Cloud audit evidence are
+tracked separately below. Normal conversation-linked export remains disabled
+until its deletion and retention controls are verified.
 Langfuse is optional operational tooling: integration blockers must remain visible,
 but do not replace or weaken the application's existing release gates.
 
 **Exit criterion:** acceptance fixtures satisfy grounding/constraint invariants, required failure cases pass, and quality/performance results are reproducible without unsupported claims.
 
-**Evidence / blockers:** _Pending._
+**Evidence / blockers:** [P10-01–19 evidence](evaluation/phase10/README.md).
+P10-11–19 each have a dedicated implementation/evidence commit on
+`feature/phase10-evaluation-reliability-hardening`. Performance, separate offline/live
+checks, SDK boundaries, metadata tracing, stored Cloud observation/score audits,
+resource limits, sampling and scoped purge are verified. Langfuse normal
+conversation export remains disabled: Hobby lacks automatic retention, and
+purge scheduling/extended delayed-ingestion and failed-journal recovery remain
+operational gates. Existing full-release, representative live acceptance,
+local-media recovery and publication/history blockers are preserved. P10-19's
+measurements and explicit gaps do not claim operational readiness.
 
 ## Phase 11 — Local release and demonstration
 

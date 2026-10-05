@@ -81,3 +81,38 @@ api-schema:
 
 api-schema-check:
 	uv run --locked python scripts/export_openapi.py --check
+
+.PHONY: evaluate-acceptance
+evaluate-acceptance:
+	uv run --locked python scripts/evaluate_phase10_acceptance.py
+
+.PHONY: evaluate-phase10-retrieval
+evaluate-phase10-retrieval:
+	@test -n "$$DATABASE_URL" -a -n "$$MINILM_ROOT" -a -n "$$CLIP_ROOT" -a -n "$$MEDIA_ROOT" || (echo "Set DATABASE_URL, MINILM_ROOT, CLIP_ROOT and MEDIA_ROOT"; exit 2)
+	uv run --locked python scripts/evaluate_multimodal_retrieval.py --minilm-root "$$MINILM_ROOT" --clip-root "$$CLIP_ROOT" --queries ../evaluation/phase10/retrieval_queries.json --output ../evaluation/phase10/retrieval_report.json
+	uv run --locked python scripts/compare_phase10_retrieval.py
+
+.PHONY: test-phase10
+test-phase10:
+	PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run --locked pytest -p pytest_asyncio.plugin tests/contract/test_phase10_labels.py tests/unit/test_phase10_*.py
+
+.PHONY: measure-phase10
+measure-phase10:
+	OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 uv run --locked python scripts/measure_phase10_performance.py
+
+.PHONY: audit-langfuse-cloud
+# Synthetic metadata export only; no paid inference and no normal conversation export.
+audit-langfuse-cloud:
+	@test "$$ENABLE_LANGFUSE_CLOUD" = "1" || (echo "Set ENABLE_LANGFUSE_CLOUD=1 for synthetic Cloud export"; exit 2)
+	uv run --locked python -m scripts.audit_langfuse_cloud --enable-cloud
+
+.PHONY: measure-telemetry export-phase10-scores purge-synthetic-traces
+measure-telemetry:
+	uv run --locked python -m scripts.measure_telemetry_overhead
+
+export-phase10-scores:
+	uv run --locked python -m scripts.export_phase10_scores
+
+purge-synthetic-traces:
+	@test "$$ENABLE_LANGFUSE_CLOUD" = "1" || (echo "Set ENABLE_LANGFUSE_CLOUD=1 for targeted synthetic deletion"; exit 2)
+	uv run --locked python -m scripts.purge_langfuse_traces --enable-cloud

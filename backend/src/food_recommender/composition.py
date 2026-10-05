@@ -17,6 +17,7 @@ from food_recommender.agents.nodes.rag import RAGRetriever
 from food_recommender.agents.nodes.recommendation import RecommendationExpert
 from food_recommender.agents.nodes.style import FoodStyleExpert
 from food_recommender.agents.nodes.trend import FoodTrendAnalyst
+from food_recommender.agents.prompts import PROMPT_VERSION
 from food_recommender.agents.runner import GraphRunner
 from food_recommender.application.auth.service import AdminService
 from food_recommender.application.catalog.admin import AdminCatalogService
@@ -66,6 +67,8 @@ from food_recommender.infrastructure.persistence.search.text import PostgresText
 from food_recommender.infrastructure.persistence.unit_of_work import PostgresUnitOfWork
 from food_recommender.infrastructure.providers.openai import OpenAIStructuredInference
 from food_recommender.infrastructure.providers.tavily import TavilySearch
+from food_recommender.infrastructure.telemetry.config import TelemetrySettings
+from food_recommender.infrastructure.telemetry.langfuse import LazyTracing
 from food_recommender.ingestion.extraction import (
     ExtractionResult,
     ExtractionService,
@@ -73,6 +76,10 @@ from food_recommender.ingestion.extraction import (
     RestaurantFields,
 )
 from food_recommender.mcp.client import AgentMCP, configured_client
+from food_recommender.retrieval.embedding_contracts import (
+    CLIP_REVISION,
+    MINILM_REVISION,
+)
 from food_recommender.retrieval.image_service import ImageRetrieval
 from food_recommender.retrieval.multimodal import MultimodalRetrieval
 from food_recommender.retrieval.ports import ImageEncoder, TextEncoder
@@ -104,6 +111,7 @@ def build_backend_services(
     settings: Settings,
     *,
     probe: Callable[[Settings], Awaitable[dict[str, bool]]] = backend_readiness,
+    telemetry_settings: TelemetrySettings | None = None,
 ) -> Services:
     engine = create_database_engine(settings.database_url.get_secret_value())
     sessions = async_sessionmaker(engine, expire_on_commit=False)
@@ -117,7 +125,16 @@ def build_backend_services(
     inference = OpenAIStructuredInference(
         http, settings.openai_api_key, settings.openai_model
     )
-    workflow = PersistedWorkflow(settings, inference, runs)
+    tracing = LazyTracing(
+        telemetry_settings or TelemetrySettings(),
+        revisions={
+            "prompt_revision": PROMPT_VERSION,
+            "embedding_revision": MINILM_REVISION + "-" + CLIP_REVISION,
+            "dataset_revision": "catalog-ingestion-v1",
+        },
+        ledger_path=settings.media_root / ".telemetry" / "traces.sqlite",
+    )
+    workflow = PersistedWorkflow(settings, inference, runs, tracing=tracing)
     catalog = CatalogService(transactions, cleanup)
     browse = BrowseService(transactions)
     preview = AdminExtractionPreview(
@@ -125,6 +142,7 @@ def build_backend_services(
     )
 
     async def close() -> None:
+        await tracing.close()
         await http.aclose()
         await engine.dispose()
 
@@ -150,7 +168,9 @@ def build_backend_services(
             transactions,
             Argon2Verification(settings.admin_password_hash.get_secret_value()),
         ),
-        conversations=ConversationService(transactions, cleanup, runs=runs),
+        conversations=ConversationService(
+            transactions, cleanup, runs=runs, trace_cleanup=tracing
+        ),
         media_cleanup=cleanup,
     )
 
@@ -243,9 +263,15 @@ def build_workflow_roles(
 
 class PersistedWorkflow:
     def __init__(
-        self, settings: Settings, inference: Inference, runs: ConversationRuns
+        self,
+        settings: Settings,
+        inference: Inference,
+        runs: ConversationRuns,
+        *,
+        tracing: LazyTracing | None = None,
     ) -> None:
         self.settings, self.runs = settings, runs
+        self.tracing = tracing or LazyTracing(TelemetrySettings())
         self.inference = BudgetedInference(inference, semaphore=asyncio.Semaphore(3))
         self.client = configured_client(settings)
 
@@ -275,7 +301,16 @@ class PersistedWorkflow:
                     NutritionExpert(self.inference),
                     RecommendationExpert(self.inference),
                 )
-                runner = GraphRunner(build_graph(roles, checkpointer=saver), self.runs)
+                if (
+                    self.tracing.settings.enabled
+                    and self.tracing.settings.conversation_export_verified
+                ):
+                    await asyncio.to_thread(self.tracing.initialize)
+                runner = GraphRunner(
+                    build_graph(roles, checkpointer=saver),
+                    self.runs,
+                    tracing=self.tracing,
+                )
                 token = observer.set(progress)
                 try:
                     return await runner.run(

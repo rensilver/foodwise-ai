@@ -1,0 +1,301 @@
+{
+  "date": "2026-10-05",
+  "mode": "synthetic Cloud",
+  "definitions": {
+    "citation_correctness": {
+      "range": [
+        0,
+        1
+      ],
+      "target": "synthesize-recommendations",
+      "denominator": "published citation references",
+      "definition": "1 - unsupported citation references / published citation references; inapplicable with no citations"
+    },
+    "hard_constraint_violations": {
+      "range": [
+        0,
+        null
+      ],
+      "target": "synthesize-recommendations",
+      "denominator": "published recommendations under hard restrictions",
+      "definition": "count of conflicting or unknown hard-restriction compliance; zero required; inapplicable without hard constraints or recommendations"
+    },
+    "fabricated_ids": {
+      "range": [
+        0,
+        null
+      ],
+      "target": "synthesize-recommendations",
+      "denominator": "published recommendations",
+      "definition": "count of recommendations outside retrieved entity set; zero required; inapplicable with no recommendations"
+    },
+    "expected_outcome": {
+      "range": [
+        0,
+        1
+      ],
+      "target": "recommend-food",
+      "denominator": "one labeled fixture turn",
+      "definition": "1 when locally observed clarification/recommendations/abstention equals source-backed label; zero otherwise"
+    }
+  },
+  "evaluator_revision": "phase10-audit-v1",
+  "scores": [
+    {
+      "name": "expected_outcome",
+      "value": 1,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "citation_correctness",
+      "value": 1.0,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "fabricated_ids",
+      "value": 0,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "expected_outcome",
+      "value": 1,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "citation_correctness",
+      "value": 1.0,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "fabricated_ids",
+      "value": 0,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "expected_outcome",
+      "value": 1,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "citation_correctness",
+      "value": 1.0,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "fabricated_ids",
+      "value": 0,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "expected_outcome",
+      "value": 1,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "expected_outcome",
+      "value": 1,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "citation_correctness",
+      "value": 1.0,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "fabricated_ids",
+      "value": 0,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "expected_outcome",
+      "value": 1,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "expected_outcome",
+      "value": 1,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "expected_outcome",
+      "value": 1,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "citation_correctness",
+      "value": 1.0,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "fabricated_ids",
+      "value": 0,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "expected_outcome",
+      "value": 1,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "expected_outcome",
+      "value": 1,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "expected_outcome",
+      "value": 1,
+      "data_type": "NUMERIC"
+    },
+    {
+      "name": "expected_outcome",
+      "value": 1,
+      "data_type": "NUMERIC"
+    }
+  ],
+  "local_results": [
+    {
+      "fixture": "P10-H",
+      "turn": 0,
+      "actual": "recommendations",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-A",
+      "turn": 0,
+      "actual": "recommendations",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-B",
+      "turn": 0,
+      "actual": "recommendations",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-F",
+      "turn": 0,
+      "actual": "abstention",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-IMAGE",
+      "turn": 0,
+      "actual": "recommendations",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-FOLLOW",
+      "turn": 0,
+      "actual": "abstention",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-FOLLOW",
+      "turn": 1,
+      "actual": "abstention",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-FOLLOW",
+      "turn": 2,
+      "actual": "recommendations",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-STRICT",
+      "turn": 0,
+      "actual": "abstention",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-EMPTY",
+      "turn": 0,
+      "actual": "abstention",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-UNKNOWN",
+      "turn": 0,
+      "actual": "abstention",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-CLARIFY",
+      "turn": 0,
+      "actual": "clarification",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    }
+  ],
+  "inapplicable": "no denominator means omitted; never replaced with zero",
+  "experiment_helpers": "disabled; no run_experiment or hosted datasets",
+  "remote_fixture_content": false,
+  "sample_rate": 1,
+  "cloud_audit": {
+    "api": "Scores v3",
+    "expected_unique": 22,
+    "stored_unique": 22,
+    "same_id_exports": 2,
+    "failures": [],
+    "passed": true
+  }
+}

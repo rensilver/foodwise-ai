@@ -1,0 +1,35 @@
+{
+  "verified_at": "2026-10-05T19:04:38.248857+00:00",
+  "enabled_explicitly": true,
+  "outcomes": [
+    {
+      "capability": "text_structured",
+      "model": "gpt-4o-mini",
+      "passed": true,
+      "usage": [
+        {
+          "model": "gpt-4o-mini",
+          "elapsed_ms": 3626.386059997458,
+          "prompt_tokens": 51,
+          "completion_tokens": 5,
+          "total_tokens": 56
+        }
+      ]
+    },
+    {
+      "capability": "vision_structured",
+      "model": "gpt-4o-mini",
+      "passed": true,
+      "usage": [
+        {
+          "model": "gpt-4o-mini",
+          "elapsed_ms": 1104.8310459991626,
+          "prompt_tokens": 8575,
+          "completion_tokens": 5,
+          "total_tokens": 8580
+        }
+      ]
+    }
+  ],
+  "passed": true
+}

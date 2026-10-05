@@ -91,3 +91,5 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
       - name: Production Chromium journey
         run: pnpm test:e2e
+      - name: Scan source and built frontend assets for secrets
+        run: python ../scripts/scan_secrets.py --build-root .next

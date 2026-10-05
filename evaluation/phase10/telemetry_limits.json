@@ -1,0 +1,16 @@
+{
+  "declared_before_measurement": "2026-10-05",
+  "mode": "synthetic CPU graph with fake providers/exporter",
+  "warm_p95_relative_overhead_max": 0.25,
+  "warm_p95_absolute_overhead_ms_max": 10,
+  "sdk_peak_rss_increase_mib_max": 96,
+  "sdk_queue_observations_max": 2048,
+  "export_batch_observations_max": 32,
+  "export_request_bytes_max": 262144,
+  "application_shutdown_wait_seconds_max": 3,
+  "hobby_monthly_unit_budget_fraction": 0.8,
+  "forecast_runs_per_day": 100,
+  "forecast_days": 30,
+  "sampling_policy": "whole trace plus associated scores; full offline acceptance labels always evaluated",
+  "operational_readiness": "not established; normal conversation export stays disabled"
+}

@@ -1,0 +1,84 @@
+{
+  "date": "2026-10-05",
+  "sdk": "4.16.0",
+  "predeclared_limits": {
+    "declared_before_measurement": "2026-10-05",
+    "mode": "synthetic CPU graph with fake providers/exporter",
+    "warm_p95_relative_overhead_max": 0.25,
+    "warm_p95_absolute_overhead_ms_max": 10,
+    "sdk_peak_rss_increase_mib_max": 96,
+    "sdk_queue_observations_max": 2048,
+    "export_batch_observations_max": 32,
+    "export_request_bytes_max": 262144,
+    "application_shutdown_wait_seconds_max": 3,
+    "hobby_monthly_unit_budget_fraction": 0.8,
+    "forecast_runs_per_day": 100,
+    "forecast_days": 30,
+    "sampling_policy": "whole trace plus associated scores; full offline acceptance labels always evaluated",
+    "operational_readiness": "not established; normal conversation export stays disabled"
+  },
+  "processes": [
+    {
+      "enabled": false,
+      "first_turn_ms": 24.42045399948256,
+      "warm": {
+        "samples": 100,
+        "p50_ms": 20.624338001653086,
+        "p95_ms": 31.418849001056515,
+        "minimum_ms": 19.349251997482497,
+        "maximum_ms": 74.59144199674483
+      },
+      "peak_rss_mib": 79.5234375,
+      "cpu_seconds": 2.261246,
+      "export_calls": 0,
+      "serialized_bytes": 0,
+      "observations": 0,
+      "max_batch_observations": 0,
+      "max_batch_bytes": 0,
+      "runs": 101,
+      "boundary": "graph/checkpoint/fake HTTP/fake MCP/OTLP encode; no remote latency"
+    },
+    {
+      "enabled": true,
+      "first_turn_ms": 239.5415770006366,
+      "warm": {
+        "samples": 100,
+        "p50_ms": 27.62331399935647,
+        "p95_ms": 33.17153900206904,
+        "minimum_ms": 23.464197998691816,
+        "maximum_ms": 99.00030499920831
+      },
+      "peak_rss_mib": 105.2578125,
+      "cpu_seconds": 3.1612199999999997,
+      "export_calls": 45,
+      "serialized_bytes": 912065,
+      "observations": 1414,
+      "max_batch_observations": 32,
+      "max_batch_bytes": 20882,
+      "runs": 101,
+      "boundary": "graph/checkpoint/fake HTTP/fake MCP/OTLP encode; no remote latency"
+    }
+  ],
+  "overhead": {
+    "warm_p95_ms": 1.7526900010125246,
+    "warm_p95_fraction": 0.05578466610771093,
+    "peak_rss_mib": 25.734375
+  },
+  "volume_estimate": {
+    "observations_per_run": 14.0,
+    "units_per_run_with_three_scores": 18.0,
+    "monthly_units_at_100_runs_per_day": 54000.0,
+    "units_source": "https://langfuse.com/docs/administration/billable-units",
+    "recommended_sample_rate": 0.5,
+    "not_a_billing_or_project_quota_measurement": true
+  },
+  "limits_passed": true,
+  "operational_readiness": false,
+  "gaps": [
+    "No enforced Hobby retention policy",
+    "Forecast usage is hypothetical; existing project consumption unavailable",
+    "Cold imports and SDK background managers have startup cost",
+    "OS page cache and host load uncontrolled; 100 samples/mode on one machine",
+    "Automatic durable remote purge scheduling and extended delayed-ingestion verification remain operational gates"
+  ]
+}

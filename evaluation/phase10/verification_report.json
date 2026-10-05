@@ -1,0 +1,54 @@
+{
+  "date": "2026-10-05",
+  "offline": {
+    "backend_unit_contract": {
+      "passed": 373,
+      "skipped": 0
+    },
+    "backend_integration": {
+      "passed": 172,
+      "initial_skipped": 2,
+      "skipped_resolved_by_pretrained_rerun": 2
+    },
+    "frontend_unit": 25,
+    "frontend_configuration": 5,
+    "browser_accessibility": 10,
+    "browser_real_api_database_mcp": 5,
+    "ruff": "passed",
+    "format": "passed",
+    "mypy": "passed",
+    "openapi_drift": "passed"
+  },
+  "live": {
+    "openai_text_vision": "passed",
+    "tavily_dated_smoke": "passed",
+    "six_agent_graph": "passed with style and trend unavailable; not full-release quality acceptance"
+  },
+  "initial_failures": [
+    "sandbox subprocess restrictions; rerun outside sandbox",
+    "trend smoke lacked explicit DATABASE_URL and MEDIA_ROOT; corrected with isolated database and local media"
+  ],
+  "limitations": [
+    "physical assistive technology unavailable",
+    "no full representative-corpus live acceptance claim",
+    "live graph retrieved one real candidate and used eight model attempts; report retains measured tokens and stages"
+  ],
+  "final_verification": {
+    "backend_full_passed": 571,
+    "backend_full_skipped": 0,
+    "backend_seconds": 68.15,
+    "affected_followup_passed": 38,
+    "ruff": "passed",
+    "format": "passed",
+    "mypy_source_files": 173,
+    "openapi_drift": "passed",
+    "compose_configuration": "passed with synthetic required values; runtime rehearsal deferred",
+    "documentation_links": 175,
+    "secret_scanned_source_build_files": 2710,
+    "secret_findings": 0,
+    "initial_full_failure": "one stale acceptance implementation hash; regenerated before passing full rerun",
+    "sdk_logging_fix": "preserve application httpx handlers after cold SDK import",
+    "normal_conversation_telemetry": false,
+    "operational_readiness": false
+  }
+}

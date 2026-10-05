@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-05",
+  "region": "US",
+  "submitted_trace_ids": 51,
+  "scope": "known local synthetic references",
+  "observation_readback_api": "v2 with explicit trace-ID filter and bounded time window",
+  "score_readback_api": "v3",
+  "remaining_observations": false,
+  "remaining_scores": false,
+  "polls": 2,
+  "passed": true,
+  "normal_conversation_export": false,
+  "limitations": [
+    "Deletion is asynchronous and there is no provider completion notification",
+    "This recent synthetic window does not verify older Hobby data beyond the access window",
+    "Cloud backups and extended delayed-ingestion behavior are not independently verified",
+    "Normal conversation export remains disabled; manual purge/retry is developer tooling"
+  ]
+}

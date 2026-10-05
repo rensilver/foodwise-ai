@@ -1,0 +1,5357 @@
+{
+  "machine": {
+    "os": "Linux-7.0.0-34-generic-x86_64-with-glibc2.43",
+    "architecture": "x86_64",
+    "python": "3.12.14",
+    "logical_cpus": 8,
+    "memory_mib": 6694.58984375,
+    "cpu": "AMD Ryzen 5 7520U with Radeon Graphics",
+    "threads": 1
+  },
+  "graph": {
+    "boundary": "real graph; fake OpenAI/MCP; in-memory checkpoints; excludes browser/DB/network",
+    "cold_first_case_ms": 34.42881199953263,
+    "end_to_end": {
+      "samples": 120,
+      "p50_ms": 14.849428000161424,
+      "p95_ms": 23.133996000979096,
+      "minimum_ms": 4.905009998765308,
+      "maximum_ms": 76.98008199804462
+    },
+    "stages": {
+      "profile": {
+        "samples": 120,
+        "p50_ms": 2.0732929988298565,
+        "p95_ms": 3.1701920015621,
+        "minimum_ms": 1.5669770000386052,
+        "maximum_ms": 62.34529100038344
+      },
+      "retrieval": {
+        "samples": 110,
+        "p50_ms": 2.538373999414034,
+        "p95_ms": 6.302974998106947,
+        "minimum_ms": 1.3278549995447975,
+        "maximum_ms": 9.798778999538627
+      },
+      "trend": {
+        "samples": 110,
+        "p50_ms": 0.0338930003636051,
+        "p95_ms": 0.26336700102547184,
+        "minimum_ms": 0.020917999790981412,
+        "maximum_ms": 0.35897400084650144
+      },
+      "style": {
+        "samples": 110,
+        "p50_ms": 0.04225799784762785,
+        "p95_ms": 1.6226799998548813,
+        "minimum_ms": 0.026528996386332437,
+        "maximum_ms": 2.2114300008979626
+      },
+      "nutrition": {
+        "samples": 110,
+        "p50_ms": 0.16056700042099692,
+        "p95_ms": 1.746309000736801,
+        "minimum_ms": 0.08334399899467826,
+        "maximum_ms": 2.490143997420091
+      },
+      "recommendation": {
+        "samples": 110,
+        "p50_ms": 0.20777399913640693,
+        "p95_ms": 1.9432930021139327,
+        "minimum_ms": 0.11117499889223836,
+        "maximum_ms": 2.177716996811796
+      }
+    },
+    "usage": {
+      "openai_attempts": 500,
+      "mcp_attempts": 290,
+      "search_calls": 0,
+      "provider_tokens": null,
+      "reason": "fixture inference reports no provider token usage; zero is not a measured live usage"
+    },
+    "rows": [
+      {
+        "case": "P10-H",
+        "repeat": 0,
+        "case_wall_ms": 34.42881199953263,
+        "turns": [
+          {
+            "duration_ms": 20.267095002054702,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.138234001904493,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.709087999595795,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.21821200082195,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.146940001490293,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.2566340008343104,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.3406789985310752,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-A",
+        "repeat": 0,
+        "case_wall_ms": 29.706590001296718,
+        "turns": [
+          {
+            "duration_ms": 16.654795999784255,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.935047999722883,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.6294620001863223,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.4517439994961023,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.34033799986355,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.21794300118926913,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.3945490027253982,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-B",
+        "repeat": 0,
+        "case_wall_ms": 28.98337199803791,
+        "turns": [
+          {
+            "duration_ms": 16.443475000414765,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.872321998438565,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.0503419982560445,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.148314000602113,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.0527070007810835,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.1785000022209715,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.3500559980457183,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-F",
+        "repeat": 0,
+        "case_wall_ms": 26.785548001498682,
+        "turns": [
+          {
+            "duration_ms": 14.499491000606213,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.914270000270335,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 4.328805000113789,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.10504400052013807,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.027289999707136303,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.023733999114483595,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.17383100203005597,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-IMAGE",
+        "repeat": 0,
+        "case_wall_ms": 26.80147799765109,
+        "turns": [
+          {
+            "duration_ms": 14.706393001688411,
+            "openai_calls": 5,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.6788740031188354,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.624714001081884,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.1143610026920214,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.097338998079067,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.19704399892361835,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.7135380003310274,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-FOLLOW",
+        "repeat": 0,
+        "case_wall_ms": 54.48438600069494,
+        "turns": [
+          {
+            "duration_ms": 12.793095000233734,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.807352000469109,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.8281489978544414,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.10110699804499745,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.02684900027816184,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.021929998183622956,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.12256700210855342,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 13.840421997883823,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.0011199994769413,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 4.197030000796076,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.12050299847032875,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.02870299795176834,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02298300023539923,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.13624200073536485,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 13.431997002044227,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.7046619977918454,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.396622999891406,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.9560979997331742,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.1429830010456499,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.14566899699275382,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.2710310002148617,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-STRICT",
+        "repeat": 0,
+        "case_wall_ms": 31.59374900133116,
+        "turns": [
+          {
+            "duration_ms": 17.89382700007991,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.705623999441741,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 6.302974998106947,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.16056700042099692,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.07783399996696971,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.03753999772015959,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.22328299746732228,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-EMPTY",
+        "repeat": 0,
+        "case_wall_ms": 30.44996400058153,
+        "turns": [
+          {
+            "duration_ms": 14.51605100010056,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.045743000053335,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.3812330000509974,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.13020999904256314,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.030014998628757894,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.024213997676270083,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.23819000125513412,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-UNKNOWN",
+        "repeat": 0,
+        "case_wall_ms": 35.814422997646034,
+        "turns": [
+          {
+            "duration_ms": 18.43104100044002,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.4265969987027347,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 6.808378999267006,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.10516499969526194,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.028062000637874007,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.023163000150816515,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.13509900236385874,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-CLARIFY",
+        "repeat": 0,
+        "case_wall_ms": 22.608395000133896,
+        "turns": [
+          {
+            "duration_ms": 6.59337199977017,
+            "openai_calls": 1,
+            "tool_calls": 0,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 0,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.163560999179026,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-H",
+        "repeat": 1,
+        "case_wall_ms": 32.78005299944198,
+        "turns": [
+          {
+            "duration_ms": 18.184273998485878,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.036596000834834,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.989658998354571,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.2933110010635573,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.5111140019143932,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.2617840000311844,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.6395220009144396,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-A",
+        "repeat": 1,
+        "case_wall_ms": 90.9111920009309,
+        "turns": [
+          {
+            "duration_ms": 76.98008199804462,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 62.34529100038344,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.2159680011100136,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.0612629994284362,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.2657110019063111,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.2152480010408908,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.6638760025671218,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-B",
+        "repeat": 1,
+        "case_wall_ms": 31.524279998848215,
+        "turns": [
+          {
+            "duration_ms": 15.686254999309313,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.830154000344919,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.8635460000950843,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.3311709990375675,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.1568800000532065,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.17133700021076947,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.4493499984382652,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-F",
+        "repeat": 1,
+        "case_wall_ms": 28.725516000122298,
+        "turns": [
+          {
+            "duration_ms": 14.267251001001569,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.181112999096513,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 4.011287001048913,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.11013300172635354,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.029625000024680048,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.022912998247193173,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.20777399913640693,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-IMAGE",
+        "repeat": 1,
+        "case_wall_ms": 37.293278001016006,
+        "turns": [
+          {
+            "duration_ms": 21.539217999816174,
+            "openai_calls": 5,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.1658250007021707,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.9731079994235188,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.979018998099491,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.537893000204349,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.2561330002208706,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.9432930021139327,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-FOLLOW",
+        "repeat": 1,
+        "case_wall_ms": 71.96614100030274,
+        "turns": [
+          {
+            "duration_ms": 17.516369000077248,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 3.735999001946766,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 4.370170001493534,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.12719599908450618,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.040535000152885914,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02480600232956931,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.19373800023458898,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 17.756103003193857,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.4586770014138892,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 5.375839999032905,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.12395899830153212,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.031458999728783965,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02381399826845154,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.1562690013088286,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 15.54540500001167,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.8191529998148326,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.365053998597432,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.0318579988961574,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.4253849985834677,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.2764410019153729,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.621579001948703,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-STRICT",
+        "repeat": 1,
+        "case_wall_ms": 28.127610003139125,
+        "turns": [
+          {
+            "duration_ms": 13.389267998718424,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.9944980012951419,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.846963001706172,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.12715499906335026,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.0320290018862579,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.024065000616246834,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.12686500122072175,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-EMPTY",
+        "repeat": 1,
+        "case_wall_ms": 30.681282001751242,
+        "turns": [
+          {
+            "duration_ms": 13.735108001128538,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.4919269999372773,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.6404839989263564,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.1309629988099914,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.026538997190073133,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.020917999790981412,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.15328399967984296,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-UNKNOWN",
+        "repeat": 1,
+        "case_wall_ms": 32.670871001755586,
+        "turns": [
+          {
+            "duration_ms": 17.45314200161374,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.6599689990689512,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 5.947598001512233,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.10754799950518645,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.027449998015072197,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.022281001292867586,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.17804899835027754,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-CLARIFY",
+        "repeat": 1,
+        "case_wall_ms": 24.507857000571676,
+        "turns": [
+          {
+            "duration_ms": 7.658800997887738,
+            "openai_calls": 1,
+            "tool_calls": 0,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 0,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 3.329907001898391,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-H",
+        "repeat": 2,
+        "case_wall_ms": 32.61001799910446,
+        "turns": [
+          {
+            "duration_ms": 19.433192999713356,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.320430998224765,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.6634349995001685,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.5257810009643435,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.1921039986191317,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.20815499738091603,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 2.039151000644779,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-A",
+        "repeat": 2,
+        "case_wall_ms": 34.54757100189454,
+        "turns": [
+          {
+            "duration_ms": 19.20053299909341,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.430895001452882,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.8000679992837831,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.3942479999968782,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.4097960010985844,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.25281700072810054,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 2.177716996811796,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-B",
+        "repeat": 2,
+        "case_wall_ms": 38.42039200026193,
+        "turns": [
+          {
+            "duration_ms": 23.133996000979096,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.346658999158535,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.538373999414034,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 2.490143997420091,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.9125859980704263,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.2320790008525364,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.8087040007230826,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-F",
+        "repeat": 2,
+        "case_wall_ms": 35.57395900133997,
+        "turns": [
+          {
+            "duration_ms": 16.74463200106402,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.5585309995221905,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 5.061889001808595,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.13709300037589855,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.030577000870835036,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.024535998818464577,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.1656560016272124,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-IMAGE",
+        "repeat": 2,
+        "case_wall_ms": 34.9733280017972,
+        "turns": [
+          {
+            "duration_ms": 17.517962001875276,
+            "openai_calls": 5,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.759311999398051,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.96605499877478,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.4496099975076504,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.2432490002538543,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.1833889982663095,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.3472509999701288,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-FOLLOW",
+        "repeat": 2,
+        "case_wall_ms": 60.317822000797605,
+        "turns": [
+          {
+            "duration_ms": 14.24939800199354,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.412932000879664,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.3760029982659034,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.1654250008868985,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.030786999559495598,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.028853999538114294,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.19437000082689337,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 14.258715000323718,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.173469001718331,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 4.0208850005001295,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.13187399963499047,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.029844999517081305,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02469599712640047,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.19599200095399283,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 16.394635000324342,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.5669770000386052,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.3274640007002745,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.5349479981523473,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.5512980025960132,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.19552099911379628,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.414965998264961,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-STRICT",
+        "repeat": 2,
+        "case_wall_ms": 29.204770999058383,
+        "turns": [
+          {
+            "duration_ms": 14.614042000175687,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.7863130015030038,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 4.236444001435302,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.16418399900430813,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.03964299685321748,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.036477002140600234,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.16159900042111985,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-EMPTY",
+        "repeat": 2,
+        "case_wall_ms": 27.59090800100239,
+        "turns": [
+          {
+            "duration_ms": 11.888302000443218,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.7561659990169574,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.3278549995447975,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.08334399899467826,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.031076997402124107,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.0265889975707978,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.11929100219276734,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-UNKNOWN",
+        "repeat": 2,
+        "case_wall_ms": 32.14352600116399,
+        "turns": [
+          {
+            "duration_ms": 17.43481899757171,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.5684089996502735,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 6.713563998346217,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.11768699914682657,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.030556002457160503,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.024395001673838124,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.16125899855978787,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-CLARIFY",
+        "repeat": 2,
+        "case_wall_ms": 21.59353800016106,
+        "turns": [
+          {
+            "duration_ms": 6.203770997672109,
+            "openai_calls": 1,
+            "tool_calls": 0,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 0,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.0833229973504785,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-H",
+        "repeat": 3,
+        "case_wall_ms": 31.701728999905754,
+        "turns": [
+          {
+            "duration_ms": 14.046142001461703,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.7042010003933683,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.3772069978585932,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.1219440020795446,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.0154880001209676,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.16553600289626047,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.3605759995698463,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-A",
+        "repeat": 3,
+        "case_wall_ms": 35.94618699935381,
+        "turns": [
+          {
+            "duration_ms": 19.110676999844145,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.405578001344111,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.250270998047199,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.6189029993256554,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.4829520005150698,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.26336700102547184,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.8315770030312706,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-B",
+        "repeat": 3,
+        "case_wall_ms": 46.57339699770091,
+        "turns": [
+          {
+            "duration_ms": 25.808992999373004,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 3.928363999875728,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.7889459999860264,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 2.0550299996102694,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.8776120014081243,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.2955960007966496,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 2.006921000429429,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-F",
+        "repeat": 3,
+        "case_wall_ms": 39.27933999875677,
+        "turns": [
+          {
+            "duration_ms": 19.441899999947054,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.8419549998943694,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 5.658843001583591,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.15524700211244635,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.06921800013515167,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.03563599966582842,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.1523909995739814,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-IMAGE",
+        "repeat": 3,
+        "case_wall_ms": 33.290646999375895,
+        "turns": [
+          {
+            "duration_ms": 17.538460000650957,
+            "openai_calls": 5,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.0082029986951966,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.817340002162382,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.573659999849042,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.3072369984001853,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.3419719978410285,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.523476999864215,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-FOLLOW",
+        "repeat": 3,
+        "case_wall_ms": 70.54465300097945,
+        "turns": [
+          {
+            "duration_ms": 17.86951199756004,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.6580459998513106,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 4.913194999971893,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.13500999921234325,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.030977000278653577,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.027291000151308253,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.18348899902775884,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 17.551844000990968,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.426246999675641,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 5.064885001047514,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.17840999862528406,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.0508740013174247,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.03532499977154657,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.22172999888425693,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 18.503203998989193,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.927623998199124,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.1149710009922273,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.3951799992355518,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.6226799998548813,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.2392129972577095,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.833820999308955,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-STRICT",
+        "repeat": 3,
+        "case_wall_ms": 39.29152299679117,
+        "turns": [
+          {
+            "duration_ms": 21.428092000860488,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.4944830001913942,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 6.729683998855762,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.13575100092566572,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.032259002182399854,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.023763997887726873,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.16185899949050508,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-EMPTY",
+        "repeat": 3,
+        "case_wall_ms": 32.133437001903076,
+        "turns": [
+          {
+            "duration_ms": 15.123223998671165,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.493009997124318,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.1952590032014996,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.15748200166854076,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.054531003115698695,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.033091000659624115,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.19870799951604567,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-UNKNOWN",
+        "repeat": 3,
+        "case_wall_ms": 30.60119400106487,
+        "turns": [
+          {
+            "duration_ms": 14.849428000161424,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.9359899997652974,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 5.825051001011161,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.09708899960969575,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.027129997761221603,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.022351003281073645,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.11117499889223836,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-CLARIFY",
+        "repeat": 3,
+        "case_wall_ms": 18.336746001295978,
+        "turns": [
+          {
+            "duration_ms": 4.905009998765308,
+            "openai_calls": 1,
+            "tool_calls": 0,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 0,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.8082839997077826,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-H",
+        "repeat": 4,
+        "case_wall_ms": 27.11020900096628,
+        "turns": [
+          {
+            "duration_ms": 15.115430000150809,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.816317999328021,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.4242040015233215,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.5363499987870455,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.3497660002030898,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.22565700055565685,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.379311001073802,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-A",
+        "repeat": 4,
+        "case_wall_ms": 28.957705002540024,
+        "turns": [
+          {
+            "duration_ms": 15.370421999250539,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.9237469969084486,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.9345370019436814,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.282531000470044,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.2114909986848943,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.17303999993600883,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.4993619988672435,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-B",
+        "repeat": 4,
+        "case_wall_ms": 31.04502499991213,
+        "turns": [
+          {
+            "duration_ms": 15.279202001693193,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.8988920019182842,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.9643529994937126,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.258666998182889,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.1236770005780272,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.1668780023464933,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.3426719997369219,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-F",
+        "repeat": 4,
+        "case_wall_ms": 25.69457099889405,
+        "turns": [
+          {
+            "duration_ms": 12.524719000793993,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.8842040008166805,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.5082270005659666,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.10906099851126783,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.027410998882260174,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.022221000108402222,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.13628200031234883,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-IMAGE",
+        "repeat": 4,
+        "case_wall_ms": 27.820793002319988,
+        "turns": [
+          {
+            "duration_ms": 14.795718001550995,
+            "openai_calls": 5,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.8249150016345084,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.730028998281341,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.2880519971076865,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.1500859982334077,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.23173799854703248,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.3269640003272798,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-FOLLOW",
+        "repeat": 4,
+        "case_wall_ms": 64.66263699985575,
+        "turns": [
+          {
+            "duration_ms": 14.829811996605713,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.4075620021903887,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 4.089522000867873,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.15202099893940613,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.03804999869316816,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02379400029894896,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.2093879993481096,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 17.429537998395972,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 3.1701920015621,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 4.881927001406439,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.16653800048516132,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.03147899769828655,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02576799670350738,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.17474299966124818,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 18.80668499870808,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.1666270004061516,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.005558999371715,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.263466001546476,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 2.2114300008979626,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.23150800188886933,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.7013059987220913,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-STRICT",
+        "repeat": 4,
+        "case_wall_ms": 28.81876800165628,
+        "turns": [
+          {
+            "duration_ms": 16.35031299883849,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.795529002469266,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 4.781982002896257,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.11075499787693843,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.028752998332493007,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.023092998162610456,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.12030200014123693,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-EMPTY",
+        "repeat": 4,
+        "case_wall_ms": 25.664786000561435,
+        "turns": [
+          {
+            "duration_ms": 12.186022999230772,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.9061550010519568,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.4685450005345047,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.10637699961080216,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.026528996386332437,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02202099858550355,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.15520700253546238,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-UNKNOWN",
+        "repeat": 4,
+        "case_wall_ms": 43.254079999314854,
+        "turns": [
+          {
+            "duration_ms": 24.21461500125588,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.3782979988027364,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 9.798778999538627,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.17735799701767974,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.03587599712773226,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02653900082805194,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.24368099911953323,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-CLARIFY",
+        "repeat": 4,
+        "case_wall_ms": 26.268032001098618,
+        "turns": [
+          {
+            "duration_ms": 7.720245001110015,
+            "openai_calls": 1,
+            "tool_calls": 0,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 0,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.434622001601383,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-H",
+        "repeat": 5,
+        "case_wall_ms": 43.24118699878454,
+        "turns": [
+          {
+            "duration_ms": 25.455759998294525,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.2301540011540055,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.027278002060484,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.746309000736801,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.8798959972627927,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.35897400084650144,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 2.164822999475291,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-A",
+        "repeat": 5,
+        "case_wall_ms": 29.24119899762445,
+        "turns": [
+          {
+            "duration_ms": 15.716090001660632,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.4413649989583064,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.8953250000777189,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.2848149999626912,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.1095310001110192,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.15962499674060382,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.3468199977069162,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-B",
+        "repeat": 5,
+        "case_wall_ms": 27.61441099937656,
+        "turns": [
+          {
+            "duration_ms": 15.361755002231803,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.2276089985098224,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.047304998995969,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.2641070024983492,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.069768000888871,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.14550899868481793,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.333054002316203,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-F",
+        "repeat": 5,
+        "case_wall_ms": 24.247544999525417,
+        "turns": [
+          {
+            "duration_ms": 12.549053997645387,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.2698380016663577,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.294761998404283,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.10714800009736791,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.02672900154720992,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.023864002287155017,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.12571199840749614,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-IMAGE",
+        "repeat": 5,
+        "case_wall_ms": 27.148979999765288,
+        "turns": [
+          {
+            "duration_ms": 14.043167000636458,
+            "openai_calls": 5,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.8299830007890705,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.644731000851607,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.2427079964254517,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.086509000742808,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.16505500025232323,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.2999129976378754,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-FOLLOW",
+        "repeat": 5,
+        "case_wall_ms": 58.57559099968057,
+        "turns": [
+          {
+            "duration_ms": 13.508639000065159,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.4068909988272935,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.5902479976357426,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.1316029993176926,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.02800200309138745,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02324300294276327,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.14922600166755728,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 15.130717998545151,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 3.2299430022249,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 4.110611000214703,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.14780300261918455,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.04190700201434083,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02754099841695279,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.17290899995714426,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 15.142439999181079,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.8978990010509733,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.8710999975155573,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.1000740014424082,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.3788690012006555,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.15932400128804147,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.491868999437429,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-STRICT",
+        "repeat": 5,
+        "case_wall_ms": 28.513583998574177,
+        "turns": [
+          {
+            "duration_ms": 15.125619000173174,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.054098000371596,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 4.632806001609424,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.09834199954639189,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.028513000870589167,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.023111999325919896,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.16942400179686956,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-EMPTY",
+        "repeat": 5,
+        "case_wall_ms": 24.104371001158142,
+        "turns": [
+          {
+            "duration_ms": 11.231518001295626,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.092228998662904,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.4504020000458695,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.11766800162149593,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.03390300116734579,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.022211002942640334,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.15374400027212687,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-UNKNOWN",
+        "repeat": 5,
+        "case_wall_ms": 28.70013899882906,
+        "turns": [
+          {
+            "duration_ms": 15.49840799998492,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.9466100020508748,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 5.802859999676002,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.0999549993139226,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.027992002287646756,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.022972002625465393,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.14611999722546898,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-CLARIFY",
+        "repeat": 5,
+        "case_wall_ms": 18.39300000210642,
+        "turns": [
+          {
+            "duration_ms": 5.004222999559715,
+            "openai_calls": 1,
+            "tool_calls": 0,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 0,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.930669997818768,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-H",
+        "repeat": 6,
+        "case_wall_ms": 29.155580999940867,
+        "turns": [
+          {
+            "duration_ms": 15.694920999521855,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.034921999438666,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.712716999463737,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.2877210028818808,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.0034459992311895,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.13519999993150122,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.3766850024694577,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-A",
+        "repeat": 6,
+        "case_wall_ms": 29.55545000077109,
+        "turns": [
+          {
+            "duration_ms": 17.026542998792138,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.804406001814641,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.1930949988018256,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.4067709998926148,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.3097120026941411,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.16361300004064105,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.4614619976782706,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-B",
+        "repeat": 6,
+        "case_wall_ms": 29.212855999503518,
+        "turns": [
+          {
+            "duration_ms": 16.11539900113712,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.117725998687092,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.034461998846382,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.4130430026852991,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.317466998443706,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.2119919990946073,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.4520349977829028,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-F",
+        "repeat": 6,
+        "case_wall_ms": 25.50311699815211,
+        "turns": [
+          {
+            "duration_ms": 13.21688899770379,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.4547799985157326,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.8635850032733288,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.103982998552965,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.02836299972841516,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.055321997933788225,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.12476100164349191,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-IMAGE",
+        "repeat": 6,
+        "case_wall_ms": 29.117610996763688,
+        "turns": [
+          {
+            "duration_ms": 15.075966002768837,
+            "openai_calls": 5,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.871480002591852,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.758170998073183,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.3926350002293475,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.225566000357503,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.176084999111481,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.3744809984927997,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-FOLLOW",
+        "repeat": 6,
+        "case_wall_ms": 58.14931299755699,
+        "turns": [
+          {
+            "duration_ms": 14.516011000523577,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.2937209978408646,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 4.2734220005513635,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.11120599810965359,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.027500998839968815,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02146900078514591,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.16551599765080027,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 14.19503799843369,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.9127249981684145,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.9835550014686305,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.12435000098776072,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.02885300273192115,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.025838002329692245,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.14618000204791315,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 14.913956998498179,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.7386649997206405,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.6549409992876463,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.1776279970945325,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.2963270019099582,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.16841099932207726,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.3448669997160323,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-STRICT",
+        "repeat": 6,
+        "case_wall_ms": 27.341586999682477,
+        "turns": [
+          {
+            "duration_ms": 14.202641999872867,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.17236599928583,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 4.367366000224138,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.10254000153508969,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.02869300078600645,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.023544002033304423,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.13622199912788346,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-EMPTY",
+        "repeat": 6,
+        "case_wall_ms": 26.660908002668293,
+        "turns": [
+          {
+            "duration_ms": 13.399437000771286,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.8994220008607954,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.8556009999883827,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.12076400162186474,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.03136799932690337,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.022921998606761917,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.16516500181751326,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-UNKNOWN",
+        "repeat": 6,
+        "case_wall_ms": 29.767713000182994,
+        "turns": [
+          {
+            "duration_ms": 15.708836999692721,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.9291470016469248,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 5.820682999910787,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.1260130011360161,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.03169900082866661,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02471599873388186,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.1694229977147188,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-CLARIFY",
+        "repeat": 6,
+        "case_wall_ms": 18.03042900064611,
+        "turns": [
+          {
+            "duration_ms": 5.089210000733146,
+            "openai_calls": 1,
+            "tool_calls": 0,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 0,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.9985660001111683,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-H",
+        "repeat": 7,
+        "case_wall_ms": 29.05526600079611,
+        "turns": [
+          {
+            "duration_ms": 15.525998001976404,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.370423000684241,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.451524000003701,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.2665419999393634,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.1786789982579648,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.21082999955979176,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.5472410013899207,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-A",
+        "repeat": 7,
+        "case_wall_ms": 28.975086999707855,
+        "turns": [
+          {
+            "duration_ms": 16.572653999901377,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.4775509991741274,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.0169990020804107,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.4367770017997827,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.1079680007242132,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.15875399913056754,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.3278959995659534,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-B",
+        "repeat": 7,
+        "case_wall_ms": 29.56531800009543,
+        "turns": [
+          {
+            "duration_ms": 16.722510998079088,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.0552099995256867,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.9824749979306944,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.5684999998484273,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.417971998307621,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.20329499966464937,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.4566940008080564,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-F",
+        "repeat": 7,
+        "case_wall_ms": 27.422676001151558,
+        "turns": [
+          {
+            "duration_ms": 14.511052002490032,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.4568020016886294,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.547860000253422,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.13842599946656264,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.04225799784762785,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.0338930003636051,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.18479200298315845,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-IMAGE",
+        "repeat": 7,
+        "case_wall_ms": 27.29321700098808,
+        "turns": [
+          {
+            "duration_ms": 14.394185000128346,
+            "openai_calls": 5,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.7726480000419542,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.6803170001367107,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.1731190024875104,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.9940980016835965,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.16593699911027215,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.2432889998308383,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-FOLLOW",
+        "repeat": 7,
+        "case_wall_ms": 55.416478997358354,
+        "turns": [
+          {
+            "duration_ms": 12.770272998750443,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.259198001411278,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.6153049986751284,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.10438300159876235,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.02796199987642467,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02300200139870867,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.131433000206016,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 14.338913002575282,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.843228001438547,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.706232997501502,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.13869599933968857,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.031317998946178705,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.025137000193353742,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.1971140009118244,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 14.48741800049902,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.7001439991872758,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.596492002136074,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.1534129989740904,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.3323839993972797,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.18087399803334847,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.3582410028902814,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-STRICT",
+        "repeat": 7,
+        "case_wall_ms": 26.383835000160616,
+        "turns": [
+          {
+            "duration_ms": 14.05082099881838,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.2754870005883276,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 4.255939998984104,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.10029599798144773,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.02796099943225272,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.025227000151062384,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.13448800018522888,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-EMPTY",
+        "repeat": 7,
+        "case_wall_ms": 25.5310680004186,
+        "turns": [
+          {
+            "duration_ms": 12.047125997924013,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.443058001517784,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.3330750007298775,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.12516100105131045,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.02682899867068045,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.022281001292867586,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.16149899965967052,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-UNKNOWN",
+        "repeat": 7,
+        "case_wall_ms": 29.472235997673124,
+        "turns": [
+          {
+            "duration_ms": 16.350893998605898,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.805527997930767,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 5.956353998044506,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.10605599891277961,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.02855200000340119,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02256199877592735,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.16646799849695526,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-CLARIFY",
+        "repeat": 7,
+        "case_wall_ms": 18.951953999930993,
+        "turns": [
+          {
+            "duration_ms": 5.32304299849784,
+            "openai_calls": 1,
+            "tool_calls": 0,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 0,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.9496749991958495,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-H",
+        "repeat": 8,
+        "case_wall_ms": 89.38068199859117,
+        "turns": [
+          {
+            "duration_ms": 75.9035010014486,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 62.007055999856675,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.427960000000894,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.3582709980255459,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.113428999815369,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.17816899708122946,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.5242179979395587,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-A",
+        "repeat": 8,
+        "case_wall_ms": 28.747315998771228,
+        "turns": [
+          {
+            "duration_ms": 16.00944299934781,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.0518840028671548,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.7733589993440546,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.2091149983461946,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.2440409991540946,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.21490700237336569,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.5436140020028688,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-B",
+        "repeat": 8,
+        "case_wall_ms": 37.85198100013076,
+        "turns": [
+          {
+            "duration_ms": 23.496046000218485,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.632067000376992,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.4825590009859297,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.854710000770865,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 2.0830510002269875,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.27531900195754133,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.9548349991964642,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-F",
+        "repeat": 8,
+        "case_wall_ms": 31.856925997999497,
+        "turns": [
+          {
+            "duration_ms": 14.511964000121225,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.095013998768991,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 4.370972001197515,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.11590499707381241,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.027810998290078714,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02272200072184205,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.19964899911428802,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-IMAGE",
+        "repeat": 8,
+        "case_wall_ms": 29.3610209992039,
+        "turns": [
+          {
+            "duration_ms": 16.219662000366952,
+            "openai_calls": 5,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.8997629995283205,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.734526998916408,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.987175000977004,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.063787000020966,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.15836300008231774,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.536131003376795,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-FOLLOW",
+        "repeat": 8,
+        "case_wall_ms": 53.22970600172994,
+        "turns": [
+          {
+            "duration_ms": 12.534898000012618,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.9175359993823804,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.7762930005555972,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.10108700007549487,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.027289999707136303,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.022691998310619965,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.13674300134880468,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 12.984229000721825,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.9917329991585575,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 4.00362300206325,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.10840100003406405,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.028191996534587815,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02343400046811439,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.1330459999735467,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 13.923185000749072,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.6311260005750228,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.5572900010738522,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.2452529990696348,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.409395998052787,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.16867200247361325,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.2969679992238525,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-STRICT",
+        "repeat": 8,
+        "case_wall_ms": 26.821706000191625,
+        "turns": [
+          {
+            "duration_ms": 13.03441100026248,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.9182270007149782,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.8255939980444964,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.10511400250834413,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.028823000320699066,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.022481999621959403,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.1403599999321159,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-EMPTY",
+        "repeat": 8,
+        "case_wall_ms": 24.440924000373343,
+        "turns": [
+          {
+            "duration_ms": 11.404396998841548,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.9139989999530371,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.4569639970432036,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.12415000310284086,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.05061400224803947,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02461600161041133,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.13789500007987954,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-UNKNOWN",
+        "repeat": 8,
+        "case_wall_ms": 30.934369999158662,
+        "turns": [
+          {
+            "duration_ms": 17.063901999790687,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.2712289974151645,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 6.890591001138091,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.11243699918850325,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.03162900247843936,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.0273709993052762,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.14031899991095997,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-CLARIFY",
+        "repeat": 8,
+        "case_wall_ms": 18.26927100046305,
+        "turns": [
+          {
+            "duration_ms": 5.5488610014435835,
+            "openai_calls": 1,
+            "tool_calls": 0,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 0,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.0732929988298565,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-H",
+        "repeat": 9,
+        "case_wall_ms": 28.13277899986133,
+        "turns": [
+          {
+            "duration_ms": 14.410155999939889,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.7652740025368985,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.4631750018452294,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.3253809993329924,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.1279860009381082,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.196102999325376,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.3964919999125414,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-A",
+        "repeat": 9,
+        "case_wall_ms": 28.160220001154812,
+        "turns": [
+          {
+            "duration_ms": 15.803832000528928,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.0639760004996788,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.1945779990346637,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.4276400033850223,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.0901460009336006,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.1719879983284045,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.3384550002228934,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-B",
+        "repeat": 9,
+        "case_wall_ms": 29.412465999484994,
+        "turns": [
+          {
+            "duration_ms": 15.857631999097066,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.948242999787908,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.1721560005971696,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.3341470003069844,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.1511189986777026,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.1706750008452218,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.2850459970650263,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-F",
+        "repeat": 9,
+        "case_wall_ms": 27.459975000965642,
+        "turns": [
+          {
+            "duration_ms": 13.462693998008035,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.8836729977920186,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.84040099743288,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.13683300130651332,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.03134799771942198,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.024305001716129482,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.17749800099409185,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-IMAGE",
+        "repeat": 9,
+        "case_wall_ms": 27.015162999305176,
+        "turns": [
+          {
+            "duration_ms": 14.405016001546755,
+            "openai_calls": 5,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.7944879982678685,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.9731590000446886,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.2145859982410911,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.0555520020716358,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.18033400192507543,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.30678599816747,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-FOLLOW",
+        "repeat": 9,
+        "case_wall_ms": 55.159693998575676,
+        "turns": [
+          {
+            "duration_ms": 12.703650001640199,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.8982100009452552,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.686126001412049,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.09715000123833306,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.02694000068004243,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.022401000023819506,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.15364399951067753,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 12.763241000357084,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.8853860019589774,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.5497239987307694,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.12421000064932741,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.030176001018844545,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.024184999347198755,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.18125499991583638,
+                "status": "success"
+              }
+            ]
+          },
+          {
+            "duration_ms": 14.799745000345865,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.6781030026322696,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.6107379997265525,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.0959470018860884,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.280437998502748,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.16994500037981197,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.5839389998291153,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-STRICT",
+        "repeat": 9,
+        "case_wall_ms": 25.845591000688728,
+        "turns": [
+          {
+            "duration_ms": 13.309850997757167,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.1590819997072686,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 3.8065289991209283,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.10876099986489862,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.029464998078765348,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02275199949508533,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.13713400039705448,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-EMPTY",
+        "repeat": 9,
+        "case_wall_ms": 23.69253899814794,
+        "turns": [
+          {
+            "duration_ms": 10.571798000455601,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.8089849982061423,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.3390960011747666,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.10054599988507107,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.03234000178053975,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02855300044757314,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.18568300220067613,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-UNKNOWN",
+        "repeat": 9,
+        "case_wall_ms": 27.295361000142293,
+        "turns": [
+          {
+            "duration_ms": 14.36227700105519,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.8496510019758716,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 5.580498997005634,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.10388200098532252,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.027150999812874943,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.023464002879336476,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.13559100261772983,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "case": "P10-CLARIFY",
+        "repeat": 9,
+        "case_wall_ms": 18.37421600066591,
+        "turns": [
+          {
+            "duration_ms": 5.006236999179237,
+            "openai_calls": 1,
+            "tool_calls": 0,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 0,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.9530819990905002,
+                "status": "success"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "embeddings": [
+    {
+      "model": "minilm",
+      "load_ms": 8534.409871997923,
+      "first_encode_ms": 58.753468998475,
+      "warm_encode": {
+        "samples": 10,
+        "p50_ms": 17.764257001545047,
+        "p95_ms": 20.747694001329364,
+        "minimum_ms": 16.075875999376876,
+        "maximum_ms": 20.747694001329364
+      },
+      "peak_rss_mib": 490.6484375,
+      "cpu_seconds": 7.634075999999999,
+      "filesystem_cache": "uncontrolled; fresh process is not a cold OS page cache"
+    },
+    {
+      "model": "clip",
+      "load_ms": 6885.673354998289,
+      "first_encode_ms": 166.34869100016658,
+      "warm_encode": {
+        "samples": 10,
+        "p50_ms": 49.43438799818978,
+        "p95_ms": 52.229617002012674,
+        "minimum_ms": 47.753058999660425,
+        "maximum_ms": 52.229617002012674
+      },
+      "peak_rss_mib": 975.53515625,
+      "cpu_seconds": 7.115746,
+      "filesystem_cache": "uncontrolled; fresh process is not a cold OS page cache"
+    }
+  ]
+}

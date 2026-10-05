@@ -248,3 +248,25 @@ reversible migration `0009_admin`. Password verification lives in
 Boundary contracts reject adapter imports into API handlers/core modules;
 integration tests check exact complete model/migration parity, rollback,
 version conflicts, cancellation and removal of retrieval rows.
+
+## Phase 10 optional telemetry boundaries
+
+`application/recommendations/tracing.py` owns the narrow metadata observation
+port and task-local context; `application/conversations/cleanup_ports.py` owns
+optional trace-erasure requests. Both are SDK-free and preserve application
+contracts. The runner receives a no-op default; stage wrappers and actual
+provider/MCP attempts emit only allowlisted operational fields.
+
+`infrastructure/telemetry` owns configuration, lazy SDK creation, OTLP
+redaction/export, local numeric score payloads, developer read-back and the
+SQLite journal of opaque trace IDs/HMAC conversation references. The journal
+is created only by an explicitly enabled lifecycle, outside PostgreSQL ORM
+registration; it is not application culinary or conversation storage.
+Composition injects adapters and keeps journal files under private mounted media.
+SDK/OTel imports stay out of agents/core packages. Fresh-import contracts and
+real SDK/fake-export tests cover these boundaries.
+
+Remote purge/read-back and synthetic score experiments are explicit scripts,
+never MCP agent capabilities or request-time network dependencies. Normal
+conversation export remains disabled until retention/purge operational gates
+are verified; see [Phase 10 evidence](../evaluation/phase10/README.md).
