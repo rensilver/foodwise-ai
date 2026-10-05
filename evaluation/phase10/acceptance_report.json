@@ -1,8 +1,8 @@
 {
-  "recorded_at": "2026-10-05T17:36:36.107837+00:00",
+  "recorded_at": "2026-10-05T17:39:29.922529+00:00",
   "mode": "offline fake boundaries, real six-agent graph",
   "revisions": {
-    "git_head": "1e59d743c9cb8d0c8b096a8f113709e5ce8b229f",
+    "git_head": "79be315584b2216344a83826dffa59a5f5797f5f",
     "labels_sha256": "74550b5bc121c88ec443ee2d5f4b1103c073b1bf4a79173a8264d093aee28a55",
     "source_hashes": {
       "data/structured_restaurant_data.json": "6d48ecf65b000cb99a6500286adaf9ba84e4e506266f8a58ac52cc6e3d696051",
@@ -17,7 +17,7 @@
       "backend/src/food_recommender/agents/nodes/rag.py": "17b4e4dc3717d0c28417c05f4f1046d2408dc92224972a19747f2dc006d96f7f",
       "backend/src/food_recommender/agents/nodes/recommendation.py": "99908cc4874556e8c2a15ae909ab056ec7b181e3d41029a764728fc9b08109fd",
       "backend/src/food_recommender/agents/nodes/style.py": "42d514528342f16a5ca8842eebb47b6e02d77078d9026d278eabba2d966f1075",
-      "backend/src/food_recommender/agents/nodes/trend.py": "3d840d4d2dea2b4dbdd7dce54b75c44425f6e1b7d695e1bb493b6c72edae95fc",
+      "backend/src/food_recommender/agents/nodes/trend.py": "b09f5c836ac75fa5d1fd4cdc348a576168be9a236ecc47e2b13e330813fad86f",
       "backend/src/food_recommender/agents/prompts.py": "199ea72c629920d130f4e9ce55a14c8a0a3d38981842435fe65c25d385ba9633",
       "backend/src/food_recommender/agents/runner.py": "0184568bed8e591fa4511a960be635437cb31d70756c9153320b591a5677503d",
       "backend/src/food_recommender/agents/state.py": "71354f511b876a2c2400cdde0c4f929e0739ac63bb70c45aa519c81e2aacddfe",
@@ -26,7 +26,7 @@
       "backend/src/food_recommender/application/recommendations/__init__.py": "9ad55f70d6f760b749bc88f5820a43b3a9925700c82ad67eead0eefa5a6b5e50",
       "backend/src/food_recommender/application/recommendations/activity.py": "ff9e60ce2c0fea6b5ec48804c91e4e9d38656de4bf6bdff80a63ce99ed6468e8",
       "backend/src/food_recommender/application/recommendations/contracts.py": "4899f4aaa0ea7af48aa8c28d4e405d076c79b0cf3c6877d740f84db0e65947fc",
-      "backend/src/food_recommender/application/recommendations/evidence_rules.py": "235aacebb21cda964420b6de7537828432ee92c751ae4d35d371569150342dc9",
+      "backend/src/food_recommender/application/recommendations/evidence_rules.py": "5a9bb6485f6695b5573cdcd090a06ae948eeb0076f9dc7b7e8e01d0653976a7f",
       "backend/src/food_recommender/application/recommendations/inference.py": "30958eb1473a464eaace70297afffe275112ada67f01538a88fb331b5096421a",
       "backend/src/food_recommender/application/recommendations/nutrition_rules.py": "a2fcb5b332e55ede7a6d76ed8d7c6c335c37ef042df71cf314eed3dd5fe172ba",
       "backend/src/food_recommender/application/recommendations/profile_rules.py": "0a996917de7a372b21128bcdf9dc77767945a2f16db39d7f532ba1c53361cc16",
@@ -89,7 +89,7 @@
             "No verified nutrient quantities or cross-contact safety evidence"
           ],
           "metrics": {
-            "duration_ms": 16.96020500094164,
+            "duration_ms": 18.593985001643887,
             "openai_calls": 5,
             "tool_calls": 2,
             "search_calls": 0,
@@ -98,32 +98,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.930589001858607,
+                "duration_ms": 2.0363830008136574,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 1.501744998677168,
+                "duration_ms": 1.5341850012191571,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 1.0253649998048786,
+                "duration_ms": 1.284824997128453,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.9590529989509378,
+                "duration_ms": 1.2125110006309114,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.21135099814273417,
+                "duration_ms": 0.3413009981159121,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 1.084675001038704,
+                "duration_ms": 1.2858259979111608,
                 "status": "success"
               }
             ]
@@ -169,7 +169,7 @@
             "No verified nutrient quantities or cross-contact safety evidence"
           ],
           "metrics": {
-            "duration_ms": 13.083430003462126,
+            "duration_ms": 14.454774998739595,
             "openai_calls": 5,
             "tool_calls": 2,
             "search_calls": 0,
@@ -178,32 +178,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.591312000527978,
+                "duration_ms": 1.6371559977415018,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 1.777575998858083,
+                "duration_ms": 2.0642050003516488,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 1.0637959967425559,
+                "duration_ms": 1.024434001010377,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.896396999451099,
+                "duration_ms": 0.9114549975492992,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.130592001369223,
+                "duration_ms": 0.1327559984929394,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 1.1364009988028556,
+                "duration_ms": 1.4247030012484174,
                 "status": "success"
               }
             ]
@@ -249,7 +249,7 @@
             "No verified nutrient quantities or cross-contact safety evidence"
           ],
           "metrics": {
-            "duration_ms": 13.053685001068516,
+            "duration_ms": 13.00079700013157,
             "openai_calls": 5,
             "tool_calls": 2,
             "search_calls": 0,
@@ -258,32 +258,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.8165670007874724,
+                "duration_ms": 1.6797539974504616,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 1.7118139985541347,
+                "duration_ms": 1.8064889991364907,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 1.0586959979264066,
+                "duration_ms": 1.0732230002759025,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.8883219998097047,
+                "duration_ms": 0.8980400016298518,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.1215150005009491,
+                "duration_ms": 0.11971099957008846,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 0.9862029983196408,
+                "duration_ms": 1.0575549968052655,
                 "status": "success"
               }
             ]
@@ -314,7 +314,7 @@
             "Insufficient eligible catalog evidence under unchanged constraints"
           ],
           "metrics": {
-            "duration_ms": 10.976286001096014,
+            "duration_ms": 10.850103000848321,
             "openai_calls": 4,
             "tool_calls": 3,
             "search_calls": 0,
@@ -323,32 +323,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.8203840008936822,
+                "duration_ms": 1.6941610010690056,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 2.673241000593407,
+                "duration_ms": 2.7678660007950384,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 0.0949850000324659,
+                "duration_ms": 0.08300400077132508,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.029614999220939353,
+                "duration_ms": 0.028823000320699066,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.02381399826845154,
+                "duration_ms": 0.02490599945303984,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 0.14441700113820843,
+                "duration_ms": 0.08253300256910734,
                 "status": "success"
               }
             ]
@@ -394,7 +394,7 @@
             "No verified nutrient quantities or cross-contact safety evidence"
           ],
           "metrics": {
-            "duration_ms": 13.343310998607194,
+            "duration_ms": 15.784361999976682,
             "openai_calls": 5,
             "tool_calls": 3,
             "search_calls": 0,
@@ -403,32 +403,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 2.0681419991888106,
+                "duration_ms": 2.052594001725083,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 1.5359290009655524,
+                "duration_ms": 2.604654000606388,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 1.0599289998936001,
+                "duration_ms": 1.3072159999865107,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.9178760010399856,
+                "duration_ms": 1.5386029990622774,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.1380849971610587,
+                "duration_ms": 0.1995289967453573,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 1.1265120010648388,
+                "duration_ms": 1.1969119987043086,
                 "status": "success"
               }
             ]
@@ -459,7 +459,7 @@
             "Insufficient eligible catalog evidence under unchanged constraints"
           ],
           "metrics": {
-            "duration_ms": 10.488894997251919,
+            "duration_ms": 10.08686199929798,
             "openai_calls": 4,
             "tool_calls": 3,
             "search_calls": 0,
@@ -468,32 +468,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.7776650020095985,
+                "duration_ms": 1.6309140009980183,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 2.6448579992575105,
+                "duration_ms": 2.651511000294704,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 0.09662899901741184,
+                "duration_ms": 0.08341400098288432,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.029333998099900782,
+                "duration_ms": 0.028733000362990424,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.03162800203426741,
+                "duration_ms": 0.022801999875809997,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 0.08721099948161282,
+                "duration_ms": 0.08195100235752761,
                 "status": "success"
               }
             ]
@@ -516,7 +516,7 @@
             "Insufficient eligible catalog evidence under unchanged constraints"
           ],
           "metrics": {
-            "duration_ms": 10.304483999789227,
+            "duration_ms": 11.576445001992397,
             "openai_calls": 4,
             "tool_calls": 3,
             "search_calls": 0,
@@ -525,32 +525,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.766555000358494,
+                "duration_ms": 1.7143689983640797,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 2.587602000858169,
+                "duration_ms": 3.840708999632625,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 0.09124899952439591,
+                "duration_ms": 0.10737900083768182,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.029563998396042734,
+                "duration_ms": 0.029023998649790883,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.023783999495208263,
+                "duration_ms": 0.02265099828946404,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 0.08393499956582673,
+                "duration_ms": 0.08064900248427875,
                 "status": "success"
               }
             ]
@@ -588,7 +588,7 @@
             "No verified nutrient quantities or cross-contact safety evidence"
           ],
           "metrics": {
-            "duration_ms": 12.686165999184595,
+            "duration_ms": 12.97225500093191,
             "openai_calls": 5,
             "tool_calls": 2,
             "search_calls": 0,
@@ -597,32 +597,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.5051020018290728,
+                "duration_ms": 1.5147890007938258,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 1.2850250022893306,
+                "duration_ms": 1.4265669997257646,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 1.0359739972045645,
+                "duration_ms": 0.9625489983591251,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 1.4027020006324165,
+                "duration_ms": 1.5666959989175666,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.1741619998938404,
+                "duration_ms": 0.18374999854131602,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 1.2782030025846325,
+                "duration_ms": 1.261752000573324,
                 "status": "success"
               }
             ]
@@ -653,7 +653,7 @@
             "Insufficient eligible catalog evidence under unchanged constraints"
           ],
           "metrics": {
-            "duration_ms": 11.410778999561444,
+            "duration_ms": 12.545616998977493,
             "openai_calls": 4,
             "tool_calls": 3,
             "search_calls": 0,
@@ -662,32 +662,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.6328179990523495,
+                "duration_ms": 1.851741999416845,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 3.714263999427203,
+                "duration_ms": 4.200712999590905,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 0.08571800208301283,
+                "duration_ms": 0.09148900062427856,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.029283997719176114,
+                "duration_ms": 0.029994997021276504,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.02345400207559578,
+                "duration_ms": 0.022872001864016056,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 0.08477599840261973,
+                "duration_ms": 0.09058700015884824,
                 "status": "success"
               }
             ]
@@ -718,7 +718,7 @@
             "Insufficient eligible catalog evidence under unchanged constraints"
           ],
           "metrics": {
-            "duration_ms": 8.550032001949148,
+            "duration_ms": 8.368335998966359,
             "openai_calls": 4,
             "tool_calls": 3,
             "search_calls": 0,
@@ -727,32 +727,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.6552489978494123,
+                "duration_ms": 1.6497489996254444,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 1.1079379983129911,
+                "duration_ms": 1.11788600042928,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 0.056644999858690426,
+                "duration_ms": 0.06277600186876953,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.02575699909357354,
+                "duration_ms": 0.0251969977398403,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.021660001948475838,
+                "duration_ms": 0.02082799983327277,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 0.08276299922727048,
+                "duration_ms": 0.0793270010035485,
                 "status": "success"
               }
             ]
@@ -783,7 +783,7 @@
             "Insufficient eligible catalog evidence under unchanged constraints"
           ],
           "metrics": {
-            "duration_ms": 14.276264999352861,
+            "duration_ms": 14.70924499881221,
             "openai_calls": 4,
             "tool_calls": 3,
             "search_calls": 0,
@@ -792,32 +792,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 2.1453949993883725,
+                "duration_ms": 2.1236549982859287,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 5.766918002336752,
+                "duration_ms": 5.889383999601705,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 0.10142699829884805,
+                "duration_ms": 0.10518499766476452,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.028753001970471814,
+                "duration_ms": 0.02876300277421251,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.023963999410625547,
+                "duration_ms": 0.023664000764256343,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 0.11134600208606571,
+                "duration_ms": 0.1705350005067885,
                 "status": "success"
               }
             ]
@@ -843,7 +843,7 @@
           "recommendations": [],
           "limitations": [],
           "metrics": {
-            "duration_ms": 4.500146998907439,
+            "duration_ms": 4.319814001064515,
             "openai_calls": 1,
             "tool_calls": 0,
             "search_calls": 0,
@@ -852,7 +852,7 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.6894220025278628,
+                "duration_ms": 1.6568319988436997,
                 "status": "success"
               }
             ]

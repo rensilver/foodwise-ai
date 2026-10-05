@@ -116,4 +116,18 @@ _UNSUPPORTED_CLAIMS = re.compile(
 
 def publishable_catalog_span(text: str) -> bool:
     """Conservative demo claim gate; this is not a general natural-language verifier."""
-    return not bool(_UNSUPPORTED_CLAIMS.search(text))
+    return not bool(_UNSUPPORTED_CLAIMS.search(text)) and not instruction_span(text)
+
+
+_INSTRUCTION_SPAN = re.compile(
+    r"\bignore\b.{0,30}\b(?:instructions?|prompts?|rules?)\b"
+    r"|\b(?:reveal|expose|print|send|read)\b.{0,50}\b(?:secret|api[ _-]?key|password|system[ _-]?prompt)\b"
+    r"|\b(?:call|execute|run|invoke)\b.{0,50}\b(?:delete[_ -]catalog|shell|sql|new[_ -]tool)\b"
+    r"|<\s*/?\s*(?:system|developer)\b",
+    re.IGNORECASE,
+)
+
+
+def instruction_span(text: str) -> bool:
+    """Reject recognizable injected instructions in published source spans."""
+    return bool(_INSTRUCTION_SPAN.search(text))

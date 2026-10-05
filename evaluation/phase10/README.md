@@ -46,3 +46,11 @@ Sparse positives are not exhaustive relevance judgments or provider-quality scor
   limitations remain replaced by deterministic text. Dated trends keep their separate
   freshness/association checks. This bounded phrase gate is not a universal semantic
   verifier; unknown culinary evidence remains unknown and no certification is claimed.
+- P10-07: 53 injection/MCP/claim/acceptance tests passed. Poisoned review,
+  caption and MCP-result citations cannot publish embedded instructions; a
+  genuinely related, dated but injected web excerpt is rejected too. A malicious
+  MCP server advertising deletion/secret-read tools gains no capability: its tool
+  bodies never execute and extra result fields fail validation. A synthetic secret
+  canary never enters inference contexts or outcomes. Runtime tool allowlists,
+  typed arguments/results and absence of catalog-write/file/shell capabilities
+  enforce authority independently of phrase detection or model obedience.
