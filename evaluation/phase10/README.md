@@ -60,3 +60,11 @@ Sparse positives are not exhaustive relevance judgments or provider-quality scor
   repair budget. Database/MCP downtime and invalid tool results produce dependency
   failure rather than no-match or fabricated fallback. Missing credentials,
   transport timeout, stale/undated trend evidence and readiness failures are covered.
+- P10-09: 17 unit/API/PostgreSQL checks passed. Concurrent owned graph threads
+  preserve different restrictions and opaque run IDs; restart keeps their histories
+  isolated. Provider concurrency stays at three, and both deadlines and cancellation
+  include the semaphore queue without dispatching cancelled work. Real PostgreSQL
+  checkpoints verify restart, owner rejection, cancellation and separate adapters
+  contending for one conversation lease. SSE disconnect/terminal persistence and
+  run deadline/exclusion checks pass. Both real MCP transports also passed (2 checks)
+  after applying migrations to the new test database.
