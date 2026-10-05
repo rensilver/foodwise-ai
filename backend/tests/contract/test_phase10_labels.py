@@ -39,3 +39,24 @@ def test_personas_and_source_evidence():
                 "abstention",
                 "clarification",
             }
+
+
+def test_required_edge_cases_are_frozen():
+    labels = load_labels()
+    tags = {tag for case in labels["cases"] for tag in case.get("tags", [])}
+    assert {
+        "image",
+        "follow-up",
+        "correction",
+        "restrictive",
+        "no-match",
+        "missing-dietary-evidence",
+        "clarification",
+    } <= tags
+    manifest = json.loads(
+        (ROOT / "evaluation/phase0/recipe_media_manifest.json").read_text()
+    )
+    images = {str(row["recipe_id"]) for row in manifest["rows"]}
+    for case in labels["cases"]:
+        if "image_recipe_id" in case:
+            assert case["image_recipe_id"] in images

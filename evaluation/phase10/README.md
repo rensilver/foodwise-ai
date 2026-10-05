@@ -14,3 +14,7 @@ Sparse positives are not exhaustive relevance judgments or provider-quality scor
 
 - P10-01: source/persona contract passed (1 test); hashes and excerpts checked
   against unchanged original JSON. Added the contract before fixtures (red/green).
+- P10-02: 12 label/graph tests passed. Eleven cases (13 turns) cover image
+  routing, retained restrictions, explicit removal, strict vegan conflict,
+  unknown restaurant allergy compliance, empty results and contradictory diets.
+  Image routing uses fake media; real CLIP measurement is separate.

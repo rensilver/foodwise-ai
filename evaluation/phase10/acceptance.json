@@ -162,6 +162,296 @@
           "expected": "abstention"
         }
       ]
+    },
+    {
+      "id": "P10-IMAGE",
+      "persona": "health-conscious",
+      "candidate_ids": {
+        "recipe": [
+          "3"
+        ]
+      },
+      "relevant": {
+        "recipe": [
+          "3"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "data/Recipes.json",
+          "category": "recipe",
+          "record_id": "3",
+          "excerpt": "Vegetable Stir-Fry with Tofu"
+        }
+      ],
+      "turns": [
+        {
+          "request": {
+            "message": "Find recipes similar to this tofu dish.",
+            "categories": [
+              "recipe"
+            ],
+            "explicit": {},
+            "media_id": "fixture:recipe3"
+          },
+          "profile_patch": {},
+          "expected": "recommendations"
+        }
+      ],
+      "tags": [
+        "image"
+      ],
+      "image_recipe_id": "3"
+    },
+    {
+      "id": "P10-FOLLOW",
+      "persona": "family-with-allergies",
+      "candidate_ids": {
+        "recipe": [
+          "1"
+        ]
+      },
+      "relevant": {
+        "recipe": []
+      },
+      "evidence": [
+        {
+          "file": "data/Recipes.json",
+          "category": "recipe",
+          "record_id": "1",
+          "excerpt": "Classic Margherita Pizza"
+        }
+      ],
+      "turns": [
+        {
+          "request": {
+            "message": "Pizza for a family with a milk allergy.",
+            "categories": [
+              "recipe"
+            ],
+            "explicit": {
+              "constraints": [
+                {
+                  "kind": "allergen",
+                  "value": "milk",
+                  "strength": "hard",
+                  "origin": "explicit"
+                }
+              ]
+            }
+          },
+          "profile_patch": {},
+          "expected": "abstention"
+        },
+        {
+          "request": {
+            "message": "Now try Italian recipes."
+          },
+          "profile_patch": {
+            "cuisines": [
+              "Italian"
+            ]
+          },
+          "expected": "abstention"
+        },
+        {
+          "request": {
+            "message": "Correction: remove the milk restriction.",
+            "explicit": {
+              "remove_constraints": [
+                {
+                  "kind": "allergen",
+                  "value": "milk"
+                }
+              ]
+            }
+          },
+          "profile_patch": {},
+          "expected": "recommendations"
+        }
+      ],
+      "tags": [
+        "follow-up",
+        "correction"
+      ]
+    },
+    {
+      "id": "P10-STRICT",
+      "persona": "family-with-allergies",
+      "candidate_ids": {
+        "recipe": [
+          "1"
+        ]
+      },
+      "relevant": {
+        "recipe": []
+      },
+      "evidence": [
+        {
+          "file": "data/Recipes.json",
+          "category": "recipe",
+          "record_id": "1",
+          "excerpt": "Classic Margherita Pizza"
+        }
+      ],
+      "turns": [
+        {
+          "request": {
+            "message": "Pizza for a family with a milk allergy.",
+            "categories": [
+              "recipe"
+            ],
+            "explicit": {
+              "constraints": [
+                {
+                  "kind": "dietary",
+                  "value": "vegan",
+                  "strength": "hard",
+                  "origin": "explicit"
+                }
+              ]
+            }
+          },
+          "profile_patch": {},
+          "expected": "abstention"
+        }
+      ],
+      "tags": [
+        "restrictive"
+      ]
+    },
+    {
+      "id": "P10-EMPTY",
+      "persona": "budget-conscious",
+      "candidate_ids": {
+        "restaurant": []
+      },
+      "relevant": {
+        "restaurant": []
+      },
+      "evidence": [
+        {
+          "file": "data/structured_restaurant_data.json",
+          "category": "restaurant",
+          "record_id": "1000002",
+          "excerpt": "Mar de Cortez"
+        }
+      ],
+      "turns": [
+        {
+          "request": {
+            "message": "Baja seafood in Santa Monica, price band 1.",
+            "categories": [
+              "restaurant"
+            ],
+            "explicit": {
+              "location": "No such catalog locality",
+              "price_band": 1
+            }
+          },
+          "profile_patch": {},
+          "expected": "abstention"
+        }
+      ],
+      "tags": [
+        "no-match"
+      ]
+    },
+    {
+      "id": "P10-UNKNOWN",
+      "persona": "adventurous",
+      "candidate_ids": {
+        "restaurant": [
+          "1000008"
+        ]
+      },
+      "relevant": {
+        "restaurant": []
+      },
+      "evidence": [
+        {
+          "file": "data/structured_restaurant_data.json",
+          "category": "restaurant",
+          "record_id": "1000008",
+          "excerpt": "The Neon Noodle Bar"
+        }
+      ],
+      "turns": [
+        {
+          "request": {
+            "message": "Try Sichuan street food and numbing Dan Dan noodles.",
+            "categories": [
+              "restaurant"
+            ],
+            "explicit": {
+              "constraints": [
+                {
+                  "kind": "allergen",
+                  "value": "peanut",
+                  "strength": "hard",
+                  "origin": "explicit"
+                }
+              ]
+            }
+          },
+          "profile_patch": {},
+          "expected": "abstention"
+        }
+      ],
+      "tags": [
+        "missing-dietary-evidence"
+      ]
+    },
+    {
+      "id": "P10-CLARIFY",
+      "persona": "health-conscious",
+      "candidate_ids": {
+        "recipe": [
+          "3"
+        ]
+      },
+      "relevant": {
+        "recipe": []
+      },
+      "evidence": [
+        {
+          "file": "data/Recipes.json",
+          "category": "recipe",
+          "record_id": "3",
+          "excerpt": "Vegetable Stir-Fry with Tofu"
+        }
+      ],
+      "turns": [
+        {
+          "request": {
+            "message": "I prefer more plant-based meals. Find tofu vegetable stir fry.",
+            "categories": [
+              "recipe"
+            ],
+            "explicit": {
+              "constraints": [
+                {
+                  "kind": "dietary",
+                  "value": "vegan",
+                  "strength": "hard",
+                  "origin": "explicit"
+                },
+                {
+                  "kind": "dietary",
+                  "value": "carnivore",
+                  "strength": "hard",
+                  "origin": "explicit"
+                }
+              ]
+            }
+          },
+          "profile_patch": {},
+          "expected": "clarification"
+        }
+      ],
+      "tags": [
+        "clarification"
+      ]
     }
   ]
 }

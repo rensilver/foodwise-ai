@@ -635,7 +635,7 @@ Historical planning verification: 122 local document links resolved, Markdown fe
 **Verification:** automated acceptance suite, labeled retrieval evaluation and recorded local performance runs.
 
 - [x] P10-01 Build source-backed evaluation fixtures for the four PDF personas: health-conscious, adventurous, budget-conscious and family with allergies.
-- [ ] P10-02 Add text/image queries, follow-up corrections, restrictive/no-match cases, missing dietary evidence, and expected abstention/clarification outcomes.
+- [x] P10-02 Add text/image queries, follow-up corrections, restrictive/no-match cases, missing dietary evidence, and expected abstention/clarification outcomes.
 - [ ] P10-03 Label relevant entity IDs and supporting source evidence; record dataset, model, prompt and embedding revisions with reports.
 - [ ] P10-04 Measure Recall@20, nDCG@5 and diversity; compare text, multimodal and fusion settings against the initial baseline before selecting tuned defaults.
 - [ ] P10-05 Require zero fabricated recommendation/citation IDs and zero hard-constraint violations in deterministic acceptance fixtures.
