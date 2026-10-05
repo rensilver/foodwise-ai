@@ -19,6 +19,10 @@ from pydantic import SecretStr
 
 from food_recommender.application.recommendations.inference import InferenceError
 from food_recommender.application.recommendations.reliability import current_budget
+from food_recommender.application.recommendations.tracing import (
+    current_attempt,
+    current_tracing,
+)
 
 
 class OpenAIStructuredInference:
@@ -89,70 +93,88 @@ class OpenAIStructuredInference:
             raise InferenceError(schema_error=True) from None
 
     async def _request(self, body: dict[str, Any]) -> dict[str, Any]:
-        started = perf_counter()
         async with self.semaphore:
-            try:
-                response = await self.client.post(
-                    "https://api.openai.com/v1/chat/completions",
-                    headers={
-                        "Authorization": f"Bearer {self.api_key.get_secret_value()}"
-                    },
-                    json={
-                        "model": self.model,
-                        "stream": False,
-                        "store": False,
-                        "max_completion_tokens": 4096,
-                        **body,
-                    },
-                    timeout=30,
-                )
-            except (httpx.TimeoutException, httpx.TransportError):
-                raise InferenceError(retryable=True) from None
-            if response.is_error:
-                value = response.headers.get("Retry-After", "0")
-                try:
-                    retry_after = float(value)
-                except ValueError:
-                    try:
-                        retry_after = (
-                            parsedate_to_datetime(value) - self.clock()
-                        ).total_seconds()
-                    except (ValueError, TypeError):
-                        retry_after = 0.0
-                retry_after = max(0.0, min(retry_after, 120.0))
-                raise InferenceError(
-                    retryable=response.status_code == 429
-                    or response.status_code >= 500,
-                    retry_after=retry_after,
-                    schema_error=response.status_code == 400,
-                )
-            try:
-                payload = response.json()
-                if not isinstance(payload, dict):
-                    raise ValueError
-            except (ValueError, TypeError):
-                raise InferenceError(schema_error=True) from None
-            usage = payload.get("usage") or {}
-            if not isinstance(usage, dict):
-                raise InferenceError(schema_error=True)
-            budget = current_budget.get()
-            if budget and type(usage.get("total_tokens")) is int:
-                budget.token_usage += usage["total_tokens"]
-            if len(self.usage) >= 1024:
-                self.usage.pop(0)
-            self.usage.append(
-                {
-                    "model": self.model,
-                    "elapsed_ms": (perf_counter() - started) * 1000,
+            with current_tracing.get().observe(
+                "request-structured-response", "generation"
+            ) as observation:
+                observation.update(model=self.model, attempt=current_attempt.get())
+                result = await self._request_untraced(body)
+                usage = result.get("usage", {})
+                observation.update(
                     **{
-                        key: value
-                        for key, value in usage.items()
-                        if key in {"prompt_tokens", "completion_tokens", "total_tokens"}
-                        and type(value) is int
+                        target: usage[source]
+                        for source, target in (
+                            ("prompt_tokens", "input_tokens"),
+                            ("completion_tokens", "output_tokens"),
+                            ("total_tokens", "total_tokens"),
+                        )
+                        if type(usage.get(source)) is int
                     },
-                }
+                    outcome="success",
+                )
+                return result
+
+    async def _request_untraced(self, body: dict[str, Any]) -> dict[str, Any]:
+        started = perf_counter()
+        try:
+            response = await self.client.post(
+                "https://api.openai.com/v1/chat/completions",
+                headers={"Authorization": f"Bearer {self.api_key.get_secret_value()}"},
+                json={
+                    "model": self.model,
+                    "stream": False,
+                    "store": False,
+                    "max_completion_tokens": 4096,
+                    **body,
+                },
+                timeout=30,
             )
-            return payload
+        except (httpx.TimeoutException, httpx.TransportError):
+            raise InferenceError(retryable=True) from None
+        if response.is_error:
+            value = response.headers.get("Retry-After", "0")
+            try:
+                retry_after = float(value)
+            except ValueError:
+                try:
+                    retry_after = (
+                        parsedate_to_datetime(value) - self.clock()
+                    ).total_seconds()
+                except (ValueError, TypeError):
+                    retry_after = 0.0
+            retry_after = max(0.0, min(retry_after, 120.0))
+            raise InferenceError(
+                retryable=response.status_code == 429 or response.status_code >= 500,
+                retry_after=retry_after,
+                schema_error=response.status_code == 400,
+            )
+        try:
+            payload = response.json()
+            if not isinstance(payload, dict):
+                raise ValueError
+        except (ValueError, TypeError):
+            raise InferenceError(schema_error=True) from None
+        usage = payload.get("usage") or {}
+        if not isinstance(usage, dict):
+            raise InferenceError(schema_error=True)
+        budget = current_budget.get()
+        if budget and type(usage.get("total_tokens")) is int:
+            budget.token_usage += usage["total_tokens"]
+        if len(self.usage) >= 1024:
+            self.usage.pop(0)
+        self.usage.append(
+            {
+                "model": self.model,
+                "elapsed_ms": (perf_counter() - started) * 1000,
+                **{
+                    key: value
+                    for key, value in usage.items()
+                    if key in {"prompt_tokens", "completion_tokens", "total_tokens"}
+                    and type(value) is int
+                },
+            }
+        )
+        return payload
 
     async def select_tools(
         self, messages: list[dict[str, str]], schemas: dict[str, dict[str, Any]]
@@ -178,7 +200,10 @@ class OpenAIStructuredInference:
             message = choice["message"]
             if message.get("refusal") or choice.get(
                 "finish_reason", "tool_calls"
-            ) not in {"stop", "tool_calls"}:
+            ) not in {
+                "stop",
+                "tool_calls",
+            }:
                 raise ValueError
             calls = message.get("tool_calls", [])
             if not isinstance(calls, list) or len(calls) > 6:

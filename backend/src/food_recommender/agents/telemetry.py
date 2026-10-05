@@ -9,13 +9,14 @@ from uuid import UUID
 from food_recommender.agents.state import GraphState
 from food_recommender.application.recommendations.activity import observer
 from food_recommender.application.recommendations.reliability import current_budget
+from food_recommender.application.recommendations.tracing import current_tracing
 from food_recommender.domain.values import AgentRole
 
 
 def timed_node(
     stage: str, function: Callable[[GraphState], Awaitable[dict[str, Any]]]
 ) -> Callable[[GraphState], Awaitable[dict[str, Any]]]:
-    async def invoke(state: GraphState) -> dict[str, Any]:
+    async def invoke_untraced(state: GraphState) -> dict[str, Any]:
         started = time.monotonic()
         roles = dict(
             zip(
@@ -86,5 +87,27 @@ def timed_node(
                 },
             )
         return updates
+
+    async def invoke(state: GraphState) -> dict[str, Any]:
+        names = {
+            "profile": "build-profile",
+            "retrieval": "retrieve-candidates",
+            "trend": "analyze-trends",
+            "style": "analyze-style",
+            "nutrition": "assess-nutrition",
+            "recommendation": "synthesize-recommendations",
+        }
+        with current_tracing.get().observe(names[stage], "agent") as observation:
+            updates = await invoke_untraced(state)
+            outcome = (
+                updates.get(
+                    {"profile": "profile_outcome", "recommendation": "final"}.get(
+                        stage, stage
+                    )
+                )
+                or {}
+            ).get("status", "success")
+            observation.update(outcome=outcome)
+            return updates
 
     return invoke

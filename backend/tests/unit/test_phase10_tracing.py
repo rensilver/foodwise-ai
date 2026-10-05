@@ -2,6 +2,8 @@
 
 from uuid import uuid4
 
+import pytest
+
 from food_recommender.infrastructure.telemetry.config import TelemetrySettings
 from food_recommender.infrastructure.telemetry.langfuse import LazyTracing
 
@@ -96,4 +98,155 @@ def test_real_sdk_export_rebuilds_metadata_and_discards_events():
     assert all(not s.events and not s.resource.attributes for s in capture.spans)
     parsed = ExportTraceServiceRequest.FromString(data)
     assert len(parsed.resource_spans) == 1
+    tracing.client.shutdown()
+
+
+async def capture_graph(case, tracing):
+    from scripts.phase10_acceptance import (
+        FixtureInference,
+        FixtureTools,
+        OwnedLeases,
+        fixture_runner,
+    )
+
+    from food_recommender.application.recommendations.workflow import TurnRequest
+
+    owner, conversation = uuid4(), uuid4()
+    provider, tools = FixtureInference(), FixtureTools(case)
+    runner = fixture_runner(provider, tools, OwnedLeases({conversation: owner}))
+    runner.tracing = tracing
+    states = []
+    for turn in case["turns"]:
+        provider.patch = turn["profile_patch"]
+        states.append(
+            await runner.run(
+                owner, conversation, TurnRequest.model_validate(turn["request"])
+            )
+        )
+    return states
+
+
+@pytest.mark.asyncio
+async def test_parallel_graph_stages_have_one_root_and_no_duplicate_synthesis():
+    from opentelemetry.sdk.trace.export import SpanExportResult
+    from scripts.phase10_acceptance import load_labels
+
+    from food_recommender.infrastructure.telemetry.langfuse import sdk_factory
+
+    class Capture:
+        spans = []
+
+        def export(self, spans):
+            self.spans.extend(spans)
+            return SpanExportResult.SUCCESS
+
+        def shutdown(self):
+            pass
+
+    capture = Capture()
+    settings = enabled_settings().model_copy(
+        update={"public_key": __import__("pydantic").SecretStr(uuid4().hex)}
+    )
+    tracing = LazyTracing(
+        settings, factory=lambda settings: sdk_factory(settings, capture)
+    )
+    states = await capture_graph(load_labels()["cases"][0], tracing)
+    tracing.client.flush()
+    assert states[0]["final"]["status"] == "success"
+    roots = [span for span in capture.spans if span.name == "recommend-food"]
+    assert len(roots) == 1
+    agents = [
+        span
+        for span in capture.spans
+        if span.attributes["langfuse.observation.type"] == "agent"
+    ]
+    assert len(agents) == 6
+    assert all(span.parent.span_id == roots[0].context.span_id for span in agents)
+    assert (
+        len([span for span in agents if span.name == "synthesize-recommendations"]) == 1
+    )
+    assert all(span.attributes.get("session.id") for span in capture.spans)
+    tracing.client.shutdown()
+
+
+@pytest.mark.asyncio
+async def test_actual_openai_attempts_have_individual_usage_and_retry_parentage():
+    import httpx
+    from opentelemetry.sdk.trace.export import SpanExportResult
+    from pydantic import SecretStr
+
+    from food_recommender.application.recommendations.reliability import (
+        BudgetedInference,
+    )
+    from food_recommender.infrastructure.providers.openai import (
+        OpenAIStructuredInference,
+    )
+    from food_recommender.infrastructure.telemetry.langfuse import sdk_factory
+
+    class Capture:
+        spans = []
+
+        def export(self, spans):
+            self.spans.extend(spans)
+            return SpanExportResult.SUCCESS
+
+        def shutdown(self):
+            pass
+
+    capture = Capture()
+    count = 0
+
+    def respond(request):
+        nonlocal count
+        count += 1
+        if count == 1:
+            return httpx.Response(429, headers={"Retry-After": "0"})
+        return httpx.Response(
+            200,
+            json={
+                "choices": [{"message": {"content": "{}"}, "finish_reason": "stop"}],
+                "usage": {
+                    "prompt_tokens": 7,
+                    "completion_tokens": 3,
+                    "total_tokens": 10,
+                },
+            },
+        )
+
+    tracing = LazyTracing(
+        enabled_settings().model_copy(update={"public_key": SecretStr(uuid4().hex)}),
+        factory=lambda settings: sdk_factory(settings, capture),
+    )
+    async with httpx.AsyncClient(transport=httpx.MockTransport(respond)) as client:
+        provider = BudgetedInference(
+            OpenAIStructuredInference(client, SecretStr("PRIVATE_KEY"), "gpt-4o-mini"),
+            sleep=lambda seconds: __import__("asyncio").sleep(0),
+            jitter=lambda: 0,
+        )
+        with tracing.run(uuid4(), uuid4()):
+            with tracing.observe("build-profile", "agent"):
+                assert (
+                    await provider.generate(
+                        [{"role": "user", "content": "PRIVATE_PROMPT"}], {}
+                    )
+                    == "{}"
+                )
+    tracing.client.flush()
+    generations = [s for s in capture.spans if s.name == "request-structured-response"]
+    assert len(generations) == 2 == count
+    assert {
+        s.attributes["langfuse.observation.metadata.attempt"] for s in generations
+    } == {1, 2}
+    used = [
+        s for s in generations if "langfuse.observation.usage_details" in s.attributes
+    ]
+    assert len(used) == 1
+    assert __import__("json").loads(
+        used[0].attributes["langfuse.observation.usage_details"]
+    ) == {"input": 7, "output": 3, "total": 10}
+    assert all(
+        s.parent.span_id
+        == next(s for s in capture.spans if s.name == "build-profile").context.span_id
+        for s in generations
+    )
     tracing.client.shutdown()

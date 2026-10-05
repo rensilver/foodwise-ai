@@ -18,6 +18,7 @@ from food_recommender.application.recommendations.reliability import (
     RunLimits,
     current_budget,
 )
+from food_recommender.application.recommendations.tracing import NoopTracing, Tracing
 from food_recommender.application.recommendations.workflow import TurnRequest
 
 
@@ -35,9 +36,11 @@ class GraphRunner:
         *,
         new_id: Callable[[], UUID] = uuid4,
         limits: RunLimits = RunLimits(),
+        tracing: Tracing | None = None,
     ) -> None:
         self.graph, self.runs, self.new_id = graph, runs, new_id
         self.limits = limits
+        self.tracing = tracing or NoopTracing()
         self.active: dict[UUID, ActiveRun] = {}
 
     async def run(
@@ -70,6 +73,8 @@ class GraphRunner:
                 budget = RunBudget(self.limits)
                 token = current_budget.set(budget)
                 run_id = run_id or self.new_id()
+                trace_context = self.tracing.run(run_id, conversation_id)
+                observation = trace_context.__enter__()
                 try:
                     async with asyncio.timeout(budget.remaining()):
                         result = await self.graph.ainvoke(
@@ -84,6 +89,13 @@ class GraphRunner:
                             },
                             config,
                         )
+                    observation.update(
+                        outcome="clarification"
+                        if result.get("profile", {}).get("clarification")
+                        else "failure"
+                        if (result.get("final") or {}).get("status") == "failure"
+                        else "success"
+                    )
                     updates = {"lifecycle": "completed", "metrics": budget.summary()}
                     await self.graph.aupdate_state(
                         config, updates, as_node="recommendation"
@@ -98,6 +110,7 @@ class GraphRunner:
                     )
                     return {**dict(result), **updates}
                 except TimeoutError:
+                    observation.update(outcome="exhausted")
                     updates = {
                         "lifecycle": "exhausted",
                         "metrics": budget.summary(),
@@ -121,6 +134,7 @@ class GraphRunner:
                     saved = await self.graph.aget_state(config)
                     return dict(saved.values)
                 except asyncio.CancelledError:
+                    observation.update(outcome="cancelled")
                     await self.graph.aupdate_state(
                         config,
                         {
@@ -135,7 +149,11 @@ class GraphRunner:
                         as_node="recommendation",
                     )
                     raise
+                except Exception:
+                    observation.update(outcome="failure")
+                    raise
                 finally:
+                    trace_context.__exit__(None, None, None)
                     current_budget.reset(token)
         finally:
             self.active.pop(conversation_id, None)

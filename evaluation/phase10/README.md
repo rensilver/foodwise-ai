@@ -183,3 +183,25 @@ cannot occupy the asyncio default executor during process exit.
 SDK OTLP with fake export and injected private input/output/metadata/events.
 Mypy passed (169 source files); OpenAPI remains unchanged. SDK internals still
 start background managers when enabled; overhead is measured in P10-19.
+
+## P10-16 — Executed observation hierarchy
+
+One `recommend-food` chain covers each accepted traced graph turn; the six
+executed roles emit sibling agent observations. Clarifications only create
+executed stages. OpenAI generation observations wrap each actual HTTP attempt
+after semaphore acquisition; successful responses supply their own usage and
+failed attempts leave usage unknown. Retry ordinals are task-local. MCP tool/
+retriever observations cover each backend gateway attempt, without remote
+server spans or extra tool arguments. No LangChain callbacks duplicate scopes.
+
+Opaque run IDs map to 32-character trace IDs; keyed HMAC conversation grouping
+is propagated with environment and implementation revisions through the SDK
+v4 attribute context. Raw session/thread/ownership identifiers are excluded.
+Results, requests, prompts and graph state never enter observation creation.
+Explicit outcomes cover failure, exhaustion, clarification and cancellation.
+
+61 trace-tree/retry/usage/agent/acceptance/boundary tests passed, following the
+initial missing-root red failure. A real SDK with fake OTLP export verifies
+six sibling stages, one synthesis, propagated opaque session and two generation
+observations for one 429 followed by success, with usage recorded once. Mypy
+passed. Cloud read-back and expanded concurrency/privacy checks are P10-17.

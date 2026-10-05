@@ -17,6 +17,7 @@ from food_recommender.agents.nodes.rag import RAGRetriever
 from food_recommender.agents.nodes.recommendation import RecommendationExpert
 from food_recommender.agents.nodes.style import FoodStyleExpert
 from food_recommender.agents.nodes.trend import FoodTrendAnalyst
+from food_recommender.agents.prompts import PROMPT_VERSION
 from food_recommender.agents.runner import GraphRunner
 from food_recommender.application.auth.service import AdminService
 from food_recommender.application.catalog.admin import AdminCatalogService
@@ -75,6 +76,10 @@ from food_recommender.ingestion.extraction import (
     RestaurantFields,
 )
 from food_recommender.mcp.client import AgentMCP, configured_client
+from food_recommender.retrieval.embedding_contracts import (
+    CLIP_REVISION,
+    MINILM_REVISION,
+)
 from food_recommender.retrieval.image_service import ImageRetrieval
 from food_recommender.retrieval.multimodal import MultimodalRetrieval
 from food_recommender.retrieval.ports import ImageEncoder, TextEncoder
@@ -120,7 +125,14 @@ def build_backend_services(
     inference = OpenAIStructuredInference(
         http, settings.openai_api_key, settings.openai_model
     )
-    tracing = LazyTracing(telemetry_settings or TelemetrySettings())
+    tracing = LazyTracing(
+        telemetry_settings or TelemetrySettings(),
+        revisions={
+            "prompt_revision": PROMPT_VERSION,
+            "embedding_revision": MINILM_REVISION + "-" + CLIP_REVISION,
+            "dataset_revision": "catalog-ingestion-v1",
+        },
+    )
     workflow = PersistedWorkflow(settings, inference, runs, tracing=tracing)
     catalog = CatalogService(transactions, cleanup)
     browse = BrowseService(transactions)
@@ -286,7 +298,16 @@ class PersistedWorkflow:
                     NutritionExpert(self.inference),
                     RecommendationExpert(self.inference),
                 )
-                runner = GraphRunner(build_graph(roles, checkpointer=saver), self.runs)
+                if (
+                    self.tracing.settings.enabled
+                    and self.tracing.settings.conversation_export_verified
+                ):
+                    await asyncio.to_thread(self.tracing.initialize)
+                runner = GraphRunner(
+                    build_graph(roles, checkpointer=saver),
+                    self.runs,
+                    tracing=self.tracing,
+                )
                 token = observer.set(progress)
                 try:
                     return await runner.run(

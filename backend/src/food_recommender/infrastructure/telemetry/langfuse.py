@@ -38,7 +38,21 @@ class SafeObservation:
             if k in COUNTERS or k == "outcome" and v in OUTCOMES
         }
         try:
-            self.span.update(metadata=metadata)
+            extra: dict[str, Any] = {}
+            if isinstance(measurements.get("model"), str):
+                extra["model"] = measurements["model"]
+            usage = {
+                target: measurements[source]
+                for source, target in (
+                    ("input_tokens", "input"),
+                    ("output_tokens", "output"),
+                    ("total_tokens", "total"),
+                )
+                if isinstance(measurements.get(source), int)
+            }
+            if usage:
+                extra["usage_details"] = usage
+            self.span.update(metadata=metadata, **extra)
         except Exception:
             diagnostic()
 
@@ -114,9 +128,14 @@ def sdk_factory(settings: TelemetrySettings, exporter: Any = None) -> Any:
 
 class LazyTracing:
     def __init__(
-        self, settings: TelemetrySettings, *, factory: Callable[..., Any] = sdk_factory
+        self,
+        settings: TelemetrySettings,
+        *,
+        factory: Callable[..., Any] = sdk_factory,
+        revisions: dict[str, str] | None = None,
     ) -> None:
         self.settings, self.factory = settings, factory
+        self.revisions = revisions or {}
         self.client: Any = None
         self.attempted = False
 
@@ -152,7 +171,11 @@ class LazyTracing:
             context = propagate_attributes(
                 session_id=session,
                 environment=self.settings.environment,
-                metadata={"run_id": str(run), "revision": self.settings.revision},
+                metadata={
+                    "run_id": str(run),
+                    "revision": self.settings.revision,
+                    **self.revisions,
+                },
             )
             context.__enter__()
         except Exception:
@@ -165,7 +188,10 @@ class LazyTracing:
                 yield observation
         finally:
             current_tracing.reset(token)
-            context.__exit__(None, None, None)
+            try:
+                context.__exit__(None, None, None)
+            except Exception:
+                diagnostic()
 
     @contextmanager
     def observe(self, name: str, kind: str) -> Iterator[Observation]:

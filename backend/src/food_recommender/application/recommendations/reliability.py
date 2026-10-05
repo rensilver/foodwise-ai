@@ -12,6 +12,10 @@ from food_recommender.application.recommendations.inference import (
     Inference,
     InferenceError,
 )
+from food_recommender.application.recommendations.tracing import (
+    current_attempt,
+    current_tracing,
+)
 from food_recommender.application.recommendations.workflow import (
     ToolGateway,
     ToolTransportError,
@@ -119,9 +123,13 @@ class BudgetedInference:
                         async with self.semaphore:
                             if budget:
                                 budget.openai_calls += 1
-                            return await self.inference.generate(
-                                messages, schema, image=image
-                            )
+                            attempt_token = current_attempt.set(attempt + 1)
+                            try:
+                                return await self.inference.generate(
+                                    messages, schema, image=image
+                                )
+                            finally:
+                                current_attempt.reset(attempt_token)
                     except InferenceError as error:
                         if (
                             not error.retryable
@@ -158,7 +166,24 @@ class BudgetedTools:
                     budget.remaining()
                     budget.tool_calls += 1
                 try:
-                    result = await self.tools.call(name, arguments)
+                    with current_tracing.get().observe(
+                        name,
+                        "retriever"
+                        if name
+                        in {
+                            "search_restaurants",
+                            "search_recipes",
+                            "search_images",
+                            "recommend_by_vibe",
+                        }
+                        else "tool",
+                    ) as observation:
+                        observation.update(attempt=attempt + 1)
+                        result = await self.tools.call(name, arguments)
+                        observation.update(
+                            outcome="success",
+                            search_calls=getattr(result, "search_calls", 0),
+                        )
                     if budget and name == "search_food_trends":
                         budget.search_calls += getattr(result, "search_calls", 0)
                     return result

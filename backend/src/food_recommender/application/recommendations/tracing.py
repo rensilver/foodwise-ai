@@ -36,3 +36,5 @@ class NoopTracing:
 current_tracing: ContextVar[Tracing] = ContextVar(
     "foodwise_tracing", default=NoopTracing()
 )
+
+current_attempt: ContextVar[int] = ContextVar("foodwise_request_attempt", default=1)
