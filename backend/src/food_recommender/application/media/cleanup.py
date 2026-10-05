@@ -4,7 +4,8 @@ from collections.abc import Callable
 from dataclasses import dataclass
 
 from food_recommender.application.errors import ApplicationError
-from food_recommender.application.ports import MediaFiles, UnitOfWork
+from food_recommender.application.media.cleanup_ports import MediaFiles
+from food_recommender.application.unit_of_work import UnitOfWork
 
 
 @dataclass(frozen=True)

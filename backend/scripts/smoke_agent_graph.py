@@ -17,7 +17,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker
 
 from food_recommender.agents.graph import build_graph
 from food_recommender.agents.runner import GraphRunner
-from food_recommender.application.workflow import TurnRequest
+from food_recommender.application.recommendations.workflow import TurnRequest
 from food_recommender.composition import build_workflow_roles
 from food_recommender.infrastructure.mcp_config import MCPSettings
 from food_recommender.infrastructure.observability import configure_logging

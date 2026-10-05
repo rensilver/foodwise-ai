@@ -9,10 +9,10 @@ from sqlalchemy import insert, select, text
 from test_repositories import bundle
 from test_repositories import repositories as repositories
 
-from food_recommender.application.catalog import CatalogService
-from food_recommender.application.conversations import ConversationService
+from food_recommender.application.catalog.service import CatalogService
+from food_recommender.application.conversations.service import ConversationService
 from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.application.media_cleanup import MediaCleanupService
+from food_recommender.application.media.cleanup import MediaCleanupService
 from food_recommender.domain.preferences import Preferences
 from food_recommender.infrastructure.media.files import LocalMediaFiles
 from food_recommender.infrastructure.persistence.checkpoints import (

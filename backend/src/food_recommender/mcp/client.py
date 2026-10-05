@@ -10,14 +10,14 @@ from jsonschema import Draft202012Validator  # type: ignore[import-untyped]
 from jsonschema import ValidationError as SchemaError
 from pydantic import BaseModel, TypeAdapter, ValidationError
 
-from food_recommender.application.contracts import multimodal_adapter
-from food_recommender.application.lookups import (
+from food_recommender.application.catalog.lookups import (
     LookupResult,
     RestaurantMatch,
     ReviewMatch,
 )
-from food_recommender.application.trends import TrendRequest, TrendResult
-from food_recommender.application.workflow import ToolTransportError
+from food_recommender.application.recommendations.contracts import multimodal_adapter
+from food_recommender.application.recommendations.workflow import ToolTransportError
+from food_recommender.application.trends.service import TrendRequest, TrendResult
 from food_recommender.infrastructure.config import Settings
 from food_recommender.mcp.schemas import ImageRequest, SearchRequest
 

@@ -7,7 +7,7 @@ from anyio import CancelScope
 from fastapi.responses import StreamingResponse
 from starlette.types import Receive, Scope, Send
 
-from food_recommender.application.contracts import event_adapter
+from food_recommender.application.recommendations.contracts import event_adapter
 from food_recommender.domain.events import ProgressEvents
 
 

@@ -9,11 +9,11 @@ from test_api_conversations import api  # noqa: F401
 from test_repositories import repositories  # noqa: F401
 from test_text_index import Encoder
 
-from food_recommender.application.admin import AdminService
-from food_recommender.application.admin_catalog import AdminCatalogService
-from food_recommender.application.browse import BrowseService
-from food_recommender.application.catalog import CatalogService
-from food_recommender.application.catalog_preparation import CatalogPreparation
+from food_recommender.application.auth.service import AdminService
+from food_recommender.application.catalog.admin import AdminCatalogService
+from food_recommender.application.catalog.browse import BrowseService
+from food_recommender.application.catalog.preparation import CatalogPreparation
+from food_recommender.application.catalog.service import CatalogService
 from food_recommender.infrastructure.persistence.unit_of_work import PostgresUnitOfWork
 from food_recommender.ingestion.extraction import ExtractionResult
 

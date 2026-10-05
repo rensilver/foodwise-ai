@@ -81,7 +81,7 @@ async def test_structured_generation_never_includes_tools():
 
 @pytest.mark.asyncio
 async def test_arbitrary_tool_name_and_nonobject_response_are_safe_failures():
-    from food_recommender.application.inference import InferenceError
+    from food_recommender.application.recommendations.inference import InferenceError
 
     for payload in (
         {
@@ -114,7 +114,7 @@ async def test_arbitrary_tool_name_and_nonobject_response_are_safe_failures():
 async def test_rate_limit_retry_after_http_date_is_honored_without_response_text():
     from datetime import UTC, datetime
 
-    from food_recommender.application.inference import InferenceError
+    from food_recommender.application.recommendations.inference import InferenceError
 
     now = datetime(2026, 10, 4, 12, 0, tzinfo=UTC)
     async with httpx.AsyncClient(

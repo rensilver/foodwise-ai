@@ -7,7 +7,7 @@ from pathlib import Path
 
 from sqlalchemy.ext.asyncio import async_sessionmaker
 
-from food_recommender.application.media_cleanup import MediaCleanupService
+from food_recommender.application.media.cleanup import MediaCleanupService
 from food_recommender.infrastructure.media.files import LocalMediaFiles
 from food_recommender.infrastructure.persistence.engine import create_database_engine
 from food_recommender.infrastructure.persistence.unit_of_work import PostgresUnitOfWork

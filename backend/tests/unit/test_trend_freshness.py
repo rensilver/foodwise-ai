@@ -3,9 +3,9 @@ from unittest.mock import AsyncMock
 from uuid import uuid4
 
 import pytest
+from food_recommender.application.trends.ports import CachedTrends, TrendItem
 
-from food_recommender.application.ports import CachedTrends, TrendItem
-from food_recommender.application.trends import (
+from food_recommender.application.trends.service import (
     TrendRequest,
     TrendService,
     trend_citations,

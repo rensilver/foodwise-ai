@@ -3,8 +3,8 @@ import asyncio
 import pytest
 from test_text_fusion import hit
 
-from food_recommender.application.contracts import multimodal_adapter
 from food_recommender.application.errors import ApplicationError, ErrorCode
+from food_recommender.application.recommendations.contracts import multimodal_adapter
 from food_recommender.retrieval.fusion import fuse
 from food_recommender.retrieval.models import TextPlan
 from food_recommender.retrieval.multimodal import MultimodalRetrieval

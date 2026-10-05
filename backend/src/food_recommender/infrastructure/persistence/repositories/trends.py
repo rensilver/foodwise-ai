@@ -7,7 +7,7 @@ from sqlalchemy.dialects.postgresql import insert as upsert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.application.ports import CachedTrends, TrendItem
+from food_recommender.application.trends.ports import CachedTrends, TrendItem
 from food_recommender.infrastructure.persistence.models.trends import (
     TrendCache,
     TrendEvidence,

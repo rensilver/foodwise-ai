@@ -8,7 +8,7 @@ from uuid import UUID
 import pytest
 from pydantic import ValidationError
 
-from food_recommender.application.contracts import (
+from food_recommender.application.recommendations.contracts import (
     contract_json_schema,
     event_adapter,
     nutrition_outcome_adapter,

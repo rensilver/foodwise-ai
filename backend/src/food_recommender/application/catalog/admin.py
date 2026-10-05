@@ -6,8 +6,8 @@ from uuid import uuid4
 
 from pydantic import BaseModel, Field
 
-from food_recommender.application.browse import BrowseService
-from food_recommender.application.catalog import CatalogService
+from food_recommender.application.catalog.browse import BrowseService
+from food_recommender.application.catalog.service import CatalogService
 from food_recommender.application.errors import ApplicationError, ErrorCode
 from food_recommender.domain.catalog import (
     CatalogData,

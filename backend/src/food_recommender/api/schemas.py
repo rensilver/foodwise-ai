@@ -7,8 +7,8 @@ from uuid import UUID
 from fastapi import Path
 from pydantic import BaseModel, ConfigDict, Field, RootModel, SecretStr
 
-from food_recommender.application.admin_catalog import RecipePatch, RestaurantPatch
-from food_recommender.application.ports import MessageSnapshot
+from food_recommender.application.catalog.admin import RecipePatch, RestaurantPatch
+from food_recommender.application.conversations.ports import MessageSnapshot
 from food_recommender.domain.events import ProgressEvents
 from food_recommender.domain.preferences import Preferences
 from food_recommender.domain.values import Category

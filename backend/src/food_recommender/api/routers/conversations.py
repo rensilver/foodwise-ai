@@ -19,9 +19,9 @@ from food_recommender.api.schemas import (
     StreamContract,
 )
 from food_recommender.api.sse import EventStreamResponse, encode_events
-from food_recommender.application.conversations import ConversationService
+from food_recommender.application.conversations.messages import MessageSubmission
+from food_recommender.application.conversations.service import ConversationService
 from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.application.messages import MessageSubmission
 from food_recommender.application.services import Services
 
 router = APIRouter(prefix="/api/v1/conversations", tags=["conversations"])

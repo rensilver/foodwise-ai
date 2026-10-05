@@ -9,8 +9,8 @@ from uuid import uuid4
 import httpx
 from pydantic import BaseModel, ConfigDict, Field, HttpUrl, SecretStr, field_validator
 
-from food_recommender.application.ports import TrendItem
-from food_recommender.application.trends import TrendProviderError
+from food_recommender.application.trends.ports import TrendItem
+from food_recommender.application.trends.service import TrendProviderError
 
 
 class TavilyItem(BaseModel):

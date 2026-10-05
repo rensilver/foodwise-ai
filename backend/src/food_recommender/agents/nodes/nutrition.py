@@ -6,8 +6,10 @@ from pydantic import ConfigDict, TypeAdapter
 
 from food_recommender.agents.prompts import NUTRITION
 from food_recommender.agents.structured import structured
-from food_recommender.application.inference import Inference
-from food_recommender.application.nutrition_rules import deterministic_nutrition
+from food_recommender.application.recommendations.inference import Inference
+from food_recommender.application.recommendations.nutrition_rules import (
+    deterministic_nutrition,
+)
 from food_recommender.domain.experts import (
     AgentSuccess,
     ExpertOutcome,

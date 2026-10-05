@@ -9,7 +9,7 @@ from uuid import uuid4
 
 from fastmcp import Client
 
-from food_recommender.application.trends import trend_citations
+from food_recommender.application.trends.service import trend_citations
 from food_recommender.composition import build_mcp_services
 from food_recommender.infrastructure.mcp_config import MCPSettings
 from food_recommender.infrastructure.providers.tavily import TavilySearch

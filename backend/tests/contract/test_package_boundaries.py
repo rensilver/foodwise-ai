@@ -169,3 +169,56 @@ def test_http_routers_import_shared_schemas_without_router_reexports():
             if dependency.startswith("food_recommender.api.routers."):
                 violations.append(f"{path.relative_to(ROOT)} -> {dependency}")
     assert not violations, "\n".join(violations)
+
+
+def test_transaction_contract_import_does_not_load_use_cases():
+    """Adapters can depend on repository contracts without loading services."""
+    script = """
+import sys
+import food_recommender.application.unit_of_work
+
+allowed = {
+    "food_recommender.application.unit_of_work",
+    "food_recommender.application.errors",
+}
+for name, module in tuple(sys.modules.items()):
+    if not name.startswith("food_recommender.application."):
+        continue
+    if hasattr(module, "__path__"):
+        continue
+    assert name in allowed or name.endswith((".ports", ".cleanup_ports")), name
+"""
+    result = subprocess.run(
+        [sys.executable, "-c", script], capture_output=True, text=True, timeout=15
+    )
+    assert result.returncode == 0, result.stderr
+
+
+@pytest.mark.parametrize("reverse", [False, True])
+def test_application_modules_import_without_cycles_or_concrete_io(reverse: bool):
+    """Fresh imports catch accidental cycles hidden by test collection order."""
+    script = f"""
+import importlib
+import pkgutil
+import sys
+import food_recommender.application as application
+
+names = sorted(
+    (item.name for item in pkgutil.walk_packages(
+        application.__path__, application.__name__ + "."
+    )),
+    reverse={reverse!r},
+)
+for name in names:
+    importlib.import_module(name)
+for prefix in (
+    "food_recommender.infrastructure", "food_recommender.composition",
+    "food_recommender.api", "food_recommender.mcp", "food_recommender.agents",
+    "sqlalchemy", "psycopg", "httpx", "langgraph", "torch", "transformers",
+):
+    assert not any(name == prefix or name.startswith(prefix + ".") for name in sys.modules), prefix
+"""
+    result = subprocess.run(
+        [sys.executable, "-c", script], capture_output=True, text=True, timeout=15
+    )
+    assert result.returncode == 0, result.stderr

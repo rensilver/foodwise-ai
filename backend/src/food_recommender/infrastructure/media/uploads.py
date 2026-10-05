@@ -4,7 +4,7 @@ import asyncio
 import io
 
 from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.application.media import SanitizedImage
+from food_recommender.application.media.ports import SanitizedImage
 from food_recommender.infrastructure.media.images import MAX_BYTES, decode_image
 
 

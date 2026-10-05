@@ -18,31 +18,31 @@ from food_recommender.agents.nodes.recommendation import RecommendationExpert
 from food_recommender.agents.nodes.style import FoodStyleExpert
 from food_recommender.agents.nodes.trend import FoodTrendAnalyst
 from food_recommender.agents.runner import GraphRunner
-from food_recommender.application.activity import Progress, observer
-from food_recommender.application.admin import AdminService
-from food_recommender.application.admin_catalog import AdminCatalogService
-from food_recommender.application.browse import BrowseService
-from food_recommender.application.catalog import CatalogService
-from food_recommender.application.catalog_preparation import CatalogPreparation
-from food_recommender.application.conversations import ConversationService
-from food_recommender.application.inference import Inference
-from food_recommender.application.lookups import LookupService
-from food_recommender.application.media import MediaService
-from food_recommender.application.media_cleanup import MediaCleanupService
-from food_recommender.application.messages import MessageService
-from food_recommender.application.ports import UnitOfWork
-from food_recommender.application.reliability import (
+from food_recommender.application.auth.service import AdminService
+from food_recommender.application.catalog.admin import AdminCatalogService
+from food_recommender.application.catalog.browse import BrowseService
+from food_recommender.application.catalog.lookups import LookupService
+from food_recommender.application.catalog.preparation import CatalogPreparation
+from food_recommender.application.catalog.service import CatalogService
+from food_recommender.application.conversations.messages import MessageService
+from food_recommender.application.conversations.ports import ConversationRuns
+from food_recommender.application.conversations.service import ConversationService
+from food_recommender.application.media.cleanup import MediaCleanupService
+from food_recommender.application.media.service import MediaService
+from food_recommender.application.recommendations.activity import Progress, observer
+from food_recommender.application.recommendations.inference import Inference
+from food_recommender.application.recommendations.reliability import (
     BudgetedInference,
     BudgetedTools,
     RunLimits,
 )
-from food_recommender.application.services import Services
-from food_recommender.application.trends import TrendService
-from food_recommender.application.workflow import (
-    ConversationRuns,
+from food_recommender.application.recommendations.workflow import (
     ToolGateway,
     TurnRequest,
 )
+from food_recommender.application.services import Services
+from food_recommender.application.trends.service import TrendService
+from food_recommender.application.unit_of_work import UnitOfWork
 from food_recommender.domain.values import Category
 from food_recommender.infrastructure.auth import Argon2Verification
 from food_recommender.infrastructure.config import Settings

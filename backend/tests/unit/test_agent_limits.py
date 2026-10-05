@@ -2,8 +2,8 @@ import asyncio
 
 import pytest
 
-from food_recommender.application.inference import InferenceError
-from food_recommender.application.reliability import (
+from food_recommender.application.recommendations.inference import InferenceError
+from food_recommender.application.recommendations.reliability import (
     BudgetedInference,
     RunBudget,
     RunLimits,

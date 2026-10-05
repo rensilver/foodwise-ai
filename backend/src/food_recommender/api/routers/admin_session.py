@@ -11,7 +11,7 @@ from food_recommender.api.security import (
     administrator,
     check_origin,
 )
-from food_recommender.application.admin import AdminService
+from food_recommender.application.auth.service import AdminService
 
 router = APIRouter(prefix="/api/v1/admin/session", tags=["admin"])
 

@@ -17,6 +17,7 @@ phase or authorize new product behavior.
 - [x] ORG-01 Group infrastructure into persistence models/repositories/search/indexing, embeddings, providers and media; separate engine/UoW and explicit ORM registration.
 - [x] ORG-02 Separate application use cases and process entrypoints; remove concrete adapter imports from core retrieval/ingestion and update maintained commands/imports.
 - [x] ORG-03 Verify dependency boundaries, isolated complete ORM registration, unchanged migration parity, existing behavior and documentation links/instruction budget.
+- [x] ORG-04 Group application capabilities by responsibility, colocate repository contracts, update consumers and verify unchanged behavior and API schemas.
 
 **Evidence / blockers:** Verified 2026-10-04. The [package guide](backend/PACKAGES.md)
 records the review, responsibility map, dependency rules, CLI path changes and
@@ -47,6 +48,29 @@ separate disposable database. Existing phase marks, course artifacts, configured
 models, dependencies, application database and release blockers are preserved;
 the frontend layout remains unchanged. Future-phase organization tasks below
 remain unchecked.
+
+ORG-04 verified 2026-10-05 on `refactor/application-package`. Application code
+is grouped into `auth`, `catalog`, `conversations`, `media`, `recommendations`
+and `trends`, with feature-owned repository ports and snapshots. Shared
+`unit_of_work.py` composes those contracts; errors and the injected service
+container remain at the root. Conversation run leases live beside ownership
+and message use cases. All consumers, scripts, tests and maintained documentation
+use defining-module imports; there are no compatibility re-exports.
+
+Baseline package/domain checks passed 31 tests. After the move, all 87 application
+class/function definitions matched their prior ASTs. New fresh-process checks
+verify transaction contracts do not load services and application modules import
+in either order without cycles or concrete I/O dependencies. Installed locked
+tools passed `.venv/bin/ruff check src tests scripts migrations`,
+`.venv/bin/ruff format --check src tests scripts migrations`, `.venv/bin/mypy`
+(164 source files) and `.venv/bin/python scripts/export_openapi.py --check`.
+With an isolated PostgreSQL/pgvector container and existing offline CPU model
+fixtures, `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest
+-p pytest_asyncio.plugin -q` passed **474 tests and 64 subtests, no skips**, in
+63.54 seconds, including API, repository, checkpoint and both MCP transports.
+The test container was removed after verification. Documentation links/fences,
+preserved completion marks and `git diff --check` passed. No provider calls,
+model downloads, dependency/schema changes or application database changes.
 
 ## Phase 0 — Baseline, credentials, and source recovery
 
@@ -164,7 +188,7 @@ Phase 1 closure audit on 2026-10-03 against committed revision `8a6fd90`: **the 
 types for preferences and constraint provenance/strength, category-qualified IDs,
 source-backed candidate evidence/citations, all six role results, explicit
 success/unavailable/failure outcomes, recommendations and the five UUID-scoped
-event types. [Application adapters](backend/src/food_recommender/application/contracts.py)
+event types. [Application adapters](backend/src/food_recommender/application/recommendations/contracts.py)
 validate untrusted JSON strictly, reject nested extra fields, preserve domain
 types and generate schemas without duplicating field definitions. Domain
 invariants bound retrieval to three attempts and 20 unique candidates/category,

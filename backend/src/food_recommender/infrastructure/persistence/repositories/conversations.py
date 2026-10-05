@@ -11,9 +11,12 @@ from sqlalchemy import delete, insert, select, text
 from sqlalchemy.dialects.postgresql import insert as upsert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from food_recommender.application.contracts import preferences_adapter
+from food_recommender.application.conversations.ports import (
+    ConversationSnapshot,
+    MessageSnapshot,
+)
 from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.application.ports import ConversationSnapshot, MessageSnapshot
+from food_recommender.application.recommendations.contracts import preferences_adapter
 from food_recommender.domain.preferences import Preferences
 from food_recommender.infrastructure.persistence.models.cleanup import MediaCleanupJob
 from food_recommender.infrastructure.persistence.models.context import (

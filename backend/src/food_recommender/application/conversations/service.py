@@ -8,14 +8,14 @@ from contextlib import nullcontext
 from dataclasses import dataclass
 from uuid import UUID, uuid4
 
-from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.application.media_cleanup import MediaCleanupService
-from food_recommender.application.ports import (
+from food_recommender.application.conversations.ports import (
+    ConversationRuns,
     ConversationSnapshot,
     MessageSnapshot,
-    UnitOfWork,
 )
-from food_recommender.application.workflow import ConversationRuns
+from food_recommender.application.errors import ApplicationError, ErrorCode
+from food_recommender.application.media.cleanup import MediaCleanupService
+from food_recommender.application.unit_of_work import UnitOfWork
 from food_recommender.domain.preferences import Preferences
 
 

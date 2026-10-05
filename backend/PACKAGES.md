@@ -30,13 +30,27 @@ boundaries are appropriate for Phase 9.
 food_recommender/
   domain/                       # culinary entities, value types and invariants
   application/
-    catalog.py                  # catalog use cases and transaction boundaries
-    conversations.py            # owned conversation deletion and cleanup outcome
-    media_cleanup.py            # bounded file-cleanup use case
-    ports.py                    # repository/UoW/media contracts and snapshots
-    lookups.py, trends.py        # lookup and trend use cases/ports
-    resources.py                # public catalog resource port
-    contracts.py, errors.py      # boundary validation and typed failures
+    auth/                       # local admin sessions and password verification
+      ports.py, service.py
+    catalog/                    # catalog reads, preparation and writes
+      ports.py, service.py       # repository contract and atomic mutations
+      browse.py, lookups.py      # paginated browsing and scoped evidence lookup
+      admin.py, preparation.py   # previews, validated admin edits and embeddings
+      resources.py              # public catalog resource port
+    conversations/              # browser-owned history and message lifecycle
+      ports.py                  # snapshots, repository and active-run lease ports
+      service.py, messages.py    # ownership/deletion and validated streamed turns
+    media/                      # private uploads, reads and file cleanup
+      ports.py, service.py       # media values, storage/decoding ports and use cases
+      cleanup_ports.py, cleanup.py # transactional cleanup queue and processing
+    recommendations/            # framework-independent recommendation workflow
+      workflow.py, contracts.py  # turn inputs, tool gateway and boundary validation
+      profile_rules.py, nutrition_rules.py, evidence_rules.py
+      inference.py, reliability.py, activity.py # inference port, budgets and progress
+    trends/                     # bounded public trend search and dated evidence
+      ports.py, service.py       # cache contract/values and search/freshness rules
+    unit_of_work.py              # shared transaction over feature-owned repositories
+    errors.py                   # stable failures shared across use cases
     services.py                 # injected capabilities for process lifecycles
   retrieval/
     embedding_contracts.py      # supported model identities and vector validation
@@ -124,6 +138,36 @@ instructions use these paths.
 | `food_recommender.retrieval.image_cli` | `food_recommender.cli.image` |
 | `food_recommender.retrieval.multimodal_cli` | `food_recommender.cli.multimodal` |
 
+## Application responsibilities
+
+Application packages follow the capability a maintainer is working on. Catalog
+administration belongs to `catalog/admin.py`; authenticating the administrator
+belongs to `auth/service.py`. Conversation ownership, history, active-run leases
+and message persistence belong to `conversations`. Recommendation inputs,
+validation, deterministic rules and execution budgets belong to `recommendations`;
+the concrete LangGraph implementation remains in `agents`.
+
+Repository ports and their snapshots live inside their owning capability.
+`unit_of_work.py` composes these contracts to preserve transactions spanning
+catalog, conversation and media cleanup operations. It imports no services.
+`services.py` is the process capability container; concrete construction stays in
+`composition.py`. Keep package initializers limited to documentation and import
+types directly from their defining modules, without compatibility re-exports.
+
+Small use-case-specific ports remain beside their consumer, such as catalog
+preparation/preview ports in `catalog/admin.py` and the workflow port in
+`conversations/messages.py`. Introduce a separate port module when contracts are
+shared with transaction coordination or several adapters; avoid a global port
+collection or a file for every class.
+
+The application reorganization preserves behavior and wire schemas. Internal
+callers now use paths such as `application.catalog.service`,
+`application.conversations.messages` and `application.recommendations.contracts`.
+The former `application.ports` definitions are distributed across capability
+ports and `application.unit_of_work`. Fresh-process package checks verify that
+transaction contracts do not load use cases and that application imports work
+in either order without importing concrete I/O or graph implementations.
+
 ## Applying the structure in later phases
 
 - **Phase 7:** keep graph state, node orchestration, prompts and control logic
@@ -153,10 +197,11 @@ instructions, `agents/graph.py` for routing and the explicit expert barrier, and
 `agents/runner.py` for owned turns/cancellation. Reset/finalization are control
 logic. `agents/telemetry.py` records allowlisted stage timing, without source text.
 
-`application/inference.py` and `application/workflow.py` define the inference,
-MCP gateway and owned-run lease ports. `application/profile_rules.py`,
-`nutrition_rules.py` and `evidence_rules.py` keep correction, dietary and citation
-rules independent of the graph/provider. `application/reliability.py` supplies
+`application/recommendations/inference.py` and `workflow.py` define inference
+and MCP gateway ports; `application/conversations/ports.py` owns run leases.
+`application/recommendations/{profile_rules,nutrition_rules,evidence_rules}.py`
+keep correction, dietary and citation rules independent of the graph/provider.
+`application/recommendations/reliability.py` supplies
 shared run budgets. Concrete OpenAI HTTP stays in `infrastructure/providers/openai.py`;
 discovered tool schema/role enforcement stays in `mcp/client.py`; PostgreSQL lease
 SQL and supported saver setup stay in `infrastructure/persistence/{runs,checkpoints}.py`.

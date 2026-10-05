@@ -8,7 +8,7 @@ from uuid import UUID
 
 from sqlalchemy.ext.asyncio import async_sessionmaker
 
-from food_recommender.application.contracts import multimodal_adapter
+from food_recommender.application.recommendations.contracts import multimodal_adapter
 from food_recommender.composition import build_multimodal_retrieval
 from food_recommender.domain.preferences import Constraint
 from food_recommender.domain.values import Category, ConstraintKind, Origin, Strength

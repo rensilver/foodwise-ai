@@ -6,7 +6,7 @@ import httpx
 import pytest
 from pydantic import SecretStr
 
-from food_recommender.application.trends import TrendRequest, TrendService
+from food_recommender.application.trends.service import TrendRequest, TrendService
 from food_recommender.infrastructure.providers.tavily import TavilySearch
 
 

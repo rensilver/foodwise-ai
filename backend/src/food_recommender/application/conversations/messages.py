@@ -10,8 +10,10 @@ from uuid import UUID, uuid4
 
 from pydantic import field_validator
 
-from food_recommender.application.activity import Progress
-from food_recommender.application.contracts import (
+from food_recommender.application.conversations.ports import ConversationRuns, RunLease
+from food_recommender.application.errors import ApplicationError, ErrorCode
+from food_recommender.application.recommendations.activity import Progress
+from food_recommender.application.recommendations.contracts import (
     catalog_adapter,
     event_adapter,
     nutrition_outcome_adapter,
@@ -21,16 +23,13 @@ from food_recommender.application.contracts import (
     style_outcome_adapter,
     trend_outcome_adapter,
 )
-from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.application.evidence_rules import supported_span
-from food_recommender.application.nutrition_rules import deterministic_nutrition
-from food_recommender.application.ports import UnitOfWork
-from food_recommender.application.reliability import RunLimits
-from food_recommender.application.workflow import (
-    ConversationRuns,
-    RunLease,
-    TurnRequest,
+from food_recommender.application.recommendations.evidence_rules import supported_span
+from food_recommender.application.recommendations.nutrition_rules import (
+    deterministic_nutrition,
 )
+from food_recommender.application.recommendations.reliability import RunLimits
+from food_recommender.application.recommendations.workflow import TurnRequest
+from food_recommender.application.unit_of_work import UnitOfWork
 from food_recommender.domain.events import (
     ClarificationEvent,
     DoneEvent,

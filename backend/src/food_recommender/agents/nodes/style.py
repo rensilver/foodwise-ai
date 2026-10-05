@@ -4,8 +4,8 @@ from pydantic import ConfigDict, TypeAdapter
 
 from food_recommender.agents.prompts import STYLE
 from food_recommender.agents.structured import structured
-from food_recommender.application.evidence_rules import supported_span
-from food_recommender.application.inference import Inference
+from food_recommender.application.recommendations.evidence_rules import supported_span
+from food_recommender.application.recommendations.inference import Inference
 from food_recommender.domain.experts import (
     AgentSuccess,
     AgentUnavailable,

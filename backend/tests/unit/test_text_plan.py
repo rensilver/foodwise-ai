@@ -24,7 +24,7 @@ def test_plan_rejects_invalid_limits_and_unscoped_reviews(changes):
 
 
 def test_request_schema_rejects_unknown_fields_and_outcome_roundtrips():
-    from food_recommender.application.contracts import (
+    from food_recommender.application.recommendations.contracts import (
         contract_json_schema,
         text_retrieval_adapter,
     )

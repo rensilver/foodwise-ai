@@ -15,9 +15,7 @@ from food_recommender.api.schemas import (
     RestaurantUpdate,
 )
 from food_recommender.api.security import administrator
-from food_recommender.application.admin_catalog import (
-    AdminCatalogService,
-)
+from food_recommender.application.catalog.admin import AdminCatalogService
 from food_recommender.application.errors import ApplicationError, ErrorCode
 from food_recommender.application.services import Services
 from food_recommender.domain.catalog import CatalogSnapshot

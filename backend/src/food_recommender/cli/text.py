@@ -8,7 +8,9 @@ from pathlib import Path
 
 from sqlalchemy.ext.asyncio import async_sessionmaker
 
-from food_recommender.application.contracts import text_retrieval_adapter
+from food_recommender.application.recommendations.contracts import (
+    text_retrieval_adapter,
+)
 from food_recommender.domain.values import Category
 from food_recommender.infrastructure.embeddings.minilm import MiniLMEncoder
 from food_recommender.infrastructure.persistence.engine import create_database_engine

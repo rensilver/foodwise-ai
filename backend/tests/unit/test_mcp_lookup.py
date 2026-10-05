@@ -2,7 +2,7 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from food_recommender.application.lookups import LookupService, RestaurantMatch
+from food_recommender.application.catalog.lookups import LookupService, RestaurantMatch
 
 
 @pytest.mark.asyncio

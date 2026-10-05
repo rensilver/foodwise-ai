@@ -7,15 +7,15 @@ from uuid import uuid4
 
 import pytest
 from alembic import command
+from food_recommender.application.trends.ports import CachedTrends, TrendItem
 from sqlalchemy import delete, insert, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import async_sessionmaker
 from test_repositories import bundle
 from test_repositories import repositories as repositories
 
-from food_recommender.application.catalog import CatalogService
+from food_recommender.application.catalog.service import CatalogService
 from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.application.ports import CachedTrends, TrendItem
 from food_recommender.domain.catalog import PreparedCatalog, RecipeData, RestaurantData
 from food_recommender.domain.preferences import Constraint, Preferences
 from food_recommender.domain.values import (

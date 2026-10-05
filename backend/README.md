@@ -245,7 +245,7 @@ PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run --locked pytest -p pytest_asyncio.plugin
 The [domain package](src/food_recommender/domain/) contains frozen standard-library
 dataclasses and enums with no framework, provider or persistence imports.
 Collections use tuples. Typed callers construct these objects directly; parse
-untrusted JSON through the strict [application adapters](src/food_recommender/application/contracts.py).
+untrusted JSON through the strict [application adapters](src/food_recommender/application/recommendations/contracts.py).
 The adapters preserve domain types, reject extra fields at every nested level,
 and run the same domain invariants. Serialization alone does not validate data.
 
@@ -265,7 +265,7 @@ and exposes the event/outcome discriminator. Schemas are derived from domain
 fields rather than maintained as separate copies. For example:
 
 ```python
-from food_recommender.application.contracts import profile_adapter
+from food_recommender.application.recommendations.contracts import profile_adapter
 
 profile = profile_adapter.validate_json(
     '{"categories":["recipe"],"preferences":{"constraints":[]}}'
@@ -526,14 +526,14 @@ uploads exist is rejected instead of discarding upload data.
 
 ## Repository transactions and optimistic versions (P02-07)
 
-Application [ports](src/food_recommender/application/ports.py) expose domain
+Application [transaction and repository contracts](src/food_recommender/application/unit_of_work.py) expose domain
 snapshots, conversation context and dated trend records.
 [Prepared catalog bundles](src/food_recommender/domain/catalog.py) check hashes,
 source/media associations, model compatibility, dimensions and normalization
 before the final transaction. Prepare full content and vectors outside the
 transaction; never call inference inside a write.
 
-[CatalogService](src/food_recommender/application/catalog.py) uses an injected
+[CatalogService](src/food_recommender/application/catalog/service.py) uses an injected
 unit-of-work factory. The async PostgreSQL adapter commits canonical data,
 source/raw provenance, documents, media and vectors together. Revision
 `0006_versions` adds positive versions; replace/delete use conditional writes
@@ -874,7 +874,7 @@ control nodes clear transient results before every new turn. An omitted restrict
 is retained; explicit field corrections or evidence-backed removals can change it.
 Contradictory changes request clarification.
 
-Defaults in `application.reliability.RunLimits` are 30 seconds/call, 120 seconds/run,
+Defaults in `application.recommendations.reliability.RunLimits` are 30 seconds/call, 120 seconds/run,
 two transient transport retries, two schema repairs and three simultaneous OpenAI
 calls. Use a shared process semaphore/provider. Repairs, retries and batches share
 the same run deadline. Output state records safe stage timing and call/token/search

@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, Query
 
 from food_recommender.api.dependencies import get_services
 from food_recommender.api.schemas import Identity
-from food_recommender.application.browse import (
+from food_recommender.application.catalog.browse import (
     BrowseService,
     CatalogDetail,
     CatalogPage,

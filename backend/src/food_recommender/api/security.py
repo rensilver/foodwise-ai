@@ -5,7 +5,7 @@ from typing import Annotated
 from fastapi import Depends, Request
 
 from food_recommender.api.dependencies import get_services
-from food_recommender.application.admin import AdminService
+from food_recommender.application.auth.service import AdminService
 from food_recommender.application.errors import ApplicationError, ErrorCode
 from food_recommender.application.services import Services
 

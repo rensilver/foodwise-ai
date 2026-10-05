@@ -6,8 +6,8 @@ import pytest
 from test_api_conversations import api  # noqa: F401
 from test_repositories import bundle, repositories  # noqa: F401
 
-from food_recommender.application.browse import BrowseService
-from food_recommender.application.catalog import CatalogService
+from food_recommender.application.catalog.browse import BrowseService
+from food_recommender.application.catalog.service import CatalogService
 from food_recommender.domain.catalog import PreparedCatalog, RestaurantData
 from food_recommender.infrastructure.persistence.unit_of_work import PostgresUnitOfWork
 

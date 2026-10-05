@@ -7,8 +7,8 @@ from typing import Any
 from uuid import UUID
 
 from food_recommender.agents.state import GraphState
-from food_recommender.application.activity import observer
-from food_recommender.application.reliability import current_budget
+from food_recommender.application.recommendations.activity import observer
+from food_recommender.application.recommendations.reliability import current_budget
 from food_recommender.domain.values import AgentRole
 
 

@@ -20,11 +20,11 @@ from test_text_index import Encoder
 from tests.unit.test_agent_acceptance import CulinaryReply
 
 from food_recommender.api.main import create_app
-from food_recommender.application.browse import BrowseService
-from food_recommender.application.catalog import CatalogService
-from food_recommender.application.catalog_preparation import CatalogPreparation
-from food_recommender.application.conversations import ConversationService
-from food_recommender.application.messages import MessageService
+from food_recommender.application.catalog.browse import BrowseService
+from food_recommender.application.catalog.preparation import CatalogPreparation
+from food_recommender.application.catalog.service import CatalogService
+from food_recommender.application.conversations.messages import MessageService
+from food_recommender.application.conversations.service import ConversationService
 from food_recommender.application.services import Services
 from food_recommender.composition import PersistedWorkflow, build_multimodal_retrieval
 from food_recommender.domain.catalog import RecipeData

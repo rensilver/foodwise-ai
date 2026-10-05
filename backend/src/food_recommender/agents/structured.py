@@ -6,9 +6,12 @@ from typing import Any
 from pydantic import TypeAdapter, ValidationError
 from pydantic_core import to_jsonable_python
 
-from food_recommender.application.contracts import contract_json_schema
-from food_recommender.application.inference import Inference, InferenceError
-from food_recommender.application.reliability import current_budget
+from food_recommender.application.recommendations.contracts import contract_json_schema
+from food_recommender.application.recommendations.inference import (
+    Inference,
+    InferenceError,
+)
+from food_recommender.application.recommendations.reliability import current_budget
 
 
 async def structured[T](

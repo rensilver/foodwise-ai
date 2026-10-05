@@ -9,7 +9,7 @@ from tests.unit.test_agent_graph import Branch, Profile, Retrieval, Synthesis
 from food_recommender.agents.graph import WorkflowRoles, build_graph
 from food_recommender.agents.runner import GraphRunner
 from food_recommender.application.errors import ApplicationError, ErrorCode
-from food_recommender.application.workflow import TurnRequest
+from food_recommender.application.recommendations.workflow import TurnRequest
 
 
 class Leases:
@@ -74,7 +74,7 @@ async def test_concurrent_turn_rejected_cancelled_work_never_resumes_on_read():
 
 @pytest.mark.asyncio
 async def test_run_deadline_persists_exhaustion_and_releases_active_run():
-    from food_recommender.application.reliability import RunLimits
+    from food_recommender.application.recommendations.reliability import RunLimits
 
     owner, conversation = uuid4(), uuid4()
     started, ready = set(), asyncio.Event()

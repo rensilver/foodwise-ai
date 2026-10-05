@@ -17,8 +17,8 @@ import httpx
 from jsonschema import Draft202012Validator  # type: ignore[import-untyped]
 from pydantic import SecretStr
 
-from food_recommender.application.inference import InferenceError
-from food_recommender.application.reliability import current_budget
+from food_recommender.application.recommendations.inference import InferenceError
+from food_recommender.application.recommendations.reliability import current_budget
 
 
 class OpenAIStructuredInference:
