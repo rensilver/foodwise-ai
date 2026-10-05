@@ -691,7 +691,7 @@ measurements and explicit gaps do not claim operational readiness.
 
 **Verification:** clean-checkout rehearsal, restore test and complete user/admin demonstrations.
 
-- [ ] P11-01 Rehearse setup from a clean checkout with documented fresh credentials, pinned dependencies, model downloads, media recovery and Compose startup.
+- [x] P11-01 Rehearse setup from a clean checkout with documented fresh credentials, pinned dependencies, model downloads, media recovery and Compose startup.
 - [ ] P11-02 Verify database migrations, idempotent seed ingestion, readiness behavior and persistence across service restarts.
 - [ ] P11-03 Back up and restore PostgreSQL plus media; verify catalog links, vectors and conversation/checkpoint behavior after restore.
 - [ ] P11-04 Demonstrate real text and image retrieval, all six agents, live dated trends, citations and conversational refinements.
@@ -706,7 +706,32 @@ measurements and explicit gaps do not claim operational readiness.
 
 **Exit criterion:** another developer can reproduce the full local application and its demonstrated behavior; degraded modes are documented, not used to conceal missing release requirements.
 
-**Evidence / blockers:** _Pending._
+**Evidence / blockers:** P11-01 verified on 2026-10-05 against archived revision
+`2cf7116dc0625ece90c17b7f16876f558e94bb91`: all 490 tracked files matched the
+commit, and locked fresh backend/frontend installs preserved both lockfiles.
+The [clean-checkout guide](infra/release-setup.md) documents fresh owner-issued
+provider credentials, administrator hashing, media recovery, pinned model
+provisioning and the required initialization order. The
+[rehearsal evidence](evaluation/phase11/README.md) and
+[sanitized report](evaluation/phase11/clean_setup_report.json) record fresh
+MiniLM/CLIP downloads with verified file hashes, the separately recovered
+109-image recipe archive, nine fresh approved-host review downloads, sequential
+production builds, fresh database/migrations/checkpoints, 329 imported entities
+with zero rejects and the 16 preserved entity-review issues, 770 text and 118
+image vectors. All four services became healthy without OOM kills/restarts;
+API/catalog/frontend proxy and decoded-image probes passed, as did HTTP MCP
+discovery of seven tools and three resources. Disposable containers/volumes,
+image tags and temporary credentials were removed; the owner's existing stack,
+configuration and course artifacts were preserved.
+
+The accepted startup rehearsal used synthetic provider settings and new local
+DB/admin credentials; it did not read/copy owner provider keys, issue/rotate
+account credentials or invoke paid OpenAI/Tavily/Cloud checks. Automatic approval
+review rejected the proposed owner-key copy before execution; synthetic settings
+provided the safe startup alternative. Existing live evidence remains separate,
+as do P11-02 onward and the complete-release gate. Shared dependency/build caches
+were permitted; this is not a cold-cache or peak-memory measurement. Historical
+publication/source-review and full-release/live-acceptance blockers remain visible.
 
 ## Deferred — Outside the first release
 

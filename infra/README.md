@@ -1,130 +1,76 @@
-# Local Compose scaffold
+# Local Compose operations
 
-For locked host setup, development servers, checks and pending commands, see
-the [developer workflow](development.md).
+Start a new installation with the [clean-checkout setup guide](release-setup.md).
+It includes fresh credential configuration, separately recovered media, pinned
+model downloads, sequential image builds, migrations, supported checkpoints,
+seed ingestion and indexing before all-service startup. [P11-01 evidence](../evaluation/phase11/README.md)
+records the isolated rehearsal and its limits. For host development and quality
+commands, see the [developer workflow](development.md).
 
-[compose.yaml](../compose.yaml) starts four local services. This is a working
-startup scaffold: culinary tools, migrations, ingestion, recommendations, the
-API proxy and the full user interface remain their later checklist tasks.
+[compose.yaml](../compose.yaml) runs four local services:
 
-| Service | Runtime and health check | Host access |
+| Service | Runtime and readiness | Host access |
 | --- | --- | --- |
-| `db` | PostgreSQL 16.14 and pgvector, pinned by image digest; readiness requires PostgreSQL and the vector extension. | Internal `db:5432` only. |
-| `mcp` | Shared Python 3.12.14 image; FastMCP Streamable HTTP at `/mcp`; `/health/ready` checks PostgreSQL/pgvector and readable media. | Internal `mcp:8001` only. |
-| `backend` | FastAPI; `/api/v1/health/ready` checks PostgreSQL/pgvector, writable media and MCP readiness. | `127.0.0.1:8000`. |
-| `frontend` | Next.js standalone production server on Node 24.19.0; `/health/live` checks HTTP serving. | `127.0.0.1:3000`. |
+| `db` | Digest-pinned PostgreSQL 16.14/pgvector; extension and server health. | Internal `db:5432` only. |
+| `mcp` | FastMCP culinary retrieval/trend tools and resources; database/readable media readiness. | Internal `mcp:8001` only. |
+| `backend` | FastAPI recommendations/SSE, catalog, private images and local administration; readiness also requires MCP, schema/checkpoints and a provisioned MiniLM bundle. | `127.0.0.1:8000`. |
+| `frontend` | Next.js standalone meal workspace and same-origin API proxy; HTTP liveness. | `127.0.0.1:3000`. |
 
 Python, Node and uv base images have exact version tags and immutable digests.
-The backend image uses uv 0.12.5 and `uv sync --locked --no-dev --no-editable`;
-the frontend uses pnpm 12.8.1 and `pnpm install --frozen-lockfile`. Both runtime
-images run as non-root users. Repository-context
-[exclusions](../.dockerignore) and explicit Dockerfile copy paths keep dotenv
-files, course material, data, media and development caches out of the images.
-Builds download dependencies; they do not fetch pretrained models or call
-OpenAI/Tavily. The first backend build includes the locked CPU embedding libraries
-and can take several minutes.
+Backend builds use uv 0.12.5 and the locked production dependency graph;
+frontend builds use pnpm 12.8.1 and the frozen lockfile. Both runtime images run
+as non-root users. [Build exclusions](../.dockerignore) keep secrets, local
+models/media and course artifacts out of images. Builds do not call providers
+or download pretrained models. The tested platform is Linux x86_64, Docker
+29.8.0 and Compose 5.5.1; other architectures are unverified.
 
-The verification target is Linux x86_64 with Docker 29.8.0 and Compose 5.5.1.
-The database digest pins that upstream platform artifact; other architectures
-have not been tested. This host rejects container process execution with
-`no-new-privileges` enabled, so the Compose scaffold omits that optional setting.
+Compose selects service-specific environments. Internal database/MCP/media
+addresses replace host-process values from the root dotenv file. The frontend
+receives only its API origin, plus any explicit runtime heap setting. Backend
+provider/admin secrets stay server-side; MCP receives its database, media,
+models and Tavily settings. Root dotenv files are never mounted. Use
+`docker compose config --quiet`; ordinary resolved configuration prints secrets.
 
-From the repository root, use Docker Engine and Compose v2.24.4 or newer:
+The named `postgres_data` and `media_data` volumes persist local data. Media is
+writable by backend UID 10001 and mounted read-only by MCP. Pinned model bundles
+are host bind mounts, read-only in serving containers. Database bootstrap runs
+only on a fresh volume and creates the limited `foodwise` login; application
+migrations and LangGraph checkpoint initialization are explicit setup steps.
+Changing dotenv passwords does not rotate an existing volume's credentials.
+Never delete an owner's volume to repair startup.
+
+After completing initialization, use these commands from the root, with the
+same Compose files/project and credentials selected during setup:
 
 ```bash
-docker compose version
-docker compose config --quiet
-docker compose build backend frontend
-docker compose up -d --wait --wait-timeout 180
+docker compose up -d --no-build --wait --wait-timeout 180
 docker compose ps
 curl --fail http://127.0.0.1:8000/api/v1/health/ready
 curl --fail http://127.0.0.1:3000/health/live
-```
-
-Before those commands, fill missing entries in your existing root `.env` using
-[.env.example](../.env.example). If no `.env` exists, copy the example first.
-Supply a fresh `OPENAI_API_KEY`, a single-quoted Argon2id `ADMIN_PASSWORD_HASH`,
-and distinct `POSTGRES_PASSWORD` and `FOODWISE_DB_PASSWORD` values. Generate
-each database password independently with `openssl rand -hex 32`, then save
-the values locally. `FOODWISE_DB_PASSWORD` permits letters, digits, `_` and `-`
-because Compose embeds it in a URL; initialization rejects other characters.
-Leave Tavily blank to keep trends unavailable. Missing required entries stop
-Compose with a setting name and corrective instruction. Avoid plain
-`docker compose config` in shared logs: resolved output includes credentials.
-
-Compose explicitly selects each service's environment. It overrides host-run
-`DATABASE_URL`, `MCP_SERVER_URL` and `MEDIA_ROOT` with internal service addresses
-and `/var/lib/foodwise/media`. The frontend receives only its server-side
-`FOODWISE_API_ORIGIN=http://backend:8000`, without backend credentials;
-MCP receives only the database URL and media root. No root dotenv file is
-copied or mounted into containers. Configuration validation checks syntax;
-startup and health checks do not verify paid provider access.
-
-The `postgres_data` volume persists PostgreSQL, and `media_data` persists media.
-Backend media is writable by UID 10001; MCP mounts the same volume read-only.
-The database initialization script runs only on a fresh database volume: it
-enables pgvector and creates the `foodwise` login with schema privileges but
-without superuser, database/role creation or replication privileges. Services
-use that login; `postgres` is reserved for initialization/maintenance. Phase 2
-will add application migrations; the scaffold creates no catalog tables.
-
-Changing password variables does not rotate credentials in an existing
-PostgreSQL volume. If initialization was interrupted or credentials changed,
-inspect the database logs and repair that volume deliberately; do not delete
-an existing database to resolve configuration errors. The default stack has
-no database/MCP host ports. Host-run adapters need separately provisioned
-services or an explicit local-only port override.
-
-```bash
 docker compose logs --tail 100 backend mcp db frontend
 docker compose restart backend
 docker compose down
 ```
 
-`down` stops containers and preserves the named volumes. Health dependency
-conditions gate startup using
-[Compose's documented readiness behavior](https://docs.docker.com/compose/how-tos/startup-order/).
-Liveness stays independent of dependencies; backend/MCP readiness returns a
-redacted `503` when local dependencies are unavailable. Healthy means the
-scaffold can serve requests, not that recommendations or live trends exist.
-The frontend check reports its HTTP availability, while backend readiness
-reports backend dependencies. Reserved ports must be free on your machine.
+`down` preserves named volumes. Database and MCP have no published host ports;
+use one-off setup containers on the private network, or a deliberately selected
+localhost-only override for host development. Dependency health gates service
+startup. Liveness stays independent of dependencies; readiness reports redacted
+`503` failures. Health does not verify inference credentials, populated indexes
+or dated live trends; those require their separately recorded checks.
 
-Run the isolated verification from the repository root:
-
-```bash
-python infra/verify_compose.py --build
-```
-
-[The smoke test](verify_compose.py) creates synthetic settings, a unique Compose
-project and random localhost ports. It checks all four services, MCP
-initialization/empty discovery, application-role privileges, the read-only
-media mount, database/media persistence across container recreation, and
-redacted readiness failures during MCP/database outages. It removes only its
-own containers, volumes and ignored temporary configuration, including on
-failure. It never loads the owner's `.env` or uses paid providers. Omit
-`--build` to reuse already built scaffold images. Run it with a host Python
-3.12+ interpreter and Docker access; Snap Docker needs permission to access
-this repository.
-
-The MCP scaffold follows
-[FastMCP HTTP deployment](https://gofastmcp.com/deployment/http) and exposes no
-placeholder culinary tools/resources. Its HTTP transport restricts hosts and
-origins. FastAPI restricts hosts and enables no cross-origin browser access.
-The frontend follows
-[Next.js standalone output](https://nextjs.org/docs/app/api-reference/config/next-config-js/output);
-full UI/proxy security checks are still required when those features arrive.
-
-The pinned FastMCP client/server currently returns `Method not found` for
-protocol ping during this smoke test. Compose uses the custom HTTP readiness
-route. Initialization and tool/resource discovery are checked separately;
-complete transport compatibility, including ping, remains Phase 6 work.
+[The Phase 1 verifier](verify_compose.py) records the earlier scaffold's isolated
+health/persistence/outage contracts. Its empty-tool discovery and environment
+assertions describe that historical scaffold and are not the current application's
+release rehearsal. Use the clean-checkout sequence above for P11-01.
 
 ## Running with limited RAM
 
 [compose.low-memory.yaml](../compose.low-memory.yaml) is an optional override
-for the current Phase 1 scaffold. Use both files on every Compose command;
-using only the base file removes the limits when containers are recreated.
+originally measured for the Phase 1 scaffold. Its MCP ceiling is below the
+standalone CLIP peak measured in Phase 10; use the current setup guide's
+model-aware override for the rehearsal. Use the same override files on every
+Compose command; dropping them removes their limits when containers are recreated.
 
 | Service | RAM ceiling | Adjustment |
 | --- | --- | --- |
@@ -166,22 +112,17 @@ total process memory or the sum of build workers; service limits do not apply
 to Docker builds. Sequential builds reduce competition for RAM. Prefer the
 production server over running an additional Next.js development server.
 
-For isolated validation using synthetic credentials and cached images:
-
-```bash
-python infra/verify_compose.py --low-memory
-```
-
-Add `--build` to verify sequential builds too. The low-memory smoke checks
+The historical low-memory smoke checked
 resolved and enforced limits, actual PostgreSQL settings, cgroup v2 memory
 usage, and absence of OOM kills/automatic restarts, as well as the existing
 health, discovery, persistence and outage contracts. It uses cgroup v2
 accounting on the verified Linux host; other cgroup layouts are unverified.
 
 The [host assessment](memory-assessment.md) records measured hardware and
-verification limits. The scaffold does not load pretrained embedding models.
-When MiniLM/CLIP retrieval is implemented, measure model loading and inference
-peaks before reusing these ceilings. Plan one owner for each resident model,
+verification limits. The original scaffold measurements did not load pretrained embedding models.
+Phase 10 measured standalone CPU model peaks; the 512 MiB MCP ceiling is
+insufficient evidence for resident CLIP inference. Measure full-service model
+loading and inference peaks before reusing these ceilings. Plan one owner for each resident model,
 CPU inference, small batches and bounded embedding jobs. OpenAI's six agent
 roles use remote inference; they do not require six local LLM instances.
 

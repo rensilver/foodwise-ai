@@ -1,4 +1,8 @@
-# Developer workflow (P01-09)
+# Developer workflow
+
+For the complete current application installation, start with the
+[clean-checkout release setup](release-setup.md); the steps below cover host
+development and the historical scaffold checks.
 
 This guide starts from the repository root and covers the FastAPI API,
 FastMCP tools/resources and the Next.js meal workspace. Phase 8 supplies the
@@ -81,25 +85,20 @@ Uvicorn's `--env-file`. Compose supplies service-specific settings and internal
 database/MCP/media addresses itself.
 
 The [Compose guide](README.md) provides prerequisites, builds, startup, health
-probes, logs, restart and shutdown commands. This machine should use its
-[limited-RAM sequence](README.md#running-with-limited-ram), including sequential
-builds. Healthy scaffolds serve at `http://127.0.0.1:3000` and
+probes, logs, restart and shutdown commands. The
+[limited-RAM notes](README.md#running-with-limited-ram) record the original
+scaffold ceilings; use the release setup's model-aware override for a current
+rehearsal and build sequentially. Initialized services serve at `http://127.0.0.1:3000` and
 `http://127.0.0.1:8000`; database and MCP ports stay internal.
 `docker compose down` preserves named volumes. Preserve them when changing
 configuration. Catalog migrations are now explicit host-run operations; see
 the migration commands below.
 
-To verify Compose with isolated synthetic settings, from the repository root:
-
-```bash
-python infra/verify_compose.py --low-memory --build
-```
-
-Use a host Python 3.12+ interpreter and Docker access. This command builds
-sequentially, runs health/discovery/persistence/outage checks, and cleans up its
-own disposable containers and volumes. It does not read the owner's dotenv
-file. Omit `--build` to reuse scaffold images; omit `--low-memory` on a host
-where the ordinary configuration is appropriate.
+The historical `infra/verify_compose.py` targets the Phase 1 scaffold's empty
+MCP discovery and environment assertions. Use the [current clean-checkout
+rehearsal](release-setup.md#build-initialize-and-start-compose) for application
+setup, with a unique project, separate image tags and localhost port bindings.
+It avoids the owner's dotenv file and database/media volumes.
 
 ## Host development
 
@@ -134,8 +133,8 @@ MCP validates database/media, optional local model roots and its optional Tavily
 settings. Both use shared composition roots and redacted JSON application
 logs on stderr, described in the
 [P01-08 guide](../backend/README.md#composition-errors-and-logging-p01-08).
-The scaffold exposes Streamable HTTP at `/mcp`; stdio and culinary tools are
-Phase 6 work. Stop each development server with Ctrl+C.
+MCP exposes Streamable HTTP at `/mcp`; Phase 6 also supplies stdio and culinary
+tools/resources. Stop each development server with Ctrl+C.
 
 Start Next.js from `frontend/`, in a shell without backend settings. The
 same-origin proxy defaults to `http://127.0.0.1:8000`; for another local API port,
@@ -226,7 +225,7 @@ and loopback permissions; resolve sandbox denials before assessing results.
 | Source audit | `python scripts/phase0_audit.py` from the root is implemented. It requires local course/data/media artifacts and writes Phase 0 reports. It does not populate PostgreSQL. | Phase 0 evidence. |
 | Provider capability smoke tests | Explicit opt-in Tavily/OpenAI probes are implemented. The historical graph failed with the previous provider; OpenAI verification is recorded separately. Health/offline tests make no paid calls. | P06-12, P07-01 and P07-14 recorded; live graph acceptance open. |
 | Recommendation/admin API | [Phase 8 API contract](../backend/README.md#phase-8-http-contract) covers browser ownership, SSE, uploads, admin origin/CSRF and atomic CRUD. Backend `MINILM_ROOT`, application migrations and supported checkpoint setup are required for full readiness. | P08-01 through P08-12 verified; Phase 9 browser/proxy evidence is tracked separately. |
-| Full clean-checkout release | Local media/course recovery, application migrations, ingestion and acceptance flows remain required. | P11-01 through P11-09. |
+| Full clean-checkout release | [P11-01 setup sequence](release-setup.md) covers recovery, model provisioning, initialization and startup; restart/restore/live/admin acceptance remain separate. | P11-01 through P11-09. |
 
 From `backend/`, preview the implemented application migrations without connecting:
 
@@ -245,8 +244,8 @@ uv run --locked alembic check
 
 Migrations read only the process environment and require no provider credentials;
 they do not load the root dotenv file or run automatically at application startup.
-The current backend image does not include the migration files; use the host
-checkout. See the [catalog migration guide](../backend/README.md#catalog-persistence-and-migrations-p02-02)
+The current backend image does not include migration files; use the host
+checkout or the read-only setup mounts in the clean-checkout guide. See the [catalog migration guide](../backend/README.md#catalog-persistence-and-migrations-p02-02)
 and [provenance guide](../backend/README.md#source-document-and-media-provenance-p02-03)
 for identity, nullable fields, rollback behavior and verification. These commands
 create the application persistence schema; initialize library checkpoints separately

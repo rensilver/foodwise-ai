@@ -4,6 +4,10 @@ An English-language, local restaurant and recipe recommender based on the IBM
 capstone. The planned application combines six LangGraph agents, cited text and
 image retrieval, PostgreSQL/pgvector, OpenAI API (`gpt-4o-mini`), MCP, and live food trend search.
 
+For a new local installation, follow the [clean-checkout setup guide](infra/release-setup.md)
+and its [P11-01 rehearsal evidence](evaluation/phase11/README.md). It covers
+pinned tools/models, private credentials, media recovery and initialized Compose startup.
+
 Phase 0 is verified, the P01-01 project layout is scaffolded, and P01-02 pins
 the runtimes and backend/frontend dependency graphs. P01-03 adds validated
 backend configuration; P01-04 adds safe examples, setup diagnostics and a
