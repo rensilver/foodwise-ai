@@ -91,3 +91,7 @@ evaluate-phase10-retrieval:
 	@test -n "$$DATABASE_URL" -a -n "$$MINILM_ROOT" -a -n "$$CLIP_ROOT" -a -n "$$MEDIA_ROOT" || (echo "Set DATABASE_URL, MINILM_ROOT, CLIP_ROOT and MEDIA_ROOT"; exit 2)
 	uv run --locked python scripts/evaluate_multimodal_retrieval.py --minilm-root "$$MINILM_ROOT" --clip-root "$$CLIP_ROOT" --queries ../evaluation/phase10/retrieval_queries.json --output ../evaluation/phase10/retrieval_report.json
 	uv run --locked python scripts/compare_phase10_retrieval.py
+
+.PHONY: test-phase10
+test-phase10:
+	PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run --locked pytest -p pytest_asyncio.plugin tests/contract/test_phase10_labels.py tests/unit/test_phase10_*.py

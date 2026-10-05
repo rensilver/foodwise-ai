@@ -643,7 +643,7 @@ Historical planning verification: 122 local document links resolved, Markdown fe
 - [x] P10-07 Test prompt injection in reviews, captions, web excerpts and MCP responses; prove it cannot enable new tools, expose secrets or mutate the catalog.
 - [x] P10-08 Test 429/Retry-After, malformed schema output, missing credentials, model capability mismatch, database/MCP downtime and stale/unavailable trend evidence.
 - [x] P10-09 Test request deadlines, provider concurrency, cancellation, concurrent conversations, per-conversation run exclusion and checkpoint isolation.
-- [ ] P10-10 Recheck upload/archive/network restrictions, admin/session/CSRF behavior, sanitized rendering and redacted logs; scan source and built assets for secrets.
+- [x] P10-10 Recheck upload/archive/network restrictions, admin/session/CSRF behavior, sanitized rendering and redacted logs; scan source and built assets for secrets.
 - [ ] P10-11 Measure stage/end-to-end latency, local embedding resource use, token usage and search calls; report machine details and cold/warm behavior.
 - [ ] P10-12 Run all offline unit/integration/contract/browser checks and explicit live smoke tests separately; record every skipped or blocked check honestly.
 - [ ] P10-13 Run package-boundary and cold ORM-registration contracts alongside acceptance checks; review new adapters for SDK leakage, circular imports and import-time I/O.

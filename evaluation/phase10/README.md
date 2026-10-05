@@ -68,3 +68,52 @@ Sparse positives are not exhaustive relevance judgments or provider-quality scor
   contending for one conversation lease. SSE disconnect/terminal persistence and
   run deadline/exclusion checks pass. Both real MCP transports also passed (2 checks)
   after applying migrations to the new test database.
+- P10-10: 64 targeted security/upload/archive/API checks passed, including
+  IPv4/IPv6 loopback, private/link-local and mixed DNS answers, rejected URL forms,
+  redirect revalidation/pinning, malformed/oversized images, metadata stripping,
+  unsafe ZIP paths/symlinks/expansion/CRC, media ownership and administrator
+  login/logout/expiry/origin/CSRF. Additional scanner tests cover redacted match
+  values, private dotenv preservation, example scanning and symlink rejection.
+  Frontend generated contracts/format/lint/types, 25 component/unit tests and
+  five private-environment/build tests passed; production build succeeded.
+  Five real browser/API/PostgreSQL/HTTP-MCP journeys passed with fake providers,
+  including uploads, admin CRUD/conflicts, restrictions and cancellation.
+  [Redacted scan](security_scan.json) records zero findings in source and fresh
+  built assets, with input manifest digests. CI now scans built frontend assets.
+  Logging tests preserve operational IDs/counters and omit arbitrary message,
+  exception, credential, profile, media and tool content. Only `.env.example`
+  is tracked; existing local configuration and course artifacts are preserved.
+
+## Combined verification and reproduction
+
+On 2026-10-05 the combined offline backend unit/contract suite passed **372 tests
+and 64 subtests**, with no skips. Ruff lint/format, mypy, OpenAPI drift, actionlint
+and Git whitespace checks passed. Targeted real database groups above were run
+before the separate browser harness populated the disposable test database.
+No OpenAI/Tavily/live smoke calls were made; P10-11 onward remains unchecked.
+Full release, live trend evidence and historical publication review are unchanged
+release gates. Source scans detect known token patterns, not arbitrary secrets.
+
+From `backend/`, use `make test-phase10` for the focused deterministic suite and
+`make evaluate-acceptance` to regenerate the graph report. `make
+evaluate-phase10-retrieval` uses explicit `DATABASE_URL`, `MINILM_ROOT`,
+`CLIP_ROOT` and `MEDIA_ROOT` against a seeded catalog with validated associations;
+it runs the existing exact PostgreSQL/CPU evaluator and the baseline comparison.
+The pinned pretrained models/media remain local and ignored. Recreate only a
+fresh disposable `foodwise_test` service for database tests, then run
+`tests/integration/test_agent_checkpoints.py`, `test_api_messages.py`,
+`test_api_workflow.py`, `test_api_admin_auth.py`, `test_api_conversations.py`,
+`test_api_media.py`, `test_api_admin_catalog.py` and `test_mcp_protocol.py` with
+`TEST_DATABASE_URL` configured. MCP protocol tests require applied migrations.
+The frontend `pnpm check`, `pnpm build` and `pnpm test:e2e:integration` commands
+follow [the existing isolated harness instructions](../phase9/README.md).
+Finally, from the repository root:
+
+```bash
+python scripts/scan_secrets.py --build-root frontend/.next --output evaluation/phase10/security_scan.json
+```
+
+The isolated local service used port 55440. It was stopped after verification;
+no owner's database/service or source dataset was changed. Earlier setup checks
+found missing migrations and missing cached review-image associations; both were
+corrected before the passing evidence above was recorded.
