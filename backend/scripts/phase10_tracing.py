@@ -25,6 +25,9 @@ class CaptureExporter:
         self.calls = 0
 
     def export(self, spans):
+        from food_recommender.infrastructure.telemetry.redaction import sanitized_span
+
+        spans = [item for span in spans if (item := sanitized_span(span)) is not None]
         from opentelemetry.exporter.otlp.proto.common.trace_encoder import encode_spans
         from opentelemetry.sdk.trace.export import SpanExportResult
 
@@ -112,3 +115,22 @@ async def traced_case(case, tracing, *, retry=False, malformed=False, cancel=Fal
                 break
             states.append(await task)
     return states, runs
+
+
+def bounded_sdk_call(function, seconds=3):
+    import threading
+
+    done = threading.Event()
+    successful = []
+
+    def invoke():
+        try:
+            function()
+            successful.append(True)
+        except Exception:
+            pass
+        finally:
+            done.set()
+
+    threading.Thread(target=invoke, daemon=True, name="foodwise-audit-flush").start()
+    return done.wait(seconds) and bool(successful)

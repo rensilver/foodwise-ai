@@ -18,6 +18,7 @@ from food_recommender.application.recommendations.tracing import (
     current_tracing,
 )
 from food_recommender.infrastructure.telemetry.config import TelemetrySettings
+from food_recommender.infrastructure.telemetry.scores import trace_selected
 from food_recommender.infrastructure.telemetry.redaction import (
     COUNTERS,
     KINDS,
@@ -155,10 +156,7 @@ class LazyTracing:
             yield NoopObservation()
             return
         self.initialize()
-        if (
-            self.client is None
-            or int(run.hex, 16) / 2**128 >= self.settings.sample_rate
-        ):
+        if self.client is None or not trace_selected(run, self.settings.sample_rate):
             yield NoopObservation()
             return
         assert self.settings.correlation_key

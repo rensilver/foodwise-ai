@@ -1,0 +1,51 @@
+{
+  "version": "phase10-audit-v1",
+  "computed_locally": true,
+  "definitions": {
+    "citation_correctness": {
+      "range": [
+        0,
+        1
+      ],
+      "target": "synthesize-recommendations",
+      "denominator": "published citation references",
+      "definition": "1 - unsupported citation references / published citation references; inapplicable with no citations"
+    },
+    "hard_constraint_violations": {
+      "range": [
+        0,
+        null
+      ],
+      "target": "synthesize-recommendations",
+      "denominator": "published recommendations under hard restrictions",
+      "definition": "count of conflicting or unknown hard-restriction compliance; zero required; inapplicable without hard constraints or recommendations"
+    },
+    "fabricated_ids": {
+      "range": [
+        0,
+        null
+      ],
+      "target": "synthesize-recommendations",
+      "denominator": "published recommendations",
+      "definition": "count of recommendations outside retrieved entity set; zero required; inapplicable with no recommendations"
+    },
+    "expected_outcome": {
+      "range": [
+        0,
+        1
+      ],
+      "target": "recommend-food",
+      "denominator": "one labeled fixture turn",
+      "definition": "1 when locally observed clarification/recommendations/abstention equals source-backed label; zero otherwise"
+    }
+  },
+  "report_only_metrics": {
+    "Recall@20": "source-backed labeled retrieval; category-relevant denominator; not attached to unrelated synthetic graph traces",
+    "nDCG@5": "source-backed graded ranks in retrieval_report.json",
+    "diversity@5": "distinct catalog cuisine ratio at five",
+    "p50/p95": "report-level nearest-rank latency; never a per-observation score"
+  },
+  "inapplicable": "omit when denominator absent",
+  "comments_and_fixture_content": "never export",
+  "native_experiment_helpers": "disabled; they may export local-data experiment content"
+}

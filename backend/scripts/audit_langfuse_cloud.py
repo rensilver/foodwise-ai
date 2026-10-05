@@ -14,7 +14,7 @@ import httpx
 import requests
 from dotenv import dotenv_values
 from scripts.phase10_acceptance import load_labels
-from scripts.phase10_tracing import CaptureExporter, traced_case
+from scripts.phase10_tracing import CaptureExporter, bounded_sdk_call, traced_case
 
 from food_recommender.infrastructure.observability import configure_logging
 from food_recommender.infrastructure.telemetry.audit import (
@@ -100,7 +100,7 @@ def main():
     )
     start = datetime.now(UTC) - timedelta(minutes=1)
     runs = asyncio.run(execute(tracing))
-    tracing.client.flush()
+    assert bounded_sdk_call(tracing.client.flush), "Synthetic export flush deadline"
     private_path = ROOT / ".local-tmp/langfuse-audit-private.json"
     previous = (
         json.loads(private_path.read_text()).get("trace_ids", [])
@@ -159,7 +159,7 @@ def main():
         "paid_provider_calls": 0,
     }
     args.output.write_text(json.dumps(report, indent=2) + "\n")
-    tracing.client.shutdown()
+    bounded_sdk_call(tracing.client.shutdown)
     print(json.dumps({"passed": report["passed"], "traces": len(runs)}))
     return 0 if report["passed"] else 1
 

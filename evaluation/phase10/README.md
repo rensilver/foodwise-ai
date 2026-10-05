@@ -232,3 +232,29 @@ fields are audited directly. SDK 4.16.0/current REST schemas are the tested
 developer tooling; no CLI was installed or required. Actual quota exhaustion
 was simulated, not induced against the Hobby account. Normal conversation
 export remains disabled pending the P10-19 lifecycle gate.
+
+## P10-18 — Local scores and current Cloud score audit
+
+[Metric definitions](score_manifest.json) bind ranges, targets, denominators
+and evaluator revision. [Score report](score_report.json) covers 12 fixture
+turns with 22 locally computed applicable scores; no fabricated ID or hard
+constraint violation was observed. Inapplicable citation/constraint metrics
+are omitted rather than exported as passing zeroes. Retrieval quality and
+aggregate latency remain local report metrics, without falsely associating
+them with different synthetic graph retrieval.
+
+19 score/tracing tests pass, including same-ID retry upsert, shared trace
+sampling decisions, private fixture-reference hashing and a guard against
+invoking hosted dataset/Experiment helpers. Inputs, expected/task outputs,
+images, comments and judges remain local/excluded. Native experiments are
+not enabled because local-data helpers can export content.
+
+A synthetic US Cloud export sent each score twice with the same explicit ID.
+Scores v3 read-back verified exactly 22 stored unique scores, exact values,
+observation/trace associations and allowed metadata, with no comments. Cloud
+links and IDs remain ignored/private. Normal conversation export stays off.
+Short-lived scripts use bounded flushing outside request handling; the first
+per-case network flush exceeded its deadline and was replaced by one bounded
+final export flush. Offline reports and deterministic gates are independent
+of all telemetry results. Run `python -m scripts.export_phase10_scores` from
+`backend/`; add `--enable-cloud` only for a deliberate synthetic Cloud audit.
