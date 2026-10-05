@@ -616,6 +616,7 @@ removed. No secrets or course artifacts were published.
 - [ ] P09-10 Test pending, empty, error, trend-unavailable and partial-image states plus mobile layout and keyboard-only journeys.
 - [ ] P09-11 Run Playwright journeys for text/image recommendations, retained preferences, citations and CRUD; verify changes become searchable.
 - [ ] P09-12 Keep route/proxy shells, feature behavior, shared UI and generated contracts in their documented frontend locations; verify backend rules are not duplicated.
+- [ ] P09-13 Preserve existing run correlation and SSE/cancellation behavior through the proxy; verify Langfuse credentials and SDKs never enter browser code. No new telemetry UI or API fields are required; follow the [Langfuse Cloud plan](infra/langfuse-plan.md).
 
 **Exit criterion:** a nontechnical user can request/refine recommendations and an administrator can maintain the catalog without mock results or placeholder writes.
 
@@ -642,6 +643,27 @@ removed. No secrets or course artifacts were published.
 - [ ] P10-11 Measure stage/end-to-end latency, local embedding resource use, token usage and search calls; report machine details and cold/warm behavior.
 - [ ] P10-12 Run all offline unit/integration/contract/browser checks and explicit live smoke tests separately; record every skipped or blocked check honestly.
 - [ ] P10-13 Run package-boundary and cold ORM-registration contracts alongside acceptance checks; review new adapters for SDK leakage, circular imports and import-time I/O.
+- [ ] P10-14 Validate the [Langfuse Cloud plan](infra/langfuse-plan.md): record region, plan/quota, retention/deletion capabilities and locked SDK compatibility, starting with the reviewed Python v4.16.0 candidate and rechecking the Cloud legacy-API cutoff; configure a dedicated Cloud project and server-side keys only during implementation, with no local Langfuse stack or unapproved paid subscription.
+- [ ] P10-15 Implement optional infrastructure tracing with injected no-op defaults, lazy lifecycle wiring, bounded export/shutdown and privacy allowlists; keep core packages, existing logs, readiness and application contracts independent of Langfuse.
+- [ ] P10-16 Trace each recommendation run and its executed stages, actual OpenAI request attempts and MCP client round trips using stable names and specific observation types; verify concurrent parentage, no duplicates, early exits, retries/repairs, cancellation, reported usage and v4 propagation of opaque session/environment/revision attributes without collecting graph content.
+- [ ] P10-17 Test disabled/enabled/unreachable tracing parity, invalid keys, Cloud 429/quota exhaustion, export backpressure, redaction including media/events/exceptions, and zero telemetry network activity when disabled; use fake exporters offline and an opt-in Cloud execute/fetch/audit loop through current observation APIs with bounded polling and cursor pagination.
+- [ ] P10-18 Export locally computed scores with explicit metric definitions, observation associations and retry deduplication; keep dataset content local and verify that optional Experiment SDK helpers do not export fixture inputs, expected outputs, task outputs or comments. Preserve offline reports and deterministic safety/grounding gates independently of telemetry or LLM judges.
+- [ ] P10-19 Measure SDK memory/latency overhead, queue bounds, export traffic and Cloud volume against a recorded baseline and predeclared limits; test trace-level sampling and score consistency, metadata-only export, supported retention/purge and deletion of conversation-linked traces including delayed exports. Record gaps without claiming operational readiness.
+
+**Langfuse sequencing:** P10-14 is the feasibility gate; P10-15 precedes P10-16,
+then P10-17 validates isolation before P10-18/19 acceptance. Evaluation fixtures
+P10-01–06 remain prerequisites for meaningful scores. The owner selected Langfuse
+Cloud with sanitized operational metadata on 2026-10-05, replacing the initial
+self-hosting preference to avoid the added local service RAM demand. The
+[assessment and implementation plan](infra/langfuse-plan.md) records integration
+points, privacy controls, quota/region decisions and SDK overhead verification.
+The 2026-10-05 [upstream skill review](infra/langfuse-plan.md#review-against-the-langfuse-skill)
+adds current API/version guidance, an observation contract and stored-trace audits;
+content capture, hosted prompts and hosted evaluators remain outside this scope.
+All Langfuse tasks are planned and unverified; account setup, dependency installation
+and runtime changes are not part of this planning update.
+Langfuse is optional operational tooling: integration blockers must remain visible,
+but do not replace or weaken the application's existing release gates.
 
 **Exit criterion:** acceptance fixtures satisfy grounding/constraint invariants, required failure cases pass, and quality/performance results are reproducible without unsupported claims.
 
@@ -665,6 +687,8 @@ removed. No secrets or course artifacts were published.
 - [ ] P11-08 Confirm the complete-release gate: validated imagery, real RAG, six-agent graph, live search integration, frontend/admin usability and passing acceptance tests.
 - [ ] P11-09 Review all checklist marks and evidence with the user; preserve unresolved/deferred items and document the final tested versions.
 - [ ] P11-10 Rehearse documented module/CLI paths and model registration from a clean checkout; align package guidance, scripts and links with the release structure.
+- [ ] P11-11 Rehearse optional Langfuse Cloud project/region setup, disable/offline operation, credential rotation, quota checks, supported retention/deletion and SDK upgrade/rollback; preserve local evaluation reports and prove the full application works with tracing disabled or Cloud unavailable.
+- [ ] P11-12 Record a sanitized Cloud trace/evaluation demonstration, private trace links and read-back audit evidence, measured SDK resource/latency overhead, export volume and exact tested client/CLI versions plus reviewed skill revision/date; leave Langfuse integration unchecked if access or verification is blocked and document that limitation separately from application acceptance.
 
 **Exit criterion:** another developer can reproduce the full local application and its demonstrated behavior; degraded modes are documented, not used to conceal missing release requirements.
 
