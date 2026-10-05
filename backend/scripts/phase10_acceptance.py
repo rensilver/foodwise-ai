@@ -190,6 +190,50 @@ async def execute_case(case):
     return states, inference, tools
 
 
+def audit_state(state):
+    """Independent acceptance gate over published references and canonical restrictions."""
+    from food_recommender.agents.graph import catalog, profile
+    from food_recommender.application.recommendations.nutrition_rules import (
+        deterministic_nutrition,
+    )
+    from food_recommender.domain.values import EvidenceState, Strength
+
+    candidates = catalog(state)
+    preferences = profile(state)
+    known = {c.evidence.entity: c for c in candidates}
+    authoritative = {
+        a.entity: a.state
+        for a in deterministic_nutrition(preferences, candidates).assessments
+    }
+    hard = any(c.strength == Strength.HARD for c in preferences.preferences.constraints)
+    violations = dict.fromkeys(
+        (
+            "fabricated_recommendations",
+            "fabricated_citations",
+            "hard_constraint_violations",
+            "duplicate_recommendations",
+        ),
+        0,
+    )
+    seen = set()
+    for item in (state.get("final") or {}).get("result", {}).get("recommendations", []):
+        ref = EntityRef(Category(item["entity"]["category"]), item["entity"]["id"])
+        violations["duplicate_recommendations"] += ref in seen
+        seen.add(ref)
+        food = known.get(ref)
+        if food is None:
+            violations["fabricated_recommendations"] += 1
+            continue
+        allowed = {citation.id for citation in food.evidence.citations}
+        violations["fabricated_citations"] += len(set(item["citation_ids"]) - allowed)
+        violations["hard_constraint_violations"] += authoritative[
+            ref
+        ] == EvidenceState.CONFLICTING or (
+            hard and authoritative[ref] != EvidenceState.SUPPORTED
+        )
+    return violations
+
+
 if __name__ == "__main__":
 
     async def main():

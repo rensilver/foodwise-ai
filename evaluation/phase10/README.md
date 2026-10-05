@@ -33,3 +33,8 @@ Sparse positives are not exhaustive relevance judgments or provider-quality scor
   drops to 0.977; initial defaults remain unchanged. Empty-label queries are
   excluded from recall/nDCG means, and identity-image limitations remain explicit.
   The importer still reports the existing 16 entity-review pairs, with no rejects.
+- P10-05: 40 acceptance/label/constraint tests passed. Every fixture turn records
+  zero fabricated recommendation IDs, unsupported citation IDs, duplicates and
+  hard-constraint violations. Full-graph adversarial synthesis attempts forge an
+  entity, citation or category and fail after one repair without publishing items.
+  Canonical conflicts and unknown allergy compliance continue to abstain.

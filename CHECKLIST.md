@@ -638,7 +638,7 @@ Historical planning verification: 122 local document links resolved, Markdown fe
 - [x] P10-02 Add text/image queries, follow-up corrections, restrictive/no-match cases, missing dietary evidence, and expected abstention/clarification outcomes.
 - [x] P10-03 Label relevant entity IDs and supporting source evidence; record dataset, model, prompt and embedding revisions with reports.
 - [x] P10-04 Measure Recall@20, nDCG@5 and diversity; compare text, multimodal and fusion settings against the initial baseline before selecting tuned defaults.
-- [ ] P10-05 Require zero fabricated recommendation/citation IDs and zero hard-constraint violations in deterministic acceptance fixtures.
+- [x] P10-05 Require zero fabricated recommendation/citation IDs and zero hard-constraint violations in deterministic acceptance fixtures.
 - [ ] P10-06 Verify no allergen guarantees, invented nutrient quantities, unverified restaurant facts or unsupported current-trend claims appear in results.
 - [ ] P10-07 Test prompt injection in reviews, captions, web excerpts and MCP responses; prove it cannot enable new tools, expose secrets or mutate the catalog.
 - [ ] P10-08 Test 429/Retry-After, malformed schema output, missing credentials, model capability mismatch, database/MCP downtime and stale/unavailable trend evidence.

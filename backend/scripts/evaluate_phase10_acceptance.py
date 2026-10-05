@@ -9,7 +9,7 @@ import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
 
-from phase10_acceptance import LABELS, ROOT, execute_case, load_labels
+from phase10_acceptance import LABELS, ROOT, audit_state, execute_case, load_labels
 
 from food_recommender.agents.prompts import PROMPT_VERSION
 from food_recommender.retrieval.embedding_contracts import (
@@ -76,6 +76,8 @@ async def evaluate(output):
                 else "failure"
             )
             assert actual == turn["expected"], f"Unexpected outcome for {case['id']}"
+            violations = audit_state(state)
+            assert not any(violations.values()), f"Grounding violation for {case['id']}"
             turns.append(
                 {
                     "expected": turn["expected"],
@@ -83,6 +85,7 @@ async def evaluate(output):
                     "recommendations": items,
                     "limitations": final.get("result", {}).get("limitations", []),
                     "metrics": state["metrics"],
+                    "violations": violations,
                 }
             )
         rows.append(
