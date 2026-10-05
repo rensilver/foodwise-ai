@@ -30,7 +30,7 @@ export function useConversation(initialId?: string) {
       const body: Schema['MessageSubmission'] = { message: draft, categories, client_request_id: crypto.randomUUID(), ...(explicit ? { explicit } : {}), ...(mediaId ? { media_id: mediaId } : {}) };
       const response = await fetch(`/api/v1/conversations/${encodeURIComponent(identity)}/messages`, { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json', accept: 'text/event-stream' }, body: JSON.stringify(body), signal: abort.signal });
       await consumeEvents(response, identity, (event) => setEvents((previous) => [...previous, event]));
-      await refresh(identity); setDraft('');
+      await refresh(identity); setDraft(''); return true;
     } catch (e) {
       setError(e instanceof ApiError ? e.message : abort.signal.aborted ? 'Request stopped. Your draft is available to send again.' : 'Connection interrupted. Checking saved conversation.');
       if (identity) await refresh(identity).catch(() => setError('Saved conversation could not be loaded. Try loading history before sending again.'));
