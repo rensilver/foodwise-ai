@@ -600,27 +600,31 @@ removed. No secrets or course artifacts were published.
 
 **Prerequisites:** Phase 8 and frontend scaffold.
 
-**Outputs:** responsive chat/catalog/admin experience with accessible states and source-backed recommendations.
+**Design and delivery plan:** [frontend/DESIGN_PLAN.md](frontend/DESIGN_PLAN.md) defines the meal-choice workspace, palette/type/layout tokens, responsive wireframes, interaction/state contracts, delivery order and visual review gates. Implement from this plan using the frontend-design skill; preserve `PRODUCT_NAME` branding. Implementation and review evidence are recorded below.
 
-**Verification:** component tests and browser journeys on desktop/mobile viewport sizes.
+**Outputs:** responsive English chat/catalog/admin experience with distinct restaurant/recipe presentation, accessible states, visible retained restrictions and inspectable source-backed recommendations.
 
-- [ ] P09-01 Build App Router layouts/navigation and shared Tailwind/shadcn components with keyboard navigation, focus management and accessible labels.
-- [ ] P09-02 Add the same-origin API proxy and generated-type client; keep database/provider credentials on the server and preserve SSE streaming.
-- [ ] P09-03 Implement conversations/history/reset, text input, example prompts, clarification and follow-up messages.
-- [ ] P09-04 Add editable preference controls distinguishing hard dietary constraints from soft preferences without silently clearing prior restrictions.
-- [ ] P09-05 Implement image upload/preview/removal using media IDs, client-side guidance and server validation errors.
-- [ ] P09-06 Show meaningful progress and cancellation; handle disconnected streams by loading conversation state rather than replaying inference.
-- [ ] P09-07 Render restaurant/recipe cards, images, explanations, source excerpts/dates and explicit unknown/degraded states using sanitized content.
-- [ ] P09-08 Provide catalog browse/detail views and label the synthetic course data accurately; avoid unsupported live availability or nutrition claims.
-- [ ] P09-09 Add local admin sign-in, extraction preview, create/edit forms, version-conflict handling and confirmed deletion.
-- [ ] P09-10 Test pending, empty, error, trend-unavailable and partial-image states plus mobile layout and keyboard-only journeys.
-- [ ] P09-11 Run Playwright journeys for text/image recommendations, retained preferences, citations and CRUD; verify changes become searchable.
-- [ ] P09-12 Keep route/proxy shells, feature behavior, shared UI and generated contracts in their documented frontend locations; verify backend rules are not duplicated.
-- [ ] P09-13 Preserve existing run correlation and SSE/cancellation behavior through the proxy; verify Langfuse credentials and SDKs never enter browser code. No new telemetry UI or API fields are required; follow the [Langfuse Cloud plan](infra/langfuse-plan.md).
+**Verification:** component and real API integration tests, browser journeys at desktop/mobile widths, accessibility checks and recorded screenshot critique. Ordinary tests use fake provider boundaries; paid live checks remain opt-in.
 
-**Exit criterion:** a nontechnical user can request/refine recommendations and an administrator can maintain the catalog without mock results or placeholder writes.
+- [x] P09-01 Build the planned meal-choice App Router layouts/navigation and tokenized Tailwind/shadcn components; verify local font assets, keyboard navigation, focus management, accessible labels and responsive reading order.
+- [x] P09-02 Add the same-origin API proxy and generated-type client; preserve cookies, CSRF/origin checks, errors, SSE streaming and abort propagation. Keep credentials server-side and resolve the plan's catalog-image delivery dependency before image presentation completion.
+- [x] P09-03 Implement owned conversations/history, text input, editable example prompts, clarification and follow-ups; separate new conversation from confirmed deletion and prevent duplicate submission.
+- [x] P09-04 Add editable preference controls separating hard dietary constraints from soft preferences; show retained restrictions and pending changes, and use explicit removals without silently clearing prior restrictions.
+- [x] P09-05 Implement image upload/preview/draft removal using media IDs, client-side guidance and server validation errors; cover pending/failed attachments and ownership without claiming draft removal deletes stored media.
+- [x] P09-06 Show actual stage progress and cancellation without invented percentages; handle disconnected streams by loading conversation state rather than replaying inference, preserving the draft for explicit resubmission.
+- [x] P09-07 Render separate restaurant/recipe groups with supported facts, correctly associated images, explanations, expandable source excerpts/dates and explicit unknown/degraded states using sanitized content; never portray relevance as dietary confidence.
+- [x] P09-08 Provide catalog browse/detail views with supported category-specific filters, pagination and return navigation; label the synthetic course data accurately and avoid unsupported live availability or nutrition claims.
+- [x] P09-09 Add local admin sign-in/logout/expiry, extraction preview with separate save, create/edit forms, draft-preserving version-conflict handling and named deletion confirmation including linked-record impact.
+- [x] P09-10 Test the plan's pending, clarification, empty, error, trend-unavailable, partial-image and admin recovery states; verify mobile/zoom/reduced-motion layouts, keyboard/screen-reader access and automated accessibility checks, then record screenshot critique and corrections.
+- [x] P09-11 Run Playwright journeys for text/image recommendations, retained preferences/corrections, citations, refresh/disconnect/no-replay and CRUD; verify persistence and searchable changes through the real API/database with controlled provider fixtures, separately from mocked UI tests.
+- [x] P09-12 Keep route/proxy shells, feature behavior, shared UI and generated contracts in their documented frontend locations; verify backend rules are not duplicated.
+- [x] P09-13 Preserve existing run correlation and SSE/cancellation behavior through the proxy; verify Langfuse credentials and SDKs never enter browser code. No new telemetry UI or API fields are required; follow the [Langfuse Cloud plan](infra/langfuse-plan.md).
 
-**Evidence / blockers:** _Pending._
+**Exit criterion:** a nontechnical user can request/refine source-backed recommendations, inspect evidence and recover from interrupted requests on desktop/mobile; an administrator can maintain the catalog without mock results or placeholder writes. Required accessibility, visual review and real API journeys pass, including correct image associations and searchable CRUD changes.
+
+**Evidence / blockers:** All P09-01–P09-13 implemented and verified on 2026-10-05, with one dedicated commit per task on `feature/phase9-nextjs-frontend`. [Phase 9 evidence](evaluation/phase9/README.md) records reproduction and [visual review](evaluation/phase9/visual-review.md). Checks passed: frontend generated drift/format/lint/strict TypeScript, 25 unit/component tests and five configuration checks; ten production UI/accessibility/browser-asset checks (46.1 s); five real API/PostgreSQL/pgvector/checkpoint/HTTP MCP journeys (58.0 s), using controlled inference and pretrained local MiniLM/CLIP; full backend checks with 475 tests (69.31 s). Real journeys verify restrictions/removal, citations, correct image associations and private media ownership, cancellation/no-replay, run correlation, searchable recipe/restaurant CRUD and catalog navigation. Catalog image receipts and authorized entity-bound image delivery close the dependency. Langfuse/OTEL settings are rejected in Next.js and production browser assets contain no credentials or Langfuse SDK. No paid provider calls were made. Physical-device/spoken assistive-technology testing was unavailable; recorded keyboard/accessibility-tree/axe checks and emulated responsive views define the limits. Existing Phase 7/full-release live acceptance remains open; fixture-based frontend checks do not close it.
+
+Historical planning verification: 122 local document links resolved, Markdown fences balanced, all 152 existing task IDs/completion marks preserved, other phases unchanged, and `git diff --check` passed. Four proposed text/background pairs measured at least 5.62:1 contrast; rendered control/focus states still require implementation-time checks. No runtime code, dependencies or owner configuration changed; no browser acceptance or provider calls were performed.
 
 ## Phase 10 — Evaluation, reliability, and hardening
 

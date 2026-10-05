@@ -4,6 +4,8 @@ from dataclasses import dataclass
 from typing import Protocol
 from uuid import UUID
 
+from food_recommender.domain.values import EntityRef
+
 
 @dataclass(frozen=True)
 class MediaReceipt:
@@ -40,5 +42,8 @@ class UploadFiles(Protocol):
 
 
 class MediaRepository(Protocol):
+    async def catalog_images(self, ref: EntityRef) -> tuple[MediaReceipt, ...]: ...
+    async def catalog_image(self, ref: EntityRef, media_id: str) -> StoredMedia: ...
+
     async def create(self, owner: UUID, media: StoredMedia) -> None: ...
     async def get(self, owner: UUID, media_id: str) -> StoredMedia: ...

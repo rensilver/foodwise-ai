@@ -1,0 +1,7 @@
+src/lib/api/generated.ts
+src/lib/api/openapi.json
+next-env.d.ts
+node_modules/
+.next/
+playwright-report/
+test-results/

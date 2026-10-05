@@ -11,6 +11,7 @@ from food_recommender.application.media.ports import (
     UploadFiles,
 )
 from food_recommender.application.unit_of_work import UnitOfWork
+from food_recommender.domain.values import EntityRef
 
 
 class MediaService:
@@ -46,3 +47,21 @@ class MediaService:
         async with self.transactions() as transaction:
             stored = await transaction.media.get(owner, media_id)
         return stored.receipt, await self.files.read(stored.storage_key)
+
+    async def read_catalog(
+        self, ref: EntityRef, media_id: str
+    ) -> tuple[MediaReceipt, bytes]:
+        async with self.transactions() as transaction:
+            stored = await transaction.media.catalog_image(ref, media_id)
+        # Catalog originals can contain metadata; browser delivery uses the same
+        # bounded sanitizer as uploads and never exposes their storage key.
+        image = await self.sanitizer.prepare(
+            await self.files.read(stored.storage_key), stored.receipt.mime_type
+        )
+        return MediaReceipt(
+            stored.receipt.id,
+            image.mime_type,
+            len(image.content),
+            image.width,
+            image.height,
+        ), image.content

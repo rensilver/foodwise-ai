@@ -21,8 +21,10 @@ The pre-Phase-7 review found four maintenance problems:
 
 The structure below addresses those boundaries while retaining the existing
 algorithms, database schema, configured models and external API/MCP contracts.
-The frontend remains a small scaffold; its existing App Router and feature
-boundaries are appropriate for Phase 9.
+The frontend uses thin App Router shells and a fixed-origin proxy in `app`,
+cohesive behavior in `features`, shared accessible UI in `components`, and
+generated contracts/framing clients in `lib`. Backend domain rules remain
+behind FastAPI. See [frontend responsibilities](../frontend/README.md#package-boundaries).
 
 ## Backend map
 

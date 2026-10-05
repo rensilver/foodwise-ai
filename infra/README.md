@@ -54,7 +54,8 @@ Compose with a setting name and corrective instruction. Avoid plain
 
 Compose explicitly selects each service's environment. It overrides host-run
 `DATABASE_URL`, `MCP_SERVER_URL` and `MEDIA_ROOT` with internal service addresses
-and `/var/lib/foodwise/media`. The frontend receives no backend configuration;
+and `/var/lib/foodwise/media`. The frontend receives only its server-side
+`FOODWISE_API_ORIGIN=http://backend:8000`, without backend credentials;
 MCP receives only the database URL and media root. No root dotenv file is
 copied or mounted into containers. Configuration validation checks syntax;
 startup and health checks do not verify paid provider access.

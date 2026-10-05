@@ -1,0 +1,260 @@
+"use client";
+import { useState } from "react";
+import type { Schema } from "../../lib/api/client";
+import { Button } from "../../components/ui/button";
+export function PreferencesPanel({
+  saved,
+  pending,
+  onChange,
+  disabled = false,
+}: {
+  saved?: Schema["Preferences"] | null;
+  pending?: Schema["PreferenceUpdate"];
+  onChange: (update: Schema["PreferenceUpdate"] | undefined) => void;
+  disabled?: boolean;
+}) {
+  const [texts, setTexts] = useState<
+    Partial<Record<"cuisines" | "flavors", string>>
+  >({});
+  const [value, setValue] = useState("");
+  const [kind, setKind] = useState<Schema["ConstraintKind"]>("allergen");
+  const [strength, setStrength] = useState<Schema["Strength"]>("hard");
+  const update = pending ?? { constraints: [], remove_constraints: [] };
+  const removed = (c: Schema["Constraint"]) =>
+    update.remove_constraints.some(
+      (key) => key.kind === c.kind && key.value === c.value,
+    );
+  const active = [
+    ...(saved?.constraints ?? []).filter((c) => !removed(c)),
+    ...update.constraints,
+  ].filter(
+    (c, index, all) =>
+      all.findIndex(
+        (other) => c.kind === other.kind && c.value === other.value,
+      ) === index,
+  );
+  function add() {
+    if (!value.trim()) return;
+    const constraint: Schema["Constraint"] = {
+      kind,
+      strength,
+      origin: "explicit",
+      value: value.trim(),
+    };
+    onChange({
+      ...update,
+      constraints: [
+        ...update.constraints.filter(
+          (c) => !(c.kind === kind && c.value === value.trim()),
+        ),
+        constraint,
+      ],
+      remove_constraints: update.remove_constraints.filter(
+        (c) => !(c.kind === kind && c.value === value.trim()),
+      ),
+    });
+    setValue("");
+  }
+  function remove(c: Schema["Constraint"]) {
+    onChange({
+      ...update,
+      constraints: update.constraints.filter(
+        (item) => !(item.kind === c.kind && item.value === c.value),
+      ),
+      remove_constraints: [
+        ...update.remove_constraints.filter(
+          (key) => !(key.kind === c.kind && key.value === c.value),
+        ),
+        { kind: c.kind, value: c.value },
+      ],
+    });
+  }
+  return (
+    <aside className="preferences" aria-label="Your preferences">
+      <h2>Your preferences</h2>
+      <h3>Must avoid</h3>
+      {active.filter((c) => c.strength === "hard").length ? (
+        <ul>
+          {active
+            .filter((c) => c.strength === "hard")
+            .map((c) => (
+              <li key={`${c.kind}:${c.value}`}>
+                {c.value} ({c.kind}, {c.origin}){" "}
+                <Button
+                  variant="secondary"
+                  disabled={disabled}
+                  onClick={() => remove(c)}
+                  aria-label={`Remove ${c.value}`}
+                >
+                  Remove
+                </Button>
+              </li>
+            ))}
+        </ul>
+      ) : (
+        <p className="note">No hard restrictions saved.</p>
+      )}
+      <h3>Likes</h3>
+      <p>
+        {(update.cuisines ?? saved?.cuisines)?.join(", ") ||
+          "No cuisines selected."}
+      </p>
+      <p>
+        {(update.flavors ?? saved?.flavors)?.join(", ") ||
+          "No flavors selected."}
+      </p>
+      {active
+        .filter((c) => c.strength === "soft")
+        .map((c) => (
+          <p key={`${c.kind}:${c.value}`}>
+            {c.value} (preference, {c.origin}){" "}
+            <Button
+              variant="secondary"
+              disabled={disabled}
+              onClick={() => remove(c)}
+              aria-label={`Remove ${c.value}`}
+            >
+              Remove
+            </Button>
+          </p>
+        ))}
+      {pending && (
+        <p className="notice" role="status">
+          Pending changes apply to your next message.
+          {update.remove_constraints.length > 0 &&
+            ` Removing: ${update.remove_constraints.map((c) => c.value).join(", ")}.`}
+        </p>
+      )}
+      <details>
+        <summary>Edit preferences</summary>
+        <fieldset
+          disabled={disabled}
+          className="stack"
+          style={{ border: 0, padding: 0 }}
+        >
+          <label>
+            Restriction type
+            <select
+              value={kind}
+              onChange={(e) =>
+                setKind(e.target.value as Schema["ConstraintKind"])
+              }
+            >
+              <option value="allergen">Allergen</option>
+              <option value="dietary">Dietary</option>
+            </select>
+          </label>
+          <label>
+            Requirement
+            <select
+              value={strength}
+              onChange={(e) =>
+                setStrength(e.target.value as Schema["Strength"])
+              }
+            >
+              <option value="hard">Must avoid / strict</option>
+              <option value="soft">Soft preference</option>
+            </select>
+          </label>
+          <label>
+            Restriction
+            <input
+              maxLength={100}
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              placeholder="For example: peanut or vegan"
+            />
+          </label>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={add}
+            disabled={!value.trim() || active.length >= 20}
+          >
+            Add restriction
+          </Button>
+          <p className="note">
+            Hard requirements exclude unknown compliance. Images do not
+            establish allergen absence or cross-contact safety.
+          </p>
+          {(["cuisines", "flavors"] as const).map((field) => (
+            <label key={field}>
+              {field === "cuisines"
+                ? "Preferred cuisines (comma separated)"
+                : "Preferred flavors (comma separated)"}
+              <input
+                value={
+                  texts[field] ??
+                  (update[field] ?? saved?.[field] ?? []).join(", ")
+                }
+                onChange={(e) => {
+                  setTexts({ ...texts, [field]: e.target.value });
+                  onChange({
+                    ...update,
+                    [field]: [
+                      ...new Set(
+                        e.target.value
+                          .split(",")
+                          .map((v) => v.trim())
+                          .filter(Boolean),
+                      ),
+                    ],
+                  });
+                }}
+              />
+            </label>
+          ))}
+          <label>
+            Restaurant location
+            <input
+              maxLength={100}
+              value={
+                "location" in update
+                  ? (update.location ?? "")
+                  : (saved?.location ?? "")
+              }
+              onChange={(e) =>
+                onChange({ ...update, location: e.target.value || null })
+              }
+            />
+          </label>
+          <label>
+            Restaurant price band
+            <select
+              value={
+                "price_band" in update
+                  ? (update.price_band ?? "")
+                  : (saved?.price_band ?? "")
+              }
+              onChange={(e) =>
+                onChange({
+                  ...update,
+                  price_band: e.target.value ? Number(e.target.value) : null,
+                })
+              }
+            >
+              <option value="">Any / unknown</option>
+              {[1, 2, 3, 4].map((n) => (
+                <option key={n} value={n}>
+                  Up to {"$".repeat(n)} (source band)
+                </option>
+              ))}
+            </select>
+          </label>
+          <p className="note">Location and budget apply to places to eat.</p>
+          {pending && (
+            <Button
+              variant="secondary"
+              onClick={() => {
+                onChange(undefined);
+                setTexts({});
+              }}
+            >
+              Discard pending changes
+            </Button>
+          )}
+        </fieldset>
+      </details>
+    </aside>
+  );
+}
