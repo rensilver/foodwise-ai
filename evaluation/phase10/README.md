@@ -117,3 +117,17 @@ The isolated local service used port 55440. It was stopped after verification;
 no owner's database/service or source dataset was changed. Earlier setup checks
 found missing migrations and missing cached review-image associations; both were
 corrected before the passing evidence above was recorded.
+
+## P10-11 — Local performance
+
+[Performance report](performance_report.json) records 120 real-graph fixture
+turns: p50 14.85 ms, p95 23.13 ms, with six stage distributions and actual
+fixture attempt/search counts. Provider tokens remain unknown, rather than
+claiming fixture zeroes measure live usage. Fresh-process CPU MiniLM/CLIP
+loads took 8.53/6.89 s; warm text encode p50 17.76/49.43 ms; peak process RSS
+490.65/975.54 MiB. Machine, CPU time, single-thread configuration and first
+encode measurements are in the report. OS page-cache temperature is uncontrolled.
+Graph measurements exclude DB, browser and provider/network latency; embedding
+probes run separately. This is a reproducible local baseline, not live service
+performance. One summary contract passed after its initial missing-module failure.
+Run `make measure-phase10` with the ignored pretrained model directories present.

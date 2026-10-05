@@ -95,3 +95,7 @@ evaluate-phase10-retrieval:
 .PHONY: test-phase10
 test-phase10:
 	PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run --locked pytest -p pytest_asyncio.plugin tests/contract/test_phase10_labels.py tests/unit/test_phase10_*.py
+
+.PHONY: measure-phase10
+measure-phase10:
+	OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 uv run --locked python scripts/measure_phase10_performance.py
