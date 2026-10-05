@@ -57,8 +57,15 @@ def safe_attributes(attributes: Any) -> dict[str, Any]:
             and re.fullmatch(r"[0-9a-f]{64}", value)
         ):
             result[key] = value
-        elif key.startswith("langfuse.observation.metadata."):
+        elif key.startswith(
+            ("langfuse.observation.metadata.", "langfuse.trace.metadata.")
+        ):
             field = key.rsplit(".", 1)[1]
+            if field in COUNTERS and isinstance(value, str) and len(value) < 32:
+                try:
+                    value = float(value)
+                except ValueError:
+                    continue
             if (
                 field in COUNTERS
                 and isinstance(value, (int, float))
@@ -114,7 +121,7 @@ def sanitized_span(span: Any) -> Any | None:
     return ReadableSpan(
         name=span.name,
         context=span.context,
-        parent=span.parent,
+        parent=None if span.name == "recommend-food" else span.parent,
         start_time=span.start_time,
         end_time=span.end_time,
         attributes=safe_attributes(span.attributes),

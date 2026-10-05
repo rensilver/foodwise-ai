@@ -64,6 +64,7 @@ def diagnostic() -> None:
 def sdk_factory(settings: TelemetrySettings, exporter: Any = None) -> Any:
     import base64
 
+    import requests
     from langfuse import Langfuse
     from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
     from opentelemetry.sdk.resources import Resource
@@ -97,6 +98,7 @@ def sdk_factory(settings: TelemetrySettings, exporter: Any = None) -> Any:
             },
             timeout=2,
             max_request_size=256 * 1024,
+            session=requests.Session(),
         )
     else:
         destination = exporter

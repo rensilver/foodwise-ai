@@ -205,3 +205,30 @@ initial missing-root red failure. A real SDK with fake OTLP export verifies
 six sibling stages, one synthesis, propagated opaque session and two generation
 observations for one 429 followed by success, with usage recorded once. Mypy
 passed. Cloud read-back and expanded concurrency/privacy checks are P10-17.
+
+## P10-17 — Tracing isolation and Cloud audit
+
+15 offline SDK/exporter contracts pass: unchanged fixture results under actual
+mocked OTLP HTTP 401/429/503 and timeout responses; isolated concurrent trace
+parentage; early clarification; retries, schema repair and cancellation; no
+SDK imports/threads/network while disabled; bounded cursor pagination; and a
+saturated 32-observation test queue that drops spans without blocking work.
+Serialized privacy checks cover inputs, outputs, metadata, events, exceptions
+and media sentinels. Core/static checks and schema drift pass.
+
+[Current Cloud audit](langfuse_cloud_audit.json) verifies eight synthetic traces
+(full graph, follow-up turns, clarification, retry, schema repair, cancellation)
+through Observations v2, with bounded polling/pagination and stored type,
+parentage, content, usage, opaque session, run/revision and duration checks.
+Exact trace references remain ignored/private for targeted cleanup. No paid
+inference, dataset upload, raw content or ordinary conversation export occurs.
+
+The execute/fetch/audit loop found and fixed: SDK synthetic-root parentage;
+SDK floating-point metadata serialization; v4 propagated trace-metadata
+allowlisting; the server rejecting `parseIoAsJson=true` despite the published
+parameter; and proxy support in the default OTLP transport. The corrected
+exporter uses a requests session. Current API returns raw IO strings; empty
+fields are audited directly. SDK 4.16.0/current REST schemas are the tested
+developer tooling; no CLI was installed or required. Actual quota exhaustion
+was simulated, not induced against the Hobby account. Normal conversation
+export remains disabled pending the P10-19 lifecycle gate.

@@ -1,0 +1,134 @@
+{
+  "date": "2026-10-05",
+  "sdk": "4.16.0",
+  "region": "US",
+  "mode": "synthetic graph and mocked OpenAI HTTP, metadata only",
+  "traces": 8,
+  "export_calls": 3,
+  "serialized_bytes": 70156,
+  "audits": [
+    {
+      "observations": 14,
+      "names": {
+        "request-structured-response": 5,
+        "synthesize-recommendations": 1,
+        "search_food_trends": 1,
+        "analyze-trends": 1,
+        "analyze-style": 1,
+        "assess-nutrition": 1,
+        "search_recipes": 1,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 14,
+      "names": {
+        "synthesize-recommendations": 1,
+        "analyze-style": 1,
+        "analyze-trends": 1,
+        "assess-nutrition": 1,
+        "search_recipes": 3,
+        "request-structured-response": 4,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 14,
+      "names": {
+        "synthesize-recommendations": 1,
+        "analyze-style": 1,
+        "analyze-trends": 1,
+        "assess-nutrition": 1,
+        "search_recipes": 3,
+        "request-structured-response": 4,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 14,
+      "names": {
+        "request-structured-response": 5,
+        "synthesize-recommendations": 1,
+        "search_food_trends": 1,
+        "analyze-trends": 1,
+        "analyze-style": 1,
+        "assess-nutrition": 1,
+        "search_recipes": 1,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 3,
+      "names": {
+        "request-structured-response": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 15,
+      "names": {
+        "request-structured-response": 6,
+        "synthesize-recommendations": 1,
+        "search_food_trends": 1,
+        "analyze-trends": 1,
+        "analyze-style": 1,
+        "assess-nutrition": 1,
+        "search_recipes": 1,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 15,
+      "names": {
+        "request-structured-response": 6,
+        "synthesize-recommendations": 1,
+        "analyze-trends": 1,
+        "search_food_trends": 1,
+        "analyze-style": 1,
+        "assess-nutrition": 1,
+        "search_recipes": 1,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 3,
+      "names": {
+        "request-structured-response": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "normal_conversation_export": false,
+  "paid_provider_calls": 0
+}

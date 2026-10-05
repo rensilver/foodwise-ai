@@ -99,3 +99,9 @@ test-phase10:
 .PHONY: measure-phase10
 measure-phase10:
 	OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 uv run --locked python scripts/measure_phase10_performance.py
+
+.PHONY: audit-langfuse-cloud
+# Synthetic metadata export only; no paid inference and no normal conversation export.
+audit-langfuse-cloud:
+	@test "$$ENABLE_LANGFUSE_CLOUD" = "1" || (echo "Set ENABLE_LANGFUSE_CLOUD=1 for synthetic Cloud export"; exit 2)
+	uv run --locked python -m scripts.audit_langfuse_cloud --enable-cloud

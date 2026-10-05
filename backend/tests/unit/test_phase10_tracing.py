@@ -166,6 +166,16 @@ async def test_parallel_graph_stages_have_one_root_and_no_duplicate_synthesis():
         len([span for span in agents if span.name == "synthesize-recommendations"]) == 1
     )
     assert all(span.attributes.get("session.id") for span in capture.spans)
+    assert all(
+        span.attributes.get("langfuse.trace.metadata.run_id") for span in capture.spans
+    )
+    assert all(
+        isinstance(
+            span.attributes.get("langfuse.observation.metadata.duration_ms"),
+            (int, float),
+        )
+        for span in capture.spans
+    )
     tracing.client.shutdown()
 
 
