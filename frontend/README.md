@@ -7,6 +7,13 @@ implemented. The private package in [package.json](package.json) uses the same
 name. P01-05 adds a minimal English startup page, product metadata and
 `/health/live`; recommendations and catalog interfaces remain planned.
 
+The [Phase 9 design and delivery plan](DESIGN_PLAN.md) defines the meal-choice
+workspace, visual tokens, responsive wireframes, interaction states and
+verification gates. Follow it alongside the
+[Phase 9 checklist](../CHECKLIST.md#phase-9--nextjs-frontend-and-administration).
+It records planned work, including a catalog-image delivery dependency;
+it does not establish implemented UI or browser acceptance.
+
 The folders reserve the approved Next.js App Router layout.
 See the [developer workflow](../infra/development.md) for setup, local servers
 and checks across both packages.
