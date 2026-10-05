@@ -5,6 +5,7 @@ from dataclasses import dataclass
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from food_recommender.application.media.ports import MediaReceipt
 from food_recommender.application.unit_of_work import UnitOfWork
 from food_recommender.domain.catalog import CatalogData
 from food_recommender.domain.evidence import Citation
@@ -30,6 +31,7 @@ class CatalogDetail:
     version: int
     citations: tuple[Citation, ...]
     synthetic: bool = True
+    images: tuple[MediaReceipt, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -48,7 +50,10 @@ class BrowseService:
         async with self.transactions() as transaction:
             item = await transaction.catalog.get(ref)
             return CatalogDetail(
-                item.data, item.version, await transaction.catalog.citations(ref)
+                item.data,
+                item.version,
+                await transaction.catalog.citations(ref),
+                images=await transaction.media.catalog_images(ref),
             )
 
     async def list(self, category: Category, filters: RecipeFilters) -> CatalogPage:
@@ -62,6 +67,9 @@ class BrowseService:
                         item.data,
                         item.version,
                         await transaction.catalog.citations(
+                            EntityRef(category, item.data.id)
+                        ),
+                        images=await transaction.media.catalog_images(
                             EntityRef(category, item.data.id)
                         ),
                     )
