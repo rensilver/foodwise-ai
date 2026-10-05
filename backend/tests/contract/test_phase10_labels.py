@@ -60,3 +60,26 @@ def test_required_edge_cases_are_frozen():
     for case in labels["cases"]:
         if "image_recipe_id" in case:
             assert case["image_recipe_id"] in images
+
+
+def test_acceptance_report_is_bound_to_dataset_prompt_and_runtime():
+    report = json.loads(
+        (ROOT / "evaluation/phase10/acceptance_report.json").read_text()
+    )
+    assert (
+        report["revisions"]["labels_sha256"]
+        == hashlib.sha256(FIXTURES.read_bytes()).hexdigest()
+    )
+    assert report["revisions"]["source_hashes"] == load_labels()["source_hashes"]
+    for filename, digest in report["revisions"]["implementation_hashes"].items():
+        assert hashlib.sha256((ROOT / filename).read_bytes()).hexdigest() == digest
+    assert report["revisions"]["prompt_version"]
+    assert report["revisions"]["inference"] == {
+        "implementation": "FixtureInference",
+        "remote_model": None,
+    }
+    assert report["revisions"]["embeddings"]["text"]["dimension"] == 384
+    assert report["revisions"]["embeddings"]["image"]["dimension"] == 512
+    assert {row["id"] for row in report["cases"]} == {
+        case["id"] for case in load_labels()["cases"]
+    }

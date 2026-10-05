@@ -14,7 +14,11 @@ Sparse positives are not exhaustive relevance judgments or provider-quality scor
 
 - P10-01: source/persona contract passed (1 test); hashes and excerpts checked
   against unchanged original JSON. Added the contract before fixtures (red/green).
-- P10-02: 12 label/graph tests passed. Eleven cases (13 turns) cover image
+- P10-02: 12 label/graph tests passed. Ten cases (12 turns) cover image
   routing, retained restrictions, explicit removal, strict vegan conflict,
   unknown restaurant allergy compliance, empty results and contradictory diets.
   Image routing uses fake media; real CLIP measurement is separate.
+- P10-03: 13 label/graph tests passed. [Acceptance report](acceptance_report.json)
+  records label/source hashes, exact prompt and rule file hashes, Git base revision,
+  installed runtime versions and pinned embedding identities. Inference is explicitly
+  fake and embeddings are not executed by this acceptance harness.

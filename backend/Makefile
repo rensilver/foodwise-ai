@@ -81,3 +81,7 @@ api-schema:
 
 api-schema-check:
 	uv run --locked python scripts/export_openapi.py --check
+
+.PHONY: evaluate-acceptance
+evaluate-acceptance:
+	uv run --locked python scripts/evaluate_phase10_acceptance.py

@@ -1,0 +1,801 @@
+{
+  "recorded_at": "2026-10-05T17:22:40.180677+00:00",
+  "mode": "offline fake boundaries, real six-agent graph",
+  "revisions": {
+    "git_head": "ea9afbf0a0cfdbb677d38b63087b7bffd36b4c6f",
+    "labels_sha256": "74550b5bc121c88ec443ee2d5f4b1103c073b1bf4a79173a8264d093aee28a55",
+    "source_hashes": {
+      "data/structured_restaurant_data.json": "6d48ecf65b000cb99a6500286adaf9ba84e4e506266f8a58ac52cc6e3d696051",
+      "data/Recipes.json": "e91a9fb7631acf18887b202617592cf6a9e956428ff655fc5c7401078bc857c8"
+    },
+    "implementation_hashes": {
+      "backend/src/food_recommender/agents/__init__.py": "b8683da2770666345c203531b57184e57dc750dc01836ed56cfd2878f39600c4",
+      "backend/src/food_recommender/agents/graph.py": "1c37dd9b5457fd3ff7d6cbf416e78941264da9ad1e13e6eac51338a25c72c5e4",
+      "backend/src/food_recommender/agents/nodes/__init__.py": "4273545d6129fcf9918bdc9d713f9c9912741f031ba43d0f9be59bba4c9e75f0",
+      "backend/src/food_recommender/agents/nodes/nutrition.py": "6c71029f2ed400aa1cf1748ddacbd428497f6adc4902f26f13eff38f1916db12",
+      "backend/src/food_recommender/agents/nodes/profile.py": "e26eb0d5b53f6105b70ac81f4cbda605d00c49b0a5aa0fd5a9c10a518b870e70",
+      "backend/src/food_recommender/agents/nodes/rag.py": "17b4e4dc3717d0c28417c05f4f1046d2408dc92224972a19747f2dc006d96f7f",
+      "backend/src/food_recommender/agents/nodes/recommendation.py": "c4c37f994088df33c7e6b1e89600b327403d19f88d19f55687e1169637a788c2",
+      "backend/src/food_recommender/agents/nodes/style.py": "3d36343ff3645e3e31c2c2eeb4f3642f4b769986abb8e0e1317348ce18557ca2",
+      "backend/src/food_recommender/agents/nodes/trend.py": "3d840d4d2dea2b4dbdd7dce54b75c44425f6e1b7d695e1bb493b6c72edae95fc",
+      "backend/src/food_recommender/agents/prompts.py": "199ea72c629920d130f4e9ce55a14c8a0a3d38981842435fe65c25d385ba9633",
+      "backend/src/food_recommender/agents/runner.py": "0184568bed8e591fa4511a960be635437cb31d70756c9153320b591a5677503d",
+      "backend/src/food_recommender/agents/state.py": "71354f511b876a2c2400cdde0c4f929e0739ac63bb70c45aa519c81e2aacddfe",
+      "backend/src/food_recommender/agents/structured.py": "f4ca0c2bab3c24fae591aea8d8390130193533d5614586ca5d9d02ff1b430592",
+      "backend/src/food_recommender/agents/telemetry.py": "888f5eeab0dbb587a7aef04fbdb9669178f1644bbad2ce43f1e5d1e15950d710",
+      "backend/src/food_recommender/application/recommendations/__init__.py": "9ad55f70d6f760b749bc88f5820a43b3a9925700c82ad67eead0eefa5a6b5e50",
+      "backend/src/food_recommender/application/recommendations/activity.py": "ff9e60ce2c0fea6b5ec48804c91e4e9d38656de4bf6bdff80a63ce99ed6468e8",
+      "backend/src/food_recommender/application/recommendations/contracts.py": "4899f4aaa0ea7af48aa8c28d4e405d076c79b0cf3c6877d740f84db0e65947fc",
+      "backend/src/food_recommender/application/recommendations/evidence_rules.py": "93fca98aada2a1cc341cf44541ebfc69850ce69e302e1f91c46760f4536259cc",
+      "backend/src/food_recommender/application/recommendations/inference.py": "30958eb1473a464eaace70297afffe275112ada67f01538a88fb331b5096421a",
+      "backend/src/food_recommender/application/recommendations/nutrition_rules.py": "a2fcb5b332e55ede7a6d76ed8d7c6c335c37ef042df71cf314eed3dd5fe172ba",
+      "backend/src/food_recommender/application/recommendations/profile_rules.py": "0a996917de7a372b21128bcdf9dc77767945a2f16db39d7f532ba1c53361cc16",
+      "backend/src/food_recommender/application/recommendations/reliability.py": "44427b1120d21da3527a2cbb1cee8f7d194aa66a93935b199d86be4939d90411",
+      "backend/src/food_recommender/application/recommendations/workflow.py": "a872260b15d2eb780bdfcf0bc1515a29266e5022c784d5e8281f1a118ff42847",
+      "backend/scripts/phase10_acceptance.py": "578a547853d7d444314641614f539f6e557879b069f3bfff72c92e7acdbfa31d"
+    },
+    "prompt_version": "phase7-v1",
+    "inference": {
+      "implementation": "FixtureInference",
+      "remote_model": null
+    },
+    "embeddings": {
+      "text": {
+        "model": "sentence-transformers/all-MiniLM-L6-v2",
+        "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+        "dimension": 384
+      },
+      "image": {
+        "model": "openai/clip-vit-base-patch32",
+        "revision": "3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268",
+        "dimension": 512
+      },
+      "executed": false
+    },
+    "packages": {
+      "langgraph": "1.2.12",
+      "pydantic": "2.13.5",
+      "httpx": "0.28.1"
+    }
+  },
+  "cases": [
+    {
+      "id": "P10-H",
+      "persona": "health-conscious",
+      "turns": [
+        {
+          "expected": "recommendations",
+          "actual": "recommendations",
+          "recommendations": [
+            {
+              "entity": {
+                "category": "recipe",
+                "id": "3"
+              },
+              "explanation": "Vegetable Stir-Fry with Tofu",
+              "citation_ids": [
+                "recipe:3:catalog"
+              ],
+              "limitations": [
+                "Image modality has no eligible evidence; active weights renormalized",
+                "No verified nutrient quantities or cross-contact safety evidence"
+              ]
+            }
+          ],
+          "limitations": [
+            "Trend analysis unavailable",
+            "Image modality has no eligible evidence; active weights renormalized",
+            "Synthetic course catalog; relevance is not dietary certification",
+            "No verified nutrient quantities or cross-contact safety evidence"
+          ],
+          "metrics": {
+            "duration_ms": 23.781822001183173,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.2257269993133377,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.329398997972021,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.372752998577198,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.1540890009200666,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.28241100153536536,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 2.1593539968307596,
+                "status": "success"
+              }
+            ]
+          }
+        }
+      ],
+      "inference_calls": 5,
+      "tool_calls": 2
+    },
+    {
+      "id": "P10-A",
+      "persona": "adventurous",
+      "turns": [
+        {
+          "expected": "recommendations",
+          "actual": "recommendations",
+          "recommendations": [
+            {
+              "entity": {
+                "category": "restaurant",
+                "id": "1000008"
+              },
+              "explanation": "The Neon Noodle Bar",
+              "citation_ids": [
+                "restaurant:1000008:catalog"
+              ],
+              "limitations": [
+                "Image modality has no eligible evidence; active weights renormalized",
+                "No verified nutrient quantities or cross-contact safety evidence"
+              ]
+            }
+          ],
+          "limitations": [
+            "Trend analysis unavailable",
+            "Image modality has no eligible evidence; active weights renormalized",
+            "Synthetic course catalog; relevance is not dietary certification",
+            "No verified nutrient quantities or cross-contact safety evidence"
+          ],
+          "metrics": {
+            "duration_ms": 12.92472799832467,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.6117449995363131,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.7619110003579408,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.1050899993279018,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.8944809997046832,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.12878800043836236,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.9962279982573818,
+                "status": "success"
+              }
+            ]
+          }
+        }
+      ],
+      "inference_calls": 5,
+      "tool_calls": 2
+    },
+    {
+      "id": "P10-B",
+      "persona": "budget-conscious",
+      "turns": [
+        {
+          "expected": "recommendations",
+          "actual": "recommendations",
+          "recommendations": [
+            {
+              "entity": {
+                "category": "restaurant",
+                "id": "1000002"
+              },
+              "explanation": "Mar de Cortez",
+              "citation_ids": [
+                "restaurant:1000002:catalog"
+              ],
+              "limitations": [
+                "Image modality has no eligible evidence; active weights renormalized",
+                "No verified nutrient quantities or cross-contact safety evidence"
+              ]
+            }
+          ],
+          "limitations": [
+            "Trend analysis unavailable",
+            "Image modality has no eligible evidence; active weights renormalized",
+            "Synthetic course catalog; relevance is not dietary certification",
+            "No verified nutrient quantities or cross-contact safety evidence"
+          ],
+          "metrics": {
+            "duration_ms": 13.26853299906361,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.6115029975480866,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.0306570004322566,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.1279210011707619,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.0054660015157424,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.1280960022995714,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.069202997314278,
+                "status": "success"
+              }
+            ]
+          }
+        }
+      ],
+      "inference_calls": 5,
+      "tool_calls": 2
+    },
+    {
+      "id": "P10-F",
+      "persona": "family-with-allergies",
+      "turns": [
+        {
+          "expected": "abstention",
+          "actual": "abstention",
+          "recommendations": [],
+          "limitations": [
+            "Trend analysis unavailable",
+            "Synthetic course catalog; relevance is not dietary certification",
+            "No verified nutrient quantities or cross-contact safety evidence",
+            "Insufficient eligible catalog evidence under unchanged constraints"
+          ],
+          "metrics": {
+            "duration_ms": 11.077189999923576,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.7347809989587404,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.8538959995785262,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.10256899986416101,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.028512000426417217,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.023944998247316107,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.08628900104667991,
+                "status": "success"
+              }
+            ]
+          }
+        }
+      ],
+      "inference_calls": 4,
+      "tool_calls": 3
+    },
+    {
+      "id": "P10-IMAGE",
+      "persona": "health-conscious",
+      "turns": [
+        {
+          "expected": "recommendations",
+          "actual": "recommendations",
+          "recommendations": [
+            {
+              "entity": {
+                "category": "recipe",
+                "id": "3"
+              },
+              "explanation": "Vegetable Stir-Fry with Tofu",
+              "citation_ids": [
+                "recipe:3:catalog"
+              ],
+              "limitations": [
+                "Image modality has no eligible evidence; active weights renormalized",
+                "No verified nutrient quantities or cross-contact safety evidence"
+              ]
+            }
+          ],
+          "limitations": [
+            "Trend analysis unavailable",
+            "Image modality has no eligible evidence; active weights renormalized",
+            "Synthetic course catalog; relevance is not dietary certification",
+            "No verified nutrient quantities or cross-contact safety evidence"
+          ],
+          "metrics": {
+            "duration_ms": 13.564288998168195,
+            "openai_calls": 5,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 2.1645240012730937,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.5210260025924072,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 1.0260039998684078,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.9661130025051534,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.14404499961528927,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.3923690021329094,
+                "status": "success"
+              }
+            ]
+          }
+        }
+      ],
+      "inference_calls": 5,
+      "tool_calls": 3
+    },
+    {
+      "id": "P10-FOLLOW",
+      "persona": "family-with-allergies",
+      "turns": [
+        {
+          "expected": "abstention",
+          "actual": "abstention",
+          "recommendations": [],
+          "limitations": [
+            "Trend analysis unavailable",
+            "Synthetic course catalog; relevance is not dietary certification",
+            "No verified nutrient quantities or cross-contact safety evidence",
+            "Insufficient eligible catalog evidence under unchanged constraints"
+          ],
+          "metrics": {
+            "duration_ms": 10.638039999321336,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.7078410019166768,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.81706799796666,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.09448399941902608,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.028051999834133312,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.022380998416338116,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.09080800009542145,
+                "status": "success"
+              }
+            ]
+          }
+        },
+        {
+          "expected": "abstention",
+          "actual": "abstention",
+          "recommendations": [],
+          "limitations": [
+            "Trend analysis unavailable",
+            "Synthetic course catalog; relevance is not dietary certification",
+            "No verified nutrient quantities or cross-contact safety evidence",
+            "Insufficient eligible catalog evidence under unchanged constraints"
+          ],
+          "metrics": {
+            "duration_ms": 11.174107999977423,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.940279998962069,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 2.877429000363918,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.11053400157834403,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.02781100192805752,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02364400279475376,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.08081899795797653,
+                "status": "success"
+              }
+            ]
+          }
+        },
+        {
+          "expected": "recommendations",
+          "actual": "recommendations",
+          "recommendations": [
+            {
+              "entity": {
+                "category": "recipe",
+                "id": "1"
+              },
+              "explanation": "Classic Margherita Pizza",
+              "citation_ids": [
+                "recipe:1:catalog"
+              ],
+              "limitations": [
+                "Image modality has no eligible evidence; active weights renormalized",
+                "No verified nutrient quantities or cross-contact safety evidence"
+              ]
+            }
+          ],
+          "limitations": [
+            "Trend analysis unavailable",
+            "Image modality has no eligible evidence; active weights renormalized",
+            "Synthetic course catalog; relevance is not dietary certification",
+            "No verified nutrient quantities or cross-contact safety evidence"
+          ],
+          "metrics": {
+            "duration_ms": 11.706981000315864,
+            "openai_calls": 5,
+            "tool_calls": 2,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 1,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.476765002735192,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.3083649973850697,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.9929619991453364,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 1.0184689999732655,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.12219600102980621,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 1.0266739991493523,
+                "status": "success"
+              }
+            ]
+          }
+        }
+      ],
+      "inference_calls": 13,
+      "tool_calls": 8
+    },
+    {
+      "id": "P10-STRICT",
+      "persona": "family-with-allergies",
+      "turns": [
+        {
+          "expected": "abstention",
+          "actual": "abstention",
+          "recommendations": [],
+          "limitations": [
+            "Trend analysis unavailable",
+            "Synthetic course catalog; relevance is not dietary certification",
+            "No verified nutrient quantities or cross-contact safety evidence",
+            "Insufficient eligible catalog evidence under unchanged constraints"
+          ],
+          "metrics": {
+            "duration_ms": 12.326023999776226,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.6709430019545835,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 4.215318000206025,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.09967400183086284,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.027340996894054115,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.022601998352911323,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.1662760005274322,
+                "status": "success"
+              }
+            ]
+          }
+        }
+      ],
+      "inference_calls": 4,
+      "tool_calls": 3
+    },
+    {
+      "id": "P10-EMPTY",
+      "persona": "budget-conscious",
+      "turns": [
+        {
+          "expected": "abstention",
+          "actual": "abstention",
+          "recommendations": [],
+          "limitations": [
+            "Trend analysis unavailable",
+            "Synthetic course catalog; relevance is not dietary certification",
+            "No verified nutrient quantities or cross-contact safety evidence",
+            "Insufficient eligible catalog evidence under unchanged constraints"
+          ],
+          "metrics": {
+            "duration_ms": 8.403425999858882,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.6272619977826253,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 1.1165799987793434,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.06619200212298892,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.025085999368457124,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02039800165221095,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.07468799958587624,
+                "status": "success"
+              }
+            ]
+          }
+        }
+      ],
+      "inference_calls": 4,
+      "tool_calls": 3
+    },
+    {
+      "id": "P10-UNKNOWN",
+      "persona": "adventurous",
+      "turns": [
+        {
+          "expected": "abstention",
+          "actual": "abstention",
+          "recommendations": [],
+          "limitations": [
+            "Trend analysis unavailable",
+            "Synthetic course catalog; relevance is not dietary certification",
+            "No verified nutrient quantities or cross-contact safety evidence",
+            "Insufficient eligible catalog evidence under unchanged constraints"
+          ],
+          "metrics": {
+            "duration_ms": 13.557385998865357,
+            "openai_calls": 4,
+            "tool_calls": 3,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 3,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.9919259975722525,
+                "status": "success"
+              },
+              {
+                "stage": "retrieval",
+                "duration_ms": 5.269704000966158,
+                "status": "success"
+              },
+              {
+                "stage": "nutrition",
+                "duration_ms": 0.10836999717867002,
+                "status": "success"
+              },
+              {
+                "stage": "style",
+                "duration_ms": 0.029555001674452797,
+                "status": "success"
+              },
+              {
+                "stage": "trend",
+                "duration_ms": 0.02332299845875241,
+                "status": "unavailable"
+              },
+              {
+                "stage": "recommendation",
+                "duration_ms": 0.09037700147018768,
+                "status": "success"
+              }
+            ]
+          }
+        }
+      ],
+      "inference_calls": 4,
+      "tool_calls": 3
+    },
+    {
+      "id": "P10-CLARIFY",
+      "persona": "health-conscious",
+      "turns": [
+        {
+          "expected": "clarification",
+          "actual": "clarification",
+          "recommendations": [],
+          "limitations": [],
+          "metrics": {
+            "duration_ms": 4.16232999850763,
+            "openai_calls": 1,
+            "tool_calls": 0,
+            "search_calls": 0,
+            "token_usage": 0,
+            "retrieval_attempts": 0,
+            "stages": [
+              {
+                "stage": "profile",
+                "duration_ms": 1.6364900002372451,
+                "status": "success"
+              }
+            ]
+          }
+        }
+      ],
+      "inference_calls": 1,
+      "tool_calls": 0
+    }
+  ],
+  "paid_provider_calls": 0
+}
