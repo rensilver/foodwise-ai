@@ -54,3 +54,9 @@ Sparse positives are not exhaustive relevance judgments or provider-quality scor
   canary never enters inference contexts or outcomes. Runtime tool allowlists,
   typed arguments/results and absence of catalog-write/file/shell capabilities
   enforce authority independently of phrase detection or model obedience.
+- P10-08: 51 tests and 64 configuration subtests passed. HTTP 429 retries honor
+  Retry-After without switching models; credential/refusal/incomplete responses
+  fail safely, malformed JSON/schema and capability mismatches share the bounded
+  repair budget. Database/MCP downtime and invalid tool results produce dependency
+  failure rather than no-match or fabricated fallback. Missing credentials,
+  transport timeout, stale/undated trend evidence and readiness failures are covered.
