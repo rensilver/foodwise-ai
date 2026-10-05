@@ -23,6 +23,8 @@ class CaptureExporter:
         self.spans = []
         self.bytes = 0
         self.calls = 0
+        self.max_batch = 0
+        self.max_bytes = 0
 
     def export(self, spans):
         from food_recommender.infrastructure.telemetry.redaction import sanitized_span
@@ -34,6 +36,8 @@ class CaptureExporter:
         data = encode_spans(spans).SerializeToString()
         if b"PRIVATE_CANARY" in data or b"data:image" in data:
             raise AssertionError("Synthetic private content reached export")
+        self.max_batch = max(self.max_batch, len(spans))
+        self.max_bytes = max(self.max_bytes, len(data))
         self.bytes += len(data)
         self.calls += 1
         self.spans.extend(spans)

@@ -8,6 +8,9 @@ from contextlib import nullcontext
 from dataclasses import dataclass
 from uuid import UUID, uuid4
 
+from food_recommender.application.conversations.cleanup_ports import (
+    ConversationTraceCleanup,
+)
 from food_recommender.application.conversations.ports import (
     ConversationRuns,
     ConversationSnapshot,
@@ -32,10 +35,12 @@ class ConversationService:
         cleanup: MediaCleanupService | None = None,
         *,
         runs: ConversationRuns | None = None,
+        trace_cleanup: ConversationTraceCleanup | None = None,
     ) -> None:
         self.transactions = transactions
         self.cleanup = cleanup
         self.runs = runs
+        self.trace_cleanup = trace_cleanup
 
     async def session(
         self, token: str | None, *, create: bool = False
@@ -91,6 +96,8 @@ class ConversationService:
                     session_id, conversation_id
                 )
                 await transaction.commit()
+            if self.trace_cleanup is not None:
+                await self.trace_cleanup.request_deletion(conversation_id)
         pending = bool(keys)
         if self.cleanup is not None:
             try:

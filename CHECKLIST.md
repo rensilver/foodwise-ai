@@ -652,7 +652,7 @@ Historical planning verification: 122 local document links resolved, Markdown fe
 - [x] P10-16 Trace each recommendation run and its executed stages, actual OpenAI request attempts and MCP client round trips using stable names and specific observation types; verify concurrent parentage, no duplicates, early exits, retries/repairs, cancellation, reported usage and v4 propagation of opaque session/environment/revision attributes without collecting graph content.
 - [x] P10-17 Test disabled/enabled/unreachable tracing parity, invalid keys, Cloud 429/quota exhaustion, export backpressure, redaction including media/events/exceptions, and zero telemetry network activity when disabled; use fake exporters offline and an opt-in Cloud execute/fetch/audit loop through current observation APIs with bounded polling and cursor pagination.
 - [x] P10-18 Export locally computed scores with explicit metric definitions, observation associations and retry deduplication; keep dataset content local and verify that optional Experiment SDK helpers do not export fixture inputs, expected outputs, task outputs or comments. Preserve offline reports and deterministic safety/grounding gates independently of telemetry or LLM judges.
-- [ ] P10-19 Measure SDK memory/latency overhead, queue bounds, export traffic and Cloud volume against a recorded baseline and predeclared limits; test trace-level sampling and score consistency, metadata-only export, supported retention/purge and deletion of conversation-linked traces including delayed exports. Record gaps without claiming operational readiness.
+- [x] P10-19 Measure SDK memory/latency overhead, queue bounds, export traffic and Cloud volume against a recorded baseline and predeclared limits; test trace-level sampling and score consistency, metadata-only export, supported retention/purge and deletion of conversation-linked traces including delayed exports. Record gaps without claiming operational readiness.
 
 **Langfuse sequencing:** P10-14 is the feasibility gate; P10-15 precedes P10-16,
 then P10-17 validates isolation before P10-18/19 acceptance. Evaluation fixtures
@@ -672,7 +672,16 @@ but do not replace or weaken the application's existing release gates.
 
 **Exit criterion:** acceptance fixtures satisfy grounding/constraint invariants, required failure cases pass, and quality/performance results are reproducible without unsupported claims.
 
-**Evidence / blockers:** [P10-01–10 evidence](evaluation/phase10/README.md). Later Phase 10 tasks remain pending; existing release blockers are preserved.
+**Evidence / blockers:** [P10-01–19 evidence](evaluation/phase10/README.md).
+P10-11–19 each have a dedicated implementation/evidence commit on
+`feature/phase10-evaluation-reliability-hardening`. Performance, separate offline/live
+checks, SDK boundaries, metadata tracing, stored Cloud observation/score audits,
+resource limits, sampling and scoped purge are verified. Langfuse normal
+conversation export remains disabled: Hobby lacks automatic retention, and
+purge scheduling/extended delayed-ingestion and failed-journal recovery remain
+operational gates. Existing full-release, representative live acceptance,
+local-media recovery and publication/history blockers are preserved. P10-19's
+measurements and explicit gaps do not claim operational readiness.
 
 ## Phase 11 — Local release and demonstration
 

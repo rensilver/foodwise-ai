@@ -1,7 +1,9 @@
-# Phase 10 — Evaluation and hardening (P10-01–10)
+# Phase 10 — Evaluation and hardening (P10-01–19)
 
-Scope is P10-01 through P10-10. Later performance, full release and Langfuse
-work remains unchecked. All acceptance providers are fake; no paid requests.
+Scope is P10-01 through P10-19. Deterministic acceptance providers are fake.
+Separate opt-in live smoke and synthetic Cloud audits are recorded below.
+Normal conversation telemetry remains disabled pending operational gates;
+full-release work and existing blockers are preserved.
 
 The four personas come from the local Module 3 multi-agent assignment PDF.
 [Acceptance labels](acceptance.json) retain catalog IDs, exact source excerpts,
@@ -90,7 +92,8 @@ On 2026-10-05 the combined offline backend unit/contract suite passed **372 test
 and 64 subtests**, with no skips. Ruff lint/format, mypy, OpenAPI drift, actionlint
 and Git whitespace checks passed. Targeted real database groups above were run
 before the separate browser harness populated the disposable test database.
-No OpenAI/Tavily/live smoke calls were made; P10-11 onward remains unchecked.
+The initial P10-01–10 suite made no OpenAI/Tavily/live smoke calls; later
+opt-in checks are recorded separately below.
 Full release, live trend evidence and historical publication review are unchanged
 release gates. Source scans detect known token patterns, not arbitrary secrets.
 
@@ -258,3 +261,70 @@ per-case network flush exceeded its deadline and was replaced by one bounded
 final export flush. Offline reports and deterministic gates are independent
 of all telemetry results. Run `python -m scripts.export_phase10_scores` from
 `backend/`; add `--enable-cloud` only for a deliberate synthetic Cloud audit.
+
+## P10-19 — Resource limits, sampling and deletion
+
+[Predeclared limits](telemetry_limits.json) preceded the experiment.
+[Initial run](telemetry_overhead_initial.json) missed the 25% relative warm
+p95 latency threshold (34.66%, 7.91 ms), while memory stayed within its limit.
+Buffering per-observation SDK updates reduced repeated attribute writes.
+[Measured rerun](telemetry_overhead_report.json), with 100 warm samples/mode
+in fresh processes, passed the unchanged limits: disabled/enabled p95
+31.42/33.17 ms, additional peak RSS 25.73 MiB, cold first turn
+24.42/239.54 ms, maximum batch 32 observations/20,882 serialized bytes.
+Enabled export produced 1,414 observations in 45 calls/912,065 bytes. These
+are synthetic timings on one host with uncontrolled page cache/load; the
+changed baseline and p50 distributions are retained, without claiming universal
+or causally isolated performance gains. Remote wire headers/compression and
+existing Cloud quota consumption remain unknown.
+
+The pilot gives 14 observations/turn. At a hypothetical 100 turns/day plus
+three applicable scores/turn, estimated monthly volume is 54k units; whole
+trace sampling at 0.5 reduces the forecast to 27k, below the declared 80%
+Hobby allowance budget. These are forecasts, not billing measurements. Sampling
+tests prove parent/child and score decisions match; local acceptance remains
+fully evaluated regardless of sampling. Queue saturation and privacy contracts
+continue to pass.
+
+Five focused deletion/sampling/SDK-logging checks pass. The local opaque SQLite journal
+retains trace mappings and permanent HMAC-session tombstones across restart.
+Conversation erasure queues trace deletion without changing API results;
+export filtering holds a bounded interprocess lock so in-flight delivery
+precedes tombstoning and later queued exports are suppressed. Journal lock
+contention is retried for up to three seconds. Supported remote purge/retry
+is explicit developer tooling, never an MCP agent tool.
+[Cloud purge](langfuse_purge_report.json) submitted 51 locally recorded
+synthetic trace IDs and verified no matching recent observations or associated
+22 scores remained after two polls. This proves the scoped recent pilot purge;
+it does not prove automatic retention or extended delayed ingestion.
+
+**Operational gates remain open:** Hobby has no retention policy; automatic
+purge scheduling, old inaccessible history, provider backup semantics, failed
+journal persistence recovery and long delayed-ingestion behavior are not
+verified. `LANGFUSE_ENABLED` and `LANGFUSE_CONVERSATION_EXPORT_VERIFIED` remain
+false for normal use. This scoped task records implementation, measurements,
+checks and gaps; it does not declare operational readiness or close Phase 11.
+The first Compose smoke invocation was sandbox-blocked; the later quiet
+configuration check passed with synthetic values. A full Compose runtime
+rehearsal remains Phase 11 rather than being claimed here.
+
+## Final P10-11–19 verification
+
+On 2026-10-05, the full backend suite passed **571 tests with zero skips**
+(68.15 s), with real PostgreSQL/pgvector, both MCP transports, checkpoint
+persistence and separately provisioned MiniLM/CLIP fixtures. The initial
+combined run passed 569 tests and exposed one stale acceptance implementation
+hash; regenerating the 12-turn report resolved it before the passing rerun.
+A later cold-SDK logging review found an SDK-added plain httpx handler; the
+adapter now preserves application handlers, and **38 affected tracing, SDK
+privacy, deletion, sampling, score and package contracts passed** afterward.
+Ruff lint/format, strict mypy (173 source files), OpenAPI drift, Compose quiet
+configuration with synthetic values, 175 local documentation links, balanced
+fences and unique checklist IDs passed. [Final source/build scan](security_scan_final.json)
+found zero known secret-pattern matches in 2,710 files. Earlier P10-12 frontend
+and browser results remain recorded above; no UI/contracts changed afterward.
+
+All nine requested tasks have dedicated commits on the current Phase 10 branch.
+Normal telemetry and Phase 11/public-release gates remain as documented. The
+disposable test service is stopped after verification; owner services, local
+credentials, original datasets and course media are preserved.

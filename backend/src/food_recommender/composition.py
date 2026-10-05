@@ -132,6 +132,7 @@ def build_backend_services(
             "embedding_revision": MINILM_REVISION + "-" + CLIP_REVISION,
             "dataset_revision": "catalog-ingestion-v1",
         },
+        ledger_path=settings.media_root / ".telemetry" / "traces.sqlite",
     )
     workflow = PersistedWorkflow(settings, inference, runs, tracing=tracing)
     catalog = CatalogService(transactions, cleanup)
@@ -167,7 +168,9 @@ def build_backend_services(
             transactions,
             Argon2Verification(settings.admin_password_hash.get_secret_value()),
         ),
-        conversations=ConversationService(transactions, cleanup, runs=runs),
+        conversations=ConversationService(
+            transactions, cleanup, runs=runs, trace_cleanup=tracing
+        ),
         media_cleanup=cleanup,
     )
 

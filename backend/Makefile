@@ -105,3 +105,14 @@ measure-phase10:
 audit-langfuse-cloud:
 	@test "$$ENABLE_LANGFUSE_CLOUD" = "1" || (echo "Set ENABLE_LANGFUSE_CLOUD=1 for synthetic Cloud export"; exit 2)
 	uv run --locked python -m scripts.audit_langfuse_cloud --enable-cloud
+
+.PHONY: measure-telemetry export-phase10-scores purge-synthetic-traces
+measure-telemetry:
+	uv run --locked python -m scripts.measure_telemetry_overhead
+
+export-phase10-scores:
+	uv run --locked python -m scripts.export_phase10_scores
+
+purge-synthetic-traces:
+	@test "$$ENABLE_LANGFUSE_CLOUD" = "1" || (echo "Set ENABLE_LANGFUSE_CLOUD=1 for targeted synthetic deletion"; exit 2)
+	uv run --locked python -m scripts.purge_langfuse_traces --enable-cloud

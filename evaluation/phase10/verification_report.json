@@ -32,5 +32,23 @@
     "physical assistive technology unavailable",
     "no full representative-corpus live acceptance claim",
     "live graph retrieved one real candidate and used eight model attempts; report retains measured tokens and stages"
-  ]
+  ],
+  "final_verification": {
+    "backend_full_passed": 571,
+    "backend_full_skipped": 0,
+    "backend_seconds": 68.15,
+    "affected_followup_passed": 38,
+    "ruff": "passed",
+    "format": "passed",
+    "mypy_source_files": 173,
+    "openapi_drift": "passed",
+    "compose_configuration": "passed with synthetic required values; runtime rehearsal deferred",
+    "documentation_links": 175,
+    "secret_scanned_source_build_files": 2710,
+    "secret_findings": 0,
+    "initial_full_failure": "one stale acceptance implementation hash; regenerated before passing full rerun",
+    "sdk_logging_fix": "preserve application httpx handlers after cold SDK import",
+    "normal_conversation_telemetry": false,
+    "operational_readiness": false
+  }
 }

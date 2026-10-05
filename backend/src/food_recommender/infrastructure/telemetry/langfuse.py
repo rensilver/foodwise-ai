@@ -9,6 +9,7 @@ import threading
 import time
 from collections.abc import Callable, Iterator
 from contextlib import contextmanager
+from pathlib import Path
 from typing import Any
 from uuid import UUID
 
@@ -18,7 +19,7 @@ from food_recommender.application.recommendations.tracing import (
     current_tracing,
 )
 from food_recommender.infrastructure.telemetry.config import TelemetrySettings
-from food_recommender.infrastructure.telemetry.scores import trace_selected
+from food_recommender.infrastructure.telemetry.ledger import TraceLedger
 from food_recommender.infrastructure.telemetry.redaction import (
     COUNTERS,
     KINDS,
@@ -26,13 +27,19 @@ from food_recommender.infrastructure.telemetry.redaction import (
     OUTCOMES,
     sanitized_span,
 )
+from food_recommender.infrastructure.telemetry.scores import trace_selected
 
 
 class SafeObservation:
     def __init__(self, span: Any) -> None:
         self.span = span
+        self.measurements: dict[str, int | float | str] = {}
 
     def update(self, **measurements: int | float | str) -> None:
+        self.measurements.update(measurements)
+
+    def finish(self, duration_ms: float) -> None:
+        measurements = {**self.measurements, "duration_ms": duration_ms}
         metadata = {
             k: v
             for k, v in measurements.items()
@@ -62,11 +69,23 @@ def diagnostic() -> None:
     logging.getLogger("foodwise").info("", extra={"event": "diagnostic"})
 
 
-def sdk_factory(settings: TelemetrySettings, exporter: Any = None) -> Any:
+def sdk_factory(
+    settings: TelemetrySettings,
+    exporter: Any = None,
+    *,
+    ledger: TraceLedger | None = None,
+) -> Any:
     import base64
 
     import requests
+
+    httpx_logger = logging.getLogger("httpx")
+    existing_httpx_handlers = list(httpx_logger.handlers)
     from langfuse import Langfuse
+
+    # SDK import installs a plain httpx handler; retain only handlers owned by
+    # the application so diagnostics still pass through existing redaction.
+    httpx_logger.handlers = existing_httpx_handlers
     from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
     from opentelemetry.sdk.resources import Resource
     from opentelemetry.sdk.trace import TracerProvider
@@ -78,6 +97,15 @@ def sdk_factory(settings: TelemetrySettings, exporter: Any = None) -> Any:
                 clean = [
                     item for span in spans if (item := sanitized_span(span)) is not None
                 ]
+                if ledger:
+                    return ledger.filter_and_export(
+                        clean,
+                        lambda items: (
+                            destination.export(items)
+                            if items
+                            else SpanExportResult.SUCCESS
+                        ),
+                    )
                 return destination.export(clean) if clean else SpanExportResult.SUCCESS
             except Exception:
                 diagnostic()
@@ -136,9 +164,12 @@ class LazyTracing:
         *,
         factory: Callable[..., Any] = sdk_factory,
         revisions: dict[str, str] | None = None,
+        ledger_path: Path | None = None,
     ) -> None:
         self.settings, self.factory = settings, factory
         self.revisions = revisions or {}
+        self.ledger_path = ledger_path
+        self.ledger: TraceLedger | None = None
         self.client: Any = None
         self.attempted = False
 
@@ -146,7 +177,13 @@ class LazyTracing:
         if self.settings.enabled and not self.attempted:
             self.attempted = True
             try:
-                self.client = self.factory(self.settings)
+                if self.ledger_path:
+                    self.ledger = TraceLedger(self.ledger_path)
+                self.client = (
+                    sdk_factory(self.settings, ledger=self.ledger)
+                    if self.factory is sdk_factory
+                    else self.factory(self.settings)
+                )
             except Exception:
                 diagnostic()
 
@@ -165,6 +202,15 @@ class LazyTracing:
             conversation.bytes,
             hashlib.sha256,
         ).hexdigest()
+        if self.ledger:
+            try:
+                if not self.ledger.register(session, run.hex):
+                    yield NoopObservation()
+                    return
+            except Exception:
+                diagnostic()
+                yield NoopObservation()
+                return
         from langfuse import propagate_attributes
 
         try:
@@ -228,12 +274,38 @@ class LazyTracing:
             )
             raise
         finally:
-            observation.update(duration_ms=(time.monotonic() - started) * 1000)
+            observation.finish((time.monotonic() - started) * 1000)
             try:
                 # Never pass exceptions to SDK context managers: OTel records their text.
                 context.__exit__(None, None, None)
             except Exception:
                 diagnostic()
+
+    async def request_deletion(self, conversation: UUID) -> None:
+        if not self.settings.correlation_key or not self.ledger_path:
+            return
+        if not self.ledger_path.exists():
+            return
+        session = hmac.new(
+            self.settings.correlation_key.get_secret_value().encode(),
+            conversation.bytes,
+            hashlib.sha256,
+        ).hexdigest()
+        try:
+            ledger = self.ledger
+            if ledger is None:
+                ledger = await asyncio.to_thread(TraceLedger, self.ledger_path)
+            deadline = time.monotonic() + 3
+            while True:
+                try:
+                    await asyncio.to_thread(ledger.tombstone, session)
+                    break
+                except Exception:
+                    if time.monotonic() >= deadline:
+                        raise
+                    await asyncio.sleep(0.1)
+        except Exception:
+            diagnostic()
 
     async def close(self) -> None:
         if self.client is None:

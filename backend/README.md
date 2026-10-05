@@ -1000,3 +1000,34 @@ secrets/content. See the [Phase 8 evidence](../evaluation/phase8/README.md).
 For schema changes run `make api-schema` here, then `pnpm api:generate` from
 `frontend/`. `make check` rejects OpenAPI drift; frontend `pnpm check` rejects
 generated TypeScript drift. Export is offline and never reads owner credentials.
+
+## Optional Langfuse Cloud tracing
+
+Tracing defaults off and is server-side only. Cloud keys alone do not enable
+exports. The verified pilot uses a dedicated US Hobby project; there is no
+local Langfuse service. [Evidence and limits](../evaluation/phase10/README.md)
+record offline parity, synthetic stored observations/scores, overhead and purge.
+
+Keep `LANGFUSE_ENABLED=false` and
+`LANGFUSE_CONVERSATION_EXPORT_VERIFIED=false` for normal application use.
+The latter gate remains unverified operationally: Hobby has no automatic
+retention policy, and purge scheduling/extended delayed-ingestion checks are
+still open. Do not turn it on based only on a successful synthetic audit.
+
+For deliberately enabled synthetic tooling, use `make measure-telemetry`,
+`make export-phase10-scores` (offline), or
+`ENABLE_LANGFUSE_CLOUD=1 make audit-langfuse-cloud`. Dedicated keys live only
+in ignored `.env`; scripts never print them. Native Experiment helpers and
+hosted datasets/prompts/judges remain excluded. Trace/score references stay
+private under `.local-tmp`, while sanitized reports remain in `evaluation/`.
+
+The optional runtime journal stores only opaque trace IDs and keyed conversation
+references at `MEDIA_ROOT/.telemetry/traces.sqlite`. Tombstones survive restart
+and block delayed queued exports. Preserve the correlation key and journal
+through API-key rotation. A developer can retry pending remote erasure with
+`python -m scripts.purge_langfuse_traces --enable-cloud --ledger /absolute/path/to/traces.sqlite`.
+This command submits supported batch deletion and audits a recent observation
+window; it does not establish deletion of inaccessible old Hobby history.
+The synthetic cleanup command is `ENABLE_LANGFUSE_CLOUD=1 make purge-synthetic-traces`;
+it targets only trace IDs retained by the local pilot manifest. Disable tracing
+as the rollback; do not rely on deprecated SDK/API versions after 2026-11-16.

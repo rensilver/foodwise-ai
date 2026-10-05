@@ -1,6 +1,6 @@
 # Langfuse adoption plan
 
-Assessment: 2026-10-05. Status: feasibility verified; implementation in progress.
+Assessment: 2026-10-05. Status: scoped implementation and synthetic audits verified; normal conversation export disabled.
 The owner selected Langfuse Cloud with sanitized operational metadata, replacing
 the initial self-hosting preference after reviewing local RAM constraints.
 Work is tracked in [Phases 9–11](../CHECKLIST.md#phase-9--nextjs-frontend-and-administration).
@@ -327,3 +327,20 @@ Cloud cutoff at 2026-11-16. New reads target Observations v2; trace DELETE
 remains a supported mutation despite trace GET deprecation. SDK disable is
 the supported rollback. No CLI or Experiment helpers are required by the
 application; their content-export behavior remains excluded.
+
+## P10-15–19 implementation evidence — 2026-10-05
+
+[Phase 10 evidence](../evaluation/phase10/README.md) records lazy no-op defaults,
+explicit SDK scopes, allowlisted/rebuilt OTLP, bounded failures, current
+Observations v2 and Scores v3 audits, same-ID score retries, local reports,
+SDK resource limits, sampling and targeted synthetic purge. No framework
+callbacks, native experiments, hosted datasets/prompts/judges or content
+export were enabled. No additional Cloud plan or local stack was purchased.
+
+Normal conversation export remains disabled. Hobby has no configured automatic
+retention; the local tombstone journal supports delayed-queue suppression and
+explicit developer purge/retry but does not prove automatic scheduling, old
+inaccessible-history deletion, failed-journal persistence recovery, provider
+backup behavior or long delayed-ingestion completion. Phase 11 operational
+rehearsal remains open. Application correctness and local reports are independent
+of these observability gaps.
