@@ -634,7 +634,7 @@ Historical planning verification: 122 local document links resolved, Markdown fe
 
 **Verification:** automated acceptance suite, labeled retrieval evaluation and recorded local performance runs.
 
-- [ ] P10-01 Build source-backed evaluation fixtures for the four PDF personas: health-conscious, adventurous, budget-conscious and family with allergies.
+- [x] P10-01 Build source-backed evaluation fixtures for the four PDF personas: health-conscious, adventurous, budget-conscious and family with allergies.
 - [ ] P10-02 Add text/image queries, follow-up corrections, restrictive/no-match cases, missing dietary evidence, and expected abstention/clarification outcomes.
 - [ ] P10-03 Label relevant entity IDs and supporting source evidence; record dataset, model, prompt and embedding revisions with reports.
 - [ ] P10-04 Measure Recall@20, nDCG@5 and diversity; compare text, multimodal and fusion settings against the initial baseline before selecting tuned defaults.
@@ -671,7 +671,7 @@ but do not replace or weaken the application's existing release gates.
 
 **Exit criterion:** acceptance fixtures satisfy grounding/constraint invariants, required failure cases pass, and quality/performance results are reproducible without unsupported claims.
 
-**Evidence / blockers:** _Pending._
+**Evidence / blockers:** [P10-01–10 evidence](evaluation/phase10/README.md). Later Phase 10 tasks remain pending; existing release blockers are preserved.
 
 ## Phase 11 — Local release and demonstration
 

@@ -1,0 +1,16 @@
+# Phase 10 — Evaluation and hardening (P10-01–10)
+
+Scope is P10-01 through P10-10. Later performance, full release and Langfuse
+work remains unchecked. All acceptance providers are fake; no paid requests.
+
+The four personas come from the local Module 3 multi-agent assignment PDF.
+[Acceptance labels](acceptance.json) retain catalog IDs, exact source excerpts,
+source hashes, explicit restrictions and expected outcomes. Health-conscious
+preferences do not imply medical restrictions or measured nutrition. The family
+allergy scenario abstains: this catalog cannot verify allergen absence.
+Sparse positives are not exhaustive relevance judgments or provider-quality scores.
+
+## Verification evidence
+
+- P10-01: source/persona contract passed (1 test); hashes and excerpts checked
+  against unchanged original JSON. Added the contract before fixtures (red/green).
