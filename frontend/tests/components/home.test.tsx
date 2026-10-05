@@ -1,14 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import { expect, test } from "vitest";
 import Home from "../../src/app/page";
-import { PRODUCT_NAME } from "../../src/lib/product";
 
-test("the startup page identifies the product and its development status", () => {
+test("meal workspace provides editable examples and accessible category choices", () => {
   render(<Home />);
-
-  expect(screen.getByRole("main")).toBeInTheDocument();
-  expect(
-    screen.getByRole("heading", { level: 1, name: PRODUCT_NAME }),
-  ).toBeVisible();
-  expect(screen.getByText(/recommender is under development/)).toBeVisible();
+  expect(screen.getByRole("heading", { level: 1, name: "What sounds good?" })).toBeVisible();
+  expect(screen.getByRole("radio", { name: "Eat out" })).toBeVisible();
+  expect(screen.getByRole("radio", { name: "Cook" })).toBeVisible();
+  expect(screen.getByLabelText("Message")).toBeVisible();
+  expect(screen.getByText("Synthetic teaching catalog")).toBeVisible();
 });
