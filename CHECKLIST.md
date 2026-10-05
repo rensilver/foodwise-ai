@@ -72,6 +72,16 @@ The test container was removed after verification. Documentation links/fences,
 preserved completion marks and `git diff --check` passed. No provider calls,
 model downloads, dependency/schema changes or application database changes.
 
+ORG-04 CI follow-up, 2026-10-05: the pull request backend job stopped at Ruff
+with four `I001` import-order errors in trend-related tests, before subsequent
+checks ran. A local `ruff check --no-cache` reproduced all four errors despite
+the earlier lint result. Regrouped the moved `trends.ports` imports in those
+four files. Verification: uncached lint passed across `src tests scripts
+migrations`, formatting passed for all 278 files, and the trend unit tests plus
+package-boundary contracts passed **19 tests**. `git diff --check` passed.
+The full database suite was not rerun for this import-order-only correction;
+GitHub verification remains pending a push and CI rerun.
+
 ## Phase 0 — Baseline, credentials, and source recovery
 
 **Prerequisites:** reviewed AGENTS.md and preserved existing user changes.

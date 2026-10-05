@@ -2,10 +2,10 @@ from datetime import UTC, datetime, timedelta
 from uuid import uuid4
 
 import pytest
-from food_recommender.application.trends.ports import TrendItem
 from tests.unit.agent_fixtures import Reply, candidate
 
 from food_recommender.agents.nodes.trend import FoodTrendAnalyst
+from food_recommender.application.trends.ports import TrendItem
 from food_recommender.application.trends.service import TrendResult
 from food_recommender.domain.experts import AgentSuccess, ProfileResult
 from food_recommender.domain.preferences import Preferences
