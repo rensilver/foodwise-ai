@@ -11,6 +11,8 @@ import pytest
 ROOT = Path(__file__).parents[2] / "src" / "food_recommender"
 CORE = {"domain", "application", "retrieval", "ingestion"}
 SDK_ROOTS = {
+    "langfuse",
+    "opentelemetry",
     "sqlalchemy",
     "psycopg",
     "pgvector",

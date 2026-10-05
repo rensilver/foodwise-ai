@@ -150,3 +150,15 @@ close full-release acceptance. The independent trend smoke returned dated
 evidence. Initial trend configuration failures were corrected by explicitly
 selecting the disposable database and local media. No owner service was changed.
 Physical-device/spoken assistive-technology testing remains unavailable.
+
+## P10-13 — Package and ORM contracts
+
+The 13 existing package/cold-registration contracts and 23 acceptance contracts
+passed together (36 tests, 5.14 s). The SDK denylist now explicitly includes
+Langfuse and OpenTelemetry, preventing future core/agent imports. Reviewed
+provider, media, persistence and embedding adapters retain narrow core ports;
+core modules import in both orders without cycles; fresh ORM registration
+resolves all 20 tables and foreign keys without loading adapters/models.
+Existing graph/API contracts continue to reject concrete I/O leakage.
+Static checks and OpenAPI drift passed. New telemetry cold-import checks are
+recorded with their implementation in P10-15.
