@@ -18,3 +18,17 @@ test('examples edit draft without sending; duplicate submits create one turn and
   expect(fetcher.mock.calls.filter(([url]) => url.endsWith('/messages'))).toHaveLength(1);
   expect(screen.getByRole('button', { name: 'Delete conversation' })).toBeVisible();
 });
+test('an interrupted stream loads history once and keeps the draft for explicit sending', async () => {
+  const id = '11111111-1111-4111-8111-111111111111';
+  const fetcher = vi.fn(async (url: string, options?: RequestInit) => {
+    if (url.endsWith('/messages')) return new Response(': heartbeat\n\n');
+    if (options?.method === 'POST') return Response.json({ id });
+    return Response.json({ id, preferences: null, messages: [{ id: 'm', role: 'user', content: 'rice' }] });
+  });
+  vi.stubGlobal('fetch', fetcher); render(<MealWorkspace />);
+  fireEvent.change(screen.getByLabelText('Message'), { target: { value: 'rice' } });
+  fireEvent.click(screen.getByRole('button', { name: 'Send' }));
+  await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent('No completed response is saved'));
+  expect(screen.getByLabelText('Message')).toHaveValue('rice');
+  expect(fetcher.mock.calls.filter(([url]) => url.endsWith('/messages'))).toHaveLength(1);
+});
