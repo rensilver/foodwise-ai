@@ -14,6 +14,46 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 IMAGE = "pgvector/pgvector:pg16@sha256:a36250871de0833b8757561c72f2477ef1ddd1101afa4e617fb552e0de514c6b"
+PORTFOLIO_FILES = (
+    "01-home.png",
+    "02-text-citations.png",
+    "03-hard-restriction.png",
+    "04-image-mobile.png",
+    "05-admin-preview.png",
+    "06-admin-saved.png",
+    "07-delete-confirmation.png",
+)
+
+
+def portfolio_assets(directory):
+    """Accept only the complete known PNG set, without carrying private artifacts."""
+    from PIL import Image, UnidentifiedImageError
+
+    if {p.name for p in directory.iterdir()} != set(PORTFOLIO_FILES):
+        raise ValueError("Incomplete or unexpected portfolio assets")
+    assets = []
+    for name in PORTFOLIO_FILES:
+        path = directory / name
+        if path.is_symlink():
+            raise ValueError("Portfolio asset must be a regular file")
+        try:
+            with Image.open(path) as picture:
+                if picture.format != "PNG" or picture.info:
+                    raise ValueError("Expected metadata-free PNG")
+                picture.load()
+                width, height = picture.size
+        except (OSError, UnidentifiedImageError) as error:
+            raise ValueError("Invalid portfolio PNG") from error
+        assets.append(
+            {
+                "file": name,
+                "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                "bytes": path.stat().st_size,
+                "width": width,
+                "height": height,
+            }
+        )
+    return assets
 
 
 def inventory():
@@ -56,7 +96,13 @@ def main():
     parser.add_argument("--clip-root", type=Path, required=True)
     parser.add_argument("--pnpm", default="pnpm")
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--portfolio-dir", type=Path, help="Capture the P11-06 portfolio journey"
+    )
     args = parser.parse_args()
+    task = "P11-06" if args.portfolio_dir else "P11-05"
+    if args.portfolio_dir and args.portfolio_dir.exists():
+        parser.error("Portfolio destination must be new; preserve prior captures")
     if os.path.sep in args.pnpm:
         args.pnpm = str(Path(args.pnpm).absolute())
     for path in (args.minilm_root, args.clip_root):
@@ -64,7 +110,7 @@ def main():
             parser.error("Required offline model bundle missing")
     scratch = ROOT / ".local-tmp"
     scratch.mkdir(exist_ok=True)
-    work = Path(tempfile.mkdtemp(prefix="p11-05-", dir=scratch))
+    work = Path(tempfile.mkdtemp(prefix=task.lower() + "-", dir=scratch))
     name = work.name
     password = secrets.token_hex(32)
     env = {
@@ -98,7 +144,9 @@ def main():
         TMPDIR=str(work),
         PATH=str(Path(args.pnpm).absolute().parent) + os.pathsep + env.get("PATH", ""),
     )
-    report = {"task": "P11-05", "passed": False, "stages": [], "browser_cases": []}
+    if args.portfolio_dir:
+        env["FOODWISE_PORTFOLIO_DIR"] = str(work / "screenshots")
+    report = {"task": task, "passed": False, "stages": [], "browser_cases": []}
     original = None
     failure = None
 
@@ -141,7 +189,7 @@ def main():
                 "--name",
                 name,
                 "--label",
-                "foodwise.task=P11-05",
+                "foodwise.task=" + task,
                 "--memory",
                 "256m",
                 "--memory-swap",
@@ -229,16 +277,28 @@ def main():
                 "--config",
                 "playwright.integration.config.ts",
                 "--grep",
-                "administrator|restaurant administration",
+                "P11-06 portfolio"
+                if args.portfolio_dir
+                else "administrator|restaurant administration",
                 "--reporter=json",
             ],
             cwd=ROOT / "frontend",
             timeout=300,
         )
-        if len(report["browser_cases"]) != 4 or not all(
+        expected_cases = 1 if args.portfolio_dir else 4
+        if len(report["browser_cases"]) != expected_cases or not all(
             c["passed"] for c in report["browser_cases"]
         ):
-            raise RuntimeError("Expected all four real administrator journeys")
+            raise RuntimeError("Expected all required browser journeys")
+        if args.portfolio_dir:
+            report["screenshots"] = portfolio_assets(work / "screenshots")
+            report["capture_scope"] = {
+                "synthetic_inputs_only": True,
+                "browser_chrome_captured": False,
+                "password_fields_masked": True,
+                "live_trends_available": False,
+                "course_grading_equivalence_claimed": False,
+            }
         receipt = run(
             "catalog-cleanup-receipt",
             [
@@ -318,6 +378,7 @@ print(json.dumps({'counts':counts,'versions':versions,'models':{'text':{'id':MIN
                 ROOT / "frontend/playwright.integration.config.ts",
                 ROOT / "frontend/tests/integration/admin-release.spec.ts",
                 ROOT / "frontend/tests/integration/journeys.spec.ts",
+                ROOT / "frontend/tests/integration/portfolio.spec.ts",
             )
             if p.exists()
         }
@@ -327,6 +388,18 @@ print(json.dumps({'counts':counts,'versions':versions,'models':{'text':{'id':MIN
                 "\n".join(p.read_text() for p in sorted(work.glob("*.log")))
             )
             diagnostics.chmod(0o600)
+        if (
+            report["passed"]
+            and preserved
+            and removed.returncode == 0
+            and args.portfolio_dir
+        ):
+            try:
+                shutil.copytree(work / "screenshots", args.portfolio_dir)
+            except OSError as error:
+                failure = error
+                report["passed"] = False
+                report["failure_type"] = type(error).__name__
         shutil.rmtree(work)
         env.clear()
         report["isolation"] = {
@@ -342,7 +415,7 @@ print(json.dumps({'counts':counts,'versions':versions,'models':{'text':{'id':MIN
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, indent=2) + "\n")
     if failure:
-        raise RuntimeError("P11-05 failed; see sanitized report") from None
+        raise RuntimeError(task + " failed; see sanitized report") from None
     print(json.dumps({"passed": report["passed"], "isolation": report["isolation"]}))
     return 0 if report["passed"] else 1
 
@@ -351,5 +424,5 @@ if __name__ == "__main__":
     try:
         raise SystemExit(main())
     except Exception:  # noqa: BLE001 - never print private diagnostics
-        print("P11-05 demonstration failed; diagnostics redacted.", file=sys.stderr)
+        print("Browser demonstration failed; diagnostics redacted.", file=sys.stderr)
         raise SystemExit(2) from None

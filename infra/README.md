@@ -14,6 +14,8 @@ For the real six-agent text/image/trend and persistent allergy follow-up, use th
 [opt-in P11-04 live demonstration](live-demo.md).
 For preview, searchable CRUD, cancellation, conflicts and recovery, use the
 [isolated P11-05 administrator demonstration](admin-demo.md).
+For sanitized portfolio screenshots, presenter steps and the separate original
+course screenshot map, use the [P11-06 capture guide](portfolio-demo.md).
 
 [compose.yaml](../compose.yaml) runs four local services:
 

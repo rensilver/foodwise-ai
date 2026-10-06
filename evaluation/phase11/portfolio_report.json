@@ -1,0 +1,179 @@
+{
+  "task": "P11-06",
+  "passed": true,
+  "stages": [
+    {
+      "stage": "start-database",
+      "returncode": 0,
+      "seconds": 1.43
+    },
+    {
+      "stage": "database-port",
+      "returncode": 0,
+      "seconds": 0.169
+    },
+    {
+      "stage": "bootstrap-limited-role",
+      "returncode": 0,
+      "seconds": 0.204
+    },
+    {
+      "stage": "versions",
+      "returncode": 0,
+      "seconds": 0.068
+    },
+    {
+      "stage": "transaction-and-api-contracts",
+      "returncode": 0,
+      "seconds": 10.284
+    },
+    {
+      "stage": "administrator-browser-demo",
+      "returncode": 0,
+      "seconds": 50.181
+    },
+    {
+      "stage": "catalog-cleanup-receipt",
+      "returncode": 0,
+      "seconds": 0.189
+    },
+    {
+      "stage": "node-version",
+      "returncode": 0,
+      "seconds": 0.006
+    },
+    {
+      "stage": "pnpm-version",
+      "returncode": 0,
+      "seconds": 0.116
+    },
+    {
+      "stage": "playwright-version",
+      "returncode": 0,
+      "seconds": 0.61
+    }
+  ],
+  "browser_cases": [
+    {
+      "title": "P11-06 portfolio: text sources, hard restriction, mobile image and admin steps",
+      "passed": true,
+      "status": "expected",
+      "seconds": 8.365
+    }
+  ],
+  "versions": {
+    "python": "3.12.14",
+    "fastapi": "0.142.2",
+    "sqlalchemy": "2.1.2",
+    "psycopg": "3.3.6",
+    "sentence-transformers": "6.1.0",
+    "transformers": "5.18.0",
+    "postgresql": "16.14 (Debian 16.14-1.pgdg12+1)",
+    "pgvector": "0.8.6",
+    "node": "v24.19.0",
+    "pnpm": "12.8.1",
+    "playwright": "Version 1.63.0"
+  },
+  "transaction_contracts": {
+    "tests": 21,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "screenshots": [
+    {
+      "file": "01-home.png",
+      "sha256": "feecef18be4330ca9dccc708cd1b632a16eac7b757d0d73cf52465031dc6c136",
+      "bytes": 79057,
+      "width": 1440,
+      "height": 1049
+    },
+    {
+      "file": "02-text-citations.png",
+      "sha256": "c92083aeb57eda30d7bbe86ffe47d23ba3ee3f5bfbbedbadf502d4fc54bba544",
+      "bytes": 505344,
+      "width": 1440,
+      "height": 3571
+    },
+    {
+      "file": "03-hard-restriction.png",
+      "sha256": "7c183734da89946c272c2137aa4181676e7d15d20c56e0b449d2b11442ae9138",
+      "bytes": 460229,
+      "width": 1440,
+      "height": 3181
+    },
+    {
+      "file": "04-image-mobile.png",
+      "sha256": "644f6981a8912ee3ccf9072e3bca9faa2bd8d143c29dc3a34cb9f90e6d6fc17c",
+      "bytes": 368374,
+      "width": 390,
+      "height": 3393
+    },
+    {
+      "file": "05-admin-preview.png",
+      "sha256": "7b8cb3756f7e5551336dfd389a58e5ef9b827a3abd101a3f15560bfbd0838673",
+      "bytes": 117403,
+      "width": 1440,
+      "height": 2336
+    },
+    {
+      "file": "06-admin-saved.png",
+      "sha256": "8b6664650fcd74028fbfb35e5a66f7fe8bc7cfec331a5568cf8ffe225772ed43",
+      "bytes": 128686,
+      "width": 1440,
+      "height": 2372
+    },
+    {
+      "file": "07-delete-confirmation.png",
+      "sha256": "4514b41b580b5d0fbc00dfdd91714808ad091db10f0c128aab502eb4719760be",
+      "bytes": 154669,
+      "width": 1440,
+      "height": 2372
+    }
+  ],
+  "capture_scope": {
+    "synthetic_inputs_only": true,
+    "browser_chrome_captured": false,
+    "password_fields_masked": true,
+    "live_trends_available": false,
+    "course_grading_equivalence_claimed": false
+  },
+  "catalog_after_demo": {
+    "restaurants": 1,
+    "recipes": 1,
+    "admin_entities": 0,
+    "text_vectors": 2,
+    "image_vectors": 1
+  },
+  "models": {
+    "text": {
+      "id": "sentence-transformers/all-MiniLM-L6-v2",
+      "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41"
+    },
+    "image": {
+      "id": "openai/clip-vit-base-patch32",
+      "revision": "3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268"
+    }
+  },
+  "source_revision": "f21589a13ab5a42ac98b1e89b471ac87191c03f0",
+  "script_hashes": {
+    "infra/verify_admin_demo.py": "f49aa70cd5584cd19bbd46ac81256745b00f857199f9f0fc69ef82e30d640933",
+    "backend/scripts/serve_frontend_fixture.py": "dbf503c15a1330dc032a24d32d3c5e1da7b8ee647a53720fa35502546a139c9f",
+    "backend/tests/integration/test_admin_cancellation.py": "fdce5d7489259be9bf0bd90ac4af0be35e7691dbc95ceff603b1850363fdc8c6",
+    "backend/tests/integration/test_api_admin_catalog.py": "1b7f96e5f7173e46b776a22e34207f87d95d047b3f662c22eec60190aee6cb94",
+    "backend/src/food_recommender/application/catalog/admin.py": "5faeb37a559c994c1047ac5764aff63d098f7f89014c02ebeda6c8f8913f9254",
+    "frontend/playwright.integration.config.ts": "3fabfc21320daf7938317f4fbf0c75d51c8795c906c34f620be65f64f041b9c5",
+    "frontend/tests/integration/admin-release.spec.ts": "b93723bd943b8f20e572bd8e711bb62e8efb100155a67e5d0bcfbf725d991607",
+    "frontend/tests/integration/journeys.spec.ts": "e7770f54c70495f6ae751a9526c621304387e624cb30a2c84084192765a8dec7",
+    "frontend/tests/integration/portfolio.spec.ts": "9d443eec8e482936fbf4374fa344fcc9a3514f93f6f921a3870cd9a2d65d48e9"
+  },
+  "isolation": {
+    "owner_containers_unchanged": true,
+    "disposable_container_removed": true,
+    "private_work_removed": true,
+    "owner_dotenv_read": false,
+    "paid_provider_calls": false,
+    "controlled_inference": true,
+    "pretrained_cpu_embeddings": true
+  }
+}

@@ -6,6 +6,25 @@ import sys
 from pathlib import Path
 
 import pytest
+from PIL import Image
+
+
+def test_portfolio_requires_complete_decodable_pngs_before_export(tmp_path):
+    script = Path(__file__).parents[3] / "infra/verify_admin_demo.py"
+    spec = importlib.util.spec_from_file_location("portfolio_demo", script)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    with pytest.raises(ValueError):
+        module.portfolio_assets(tmp_path)
+    for name in module.PORTFOLIO_FILES:
+        Image.new("RGB", (390, 844), "white").save(tmp_path / name)
+    assets = module.portfolio_assets(tmp_path)
+    assert len(assets) == 7
+    assert all(a["width"] == 390 and a["height"] == 844 for a in assets)
+    assert all(len(a["sha256"]) == 64 for a in assets)
+    (tmp_path / module.PORTFOLIO_FILES[0]).write_bytes(b"invalid")
+    with pytest.raises(ValueError):
+        module.portfolio_assets(tmp_path)
 
 
 def test_admin_demo_failed_inventory_records_failure_and_removes_private_work(

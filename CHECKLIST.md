@@ -696,7 +696,7 @@ measurements and explicit gaps do not claim operational readiness.
 - [x] P11-03 Back up and restore PostgreSQL plus media; verify catalog links, vectors and conversation/checkpoint behavior after restore.
 - [x] P11-04 Demonstrate real text and image retrieval, all six agents, live dated trends, citations and conversational refinements.
 - [x] P11-05 Demonstrate administrator preview/create/edit/delete with atomic searchable updates and cancellation/conflict/error handling.
-- [ ] P11-06 Capture sanitized screenshots/demo steps for the portfolio; map course screenshot requirements separately where still relevant without claiming replacement-stack screenshots meet course grading rules.
+- [x] P11-06 Capture sanitized screenshots/demo steps for the portfolio; map course screenshot requirements separately where still relevant without claiming replacement-stack screenshots meet course grading rules.
 - [ ] P11-07 Publish local setup/troubleshooting instructions and measured limits: synthetic catalog, sparse histories, unknown dietary evidence, provider requirements and unavailable capabilities.
 - [ ] P11-08 Confirm the complete-release gate: validated imagery, real RAG, six-agent graph, live search integration, frontend/admin usability and passing acceptance tests.
 - [ ] P11-09 Review all checklist marks and evidence with the user; preserve unresolved/deferred items and document the final tested versions.
@@ -828,6 +828,32 @@ are removed and existing containers, owner configuration and course artifacts
 are preserved. Admin cancellation means preview discard/delete confirmation and
 application-task cancellation, not rollback of an already committed write on
 browser disconnect. P11-06 onward and complete-release/source-review/publication/
+optional Cloud gates remain separate.
+
+P11-06 verified on 2026-10-06 in America/Recife. The
+[seven-image portfolio gallery](evaluation/phase11/portfolio.md),
+[presenter/reproduction guide](infra/portfolio-demo.md) and
+[sanitized capture report](evaluation/phase11/portfolio_report.json) record
+desktop text citations, retained hard restrictions/empty results, mobile image
+retrieval and administrator preview/create/edit/delete confirmation. Production
+Next.js/FastAPI/PostgreSQL/HTTP MCP and pretrained CPU MiniLM/CLIP retrieval are
+real; inference/extraction are controlled, and unavailable style/trends remain
+visible. Each capture includes an explicit rehearsal annotation. All seven PNGs
+are decoded, metadata-free, hash-bound and visually reviewed; no credentials,
+personal content, local paths or browser chrome appear. The isolated browser
+journey and all 21 database/API contracts pass with no failures/skips. Twenty
+offline verifier/package tests, Python/frontend lint/format/types, source scan,
+document/asset checks and `git diff --check` pass. Disposable database/media/work
+are removed and original container identities/start times/restart counts match.
+No paid provider/Cloud calls or owner configuration reads occur.
+
+The [separate course requirement map](evaluation/phase11/course-screenshots.md)
+and [PDF identity manifest](evaluation/phase11/course_screenshot_map.json)
+preserve 11 exact screenshot filenames and subjects from page one of the supplied
+PDFs; PDF 12 specifies deliverables without a screenshot filename. Original-lab
+captures and replacement-stack grading equivalence are not claimed. Original
+course artifacts/media stay local and ignored; only sanitized portfolio captures
+are added. P11-07 onward, complete-release, source/entity-review/publication and
 optional Cloud gates remain separate.
 
 ## Deferred — Outside the first release

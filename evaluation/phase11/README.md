@@ -439,3 +439,64 @@ bundles and course artifacts are preserved. Private failure logs and synthetic
 Playwright failure artifacts remain ignored. Only P11-05's completion mark
 changes. P11-06 onward, portfolio/course screenshots, complete-release review,
 publication/source/entity-review and optional Cloud gates remain separate.
+
+## P11-06 — Sanitized portfolio and separate course screenshot map
+
+Verified on 2026-10-06 in America/Recife against base revision
+`f21589a13ab5a42ac98b1e89b471ac87191c03f0` plus the capture report's hashed
+verifier and browser journey. The [seven-image gallery](portfolio.md),
+[sanitized report](portfolio_report.json) and
+[presenter/reproduction guide](../../infra/portfolio-demo.md) cover desktop
+meal entry, text sources, a hard milk restriction/empty follow-up, owned image
+retrieval on mobile, and administrator preview/create/edit/delete confirmation.
+
+The opt-in `--portfolio-dir` mode reuses the isolated administrator harness.
+One production Chromium journey passes in 8.365 seconds; its command stage
+including build/startup takes 50.181 seconds. All 21 real database/API contracts
+execute with zero failures/errors/skips (10.284 seconds). Real Next.js/FastAPI,
+PostgreSQL 16.14/pgvector 0.8.6, HTTP MCP, CPU MiniLM/CLIP and persisted follow-ups
+use one original restaurant/recipe and the actual recipe-1 image. Inference and
+extraction are controlled; style/trends are unavailable and remain visible.
+This captures the UI, not live-provider acceptance. The live six-agent/dated
+trend demonstration remains the separate P11-04 evidence.
+
+Seven PNGs totaling 1,813,762 bytes decode without metadata. The report records
+each image's dimensions, byte size and SHA-256 digest; every image and script
+hash matches. All final images are visually reviewed for privacy and complete
+loading. A first capture exposed an image-loading race; the final journey waits
+for every rendered image to finish decoding, and checks numeric image evidence
+in the persisted mobile result. Each screenshot carries a harness-added label
+identifying synthetic inputs, controlled inference and unavailable trends.
+Only the seven allowlisted images are exported after successful verification
+and cleanup. Password fields are masked, recognizable private text is rejected,
+browser chrome is absent, and raw logs/traces/configuration/uploads stay out
+of the export. A new destination is required to preserve previous captures.
+
+The [course requirement map](course-screenshots.md) and
+[PDF identity manifest](course_screenshot_map.json) are based on local text
+extraction from all 12 supplied overview PDFs. Eleven require specific `.jpg`
+filenames and code/output or terminal views on page one. PDF 12 lists full MCP
+application deliverables without a screenshot filename. The map preserves exact
+case/spelling, requested views, local PDF hashes and relevant current
+implementation/evidence links. It does not infer an unprovided final rubric,
+claim original-lab captures completed, or rename portfolio images to satisfy
+course grading. Original PDFs/notebooks/media and historical outputs remain
+unchanged and ignored.
+
+Twenty offline verifier/package-boundary tests pass (5.08 seconds), including
+incomplete/invalid PNG rejection and cleanup after a failed inventory prerequisite.
+Ruff lint/format, frontend Prettier/ESLint/TypeScript, documentation links/fences/
+Bash syntax, asset/source hashes, checklist task-ID uniqueness/instruction budget,
+the redacting source scan and `git diff --check` pass. Listing the original
+P11-05 selection still yields exactly its four administrator journeys; the new
+capture is skipped in normal runs. Runtime behavior, locks and course artifacts
+are unchanged.
+
+The final receipt has only the original one restaurant, one recipe, two text
+vectors and one image vector, with no administrator entities. Synthetic
+conversations/uploads are deleted by the journey. The disposable database/volume
+and private work/media directory are removed; original container identities,
+start times and restart counts match. No owner dotenv, provider credential or
+application database is read; no paid provider/Cloud call occurs. Only P11-06's
+completion mark changes. P11-07 onward, complete-release, source/entity-review/
+publication and optional Cloud gates remain separate.
