@@ -93,7 +93,7 @@ export function CatalogEditor({
   return (
     <fieldset
       disabled={disabled}
-      className="stack"
+      className="editor-fields"
       style={{ border: 0, padding: 0 }}
     >
       <legend>Review catalog fields</legend>
@@ -103,7 +103,10 @@ export function CatalogEditor({
       </p>
       {[...common, ...(category === "restaurant" ? restaurants : recipes)].map(
         (field) => (
-          <label key={field.key}>
+          <label
+            key={field.key}
+            className={"lines" in field ? "wide-field" : undefined}
+          >
             {field.label}
             {"lines" in field ? (
               <textarea

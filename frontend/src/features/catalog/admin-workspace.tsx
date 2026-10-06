@@ -37,7 +37,22 @@ export function AdminWorkspace() {
     adoptLatest,
   } = useAdminCatalog();
   return (
-    <PageShell active="admin">
+    <PageShell
+      active="admin"
+      className="admin-workspace"
+      sidebar={
+        <>
+          <h2 className="sidebar-title">Local catalog</h2>
+          <p className="note">
+            Find an entry to edit, or create a new one. Review extracted fields
+            before saving.
+          </p>
+          <p className="note">
+            Administrator access is separate from your conversation.
+          </p>
+        </>
+      }
+    >
       <h1>Catalog administration</h1>
       <p>
         Maintain the local teaching catalog. Administrator access is separate
@@ -55,7 +70,7 @@ export function AdminWorkspace() {
       )}
       {!session ? (
         <form
-          className="stack composer"
+          className="stack composer admin-login"
           onSubmit={(e) => {
             e.preventDefault();
             void login();
@@ -91,7 +106,7 @@ export function AdminWorkspace() {
           </Button>
         </div>
       )}
-      <section className="stack">
+      <section className="stack admin-editor">
         <h2>{record ? `Edit ${record.data.name}` : "Create an entry"}</h2>
         <label>
           Entry category
@@ -159,7 +174,7 @@ export function AdminWorkspace() {
           Search by name to narrow the list (up to 100 entries). All entries are
           available through catalog browsing.
         </p>
-        <details>
+        <details className="admin-extraction">
           <summary>Extract fields from a description</summary>
           <label>
             Unstructured description

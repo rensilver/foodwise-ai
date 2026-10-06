@@ -5,6 +5,7 @@ import { Sources } from "./sources";
 import {
   CatalogFacts,
   CatalogImage,
+  RecipeIngredients,
   useCatalogDetail,
 } from "./catalog-presentation";
 export function Recommendations({
@@ -27,7 +28,7 @@ export function Recommendations({
           Dietary analysis is unavailable. Compliance is unknown.
         </p>
       )}
-      {event.result.limitations.map((limit, i) => (
+      {[...new Set(event.result.limitations)].map((limit, i) => (
         <p className="note" key={i}>
           {limit}
         </p>
@@ -56,13 +57,19 @@ export function Recommendations({
                   ? "Places to eat"
                   : "Recipes to cook"}
               </h2>
-              {items.map((item) => (
-                <RecommendationItem
-                  key={`${category}:${item.entity.id}`}
-                  item={item}
-                  event={event}
-                />
-              ))}
+              <div
+                className={
+                  category === "recipe" ? "recipe-grid" : "restaurant-list"
+                }
+              >
+                {items.map((item) => (
+                  <RecommendationItem
+                    key={`${category}:${item.entity.id}`}
+                    item={item}
+                    event={event}
+                  />
+                ))}
+              </div>
             </section>
           );
         })}
@@ -100,50 +107,69 @@ function RecommendationItem({
         )
       : undefined;
   return (
-    <article className="result-row">
-      <h3>
-        {detail?.data.name ||
-          `${item.entity.category === "recipe" ? "Recipe" : "Restaurant"} ${item.entity.id}`}
-      </h3>
-      {!detail && <p className="note">{error || "Loading catalog facts…"}</p>}
-      {detail && (
-        <>
-          {detail.images?.[0] && (
-            <CatalogImage
-              entity={item.entity}
-              image={detail.images[0]}
-              name={detail.data.name}
-            />
-          )}
-          <CatalogFacts category={item.entity.category} data={detail.data} />
-        </>
+    <article
+      className={
+        item.entity.category === "recipe"
+          ? "recipe-card recommendation-card"
+          : "restaurant-row recommendation-row"
+      }
+    >
+      {detail?.images?.[0] && (
+        <CatalogImage
+          entity={item.entity}
+          image={detail.images[0]}
+          name={detail.data.name}
+        />
       )}
-      <p>{item.explanation}</p>
-      <p className="note">
-        {assessment?.state === "supported"
-          ? "Ingredient evidence supports the requested restrictions; cross-contact is not verified."
-          : `Dietary evidence: ${assessment?.state ?? "unknown"}.`}
-      </p>
-      {[
-        ...item.limitations,
-        ...(evidence?.limitations ?? []),
-        ...(assessment?.limitations ?? []),
-      ].map((limitation, i) => (
-        <p className="note" key={i}>
-          {limitation}
+      <div className="card-content">
+        <h3>
+          {detail?.data.name ||
+            `${item.entity.category === "recipe" ? "Recipe" : "Restaurant"} ${item.entity.id}`}
+        </h3>
+        {!detail && <p className="note">{error || "Loading catalog facts…"}</p>}
+        {detail && (
+          <>
+            <CatalogFacts category={item.entity.category} data={detail.data} />
+          </>
+        )}
+        <h4 className="fit-heading">Why this fits</h4>
+        <p>{item.explanation}</p>
+        <p className="note">
+          {assessment?.state === "supported"
+            ? "Ingredient evidence supports the requested restrictions; cross-contact is not verified."
+            : `Dietary evidence: ${assessment?.state ?? "unknown"}.`}
         </p>
-      ))}
-      <Sources
-        citations={
-          evidence?.citations.filter((c) => item.citation_ids.includes(c.id)) ??
-          []
-        }
-      />
-      <Link
-        href={`/catalog/${item.entity.category === "recipe" ? "recipes" : "restaurants"}/${encodeURIComponent(item.entity.id)}?returnTo=${encodeURIComponent(`/conversations/${event.conversation_id}`)}`}
-      >
-        View details for {detail?.data.name || item.entity.id}
-      </Link>
+        {[
+          ...new Set([
+            ...item.limitations,
+            ...(evidence?.limitations ?? []),
+            ...(assessment?.limitations ?? []),
+          ]),
+        ].map((limitation, i) => (
+          <p className="note" key={i}>
+            {limitation}
+          </p>
+        ))}
+        {detail && item.entity.category === "recipe" && (
+          <details>
+            <summary>Ingredients</summary>
+            <RecipeIngredients data={detail.data as Schema["RecipeData"]} />
+          </details>
+        )}
+        <Sources
+          citations={
+            evidence?.citations.filter((c) =>
+              item.citation_ids.includes(c.id),
+            ) ?? []
+          }
+        />
+        <Link
+          className="card-link"
+          href={`/catalog/${item.entity.category === "recipe" ? "recipes" : "restaurants"}/${encodeURIComponent(item.entity.id)}?returnTo=${encodeURIComponent(`/conversations/${event.conversation_id}`)}`}
+        >
+          View details for {detail?.data.name || item.entity.id}
+        </Link>
+      </div>
     </article>
   );
 }

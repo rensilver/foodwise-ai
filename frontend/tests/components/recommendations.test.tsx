@@ -50,3 +50,36 @@ test("untrusted HTML is escaped and unsafe citation URLs are never linked", asyn
   expect(container.querySelector("script")).toBeNull();
   expect(container.querySelector('a[href^="javascript:"]')).toBeNull();
 });
+
+test("full canonical ingredients remain available and repeated limitations appear once per candidate", async () => {
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async () => Response.json(rice)),
+  );
+  render(
+    <Recommendations
+      event={{
+        ...recommendations,
+        result: {
+          ...recommendations.result,
+          recommendations: [
+            {
+              ...recommendations.result.recommendations[0],
+              limitations: [
+                "Cross-contact is not verified.",
+                "Cross-contact is not verified.",
+              ],
+            },
+          ],
+        },
+      }}
+    />,
+  );
+  await screen.findByRole("heading", { name: "Tomato rice" });
+  const disclosure = screen
+    .getByText("Ingredients", { exact: true })
+    .closest("details")!;
+  disclosure.open = true;
+  expect(screen.getByText("basil", { exact: true })).toBeVisible();
+  expect(screen.getAllByText("Cross-contact is not verified.")).toHaveLength(1);
+});

@@ -138,15 +138,7 @@ export function CatalogFacts({
             <dd>{formatDuration(item.cook_time)}</dd>
           </dl>
           <h3>Ingredients</h3>
-          {item.ingredients?.length ? (
-            <ul>
-              {item.ingredients.map((ingredient, i) => (
-                <li key={i}>{ingredient}</li>
-              ))}
-            </ul>
-          ) : (
-            <p>Ingredients unknown.</p>
-          )}
+          <RecipeIngredients data={item} />
           <h3>Directions</h3>
           {item.directions?.length ? (
             <ol>
@@ -163,5 +155,17 @@ export function CatalogFacts({
         </>
       )}
     </>
+  );
+}
+
+export function RecipeIngredients({ data }: { data: Schema["RecipeData"] }) {
+  return data.ingredients?.length ? (
+    <ul>
+      {data.ingredients.map((ingredient, i) => (
+        <li key={i}>{ingredient}</li>
+      ))}
+    </ul>
+  ) : (
+    <p>Ingredients unknown.</p>
   );
 }

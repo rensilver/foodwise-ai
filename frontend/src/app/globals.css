@@ -783,3 +783,101 @@ textarea {
     margin-top: 32px;
   }
 }
+
+/* Evidence remains attached to its candidate; categories use the full canvas. */
+.results {
+  grid-template-columns: minmax(0, 1fr);
+}
+.recommendation-card h3 {
+  margin-top: 0;
+}
+.fit-heading {
+  font-weight: 600;
+  margin: 20px 0 8px;
+}
+.recommendation-card details,
+.recommendation-row details {
+  border-top: 1px solid #cddbd2;
+}
+.recommendation-card .source {
+  padding: 12px;
+}
+.recommendation-row {
+  max-width: 80ch;
+}
+.recommendation-row .card-content {
+  padding: 0;
+}
+.detail-page > a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-bottom: 16px;
+}
+.detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 32px;
+  margin: 24px 0;
+}
+.detail-reading {
+  max-width: 75ch;
+  margin: 24px 0;
+}
+.detail-images {
+  display: grid;
+  gap: 24px;
+}
+.detail-images .result-image {
+  aspect-ratio: auto;
+  height: auto;
+  border-radius: 12px;
+}
+.detail-images figcaption {
+  padding: 8px 0;
+}
+.detail-facts .facts {
+  margin-bottom: 16px;
+}
+.detail-facts li {
+  margin-bottom: 8px;
+}
+.admin-login {
+  max-width: 480px;
+  margin-bottom: 32px;
+}
+.admin-editor {
+  margin-top: 32px;
+  max-width: 900px;
+}
+.admin-editor > h2 {
+  margin: 0;
+}
+.admin-extraction {
+  border-block: 1px solid #cddbd2;
+  padding: 8px 0;
+}
+.admin-extraction summary {
+  font-weight: 600;
+}
+.editor-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.editor-fields legend {
+  font-family: var(--font-display);
+  font-size: 20px;
+  padding: 16px 0;
+}
+.editor-fields > .note,
+.editor-fields .wide-field {
+  grid-column: 1 / -1;
+}
+@media (max-width: 767px) {
+  .detail-layout,
+  .editor-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
