@@ -51,6 +51,10 @@ const both = {
 async function mock(page: Page, result: object = both) {
   await page.route("**/api/v1/**", async (route) => {
     const path = new URL(route.request().url()).pathname;
+    if (path === "/api/v1/recipes")
+      return route.fulfill({
+        json: { items: [], total: 0, offset: 0, limit: 6 },
+      });
     if (path.endsWith("/messages"))
       return route.fulfill({
         contentType: "text/event-stream",

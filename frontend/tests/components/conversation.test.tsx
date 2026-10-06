@@ -17,6 +17,8 @@ test("examples edit draft without sending; duplicate submits create one turn and
     question: "Which city?",
   };
   const fetcher = vi.fn(async (url: string, options?: RequestInit) => {
+    if (url.startsWith("/api/v1/recipes?"))
+      return Response.json({ items: [], total: 0, limit: 6, offset: 0 });
     if (url.endsWith("/messages"))
       return new Response(
         `data: ${JSON.stringify(question)}\n\ndata: ${JSON.stringify({ event: "done", conversation_id: id, run_id: "run", outcome: "clarification" })}\n\n`,
@@ -40,7 +42,9 @@ test("examples edit draft without sending; duplicate submits create one turn and
   expect(screen.getByLabelText("Message")).toHaveValue(
     "Find Italian restaurants in San Francisco",
   );
-  expect(fetcher).not.toHaveBeenCalled();
+  expect(
+    fetcher.mock.calls.filter(([, options]) => options?.method === "POST"),
+  ).toHaveLength(0);
   await act(async () => {
     fireEvent.submit(screen.getByLabelText("Message").closest("form")!);
     fireEvent.submit(screen.getByLabelText("Message").closest("form")!);
@@ -56,6 +60,8 @@ test("examples edit draft without sending; duplicate submits create one turn and
 test("an interrupted stream loads history once and keeps the draft for explicit sending", async () => {
   const id = "11111111-1111-4111-8111-111111111111";
   const fetcher = vi.fn(async (url: string, options?: RequestInit) => {
+    if (url.startsWith("/api/v1/recipes?"))
+      return Response.json({ items: [], total: 0, limit: 6, offset: 0 });
     if (url.endsWith("/messages")) return new Response(": heartbeat\n\n");
     if (options?.method === "POST") return Response.json({ id });
     return Response.json({

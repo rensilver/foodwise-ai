@@ -276,23 +276,6 @@ summary {
   margin: 16px 0;
   white-space: pre-wrap;
 }
-@media (min-width: 1100px) {
-  .meal-layout {
-    grid-template-columns: minmax(0, 1fr) 260px;
-  }
-  .preferences {
-    grid-column: 2;
-    grid-row: 1;
-  }
-  .meal-main {
-    grid-column: 1;
-    grid-row: 1;
-    min-width: 0;
-  }
-  .results {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
 @media (max-width: 600px) {
   .workspace {
     padding: 16px 16px 32px;
@@ -672,4 +655,131 @@ textarea {
   margin: 20px;
   background: var(--color-selection);
   border-radius: 4px;
+}
+
+.meal-main {
+  min-width: 0;
+}
+.meal-layout {
+  margin-top: 16px;
+}
+.composer {
+  margin-top: 16px;
+  padding: 20px;
+}
+.composer .category-choice {
+  margin: 0;
+}
+.composer .category-choice legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.composer .category-choice label {
+  padding: 8px 16px;
+}
+.composer .actions {
+  margin: 0;
+  justify-content: flex-end;
+}
+.composer textarea {
+  border: 0;
+  padding: 8px 0;
+  font-size: 20px;
+  min-height: 84px;
+}
+.attachment {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px 16px;
+}
+.attachment label {
+  font-size: 14px;
+}
+.attachment input[type="file"] {
+  border: 0;
+  padding: 8px 0;
+  font-size: 14px;
+}
+.attachment .note,
+.attachment .notice,
+.attachment img,
+.attachment [role="status"] {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+.examples {
+  gap: 8px;
+  margin: 12px 0 0;
+}
+.examples button {
+  background: transparent;
+  font-weight: 400;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-color: #cddbd2;
+}
+.discovery {
+  margin-top: 40px;
+}
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-bottom: 8px;
+}
+.section-heading h2 {
+  margin: 0;
+}
+.section-heading a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+.restaurant-invitation {
+  margin-top: 32px;
+  padding: 24px 0;
+  border-top: 1px solid #cddbd2;
+}
+.restaurant-invitation h3 {
+  margin-top: 0;
+}
+.sidebar-conversation {
+  border-top: 1px solid #cddbd2;
+  padding-top: 24px;
+  margin-top: 24px;
+}
+.mobile-restrictions {
+  display: none;
+}
+.preferences {
+  font-size: 14px;
+}
+.preferences > details {
+  border-top: 1px solid #cddbd2;
+  margin-top: 16px;
+}
+.preferences button {
+  font-size: 14px;
+}
+@media (max-width: 1119px) {
+  .mobile-restrictions {
+    display: block;
+  }
+}
+@media (max-width: 600px) {
+  .composer {
+    padding: 16px;
+  }
+  .attachment {
+    gap: 8px;
+  }
+  .discovery {
+    margin-top: 32px;
+  }
 }
