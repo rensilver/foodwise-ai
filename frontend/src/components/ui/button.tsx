@@ -8,8 +8,8 @@ const variants = cva(
   {
     variants: {
       variant: {
-        primary: "border-cobalt bg-cobalt text-white",
-        secondary: "border-slate bg-white text-ink",
+        primary: "border-action bg-action text-white",
+        secondary: "border-text-muted bg-surface text-ink",
         danger: "border-[#a52222] bg-white text-[#a52222]",
       },
     },
