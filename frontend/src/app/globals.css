@@ -552,7 +552,7 @@ textarea {
 }
 .recipe-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
   gap: 24px;
   align-items: start;
   margin: 24px 0;
@@ -879,5 +879,43 @@ textarea {
   .detail-layout,
   .editor-fields {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+body:has(.sidebar:modal) {
+  overflow: hidden;
+}
+
+/* Compact the request so food discovery begins in the first desktop viewport. */
+.meal-layout {
+  margin-top: 0;
+}
+.composer.stack {
+  gap: 12px;
+  padding: 16px 20px;
+}
+.composer textarea {
+  min-height: 64px;
+}
+.composer-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 20px;
+}
+.composer-footer .actions {
+  padding-bottom: 4px;
+}
+.image-placeholder {
+  width: 100%;
+  max-width: none;
+}
+@media (max-width: 600px) {
+  .composer.stack {
+    padding: 16px;
+  }
+  .composer-footer {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
   }
 }

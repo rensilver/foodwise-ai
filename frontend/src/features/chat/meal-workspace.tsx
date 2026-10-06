@@ -100,8 +100,8 @@ export function MealWorkspace({ conversationId }: { conversationId?: string }) {
         {currentPreferences ? " (changes pending)" : ""}. Edit in Menu and
         preferences.
       </p>
-      <div className="actions">
-        {chat.id && (
+      {chat.id && (
+        <div className="actions">
           <ConfirmDialog
             trigger="Delete conversation"
             title="Delete this conversation?"
@@ -113,8 +113,8 @@ export function MealWorkspace({ conversationId }: { conversationId?: string }) {
             This removes its history, preferences and unshared uploads. A new
             conversation keeps this one available at its URL.
           </ConfirmDialog>
-        )}
-      </div>
+        </div>
+      )}
       {chat.loading && <p role="status">Loading saved conversation…</p>}
       {chat.error && (
         <p className="notice error" role="alert">
@@ -198,31 +198,33 @@ export function MealWorkspace({ conversationId }: { conversationId?: string }) {
               onChange={(e) => chat.setDraft(e.target.value)}
               placeholder="Tell us what you feel like eating…"
             />
-            <ImageAttachment
-              initialMediaId={chat.resume?.media_id ?? undefined}
-              key={`${attachmentKey}:${chat.resume?.client_request_id ?? "draft"}`}
-              disabled={chat.busy || chat.loading}
-              onChange={(id, blocked) => setAttachment({ id, blocked })}
-            />
+            <div className="composer-footer">
+              <ImageAttachment
+                initialMediaId={chat.resume?.media_id ?? undefined}
+                key={`${attachmentKey}:${chat.resume?.client_request_id ?? "draft"}`}
+                disabled={chat.busy || chat.loading}
+                onChange={(id, blocked) => setAttachment({ id, blocked })}
+              />
 
-            <div className="actions">
-              <Button
-                type="submit"
-                disabled={
-                  chat.busy ||
-                  chat.loading ||
-                  chat.recoveryNeeded ||
-                  currentAttachment.blocked ||
-                  !chat.draft.trim()
-                }
-              >
-                Send
-              </Button>
-              {chat.busy && (
-                <Button type="button" variant="secondary" onClick={chat.stop}>
-                  Stop
+              <div className="actions">
+                <Button
+                  type="submit"
+                  disabled={
+                    chat.busy ||
+                    chat.loading ||
+                    chat.recoveryNeeded ||
+                    currentAttachment.blocked ||
+                    !chat.draft.trim()
+                  }
+                >
+                  Send
                 </Button>
-              )}
+                {chat.busy && (
+                  <Button type="button" variant="secondary" onClick={chat.stop}>
+                    Stop
+                  </Button>
+                )}
+              </div>
             </div>
           </form>
           <div className="actions examples">

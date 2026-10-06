@@ -44,12 +44,16 @@ export function PageShell({
     const media = window.matchMedia("(min-width: 1120px)");
     function sync() {
       const dialog = panel.current!;
-      const focused = dialog.contains(document.activeElement);
+      const focused = dialog.contains(document.activeElement)
+        ? (document.activeElement as HTMLElement)
+        : null;
       dialog.close();
       setDesktop(media.matches);
       setOpen(false);
-      if (media.matches) dialog.show();
-      else if (focused) trigger.current?.focus();
+      if (media.matches) {
+        dialog.setAttribute("open", "");
+        focused?.focus();
+      } else if (focused) trigger.current?.focus();
     }
     sync();
     media.addEventListener("change", sync);
