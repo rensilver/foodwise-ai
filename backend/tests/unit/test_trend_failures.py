@@ -73,3 +73,27 @@ async def test_retry_after_is_honored_without_exceeding_budget():
         ).search(TrendRequest(concepts=("fermentation",), run_id=uuid4()))
     assert result.reason == "no_results" and result.search_calls == 2
     assert sleep.call_args.args[0] >= 2
+
+
+@pytest.mark.asyncio
+async def test_search_requests_explicit_publication_window():
+    import json
+    from datetime import UTC, datetime
+
+    payloads = []
+
+    def respond(request):
+        payloads.append(json.loads(request.content))
+        return httpx.Response(200, json={"results": []})
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(respond)) as http:
+        await TavilySearch(
+            SecretStr("synthetic-fixture-token"),
+            http,
+            clock=lambda: datetime(2026, 10, 6, tzinfo=UTC),
+        ).search("food trends Korean cuisine California", max_results=5, days=90)
+    assert payloads[0]["start_date"] == "2026-07-08"
+    assert payloads[0]["end_date"] == "2026-10-06"
+    assert payloads[0]["filter_by_published_date"] is True
+    assert payloads[0]["include_published_date"] is True
+    assert "days" not in payloads[0]

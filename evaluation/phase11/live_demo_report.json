@@ -1,0 +1,1539 @@
+{
+  "task": "P11-04",
+  "verified_at": "2026-10-06T16:47:36.336983+00:00",
+  "model": "gpt-4o-mini",
+  "transport": "real stdio MCP",
+  "tracing_enabled": false,
+  "turns": [
+    {
+      "turn": 1,
+      "message": "Recommend a Korean restaurant in Fullerton.",
+      "checks": {
+        "completed": true,
+        "six_successful_stages_once": true,
+        "experts_available": true,
+        "recommendations_present": true,
+        "references_valid": true,
+        "dated_trend_claims": true,
+        "real_text_scores": true,
+        "real_image_scores": true,
+        "dependency_order_overlap_and_join": true,
+        "cuisine_retained": true,
+        "checkpoint_roundtrip": true
+      },
+      "metrics": {
+        "duration_ms": 15175.815285000226,
+        "openai_calls": 7,
+        "tool_calls": 2,
+        "search_calls": 1,
+        "token_usage": 8132,
+        "retrieval_attempts": 1,
+        "stages": [
+          {
+            "stage": "profile",
+            "duration_ms": 1741.384243000084,
+            "status": "success"
+          },
+          {
+            "stage": "retrieval",
+            "duration_ms": 8602.943025000059,
+            "status": "success"
+          },
+          {
+            "stage": "style",
+            "duration_ms": 1215.4171030001635,
+            "status": "success"
+          },
+          {
+            "stage": "nutrition",
+            "duration_ms": 2233.2818489999227,
+            "status": "success"
+          },
+          {
+            "stage": "trend",
+            "duration_ms": 3480.8615090000785,
+            "status": "success"
+          },
+          {
+            "stage": "recommendation",
+            "duration_ms": 1323.5330020002039,
+            "status": "success"
+          }
+        ]
+      },
+      "stage_spans_ms": [
+        {
+          "stage": "profile",
+          "start": 0.0,
+          "end": 1741.297
+        },
+        {
+          "stage": "retrieval",
+          "start": 1743.164,
+          "end": 10345.909
+        },
+        {
+          "stage": "nutrition",
+          "start": 10349.125,
+          "end": 12582.205
+        },
+        {
+          "stage": "style",
+          "start": 10350.81,
+          "end": 11566.028
+        },
+        {
+          "stage": "trend",
+          "start": 10352.505,
+          "end": 13833.174
+        },
+        {
+          "stage": "recommendation",
+          "start": 13834.788,
+          "end": 15158.0
+        }
+      ],
+      "profile": {
+        "categories": [
+          "restaurant"
+        ],
+        "preferences": {
+          "cuisines": [
+            "Korean"
+          ],
+          "flavors": [],
+          "constraints": [],
+          "location": "Fullerton",
+          "price_band": null
+        },
+        "clarification": null
+      },
+      "catalog": [
+        {
+          "evidence": {
+            "entity": {
+              "category": "restaurant",
+              "id": "1000088"
+            },
+            "citations": [
+              {
+                "id": "0368c1475a7bc5f5c12436019da7134c14e39dde7baa2064a9fcb4d434005c73",
+                "kind": "catalog",
+                "source_id": "aa4dbc94f8847b4876549b9d79cefc5ad1a52a800b760ddc322d43ea506541b1",
+                "excerpt": "name: The Iron Kettle\nfood_style: Korean\nlocation: Fullerton\nsignatures: Sulungtang (ox bone soup)\nvibe: warm and traditional\nenvironment: simple, clean environment where the focus is entirely on the soul-warming properties of the broth.",
+                "entity": {
+                  "category": "restaurant",
+                  "id": "1000088"
+                },
+                "record_id": "1000088",
+                "document_id": "0368c1475a7bc5f5c12436019da7134c14e39dde7baa2064a9fcb4d434005c73",
+                "url": null,
+                "published_on": null,
+                "retrieved_at": null,
+                "attribution": "source"
+              },
+              {
+                "id": "c5d2f03eba7af941d7d48ffc5ca3aed25676c8ab0d764a38ca97e6f3dff45a65",
+                "kind": "catalog",
+                "source_id": "cb9e3cbc697c50422dc56fa9fa3305b43db52bef08f45030efca5acf80ad8d3d",
+                "excerpt": "**The Iron Kettle** in **Fullerton** is a **warm and traditional** **Korean** **soup house**. Scoring a **4.6/5**, it specializes in \"Sulungtang\" (ox bone soup) that is simmered for 24 hours until milky white, served in a simple, clean environment where the focus is entirely on the soul-warming properties of the broth. Price range: $$$$",
+                "entity": {
+                  "category": "restaurant",
+                  "id": "1000088"
+                },
+                "record_id": "90",
+                "document_id": "c5d2f03eba7af941d7d48ffc5ca3aed25676c8ab0d764a38ca97e6f3dff45a65",
+                "url": null,
+                "published_on": null,
+                "retrieved_at": null,
+                "attribution": "source"
+              }
+            ],
+            "relevance": 1.0,
+            "text_score": 1.0,
+            "image_score": null,
+            "lexical_rank": null,
+            "dense_rank": 1,
+            "limitations": [
+              "Image modality has no eligible evidence; active weights renormalized"
+            ]
+          },
+          "name": "The Iron Kettle",
+          "ingredients": null,
+          "allergens": null,
+          "rrf_score": 0.00819672131147541,
+          "lexical_score": null,
+          "text_cosine_similarity": 0.49989935755729675,
+          "image_cosine_similarity": null,
+          "media_ids": [],
+          "assessments": []
+        }
+      ],
+      "trend": {
+        "result": {
+          "claims": [
+            {
+              "claim": "The interior of Mokja K-Market, a cafe with people drinking coffee and a person working on a laptop, with a dog next to a plate of food.  9\n\nKorean convenience store culture is a popular trend across social media. Pedro Colo for CA Post",
+              "entities": [
+                {
+                  "category": "restaurant",
+                  "id": "1000088"
+                }
+              ],
+              "citations": [
+                {
+                  "id": "da923da4-4755-4bcf-adec-5ef6cac15fd6",
+                  "kind": "web",
+                  "source_id": "tavily",
+                  "excerpt": "Various Korean-inspired dishes including ramen, Spam musubi, a pastry, and sandwiches on a table.  9\n\nKorean dishes are displayed at Mokja in Highland Park. Pedro Colo for CA Post\n\nThe founders of Mokja are Korean chef Debbie Lee, who made it to the top three in season five of the show \u201cNext Food Network Star,\u201d as well as Frank and Michelle La, the founders of Be Bright Coffee.\n\nChef Debbie Lee holds a tray with a bowl of food.  9 [...] Lee is called the queen of modern Korean gastropub fare and you can see why. Food at Mokja certainly tastes a lot better than your average convenience store. It\u2019s elevated with complex flavor notes, at affordable prices.\n\nI most enjoyed the egg sando for $11, the PBL&T (pork belly, lettuce and tomato sandwich) for $14, the oxtail hand pie for $9, the spam musabi for $5, and the jollypong cookie inspired by Korean jollypong cereal for $5. [...] Chef Debbie Lee, co-owner of Mokja, poses inside the just-opened market and caf\u00e9. Pedro Colo for CA Post\n\nThe interior of Mokja K-Market, a cafe with people drinking coffee and a person working on a laptop, with a dog next to a plate of food.  9\n\nKorean convenience store culture is a popular trend across social media. Pedro Colo for CA Post\n\nLee described Korean convenience stores as comforting safe spaces.",
+                  "entity": null,
+                  "record_id": null,
+                  "document_id": null,
+                  "url": "https://nypost.com/2026/08/25/lifestyle/viral-korean-convenience-store-culture-comes-to-la",
+                  "published_on": "2026-08-25",
+                  "retrieved_at": "2026-10-06T16:47:50.654361Z",
+                  "attribution": "source"
+                }
+              ]
+            }
+          ],
+          "limitations": [
+            "Trends do not establish restaurant availability or nutrition"
+          ]
+        },
+        "status": "success"
+      },
+      "style": {
+        "result": {
+          "assessments": [
+            {
+              "entity": {
+                "category": "restaurant",
+                "id": "1000088"
+              },
+              "state": "supported",
+              "citation_ids": [
+                "0368c1475a7bc5f5c12436019da7134c14e39dde7baa2064a9fcb4d434005c73"
+              ],
+              "observations": [
+                "food_style: Korean"
+              ],
+              "limitations": []
+            }
+          ]
+        },
+        "status": "success"
+      },
+      "nutrition": {
+        "result": {
+          "assessments": [
+            {
+              "entity": {
+                "category": "restaurant",
+                "id": "1000088"
+              },
+              "state": "unknown",
+              "citation_ids": [
+                "0368c1475a7bc5f5c12436019da7134c14e39dde7baa2064a9fcb4d434005c73",
+                "c5d2f03eba7af941d7d48ffc5ca3aed25676c8ab0d764a38ca97e6f3dff45a65"
+              ],
+              "limitations": [
+                "No verified nutrient quantities or cross-contact safety evidence"
+              ]
+            }
+          ]
+        },
+        "status": "success"
+      },
+      "final": {
+        "result": {
+          "recommendations": [
+            {
+              "entity": {
+                "category": "restaurant",
+                "id": "1000088"
+              },
+              "explanation": "food_style: Korean",
+              "citation_ids": [
+                "0368c1475a7bc5f5c12436019da7134c14e39dde7baa2064a9fcb4d434005c73"
+              ],
+              "limitations": [
+                "Image modality has no eligible evidence; active weights renormalized",
+                "No verified nutrient quantities or cross-contact safety evidence"
+              ]
+            }
+          ],
+          "limitations": [
+            "Image modality has no eligible evidence; active weights renormalized",
+            "Synthetic course catalog; relevance is not dietary certification",
+            "No verified nutrient quantities or cross-contact safety evidence"
+          ]
+        },
+        "status": "success"
+      },
+      "tool_calls": [
+        {
+          "tool": "search_restaurants",
+          "result": {
+            "status": "success",
+            "candidates": [
+              {
+                "evidence": {
+                  "entity": {
+                    "category": "restaurant",
+                    "id": "1000088"
+                  },
+                  "citations": [
+                    {
+                      "id": "0368c1475a7bc5f5c12436019da7134c14e39dde7baa2064a9fcb4d434005c73",
+                      "kind": "catalog",
+                      "source_id": "aa4dbc94f8847b4876549b9d79cefc5ad1a52a800b760ddc322d43ea506541b1",
+                      "excerpt": "name: The Iron Kettle\nfood_style: Korean\nlocation: Fullerton\nsignatures: Sulungtang (ox bone soup)\nvibe: warm and traditional\nenvironment: simple, clean environment where the focus is entirely on the soul-warming properties of the broth.",
+                      "entity": {
+                        "category": "restaurant",
+                        "id": "1000088"
+                      },
+                      "record_id": "1000088",
+                      "document_id": "0368c1475a7bc5f5c12436019da7134c14e39dde7baa2064a9fcb4d434005c73",
+                      "url": null,
+                      "published_on": null,
+                      "retrieved_at": null,
+                      "attribution": "source"
+                    },
+                    {
+                      "id": "c5d2f03eba7af941d7d48ffc5ca3aed25676c8ab0d764a38ca97e6f3dff45a65",
+                      "kind": "catalog",
+                      "source_id": "cb9e3cbc697c50422dc56fa9fa3305b43db52bef08f45030efca5acf80ad8d3d",
+                      "excerpt": "**The Iron Kettle** in **Fullerton** is a **warm and traditional** **Korean** **soup house**. Scoring a **4.6/5**, it specializes in \"Sulungtang\" (ox bone soup) that is simmered for 24 hours until milky white, served in a simple, clean environment where the focus is entirely on the soul-warming properties of the broth. Price range: $$$$",
+                      "entity": {
+                        "category": "restaurant",
+                        "id": "1000088"
+                      },
+                      "record_id": "90",
+                      "document_id": "c5d2f03eba7af941d7d48ffc5ca3aed25676c8ab0d764a38ca97e6f3dff45a65",
+                      "url": null,
+                      "published_on": null,
+                      "retrieved_at": null,
+                      "attribution": "source"
+                    }
+                  ],
+                  "relevance": 1.0,
+                  "text_score": 1.0,
+                  "image_score": null,
+                  "lexical_rank": null,
+                  "dense_rank": 1,
+                  "limitations": []
+                },
+                "name": "The Iron Kettle",
+                "ingredients": null,
+                "allergens": null,
+                "rrf_score": 0.00819672131147541,
+                "lexical_score": null,
+                "text_cosine_similarity": 0.49989935755729675,
+                "image_cosine_similarity": null,
+                "media_ids": [],
+                "assessments": []
+              }
+            ],
+            "categories": [
+              {
+                "category": "restaurant",
+                "fusion": {
+                  "candidates": [
+                    {
+                      "evidence": {
+                        "entity": {
+                          "category": "restaurant",
+                          "id": "1000088"
+                        },
+                        "citations": [
+                          {
+                            "id": "0368c1475a7bc5f5c12436019da7134c14e39dde7baa2064a9fcb4d434005c73",
+                            "kind": "catalog",
+                            "source_id": "aa4dbc94f8847b4876549b9d79cefc5ad1a52a800b760ddc322d43ea506541b1",
+                            "excerpt": "name: The Iron Kettle\nfood_style: Korean\nlocation: Fullerton\nsignatures: Sulungtang (ox bone soup)\nvibe: warm and traditional\nenvironment: simple, clean environment where the focus is entirely on the soul-warming properties of the broth.",
+                            "entity": {
+                              "category": "restaurant",
+                              "id": "1000088"
+                            },
+                            "record_id": "1000088",
+                            "document_id": "0368c1475a7bc5f5c12436019da7134c14e39dde7baa2064a9fcb4d434005c73",
+                            "url": null,
+                            "published_on": null,
+                            "retrieved_at": null,
+                            "attribution": "source"
+                          },
+                          {
+                            "id": "c5d2f03eba7af941d7d48ffc5ca3aed25676c8ab0d764a38ca97e6f3dff45a65",
+                            "kind": "catalog",
+                            "source_id": "cb9e3cbc697c50422dc56fa9fa3305b43db52bef08f45030efca5acf80ad8d3d",
+                            "excerpt": "**The Iron Kettle** in **Fullerton** is a **warm and traditional** **Korean** **soup house**. Scoring a **4.6/5**, it specializes in \"Sulungtang\" (ox bone soup) that is simmered for 24 hours until milky white, served in a simple, clean environment where the focus is entirely on the soul-warming properties of the broth. Price range: $$$$",
+                            "entity": {
+                              "category": "restaurant",
+                              "id": "1000088"
+                            },
+                            "record_id": "90",
+                            "document_id": "c5d2f03eba7af941d7d48ffc5ca3aed25676c8ab0d764a38ca97e6f3dff45a65",
+                            "url": null,
+                            "published_on": null,
+                            "retrieved_at": null,
+                            "attribution": "source"
+                          }
+                        ],
+                        "relevance": 1.0,
+                        "text_score": 1.0,
+                        "image_score": null,
+                        "lexical_rank": null,
+                        "dense_rank": 1,
+                        "limitations": []
+                      },
+                      "name": "The Iron Kettle",
+                      "ingredients": null,
+                      "allergens": null,
+                      "rrf_score": 0.00819672131147541,
+                      "lexical_score": null,
+                      "text_cosine_similarity": 0.49989935755729675,
+                      "image_cosine_similarity": null,
+                      "media_ids": [],
+                      "assessments": []
+                    }
+                  ],
+                  "text_weight": 1.0,
+                  "image_weight": 0.0,
+                  "limitations": []
+                }
+              }
+            ],
+            "elapsed_ms": 7433.434202000171,
+            "limitations": [],
+            "error_code": null
+          }
+        },
+        {
+          "tool": "search_food_trends",
+          "result": {
+            "status": "available",
+            "evidence": [
+              {
+                "id": "e63d597d-2f13-4273-95af-570ceaa45fa5",
+                "url": "https://timesofsandiego.com/arts/2026/07/22/sushi-push-pops-crab-rangoon-burritos-and-seoul-in-a-bowl-liberty-public-markets-food-stars",
+                "excerpt": "BOPJO takes a Korean spin on Mexican cuisine with its special California Burrito and Korean-Mexican bowls.\n\n\u201cLet\u2019s create something that\u2019s gonna be unique,\u201d Young Kim said. \u201cIt\u2019s not so traditional because I think there are so many traditional restaurants out there.\u201d\n\nYoung Kim said you have to innovate to keep up with the fast-paced food business, especially with social media in the mix.\n\n\u201cYou always have to be changing things up so that you bring in new customers,\u201d Young Kim said. [...] San Diego food is \u201csomewhat underappreciated,\u201d Young Kim said\n\nKim hopes that in the coming years, San Diego\u2019s cuisines will become more popular, especially at Liberty Public Market.\n\n\u201cThe people who are behind it are great people,\u201d Young Kim said. \u201cYou\u2019re gonna be seeing a lot of good fun stuff coming out of Liberty Market in the future.\u201d\n\n## More Stories [...] \u201cThe viral crab Rangoon roll has really changed our business,\u201d Gene Kim, co-owner of Slurp and Bell Kim\u2019s husband, said.\n\nGene Kim said they wanted to incorporate Thai street food as a part of his wife\u2019s heritage and combine it with San Diego\u2019s staple Mexican cuisine. The Crab Rangoon Burrito was then born and caught the attention of many influencers in California and the Midwest.",
+                "published_on": "2026-07-22",
+                "retrieved_at": "2026-10-06T16:47:50.654348Z"
+              },
+              {
+                "id": "da923da4-4755-4bcf-adec-5ef6cac15fd6",
+                "url": "https://nypost.com/2026/08/25/lifestyle/viral-korean-convenience-store-culture-comes-to-la",
+                "excerpt": "Various Korean-inspired dishes including ramen, Spam musubi, a pastry, and sandwiches on a table.  9\n\nKorean dishes are displayed at Mokja in Highland Park. Pedro Colo for CA Post\n\nThe founders of Mokja are Korean chef Debbie Lee, who made it to the top three in season five of the show \u201cNext Food Network Star,\u201d as well as Frank and Michelle La, the founders of Be Bright Coffee.\n\nChef Debbie Lee holds a tray with a bowl of food.  9 [...] Lee is called the queen of modern Korean gastropub fare and you can see why. Food at Mokja certainly tastes a lot better than your average convenience store. It\u2019s elevated with complex flavor notes, at affordable prices.\n\nI most enjoyed the egg sando for $11, the PBL&T (pork belly, lettuce and tomato sandwich) for $14, the oxtail hand pie for $9, the spam musabi for $5, and the jollypong cookie inspired by Korean jollypong cereal for $5. [...] Chef Debbie Lee, co-owner of Mokja, poses inside the just-opened market and caf\u00e9. Pedro Colo for CA Post\n\nThe interior of Mokja K-Market, a cafe with people drinking coffee and a person working on a laptop, with a dog next to a plate of food.  9\n\nKorean convenience store culture is a popular trend across social media. Pedro Colo for CA Post\n\nLee described Korean convenience stores as comforting safe spaces.",
+                "published_on": "2026-08-25",
+                "retrieved_at": "2026-10-06T16:47:50.654361Z"
+              },
+              {
+                "id": "a1552d3c-ac2a-4066-acbc-87eab1cf19f0",
+                "url": "https://www.prnewswire.com/news-releases/chef-roy-choi-brings-celebrated-best-friend-restaurant-concept-home-to-southern-california-302829338.html",
+                "excerpt": "Created by James Beard Award-winning chef Roy Choi, Best Friend is an energetic celebration of Korean barbecue, bold flavors and the cultural influences that have defined Southern California's dining scene. Following the success of its flagship location at Park MGM in Las Vegas, the Anaheim location will become only the second Best Friend restaurant in the country, bringing the award-winning concept to the community that has long been part of its story. Born in Seoul, South Korea, Choi spent [...] Created by James Beard Award-winning chef Roy Choi, Best Friend is an award-winning Korean barbecue-inspired restaurant that blends bold flavors, vibrant design and Southern California culture into an immersive dining experience. Since opening at Park MGM Las Vegas, Best Friend has become one of the city's most acclaimed restaurants, recognized for its inventive menu, energetic atmosphere and celebration of Korean American cuisine. The OCVIBE location, opening in Fall 2027, will mark the [...] for its vibrant atmosphere, innovative Korean barbecue-inspired menu and immersive guest experience.",
+                "published_on": "2026-07-20",
+                "retrieved_at": "2026-10-06T16:47:50.654365Z"
+              },
+              {
+                "id": "0b275530-e6f7-4f8f-85d8-c5eba6dfdd4b",
+                "url": "https://www.nrn.com/independent-restaurants/lalaon-is-serving-korean-barbecue-and-seafood-on-10-000-square-feet-of-brooklyn-waterfront",
+                "excerpt": "Emerging Chains\n\nHow emerging chain Hawaiian Bros plans to bump AUV from $2.5M to $3.5M\n\nHow emerging chain Hawaiian Bros plans to bump AUV from $2.5M to $3.5M\n\nSep 30, 2026\n\n\n\nCasual Dining\n\nCalifornia Pizza Kitchen redefined chain pizza in the 80s using a strategy that still works\n\nCalifornia Pizza Kitchen redefined chain pizza in the 80s using a strategy that still works\n\nSep 23, 2026\n\n### Recent News\n\nSee all\n\nPortillo's has made several changes to leadership in recent months.Fast Casual [...] The founders said they are not trying to reinvent Korean food. \u201cWe are simply continuing to cook the food we have always believed in.\u201dDrinks complement the food and blend Korean ingredients and influences with contemporary cocktail culture. A couple of highlights are the citrus-forward GGC made with soju, vodka, and yuzu, and the Tan-San, a highball made with Japanese whisky, jasmine, and soda. Guests can also choose from several non-alcoholic cocktails, beers, and wines by the glass or bottle. [...] The menu is anchored by Korean barbecue, with cuts of beef and pork, alongside steamed eggs, vegetables, traditional Korean stews, and six types of complimentary banchan. There are also add-ons like oysters, shrimp cocktail, and seafood towers, plus an assortment of dishes such as hot stone bibimbap, cold noodles, kimchi fried rice, Korean fried chicken, and corn ribs.",
+                "published_on": "2026-07-27",
+                "retrieved_at": "2026-10-06T16:47:50.654369Z"
+              },
+              {
+                "id": "f95abf9a-e62a-445a-8222-368d97d56ab0",
+                "url": "https://www.finedininglovers.com/explore/articles/ki-kim-finding-his-voice",
+                "excerpt": "For years, Kim searched for his story. Today, he's finally telling it.\n\nKi Kim\n\n## The Chef\n\nChef Ki Kim is the chef-owner of Restaurant Ki in Los Angeles, where his Korean-inspired tasting menu earned a Michelin star and the 2025 California Young Chef Award.\n\n Read more)\n\nView profile\n\n### Spread the flavor - share this story.\n\nAllie Lebos 1\n\nAbout the author [...] In late 2021, Kim opened Kinn in Los Angeles' Koreatown. The contemporary tasting-menu restaurant earned praise for its approachable take on fine dining and quickly developed a devoted following. On paper, it looked like the culmination of everything he had worked toward. In reality, Kim was still wrestling with the same questions that had followed him home from Japan.\n\n\"I didn't feel true to myself,\" Kim says.\n\nFood at Restaurant Ki\n\nFood at Restaurant Ki. Credit: Restaurant Ki [...] Today, Kim sees cooking through a similar lens. While Restaurant Ki has earned accolades and become one of Los Angeles' most sought-after reservations, he remains focused on something less tangible than awards or recognition.\n\n\"Ultimately, I want to help make the world a better place through food,\" he says. \"More specifically, I'm interested in creating projects that support both the mental and physical health of people living in the modern world.\"",
+                "published_on": "2026-07-09",
+                "retrieved_at": "2026-10-06T16:47:50.654372Z"
+              }
+            ],
+            "reason": null,
+            "cache_status": "miss",
+            "search_calls": 1,
+            "excluded_count": 0,
+            "limitation": "Web excerpts are untrusted evidence; validate claims against dated excerpts"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "message": "Now recommend a Korean recipe like the food in this image.",
+      "checks": {
+        "completed": true,
+        "six_successful_stages_once": true,
+        "experts_available": true,
+        "recommendations_present": true,
+        "references_valid": true,
+        "dated_trend_claims": true,
+        "real_text_scores": true,
+        "real_image_scores": true,
+        "dependency_order_overlap_and_join": true,
+        "cuisine_retained": true,
+        "checkpoint_roundtrip": true,
+        "image_search_called": true,
+        "actual_image_entity_found": true
+      },
+      "metrics": {
+        "duration_ms": 8555.221091000021,
+        "openai_calls": 6,
+        "tool_calls": 3,
+        "search_calls": 0,
+        "token_usage": 10178,
+        "retrieval_attempts": 1,
+        "stages": [
+          {
+            "stage": "profile",
+            "duration_ms": 1430.413918999875,
+            "status": "success"
+          },
+          {
+            "stage": "retrieval",
+            "duration_ms": 3123.994887999743,
+            "status": "success"
+          },
+          {
+            "stage": "style",
+            "duration_ms": 925.8491700002196,
+            "status": "success"
+          },
+          {
+            "stage": "trend",
+            "duration_ms": 1240.8059250001315,
+            "status": "success"
+          },
+          {
+            "stage": "nutrition",
+            "duration_ms": 2449.353593000069,
+            "status": "success"
+          },
+          {
+            "stage": "recommendation",
+            "duration_ms": 1531.4539350001724,
+            "status": "success"
+          }
+        ]
+      },
+      "stage_spans_ms": [
+        {
+          "stage": "profile",
+          "start": 0.0,
+          "end": 1430.298
+        },
+        {
+          "stage": "retrieval",
+          "start": 1432.251,
+          "end": 4556.092
+        },
+        {
+          "stage": "nutrition",
+          "start": 4558.398,
+          "end": 7007.477
+        },
+        {
+          "stage": "style",
+          "start": 4560.521,
+          "end": 5486.17
+        },
+        {
+          "stage": "trend",
+          "start": 4562.221,
+          "end": 5802.835
+        },
+        {
+          "stage": "recommendation",
+          "start": 7010.775,
+          "end": 8541.84
+        }
+      ],
+      "profile": {
+        "categories": [
+          "recipe"
+        ],
+        "preferences": {
+          "cuisines": [
+            "Korean"
+          ],
+          "flavors": [],
+          "constraints": [],
+          "location": "Fullerton",
+          "price_band": null
+        },
+        "clarification": null
+      },
+      "catalog": [
+        {
+          "evidence": {
+            "entity": {
+              "category": "recipe",
+              "id": "20"
+            },
+            "citations": [
+              {
+                "id": "7e00ca863466304889c2077560a1e58a453685111fd599466938248d817010b0",
+                "kind": "catalog",
+                "source_id": "e501e9de5ba90c5d93850a5e2fbba8301ecffebf9dafd24a218ff127dd4054d9",
+                "excerpt": "name: Beef Bulgogi\ncuisine: Korean\ningredients: 500g sirloin or flank steak, thinly sliced\n2 tablespoons soy sauce\n1 tablespoon sugar\n1 tablespoon sesame oil\n2 cloves garlic, minced\n1 teaspoon grated ginger\n1 green onion, chopped\nSesame seeds for garnish\ndirections: Marinate beef with soy sauce, sugar, sesame oil, garlic, and ginger for 15-20 minutes.\nStir-fry in a hot pan 2-3 minutes until cooked.\nGarnish with green onion and sesame seeds; serve with rice.",
+                "entity": {
+                  "category": "recipe",
+                  "id": "20"
+                },
+                "record_id": "20",
+                "document_id": "7e00ca863466304889c2077560a1e58a453685111fd599466938248d817010b0",
+                "url": null,
+                "published_on": null,
+                "retrieved_at": null,
+                "attribution": "source"
+              },
+              {
+                "id": "a9023480e82f700666d60cd5151ead620d62897fb10ce64c4165576db80a9a85",
+                "kind": "catalog",
+                "source_id": "1233433e797775c38a824137d4da21a21dcd4cf2668cbf25758e7a5fd9cbed33",
+                "excerpt": "name: Beef Bulgogi\ncuisine: Korean\ningredients: 500g sirloin or flank steak, thinly sliced\n2 tablespoons soy sauce\n1 tablespoon sugar\n1 tablespoon sesame oil\n2 cloves garlic, minced\n1 teaspoon grated ginger\n1 green onion, chopped\nSesame seeds for garnish\ndirections: Marinate beef with soy sauce, sugar, sesame oil, garlic, and ginger for 15-20 minutes.\nStir-fry in a hot pan 2-3 minutes until cooked.\nGarnish with green onion and sesame seeds; serve with rice.",
+                "entity": {
+                  "category": "recipe",
+                  "id": "20"
+                },
+                "record_id": "20",
+                "document_id": "a9023480e82f700666d60cd5151ead620d62897fb10ce64c4165576db80a9a85",
+                "url": null,
+                "published_on": null,
+                "retrieved_at": null,
+                "attribution": "source"
+              },
+              {
+                "id": "d6d1ce48309265905ea1967546b790533ac6d23511d5e7a42037fa9ea3ceee10",
+                "kind": "catalog",
+                "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+                "excerpt": "The image shows a dish of Beef Bulgogi. The main visible ingredients are thinly sliced beef, onions, and green onions. The beef appears to be marinated and grilled. The dish is presented in a bowl with the beef and onions mixed together and garnished with green onions and toasted sesame seeds. The texture of the beef appears to be tender and slightly charred. The overall appearance is appetizing, with a mix of brown, white, and green colors. The portion size is moderate, served in a single bowl.",
+                "entity": {
+                  "category": "recipe",
+                  "id": "20"
+                },
+                "record_id": "20",
+                "document_id": "d6d1ce48309265905ea1967546b790533ac6d23511d5e7a42037fa9ea3ceee10",
+                "url": null,
+                "published_on": null,
+                "retrieved_at": null,
+                "attribution": "imported"
+              },
+              {
+                "id": "image:de906a4b6519e48b1f7f019ebadc8a42e3745531ab163d8202b89166cd521014",
+                "kind": "catalog",
+                "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+                "excerpt": "Catalog image associated with recipe source record 20. Visual similarity does not establish ingredients.",
+                "entity": {
+                  "category": "recipe",
+                  "id": "20"
+                },
+                "record_id": "20",
+                "document_id": "image:de906a4b6519e48b1f7f019ebadc8a42e3745531ab163d8202b89166cd521014",
+                "url": null,
+                "published_on": null,
+                "retrieved_at": null,
+                "attribution": "imported"
+              }
+            ],
+            "relevance": 1.0,
+            "text_score": 1.0,
+            "image_score": 1.0,
+            "lexical_rank": null,
+            "dense_rank": 1,
+            "limitations": []
+          },
+          "name": "Beef Bulgogi",
+          "ingredients": [
+            "500g sirloin or flank steak, thinly sliced",
+            "2 tablespoons soy sauce",
+            "1 tablespoon sugar",
+            "1 tablespoon sesame oil",
+            "2 cloves garlic, minced",
+            "1 teaspoon grated ginger",
+            "1 green onion, chopped",
+            "Sesame seeds for garnish"
+          ],
+          "allergens": null,
+          "rrf_score": 0.00819672131147541,
+          "lexical_score": null,
+          "text_cosine_similarity": 0.5129249676555434,
+          "image_cosine_similarity": 1.0,
+          "media_ids": [
+            "de906a4b6519e48b1f7f019ebadc8a42e3745531ab163d8202b89166cd521014"
+          ],
+          "assessments": []
+        }
+      ],
+      "trend": {
+        "result": {
+          "claims": [
+            {
+              "claim": "The interior of Mokja K-Market, a cafe with people drinking coffee and a person working on a laptop, with a dog next to a plate of food.  9\n\nKorean convenience store culture is a popular trend across social media. Pedro Colo for CA Post",
+              "entities": [
+                {
+                  "category": "recipe",
+                  "id": "20"
+                }
+              ],
+              "citations": [
+                {
+                  "id": "da923da4-4755-4bcf-adec-5ef6cac15fd6",
+                  "kind": "web",
+                  "source_id": "tavily",
+                  "excerpt": "Various Korean-inspired dishes including ramen, Spam musubi, a pastry, and sandwiches on a table.  9\n\nKorean dishes are displayed at Mokja in Highland Park. Pedro Colo for CA Post\n\nThe founders of Mokja are Korean chef Debbie Lee, who made it to the top three in season five of the show \u201cNext Food Network Star,\u201d as well as Frank and Michelle La, the founders of Be Bright Coffee.\n\nChef Debbie Lee holds a tray with a bowl of food.  9 [...] Lee is called the queen of modern Korean gastropub fare and you can see why. Food at Mokja certainly tastes a lot better than your average convenience store. It\u2019s elevated with complex flavor notes, at affordable prices.\n\nI most enjoyed the egg sando for $11, the PBL&T (pork belly, lettuce and tomato sandwich) for $14, the oxtail hand pie for $9, the spam musabi for $5, and the jollypong cookie inspired by Korean jollypong cereal for $5. [...] Chef Debbie Lee, co-owner of Mokja, poses inside the just-opened market and caf\u00e9. Pedro Colo for CA Post\n\nThe interior of Mokja K-Market, a cafe with people drinking coffee and a person working on a laptop, with a dog next to a plate of food.  9\n\nKorean convenience store culture is a popular trend across social media. Pedro Colo for CA Post\n\nLee described Korean convenience stores as comforting safe spaces.",
+                  "entity": null,
+                  "record_id": null,
+                  "document_id": null,
+                  "url": "https://nypost.com/2026/08/25/lifestyle/viral-korean-convenience-store-culture-comes-to-la",
+                  "published_on": "2026-08-25",
+                  "retrieved_at": "2026-10-06T16:47:50.654361Z",
+                  "attribution": "source"
+                }
+              ]
+            }
+          ],
+          "limitations": [
+            "Trends do not establish restaurant availability or nutrition"
+          ]
+        },
+        "status": "success"
+      },
+      "style": {
+        "result": {
+          "assessments": [
+            {
+              "entity": {
+                "category": "recipe",
+                "id": "20"
+              },
+              "state": "supported",
+              "citation_ids": [
+                "7e00ca863466304889c2077560a1e58a453685111fd599466938248d817010b0"
+              ],
+              "observations": [
+                "cuisine: Korean"
+              ],
+              "limitations": []
+            }
+          ]
+        },
+        "status": "success"
+      },
+      "nutrition": {
+        "result": {
+          "assessments": [
+            {
+              "entity": {
+                "category": "recipe",
+                "id": "20"
+              },
+              "state": "unknown",
+              "citation_ids": [
+                "7e00ca863466304889c2077560a1e58a453685111fd599466938248d817010b0",
+                "a9023480e82f700666d60cd5151ead620d62897fb10ce64c4165576db80a9a85",
+                "d6d1ce48309265905ea1967546b790533ac6d23511d5e7a42037fa9ea3ceee10",
+                "image:de906a4b6519e48b1f7f019ebadc8a42e3745531ab163d8202b89166cd521014"
+              ],
+              "limitations": [
+                "No verified nutrient quantities or cross-contact safety evidence"
+              ]
+            }
+          ]
+        },
+        "status": "success"
+      },
+      "final": {
+        "result": {
+          "recommendations": [
+            {
+              "entity": {
+                "category": "recipe",
+                "id": "20"
+              },
+              "explanation": "cuisine: Korean",
+              "citation_ids": [
+                "7e00ca863466304889c2077560a1e58a453685111fd599466938248d817010b0"
+              ],
+              "limitations": [
+                "No verified nutrient quantities or cross-contact safety evidence"
+              ]
+            }
+          ],
+          "limitations": [
+            "Synthetic course catalog; relevance is not dietary certification",
+            "No verified nutrient quantities or cross-contact safety evidence"
+          ]
+        },
+        "status": "success"
+      },
+      "tool_calls": [
+        {
+          "tool": "search_recipes",
+          "result": {
+            "status": "success",
+            "candidates": [
+              {
+                "evidence": {
+                  "entity": {
+                    "category": "recipe",
+                    "id": "20"
+                  },
+                  "citations": [
+                    {
+                      "id": "7e00ca863466304889c2077560a1e58a453685111fd599466938248d817010b0",
+                      "kind": "catalog",
+                      "source_id": "e501e9de5ba90c5d93850a5e2fbba8301ecffebf9dafd24a218ff127dd4054d9",
+                      "excerpt": "name: Beef Bulgogi\ncuisine: Korean\ningredients: 500g sirloin or flank steak, thinly sliced\n2 tablespoons soy sauce\n1 tablespoon sugar\n1 tablespoon sesame oil\n2 cloves garlic, minced\n1 teaspoon grated ginger\n1 green onion, chopped\nSesame seeds for garnish\ndirections: Marinate beef with soy sauce, sugar, sesame oil, garlic, and ginger for 15-20 minutes.\nStir-fry in a hot pan 2-3 minutes until cooked.\nGarnish with green onion and sesame seeds; serve with rice.",
+                      "entity": {
+                        "category": "recipe",
+                        "id": "20"
+                      },
+                      "record_id": "20",
+                      "document_id": "7e00ca863466304889c2077560a1e58a453685111fd599466938248d817010b0",
+                      "url": null,
+                      "published_on": null,
+                      "retrieved_at": null,
+                      "attribution": "source"
+                    },
+                    {
+                      "id": "a9023480e82f700666d60cd5151ead620d62897fb10ce64c4165576db80a9a85",
+                      "kind": "catalog",
+                      "source_id": "1233433e797775c38a824137d4da21a21dcd4cf2668cbf25758e7a5fd9cbed33",
+                      "excerpt": "name: Beef Bulgogi\ncuisine: Korean\ningredients: 500g sirloin or flank steak, thinly sliced\n2 tablespoons soy sauce\n1 tablespoon sugar\n1 tablespoon sesame oil\n2 cloves garlic, minced\n1 teaspoon grated ginger\n1 green onion, chopped\nSesame seeds for garnish\ndirections: Marinate beef with soy sauce, sugar, sesame oil, garlic, and ginger for 15-20 minutes.\nStir-fry in a hot pan 2-3 minutes until cooked.\nGarnish with green onion and sesame seeds; serve with rice.",
+                      "entity": {
+                        "category": "recipe",
+                        "id": "20"
+                      },
+                      "record_id": "20",
+                      "document_id": "a9023480e82f700666d60cd5151ead620d62897fb10ce64c4165576db80a9a85",
+                      "url": null,
+                      "published_on": null,
+                      "retrieved_at": null,
+                      "attribution": "source"
+                    },
+                    {
+                      "id": "d6d1ce48309265905ea1967546b790533ac6d23511d5e7a42037fa9ea3ceee10",
+                      "kind": "catalog",
+                      "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+                      "excerpt": "The image shows a dish of Beef Bulgogi. The main visible ingredients are thinly sliced beef, onions, and green onions. The beef appears to be marinated and grilled. The dish is presented in a bowl with the beef and onions mixed together and garnished with green onions and toasted sesame seeds. The texture of the beef appears to be tender and slightly charred. The overall appearance is appetizing, with a mix of brown, white, and green colors. The portion size is moderate, served in a single bowl.",
+                      "entity": {
+                        "category": "recipe",
+                        "id": "20"
+                      },
+                      "record_id": "20",
+                      "document_id": "d6d1ce48309265905ea1967546b790533ac6d23511d5e7a42037fa9ea3ceee10",
+                      "url": null,
+                      "published_on": null,
+                      "retrieved_at": null,
+                      "attribution": "imported"
+                    }
+                  ],
+                  "relevance": 1.0,
+                  "text_score": 1.0,
+                  "image_score": null,
+                  "lexical_rank": null,
+                  "dense_rank": 1,
+                  "limitations": []
+                },
+                "name": "Beef Bulgogi",
+                "ingredients": [
+                  "500g sirloin or flank steak, thinly sliced",
+                  "2 tablespoons soy sauce",
+                  "1 tablespoon sugar",
+                  "1 tablespoon sesame oil",
+                  "2 cloves garlic, minced",
+                  "1 teaspoon grated ginger",
+                  "1 green onion, chopped",
+                  "Sesame seeds for garnish"
+                ],
+                "allergens": null,
+                "rrf_score": 0.00819672131147541,
+                "lexical_score": null,
+                "text_cosine_similarity": 0.5129249676555434,
+                "image_cosine_similarity": null,
+                "media_ids": [],
+                "assessments": []
+              }
+            ],
+            "categories": [
+              {
+                "category": "recipe",
+                "fusion": {
+                  "candidates": [
+                    {
+                      "evidence": {
+                        "entity": {
+                          "category": "recipe",
+                          "id": "20"
+                        },
+                        "citations": [
+                          {
+                            "id": "7e00ca863466304889c2077560a1e58a453685111fd599466938248d817010b0",
+                            "kind": "catalog",
+                            "source_id": "e501e9de5ba90c5d93850a5e2fbba8301ecffebf9dafd24a218ff127dd4054d9",
+                            "excerpt": "name: Beef Bulgogi\ncuisine: Korean\ningredients: 500g sirloin or flank steak, thinly sliced\n2 tablespoons soy sauce\n1 tablespoon sugar\n1 tablespoon sesame oil\n2 cloves garlic, minced\n1 teaspoon grated ginger\n1 green onion, chopped\nSesame seeds for garnish\ndirections: Marinate beef with soy sauce, sugar, sesame oil, garlic, and ginger for 15-20 minutes.\nStir-fry in a hot pan 2-3 minutes until cooked.\nGarnish with green onion and sesame seeds; serve with rice.",
+                            "entity": {
+                              "category": "recipe",
+                              "id": "20"
+                            },
+                            "record_id": "20",
+                            "document_id": "7e00ca863466304889c2077560a1e58a453685111fd599466938248d817010b0",
+                            "url": null,
+                            "published_on": null,
+                            "retrieved_at": null,
+                            "attribution": "source"
+                          },
+                          {
+                            "id": "a9023480e82f700666d60cd5151ead620d62897fb10ce64c4165576db80a9a85",
+                            "kind": "catalog",
+                            "source_id": "1233433e797775c38a824137d4da21a21dcd4cf2668cbf25758e7a5fd9cbed33",
+                            "excerpt": "name: Beef Bulgogi\ncuisine: Korean\ningredients: 500g sirloin or flank steak, thinly sliced\n2 tablespoons soy sauce\n1 tablespoon sugar\n1 tablespoon sesame oil\n2 cloves garlic, minced\n1 teaspoon grated ginger\n1 green onion, chopped\nSesame seeds for garnish\ndirections: Marinate beef with soy sauce, sugar, sesame oil, garlic, and ginger for 15-20 minutes.\nStir-fry in a hot pan 2-3 minutes until cooked.\nGarnish with green onion and sesame seeds; serve with rice.",
+                            "entity": {
+                              "category": "recipe",
+                              "id": "20"
+                            },
+                            "record_id": "20",
+                            "document_id": "a9023480e82f700666d60cd5151ead620d62897fb10ce64c4165576db80a9a85",
+                            "url": null,
+                            "published_on": null,
+                            "retrieved_at": null,
+                            "attribution": "source"
+                          },
+                          {
+                            "id": "d6d1ce48309265905ea1967546b790533ac6d23511d5e7a42037fa9ea3ceee10",
+                            "kind": "catalog",
+                            "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+                            "excerpt": "The image shows a dish of Beef Bulgogi. The main visible ingredients are thinly sliced beef, onions, and green onions. The beef appears to be marinated and grilled. The dish is presented in a bowl with the beef and onions mixed together and garnished with green onions and toasted sesame seeds. The texture of the beef appears to be tender and slightly charred. The overall appearance is appetizing, with a mix of brown, white, and green colors. The portion size is moderate, served in a single bowl.",
+                            "entity": {
+                              "category": "recipe",
+                              "id": "20"
+                            },
+                            "record_id": "20",
+                            "document_id": "d6d1ce48309265905ea1967546b790533ac6d23511d5e7a42037fa9ea3ceee10",
+                            "url": null,
+                            "published_on": null,
+                            "retrieved_at": null,
+                            "attribution": "imported"
+                          }
+                        ],
+                        "relevance": 1.0,
+                        "text_score": 1.0,
+                        "image_score": null,
+                        "lexical_rank": null,
+                        "dense_rank": 1,
+                        "limitations": []
+                      },
+                      "name": "Beef Bulgogi",
+                      "ingredients": [
+                        "500g sirloin or flank steak, thinly sliced",
+                        "2 tablespoons soy sauce",
+                        "1 tablespoon sugar",
+                        "1 tablespoon sesame oil",
+                        "2 cloves garlic, minced",
+                        "1 teaspoon grated ginger",
+                        "1 green onion, chopped",
+                        "Sesame seeds for garnish"
+                      ],
+                      "allergens": null,
+                      "rrf_score": 0.00819672131147541,
+                      "lexical_score": null,
+                      "text_cosine_similarity": 0.5129249676555434,
+                      "image_cosine_similarity": null,
+                      "media_ids": [],
+                      "assessments": []
+                    }
+                  ],
+                  "text_weight": 1.0,
+                  "image_weight": 0.0,
+                  "limitations": []
+                }
+              }
+            ],
+            "elapsed_ms": 38.00503299999036,
+            "limitations": [],
+            "error_code": null
+          }
+        },
+        {
+          "tool": "search_images",
+          "result": {
+            "status": "success",
+            "candidates": [
+              {
+                "evidence": {
+                  "entity": {
+                    "category": "recipe",
+                    "id": "20"
+                  },
+                  "citations": [
+                    {
+                      "id": "image:de906a4b6519e48b1f7f019ebadc8a42e3745531ab163d8202b89166cd521014",
+                      "kind": "catalog",
+                      "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+                      "excerpt": "Catalog image associated with recipe source record 20. Visual similarity does not establish ingredients.",
+                      "entity": {
+                        "category": "recipe",
+                        "id": "20"
+                      },
+                      "record_id": "20",
+                      "document_id": "image:de906a4b6519e48b1f7f019ebadc8a42e3745531ab163d8202b89166cd521014",
+                      "url": null,
+                      "published_on": null,
+                      "retrieved_at": null,
+                      "attribution": "imported"
+                    }
+                  ],
+                  "relevance": 1.0,
+                  "text_score": null,
+                  "image_score": 1.0,
+                  "lexical_rank": null,
+                  "dense_rank": null,
+                  "limitations": []
+                },
+                "name": "Beef Bulgogi",
+                "ingredients": [
+                  "500g sirloin or flank steak, thinly sliced",
+                  "2 tablespoons soy sauce",
+                  "1 tablespoon sugar",
+                  "1 tablespoon sesame oil",
+                  "2 cloves garlic, minced",
+                  "1 teaspoon grated ginger",
+                  "1 green onion, chopped",
+                  "Sesame seeds for garnish"
+                ],
+                "allergens": null,
+                "rrf_score": null,
+                "lexical_score": null,
+                "text_cosine_similarity": null,
+                "image_cosine_similarity": 1.0,
+                "media_ids": [
+                  "de906a4b6519e48b1f7f019ebadc8a42e3745531ab163d8202b89166cd521014"
+                ],
+                "assessments": []
+              }
+            ],
+            "categories": [
+              {
+                "category": "recipe",
+                "fusion": {
+                  "candidates": [
+                    {
+                      "evidence": {
+                        "entity": {
+                          "category": "recipe",
+                          "id": "20"
+                        },
+                        "citations": [
+                          {
+                            "id": "image:de906a4b6519e48b1f7f019ebadc8a42e3745531ab163d8202b89166cd521014",
+                            "kind": "catalog",
+                            "source_id": "ddbafb70669789121aa45fb58bb7932e061eb568afa5c4c8351b79207000e3ec",
+                            "excerpt": "Catalog image associated with recipe source record 20. Visual similarity does not establish ingredients.",
+                            "entity": {
+                              "category": "recipe",
+                              "id": "20"
+                            },
+                            "record_id": "20",
+                            "document_id": "image:de906a4b6519e48b1f7f019ebadc8a42e3745531ab163d8202b89166cd521014",
+                            "url": null,
+                            "published_on": null,
+                            "retrieved_at": null,
+                            "attribution": "imported"
+                          }
+                        ],
+                        "relevance": 1.0,
+                        "text_score": null,
+                        "image_score": 1.0,
+                        "lexical_rank": null,
+                        "dense_rank": null,
+                        "limitations": []
+                      },
+                      "name": "Beef Bulgogi",
+                      "ingredients": [
+                        "500g sirloin or flank steak, thinly sliced",
+                        "2 tablespoons soy sauce",
+                        "1 tablespoon sugar",
+                        "1 tablespoon sesame oil",
+                        "2 cloves garlic, minced",
+                        "1 teaspoon grated ginger",
+                        "1 green onion, chopped",
+                        "Sesame seeds for garnish"
+                      ],
+                      "allergens": null,
+                      "rrf_score": null,
+                      "lexical_score": null,
+                      "text_cosine_similarity": null,
+                      "image_cosine_similarity": 1.0,
+                      "media_ids": [
+                        "de906a4b6519e48b1f7f019ebadc8a42e3745531ab163d8202b89166cd521014"
+                      ],
+                      "assessments": []
+                    }
+                  ],
+                  "text_weight": 0.0,
+                  "image_weight": 1.0,
+                  "limitations": []
+                }
+              }
+            ],
+            "elapsed_ms": 2222.917760999735,
+            "limitations": [],
+            "error_code": null
+          }
+        },
+        {
+          "tool": "search_food_trends",
+          "result": {
+            "status": "available",
+            "evidence": [
+              {
+                "id": "e63d597d-2f13-4273-95af-570ceaa45fa5",
+                "url": "https://timesofsandiego.com/arts/2026/07/22/sushi-push-pops-crab-rangoon-burritos-and-seoul-in-a-bowl-liberty-public-markets-food-stars",
+                "excerpt": "BOPJO takes a Korean spin on Mexican cuisine with its special California Burrito and Korean-Mexican bowls.\n\n\u201cLet\u2019s create something that\u2019s gonna be unique,\u201d Young Kim said. \u201cIt\u2019s not so traditional because I think there are so many traditional restaurants out there.\u201d\n\nYoung Kim said you have to innovate to keep up with the fast-paced food business, especially with social media in the mix.\n\n\u201cYou always have to be changing things up so that you bring in new customers,\u201d Young Kim said. [...] San Diego food is \u201csomewhat underappreciated,\u201d Young Kim said\n\nKim hopes that in the coming years, San Diego\u2019s cuisines will become more popular, especially at Liberty Public Market.\n\n\u201cThe people who are behind it are great people,\u201d Young Kim said. \u201cYou\u2019re gonna be seeing a lot of good fun stuff coming out of Liberty Market in the future.\u201d\n\n## More Stories [...] \u201cThe viral crab Rangoon roll has really changed our business,\u201d Gene Kim, co-owner of Slurp and Bell Kim\u2019s husband, said.\n\nGene Kim said they wanted to incorporate Thai street food as a part of his wife\u2019s heritage and combine it with San Diego\u2019s staple Mexican cuisine. The Crab Rangoon Burrito was then born and caught the attention of many influencers in California and the Midwest.",
+                "published_on": "2026-07-22",
+                "retrieved_at": "2026-10-06T16:47:50.654348Z"
+              },
+              {
+                "id": "da923da4-4755-4bcf-adec-5ef6cac15fd6",
+                "url": "https://nypost.com/2026/08/25/lifestyle/viral-korean-convenience-store-culture-comes-to-la",
+                "excerpt": "Various Korean-inspired dishes including ramen, Spam musubi, a pastry, and sandwiches on a table.  9\n\nKorean dishes are displayed at Mokja in Highland Park. Pedro Colo for CA Post\n\nThe founders of Mokja are Korean chef Debbie Lee, who made it to the top three in season five of the show \u201cNext Food Network Star,\u201d as well as Frank and Michelle La, the founders of Be Bright Coffee.\n\nChef Debbie Lee holds a tray with a bowl of food.  9 [...] Lee is called the queen of modern Korean gastropub fare and you can see why. Food at Mokja certainly tastes a lot better than your average convenience store. It\u2019s elevated with complex flavor notes, at affordable prices.\n\nI most enjoyed the egg sando for $11, the PBL&T (pork belly, lettuce and tomato sandwich) for $14, the oxtail hand pie for $9, the spam musabi for $5, and the jollypong cookie inspired by Korean jollypong cereal for $5. [...] Chef Debbie Lee, co-owner of Mokja, poses inside the just-opened market and caf\u00e9. Pedro Colo for CA Post\n\nThe interior of Mokja K-Market, a cafe with people drinking coffee and a person working on a laptop, with a dog next to a plate of food.  9\n\nKorean convenience store culture is a popular trend across social media. Pedro Colo for CA Post\n\nLee described Korean convenience stores as comforting safe spaces.",
+                "published_on": "2026-08-25",
+                "retrieved_at": "2026-10-06T16:47:50.654361Z"
+              },
+              {
+                "id": "a1552d3c-ac2a-4066-acbc-87eab1cf19f0",
+                "url": "https://www.prnewswire.com/news-releases/chef-roy-choi-brings-celebrated-best-friend-restaurant-concept-home-to-southern-california-302829338.html",
+                "excerpt": "Created by James Beard Award-winning chef Roy Choi, Best Friend is an energetic celebration of Korean barbecue, bold flavors and the cultural influences that have defined Southern California's dining scene. Following the success of its flagship location at Park MGM in Las Vegas, the Anaheim location will become only the second Best Friend restaurant in the country, bringing the award-winning concept to the community that has long been part of its story. Born in Seoul, South Korea, Choi spent [...] Created by James Beard Award-winning chef Roy Choi, Best Friend is an award-winning Korean barbecue-inspired restaurant that blends bold flavors, vibrant design and Southern California culture into an immersive dining experience. Since opening at Park MGM Las Vegas, Best Friend has become one of the city's most acclaimed restaurants, recognized for its inventive menu, energetic atmosphere and celebration of Korean American cuisine. The OCVIBE location, opening in Fall 2027, will mark the [...] for its vibrant atmosphere, innovative Korean barbecue-inspired menu and immersive guest experience.",
+                "published_on": "2026-07-20",
+                "retrieved_at": "2026-10-06T16:47:50.654365Z"
+              },
+              {
+                "id": "0b275530-e6f7-4f8f-85d8-c5eba6dfdd4b",
+                "url": "https://www.nrn.com/independent-restaurants/lalaon-is-serving-korean-barbecue-and-seafood-on-10-000-square-feet-of-brooklyn-waterfront",
+                "excerpt": "Emerging Chains\n\nHow emerging chain Hawaiian Bros plans to bump AUV from $2.5M to $3.5M\n\nHow emerging chain Hawaiian Bros plans to bump AUV from $2.5M to $3.5M\n\nSep 30, 2026\n\n\n\nCasual Dining\n\nCalifornia Pizza Kitchen redefined chain pizza in the 80s using a strategy that still works\n\nCalifornia Pizza Kitchen redefined chain pizza in the 80s using a strategy that still works\n\nSep 23, 2026\n\n### Recent News\n\nSee all\n\nPortillo's has made several changes to leadership in recent months.Fast Casual [...] The founders said they are not trying to reinvent Korean food. \u201cWe are simply continuing to cook the food we have always believed in.\u201dDrinks complement the food and blend Korean ingredients and influences with contemporary cocktail culture. A couple of highlights are the citrus-forward GGC made with soju, vodka, and yuzu, and the Tan-San, a highball made with Japanese whisky, jasmine, and soda. Guests can also choose from several non-alcoholic cocktails, beers, and wines by the glass or bottle. [...] The menu is anchored by Korean barbecue, with cuts of beef and pork, alongside steamed eggs, vegetables, traditional Korean stews, and six types of complimentary banchan. There are also add-ons like oysters, shrimp cocktail, and seafood towers, plus an assortment of dishes such as hot stone bibimbap, cold noodles, kimchi fried rice, Korean fried chicken, and corn ribs.",
+                "published_on": "2026-07-27",
+                "retrieved_at": "2026-10-06T16:47:50.654369Z"
+              },
+              {
+                "id": "f95abf9a-e62a-445a-8222-368d97d56ab0",
+                "url": "https://www.finedininglovers.com/explore/articles/ki-kim-finding-his-voice",
+                "excerpt": "For years, Kim searched for his story. Today, he's finally telling it.\n\nKi Kim\n\n## The Chef\n\nChef Ki Kim is the chef-owner of Restaurant Ki in Los Angeles, where his Korean-inspired tasting menu earned a Michelin star and the 2025 California Young Chef Award.\n\n Read more)\n\nView profile\n\n### Spread the flavor - share this story.\n\nAllie Lebos 1\n\nAbout the author [...] In late 2021, Kim opened Kinn in Los Angeles' Koreatown. The contemporary tasting-menu restaurant earned praise for its approachable take on fine dining and quickly developed a devoted following. On paper, it looked like the culmination of everything he had worked toward. In reality, Kim was still wrestling with the same questions that had followed him home from Japan.\n\n\"I didn't feel true to myself,\" Kim says.\n\nFood at Restaurant Ki\n\nFood at Restaurant Ki. Credit: Restaurant Ki [...] Today, Kim sees cooking through a similar lens. While Restaurant Ki has earned accolades and become one of Los Angeles' most sought-after reservations, he remains focused on something less tangible than awards or recognition.\n\n\"Ultimately, I want to help make the world a better place through food,\" he says. \"More specifically, I'm interested in creating projects that support both the mental and physical health of people living in the modern world.\"",
+                "published_on": "2026-07-09",
+                "retrieved_at": "2026-10-06T16:47:50.654372Z"
+              }
+            ],
+            "reason": null,
+            "cache_status": "hit",
+            "search_calls": 0,
+            "excluded_count": 0,
+            "limitation": "Web excerpts are untrusted evidence; validate claims against dated excerpts"
+          }
+        }
+      ]
+    },
+    {
+      "turn": 3,
+      "message": "I have a soy allergy. Only suggest a recipe if soy compliance is verified.",
+      "checks": {
+        "no_unsafe_suggestions": true,
+        "hard_constraint_retained": true,
+        "retrieval_empty_under_restriction": true,
+        "safe_completed_response": true
+      },
+      "metrics": {
+        "duration_ms": 3911.4473700001327,
+        "openai_calls": 4,
+        "tool_calls": 3,
+        "search_calls": 0,
+        "token_usage": 2148,
+        "retrieval_attempts": 3,
+        "stages": [
+          {
+            "stage": "profile",
+            "duration_ms": 1442.6413720002529,
+            "status": "success"
+          },
+          {
+            "stage": "retrieval",
+            "duration_ms": 2445.3773999998702,
+            "status": "success"
+          },
+          {
+            "stage": "nutrition",
+            "duration_ms": 0.10129699967365013,
+            "status": "success"
+          },
+          {
+            "stage": "style",
+            "duration_ms": 0.030065000373724615,
+            "status": "success"
+          },
+          {
+            "stage": "trend",
+            "duration_ms": 0.02694000022529508,
+            "status": "unavailable"
+          },
+          {
+            "stage": "recommendation",
+            "duration_ms": 0.17522400003144867,
+            "status": "success"
+          }
+        ]
+      },
+      "stage_spans_ms": [
+        {
+          "stage": "profile",
+          "start": 0.0,
+          "end": 1442.45
+        },
+        {
+          "stage": "retrieval",
+          "start": 1444.438,
+          "end": 3889.645
+        },
+        {
+          "stage": "nutrition",
+          "start": 3891.497,
+          "end": 3891.509
+        },
+        {
+          "stage": "style",
+          "start": 3891.586,
+          "end": 3891.592
+        },
+        {
+          "stage": "trend",
+          "start": 3891.644,
+          "end": 3891.65
+        },
+        {
+          "stage": "recommendation",
+          "start": 3893.288,
+          "end": 3893.32
+        }
+      ],
+      "profile": {
+        "categories": [
+          "recipe"
+        ],
+        "preferences": {
+          "cuisines": [
+            "Korean"
+          ],
+          "flavors": [],
+          "constraints": [
+            {
+              "kind": "allergen",
+              "value": "soy",
+              "strength": "hard",
+              "origin": "explicit"
+            }
+          ],
+          "location": "Fullerton",
+          "price_band": null
+        },
+        "clarification": null
+      },
+      "catalog": [],
+      "trend": {
+        "code": "trends_unavailable",
+        "status": "unavailable"
+      },
+      "style": {
+        "result": {
+          "assessments": []
+        },
+        "status": "success"
+      },
+      "nutrition": {
+        "result": {
+          "assessments": []
+        },
+        "status": "success"
+      },
+      "final": {
+        "result": {
+          "recommendations": [],
+          "limitations": [
+            "Trend analysis unavailable",
+            "Synthetic course catalog; relevance is not dietary certification",
+            "No verified nutrient quantities or cross-contact safety evidence",
+            "Insufficient eligible catalog evidence under unchanged constraints"
+          ]
+        },
+        "status": "success"
+      },
+      "tool_calls": [
+        {
+          "tool": "search_recipes",
+          "result": {
+            "status": "no_results",
+            "candidates": [],
+            "categories": [
+              {
+                "category": "recipe",
+                "fusion": {
+                  "candidates": [],
+                  "text_weight": 0.0,
+                  "image_weight": 0.0,
+                  "limitations": [
+                    "Text modality has no eligible evidence; active weights renormalized",
+                    "No active modality has eligible evidence"
+                  ]
+                }
+              }
+            ],
+            "elapsed_ms": 50.27942199967583,
+            "limitations": [
+              "recipe: Text modality has no eligible evidence; active weights renormalized",
+              "recipe: No active modality has eligible evidence"
+            ],
+            "error_code": null
+          }
+        },
+        {
+          "tool": "search_recipes",
+          "result": {
+            "status": "no_results",
+            "candidates": [],
+            "categories": [
+              {
+                "category": "recipe",
+                "fusion": {
+                  "candidates": [],
+                  "text_weight": 0.0,
+                  "image_weight": 0.0,
+                  "limitations": [
+                    "Text modality has no eligible evidence; active weights renormalized",
+                    "No active modality has eligible evidence"
+                  ]
+                }
+              }
+            ],
+            "elapsed_ms": 35.048986000219884,
+            "limitations": [
+              "recipe: Text modality has no eligible evidence; active weights renormalized",
+              "recipe: No active modality has eligible evidence"
+            ],
+            "error_code": null
+          }
+        },
+        {
+          "tool": "search_recipes",
+          "result": {
+            "status": "no_results",
+            "candidates": [],
+            "categories": [
+              {
+                "category": "recipe",
+                "fusion": {
+                  "candidates": [],
+                  "text_weight": 0.0,
+                  "image_weight": 0.0,
+                  "limitations": [
+                    "Text modality has no eligible evidence; active weights renormalized",
+                    "No active modality has eligible evidence"
+                  ]
+                }
+              }
+            ],
+            "elapsed_ms": 29.060071000003518,
+            "limitations": [
+              "recipe: Text modality has no eligible evidence; active weights renormalized",
+              "recipe: No active modality has eligible evidence"
+            ],
+            "error_code": null
+          }
+        }
+      ]
+    }
+  ],
+  "passed": true,
+  "runtime_hashes": {
+    "backend/src/food_recommender/agents/prompts.py": "5150373d093103d59a29bd6e7db158ae49de54ff126ae6e0ac9fd7b4300ecf16",
+    "backend/src/food_recommender/agents/nodes/profile.py": "08bc75963ab5e55c626222457a471fc73af350b2387c2f927230494499dce388",
+    "backend/src/food_recommender/application/recommendations/profile_rules.py": "63a8c6711414e9a068f4add3710839e31bab860a169a85879beb11efac4eadd5",
+    "backend/src/food_recommender/agents/structured.py": "f31167d8bf8c3ec03c290228b0e1449d8e0b0604bcc2bae906f514b06ef7c46c",
+    "backend/src/food_recommender/agents/nodes/style.py": "4d06d099223c02e146a8b4a89a430c4292f7ced9efd93f9b1f9d678df2503ba1",
+    "backend/src/food_recommender/agents/nodes/trend.py": "5c004b1df92bcfe92423c76c5f8ac60606926aa1f912a251fa070988fafe9587",
+    "backend/src/food_recommender/agents/nodes/recommendation.py": "c6c81c040750551965cc8c5e17d4839bb32c2a9cee58444576a7bbbd1ee6046d",
+    "backend/src/food_recommender/infrastructure/providers/tavily.py": "e8cb735771a79babedcf6b2b8bec8ea05a1169416feb386e69a106165994f3d0"
+  },
+  "provider_usage": [
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 1739.1749469998103,
+      "prompt_tokens": 706,
+      "completion_tokens": 37,
+      "total_tokens": 743
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 1109.9295519998122,
+      "prompt_tokens": 270,
+      "completion_tokens": 20,
+      "total_tokens": 290
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 1214.0210810002827,
+      "prompt_tokens": 1293,
+      "completion_tokens": 16,
+      "total_tokens": 1309
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 2232.088110999939,
+      "prompt_tokens": 1225,
+      "completion_tokens": 120,
+      "total_tokens": 1345
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 1203.5018970000237,
+      "prompt_tokens": 1056,
+      "completion_tokens": 5,
+      "total_tokens": 1061
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 1037.4360590003562,
+      "prompt_tokens": 1119,
+      "completion_tokens": 6,
+      "total_tokens": 1125
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 1321.7654639997818,
+      "prompt_tokens": 2184,
+      "completion_tokens": 75,
+      "total_tokens": 2259
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 1428.6865159997433,
+      "prompt_tokens": 946,
+      "completion_tokens": 36,
+      "total_tokens": 982
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 772.9783620002308,
+      "prompt_tokens": 274,
+      "completion_tokens": 25,
+      "total_tokens": 299
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 924.4812100000672,
+      "prompt_tokens": 2117,
+      "completion_tokens": 16,
+      "total_tokens": 2133
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 1198.3192220000092,
+      "prompt_tokens": 1681,
+      "completion_tokens": 6,
+      "total_tokens": 1687
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 2447.7177670000856,
+      "prompt_tokens": 1912,
+      "completion_tokens": 178,
+      "total_tokens": 2090
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 1529.6603880001385,
+      "prompt_tokens": 2911,
+      "completion_tokens": 76,
+      "total_tokens": 2987
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 1437.5567899996895,
+      "prompt_tokens": 1086,
+      "completion_tokens": 79,
+      "total_tokens": 1165
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 795.0948029997562,
+      "prompt_tokens": 303,
+      "completion_tokens": 21,
+      "total_tokens": 324
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 813.2651749997422,
+      "prompt_tokens": 311,
+      "completion_tokens": 19,
+      "total_tokens": 330
+    },
+    {
+      "model": "gpt-4o-mini",
+      "elapsed_ms": 704.6188240001356,
+      "prompt_tokens": 311,
+      "completion_tokens": 18,
+      "total_tokens": 329
+    }
+  ],
+  "synthetic_context_removed": true,
+  "setup_stages": [
+    {
+      "stage": "start-database",
+      "returncode": 0,
+      "seconds": 1.184
+    },
+    {
+      "stage": "database-port",
+      "returncode": 0,
+      "seconds": 0.246
+    },
+    {
+      "stage": "migrations",
+      "returncode": 0,
+      "seconds": 1.839
+    },
+    {
+      "stage": "checkpoints",
+      "returncode": 0,
+      "seconds": 1.222
+    },
+    {
+      "stage": "import",
+      "returncode": 0,
+      "seconds": 53.486
+    },
+    {
+      "stage": "index-text",
+      "returncode": 0,
+      "seconds": 62.107
+    },
+    {
+      "stage": "index-image",
+      "returncode": 0,
+      "seconds": 45.386
+    },
+    {
+      "stage": "live-demonstration",
+      "returncode": 0,
+      "seconds": 35.474
+    }
+  ],
+  "source_revision": "5cd1d5858067155c33e770cc815e787bf9ac7f60",
+  "script_hashes": {
+    "infra/verify_live_demo.py": "ecd38d7ec71df5b246e87cc16634d4a4904b2e87a77fb097e16b3dd73499848b",
+    "backend/scripts/phase11_live_demo.py": "753b81338dc01d1e94e55af39a5a13a0d03ecf92f213a0e9bdb90f46e5af4aca"
+  },
+  "isolation": {
+    "new_database_and_media": true,
+    "provider_dotenv_copied": false,
+    "owner_containers_unchanged": true,
+    "disposable_container_removed": true
+  }
+}

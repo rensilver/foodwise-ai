@@ -694,7 +694,7 @@ measurements and explicit gaps do not claim operational readiness.
 - [x] P11-01 Rehearse setup from a clean checkout with documented fresh credentials, pinned dependencies, model downloads, media recovery and Compose startup.
 - [x] P11-02 Verify database migrations, idempotent seed ingestion, readiness behavior and persistence across service restarts.
 - [x] P11-03 Back up and restore PostgreSQL plus media; verify catalog links, vectors and conversation/checkpoint behavior after restore.
-- [ ] P11-04 Demonstrate real text and image retrieval, all six agents, live dated trends, citations and conversational refinements.
+- [x] P11-04 Demonstrate real text and image retrieval, all six agents, live dated trends, citations and conversational refinements.
 - [ ] P11-05 Demonstrate administrator preview/create/edit/delete with atomic searchable updates and cancellation/conflict/error handling.
 - [ ] P11-06 Capture sanitized screenshots/demo steps for the portfolio; map course screenshot requirements separately where still relevant without claiming replacement-stack screenshots meet course grading rules.
 - [ ] P11-07 Publish local setup/troubleshooting instructions and measured limits: synthetic catalog, sparse histories, unknown dietary evidence, provider requirements and unavailable capabilities.
@@ -774,6 +774,38 @@ settings were synthetic, tracing disabled and no paid calls occurred. This is
 offline same-version recovery, not online/PITR/Cloud recovery or a retained
 backup of the owner's stack. P11-04 onward and existing release/publication/
 source-review blockers remain separate.
+
+P11-04 verified on 2026-10-06 in America/Recife. The
+[live demonstration guide](infra/live-demo.md),
+[sanitized report](evaluation/phase11/live_demo_report.json) and
+[evidence](evaluation/phase11/README.md#p11-04--live-text-image-six-agent-and-follow-up-demonstration)
+record a fresh isolated PostgreSQL/pgvector catalog with 329 entities, 770 text
+and 118 image vectors. Real stdio MCP/MiniLM restaurant retrieval recommends
+The Iron Kettle (`1000088`); a session-owned upload of the actual Beef Bulgogi
+image retrieves and recommends recipe `20` through CLIP/MiniLM fusion. Both
+positive turns have all six roles succeed, overlapping expert execution and one
+joined synthesis, valid catalog citations, and source-grounded live trend claims
+dated 2026-08-25. A newly constructed graph/runner reads the PostgreSQL checkpoint
+on each turn, retaining Korean cuisine and correctly ignoring the restaurant
+location for recipes. The explicit hard soy-allergy follow-up retains its
+restriction and returns zero suggestions after bounded retrieval refinements.
+
+The final three turns take 15.176/8.555/3.911 seconds, with 17 OpenAI attempts,
+20,458 reported tokens and one fresh Tavily search; the image turn uses eligible
+cached evidence. Earlier failed rehearsals exposed quotation/schema failures,
+the obsolete Tavily `days` request field, an invented `none` allergen, and a
+verifier missing-outcome error. Scoped fixes add publication-window filtering,
+validated source-option selection for style/trends, rechecked synthesis guidance,
+current-message restriction validation and shared bounded repairs. They preserve
+hard-constraint and citation gates. All final script/runtime hashes match the
+report. All 184 affected offline tests, Ruff lint/format, strict mypy (173 modules),
+OpenAPI consistency, documentation checks, source scanning and `git diff --check`
+pass. Disposable database/media and synthetic conversation/checkpoints/upload
+are removed; original containers, owner configuration, datasets and course
+artifacts are preserved. Keys are consumed in place, never copied into rehearsal
+files; Cloud tracing is disabled. This verifies the scripted live integration,
+not representative quality, browser/admin acceptance or full release. P11-05
+onward, source/entity-review/publication and optional Cloud gates remain separate.
 
 ## Deferred — Outside the first release
 

@@ -1,6 +1,6 @@
 # Phase 11 — Local release verification
 
-Recorded scope is P11-01 through P11-03. Use the
+Recorded scope is P11-01 through P11-04. Use the
 [clean-checkout setup guide](../../infra/release-setup.md) for the executable
 sequence. Other Phase 11 tasks and the complete-release gate remain separate.
 
@@ -257,3 +257,108 @@ recovery, not online/PITR/cross-version or Cloud recovery; it creates no retaine
 backup of the owner's stack. P11-04 onward, complete-release/live acceptance,
 optional Cloud operational gates and publication/source-review blockers remain
 separate.
+
+
+## P11-04 — Live text, image, six-agent and follow-up demonstration
+
+Verified on 2026-10-06 in America/Recife. Use the
+[executable live guide](../../infra/live-demo.md) and
+[sanitized report](live_demo_report.json). The final report identifies base
+revision `5cd1d5858067155c33e770cc815e787bf9ac7f60` and hashes the new verifier,
+live probe and changed runtime files; every hash matches the final source.
+OpenAI uses the configured `gpt-4o-mini`, without provider/model fallback.
+Langfuse is disabled; keys are read from the original private configuration
+only in the live probe and never copied into rehearsal files or printed.
+
+A new random-port localhost PostgreSQL/pgvector container and private media
+directory use generated database credentials and the limited application role.
+Normal migrations/checkpoint setup, seed ingestion and pretrained CPU indexing
+create 329 entities, 770 MiniLM text vectors and 118 CLIP image vectors. The
+recovered recipe ZIP and nine approved-host review download cache files are
+revalidated/reused; no owner database, checkpoints or vectors are copied.
+The existing 16 entity-review issues remain explicit, with zero seed rejects.
+All eight setup/live command stages return zero.
+
+| Turn | Real behavior | Run seconds | OpenAI attempts | Tokens | Fresh searches |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Restaurant text | Korean/Fullerton retrieval recommends The Iron Kettle, restaurant `1000088` | 15.176 | 7 | 8,132 | 1 |
+| Image recipe follow-up | Owned Beef Bulgogi upload retrieves its actual recipe `20`, with text/image scores | 8.555 | 6 | 10,178 | 0 |
+| Hard allergy follow-up | Retained Korean cuisine plus explicit soy allergy; zero suggestions after three retrieval attempts | 3.911 | 4 | 2,148 | 0 |
+
+The two positive turns each execute all six real domain roles successfully.
+Recorded timing spans verify profile then retrieval, simultaneous expert activity,
+and a single synthesis after all three experts finish. Their final entity IDs
+and nonempty catalog citation IDs belong to the retrieved candidate set.
+Image search consumes an application-issued session-owned upload ID, with normal
+bounded decoding/metadata removal and ownership checks, and finds the recipe
+that owns the catalog image. MiniLM and CLIP scores come from actual exact
+PostgreSQL/pgvector retrieval, rather than simulated candidates or stored-vector
+self-queries. Retained Fullerton location does not filter the recipe query.
+
+One fresh Tavily search returns eligible dated public evidence; the image turn
+uses its eligible cache entry. Both positive turns select and publish supported
+source quotations associated with their actual candidate. The cited
+[Korean convenience-store report](https://nypost.com/2026/08/25/lifestyle/viral-korean-convenience-store-culture-comes-to-la)
+has a provider-supplied date of 2026-08-25 and a current retrieval timestamp.
+The application independently enforces the 90-day evidence window and 24-hour
+cache lifetime. Tavily now receives explicit start/end dates and publication
+filtering from its [documented API](https://docs.tavily.com/documentation/api-reference/endpoint/search).
+Provider dates can reflect source updates; this is not an independent editorial
+publication-date audit. The claims describe culinary interest and do not create
+operating, menu, nutrition or availability facts for the catalog restaurant.
+
+A new graph and runner are constructed on every turn. Only the real PostgreSQL
+checkpoint supplies prior history/profile; read-back matches each completed
+positive response. The image turn retains cuisine and changes category from
+restaurant to recipe. The final explicit soy allergy remains hard/explicit in
+the saved profile. Canonical soy-containing ingredients and unknown compliance
+produce no eligible recipes; synthesis returns a completed, cited-entity-free
+response with the evidence limitation. Trend analysis is unavailable for this
+empty candidate set, as expected; no unsafe suggestions fill the empty result.
+
+Earlier isolated rehearsals exposed genuine failures: paraphrased style/synthesis
+quotes, malformed trend claims, stale/undated search results with the obsolete
+`days` request field, an invented hard allergen named `none`, and a verifier error
+on missing outcomes. Those failed projects were removed and never counted as
+acceptance. The final change keeps all original dietary/citation/claim gates:
+style and trend inference select eligible source options by index, followed by
+application binding and grounding checks; synthesis gets revalidated style
+quotations as guidance. Schema repairs include field locations/types without
+input values. Domain repairs share the same repair allowance/deadline. Inferred
+restriction additions require the named value in a current-message quote and
+restriction language for hard additions; placeholders and negated allergy
+additions are rejected. Explicit fields and prior hard restrictions retain their
+existing authority. Fake-provider fixtures follow the internal selection schemas;
+external expert/API contracts and dependency locks are unchanged.
+
+The final measured run uses 17 OpenAI attempts, 20,458 reported provider tokens
+and one fresh search. These totals cover the committed three-turn run, excluding
+previous failed rehearsals and diagnostics; no monetary charge is estimated.
+Cached model files/OS caches are reused, so this is not a cold-cache performance
+benchmark. Each run retains the 120-second deadline, 30-second calls, three-call
+process concurrency, two transient retries, two shared schema/domain repairs,
+one synthesis repair, and at most two Tavily searches.
+
+The final affected suite passes 184 offline tests in 10.79 seconds, including
+complete candidate coverage, selection/schema/grounding repair and exhaustion,
+restriction addition/removal/retention, injection, citations/unknown IDs, graph
+ordering, leases/cancellation, Phase 10 fixtures and verifier failure handling.
+Ruff lint/format (318 Python files including the verifier), strict mypy (173
+runtime modules), OpenAPI consistency, Markdown links/fences/Bash syntax, task-ID
+uniqueness, the root instruction budget, the redacting source scan and
+`git diff --check` pass. Sandbox graph/process tests initially stalled and were
+stopped; the final bounded offline run used approved local process access.
+The Makefile's uv invocation encountered sandbox cache/DNS restrictions; the
+installed locked environment ran the equivalent tools directly, without changing
+locks or installing dependencies.
+
+Cleanup deletes the synthetic conversation and supported saver checkpoints,
+browser session and upload, then removes the disposable container/anonymous
+PostgreSQL volume and generated media/cache copy. Existing container IDs, start
+times and restart counts match the initial inventory. Owner configuration,
+original media/datasets, model bundles and course artifacts are preserved.
+Private redacted diagnostic/rehearsal logs remain ignored locally. This small
+scripted demonstration verifies live integration, not representative relevance,
+verified nutrition/allergen safety, browser screenshots or administrator CRUD.
+P11-05 onward, complete-release, publication/entity-review and optional Cloud
+operational gates remain separate.

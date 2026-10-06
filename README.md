@@ -26,8 +26,10 @@ verified. Phase 3 ingestion/media and [Phase 4 text retrieval](evaluation/phase4
 and [Phase 5 multimodal retrieval/fusion](evaluation/phase5/README.md) are verified.
 Phase 6 MCP/live trends and Phase 7 graph implementations are present.
 The [OpenAI migration smoke](evaluation/openai-migration/README.md) returned five
-validated recommendations; style/trend analysis was unavailable, so full live
-acceptance remains open. [Phase 8](evaluation/phase8/README.md)
+validated recommendations; that historical smoke had unavailable style/trend
+analysis. The [P11-04 live demonstration](infra/live-demo.md) now verifies text
+and image retrieval, all six roles, dated trends, citations and a persistent
+allergy follow-up; broader release acceptance remains separate. [Phase 8](evaluation/phase8/README.md)
 adds verified FastAPI conversations/SSE, private images, browsing, administrator
 CRUD and generated TypeScript contracts. [Phase 9](evaluation/phase9/README.md)
 adds the responsive meal workspace, preferences/uploads, cited category results,

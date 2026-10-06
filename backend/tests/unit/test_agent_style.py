@@ -15,14 +15,9 @@ class StyleReply(Reply):
         self.calls.append(context)
         return json.dumps(
             {
-                "assessments": [
-                    {
-                        "entity": c["evidence"]["entity"],
-                        "state": "supported",
-                        "citation_ids": [c["evidence"]["citations"][0]["id"]],
-                        "observations": ["tomato rice simmered with basil"],
-                    }
-                    for c in context["candidates"]
+                "selections": [
+                    {"candidate_index": index, "option_index": 0}
+                    for index, _ in enumerate(context["candidates"])
                 ]
             }
         )
@@ -60,3 +55,86 @@ async def test_unsupported_style_and_provider_failure_are_unavailable():
             ProfileResult((Category.RECIPE,), Preferences()), (food,)
         )
         assert result.status == "unavailable"
+
+
+@pytest.mark.asyncio
+async def test_ungrounded_style_is_repaired_within_the_shared_budget():
+    from food_recommender.application.recommendations.reliability import (
+        RunBudget,
+        RunLimits,
+        current_budget,
+    )
+
+    food = candidate()
+
+    class RepairReply:
+        def __init__(self):
+            self.calls = 0
+
+        async def generate(self, messages, schema, *, image=None):
+            self.calls += 1
+            return json.dumps(
+                {
+                    "selections": [
+                        {
+                            "candidate_index": 0,
+                            "option_index": 11 if self.calls == 1 else 0,
+                        }
+                    ]
+                }
+            )
+
+    provider = RepairReply()
+    token = current_budget.set(RunBudget(RunLimits(schema_repairs=1)))
+    try:
+        result = await FoodStyleExpert(provider).run(
+            ProfileResult((Category.RECIPE,), Preferences()), (food,)
+        )
+    finally:
+        current_budget.reset(token)
+    assert result.status == "success"
+    assert provider.calls == 2
+    assert result.result.assessments[0].observations == (
+        food.evidence.citations[0].excerpt,
+    )
+
+
+@pytest.mark.asyncio
+async def test_repeated_ungrounded_style_exhausts_repairs_without_publishing():
+    from food_recommender.application.recommendations.reliability import (
+        RunBudget,
+        RunLimits,
+        current_budget,
+    )
+
+    food = candidate()
+    calls = []
+
+    class UngroundedReply:
+        async def generate(self, messages, schema, *, image=None):
+            calls.append(messages)
+            return json.dumps(
+                {
+                    "assessments": [
+                        {
+                            "entity": {
+                                "category": "recipe",
+                                "id": food.evidence.entity.id,
+                            },
+                            "state": "supported",
+                            "citation_ids": [food.evidence.citations[0].id],
+                            "observations": ["invented spicy flavor"],
+                        }
+                    ]
+                }
+            )
+
+    token = current_budget.set(RunBudget(RunLimits(schema_repairs=1)))
+    try:
+        result = await FoodStyleExpert(UngroundedReply()).run(
+            ProfileResult((Category.RECIPE,), Preferences()), (food,)
+        )
+    finally:
+        current_budget.reset(token)
+    assert result.status == "unavailable"
+    assert len(calls) == 2
