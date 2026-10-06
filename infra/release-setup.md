@@ -5,6 +5,8 @@ builds the current application, restores the separately held recipe archive,
 downloads pinned CPU models, initializes a new database and starts Compose.
 [Rehearsal evidence](../evaluation/phase11/README.md) records the tested revision,
 versions, recovery inputs and results. Public hosting remains deferred.
+For post-setup diagnostics, provider/dependency failures and measured limits,
+use the [local operation and troubleshooting guide](local-operations.md).
 
 ## Checkout and pinned tools
 
@@ -209,7 +211,7 @@ curl --fail "http://$SETUP_FRONTEND_ADDRESS/api/v1/recipes?limit=1"
 The address probes work for both the default ports and the isolated override's
 dynamically assigned localhost ports.
 
-Fresh full-corpus setup should report 329 entities (210 restaurants, 109 recipes,
+Fresh full-corpus setup should report 329 seed records (210 restaurants, 109 recipes,
 ten reviews), zero rejected items, 770 text vectors and 118 image vectors when
 all nine review images are available. Inspect the import's unresolved report;
 16 entity-review pairs are expected and are not silently merged. Readiness
@@ -225,7 +227,8 @@ application fields. Stop this stack with `docker compose down`, which preserves
 data. Use `compose down` when the helper selects an isolated project.
 Migration/idempotency/restart acceptance is documented below. Paired backups
 and fresh-volume restore are covered by the [P11-03 recovery guide](backup-restore.md).
-Paid live recommendations and administrator demonstrations remain P11-04/05.
+For paid live recommendations and isolated administrator demonstrations, use
+the [P11-04 live guide](live-demo.md) and [P11-05 admin guide](admin-demo.md).
 Delete volumes only for an explicitly disposable rehearsal project after its
 results have been recorded; preserve the developer's real stack and settings.
 

@@ -7,6 +7,8 @@ image retrieval, PostgreSQL/pgvector, OpenAI API (`gpt-4o-mini`), MCP, and live 
 For a new local installation, follow the [clean-checkout setup guide](infra/release-setup.md)
 and its [P11-01 rehearsal evidence](evaluation/phase11/README.md). It covers
 pinned tools/models, private credentials, media recovery and initialized Compose startup.
+Use the [local troubleshooting and measured limits](infra/local-operations.md)
+for dependency/provider failures, recovery, dietary evidence and unavailable capabilities.
 The [portfolio gallery](evaluation/phase11/portfolio.md) provides sanitized UI
 captures with [presenter steps](infra/portfolio-demo.md) and a separate
 [original course screenshot map](evaluation/phase11/course-screenshots.md).

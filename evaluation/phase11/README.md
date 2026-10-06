@@ -500,3 +500,40 @@ start times and restart counts match. No owner dotenv, provider credential or
 application database is read; no paid provider/Cloud call occurs. Only P11-06's
 completion mark changes. P11-07 onward, complete-release, source/entity-review/
 publication and optional Cloud gates remain separate.
+
+## P11-07 — Local troubleshooting and measured limits
+
+Verified on 2026-10-06 in America/Recife. The
+[operational guide](../../infra/local-operations.md) is linked from the root,
+Compose, clean-checkout setup and developer guides. It directs a new developer
+through the existing pinned installation and paired recovery procedures, then
+provides safe diagnostics and recovery for configuration, readiness dependencies,
+model/media provisioning, empty indexes, memory pressure, OpenAI/Tavily failures,
+SSE interruption, conversation/upload ownership and administrator errors/conflicts.
+The developer command inventory now reflects the separately verified scripted
+live and local release evidence; setup counts distinguish seed records from
+restaurant/recipe entities.
+
+The guide publishes the synthetic catalog and sparse single-user review scope,
+unknown dietary/nutrition evidence, fail-closed hard restrictions, server-side
+provider requirements, degraded modes and unavailable/deferred capabilities.
+Measured tables use the existing Phase 10 CPU/retrieval reports and P11-01/04
+reports, with their hardware/cache/query boundaries intact. Enforced run/search/
+upload bounds link to their defining runtime modules. Fixture latency, configured
+container ceilings and a three-turn live demo are not claimed as full-stack peak
+memory, minimum hardware, representative live quality or sustained throughput.
+
+Verification checks local links/anchors, balanced fences, Bash syntax, unique
+checklist IDs and the unchanged 32,759-byte root instruction budget. Direct
+assertions match corpus counts, rounded model load/RSS/encoding and retrieval
+metrics, all three live durations and aggregate attempts/tokens/searches, setup
+container health/ceilings and actual run/upload defaults to the guide.
+The installed configuration CLI's `--help` confirms the documented module/option
+without reading credentials or connecting services. The redacting source scan
+and `git diff --check` pass. No application/browser suite is rerun for this
+documentation-only change; no dependency, runtime, credential, media or owner
+service is changed and no provider/model-download/Cloud call occurs.
+
+Only P11-07's completion mark changes. P11-08/09 acceptance/final review,
+P11-10 clean-checkout path rehearsal, optional Cloud tasks and historical
+source/entity-review/publication blockers remain open on their own evidence.

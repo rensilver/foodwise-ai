@@ -3,6 +3,8 @@
 For the complete current application installation, start with the
 [clean-checkout release setup](release-setup.md); the steps below cover host
 development and the historical scaffold checks.
+Use the [local troubleshooting and measured limits](local-operations.md) for
+runtime recovery, provider requirements and catalog limitations.
 
 This guide starts from the repository root and covers the FastAPI API,
 FastMCP tools/resources and the Next.js meal workspace. Phase 8 supplies the
@@ -223,9 +225,9 @@ and loopback permissions; resolve sandbox denials before assessing results.
 | Culinary ingestion | The [Phase 3 seed CLI](../backend/README.md#seed-ingestion-phase-3) is validated, resumable and verified on the full local corpus. | Phase 3, P03-01 through P03-10 verified. |
 | Text retrieval | [Phase 4 indexing/search/evaluation](../backend/README.md#multi-source-text-retrieval-phase-4) uses pinned CPU MiniLM and real PostgreSQL. | Phase 4, P04-01 through P04-09 verified. |
 | Source audit | `python scripts/phase0_audit.py` from the root is implemented. It requires local course/data/media artifacts and writes Phase 0 reports. It does not populate PostgreSQL. | Phase 0 evidence. |
-| Provider capability smoke tests | Explicit opt-in Tavily/OpenAI probes are implemented. The historical graph failed with the previous provider; OpenAI verification is recorded separately. Health/offline tests make no paid calls. | P06-12, P07-01 and P07-14 recorded; live graph acceptance open. |
+| Provider capability smoke tests | Explicit opt-in Tavily/OpenAI probes and the [P11-04 live text/image/trend demonstration](live-demo.md) are verified separately from historical provider failures. Health/offline tests make no paid calls. | Scripted live integration verified; representative quality and complete-release acceptance remain separate. |
 | Recommendation/admin API | [Phase 8 API contract](../backend/README.md#phase-8-http-contract) covers browser ownership, SSE, uploads, admin origin/CSRF and atomic CRUD. Backend `MINILM_ROOT`, application migrations and supported checkpoint setup are required for full readiness. | P08-01 through P08-12 verified; Phase 9 browser/proxy evidence is tracked separately. |
-| Full clean-checkout release | [P11-01 setup sequence](release-setup.md) covers recovery, model provisioning, initialization and startup; restart/restore/live/admin acceptance remain separate. | P11-01 through P11-09. |
+| Local release evidence | [P11-01 setup](release-setup.md), [restart/idempotency checks](release-setup.md#migration-ingestion-and-restart-verification-p11-02), [paired restore](backup-restore.md), live/admin demos and portfolio captures have their own evidence. [Operational limits](local-operations.md) distinguish those measurements from unverified capacity. | P11-01–07 documented; complete-release and final review remain P11-08/09. |
 
 From `backend/`, preview the implemented application migrations without connecting:
 

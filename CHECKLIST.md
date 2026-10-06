@@ -697,7 +697,7 @@ measurements and explicit gaps do not claim operational readiness.
 - [x] P11-04 Demonstrate real text and image retrieval, all six agents, live dated trends, citations and conversational refinements.
 - [x] P11-05 Demonstrate administrator preview/create/edit/delete with atomic searchable updates and cancellation/conflict/error handling.
 - [x] P11-06 Capture sanitized screenshots/demo steps for the portfolio; map course screenshot requirements separately where still relevant without claiming replacement-stack screenshots meet course grading rules.
-- [ ] P11-07 Publish local setup/troubleshooting instructions and measured limits: synthetic catalog, sparse histories, unknown dietary evidence, provider requirements and unavailable capabilities.
+- [x] P11-07 Publish local setup/troubleshooting instructions and measured limits: synthetic catalog, sparse histories, unknown dietary evidence, provider requirements and unavailable capabilities.
 - [ ] P11-08 Confirm the complete-release gate: validated imagery, real RAG, six-agent graph, live search integration, frontend/admin usability and passing acceptance tests.
 - [ ] P11-09 Review all checklist marks and evidence with the user; preserve unresolved/deferred items and document the final tested versions.
 - [ ] P11-10 Rehearse documented module/CLI paths and model registration from a clean checkout; align package guidance, scripts and links with the release structure.
@@ -855,6 +855,24 @@ captures and replacement-stack grading equivalence are not claimed. Original
 course artifacts/media stay local and ignored; only sanitized portfolio captures
 are added. P11-07 onward, complete-release, source/entity-review/publication and
 optional Cloud gates remain separate.
+
+P11-07 verified on 2026-10-06 in America/Recife. The
+[local operation, troubleshooting and limits guide](infra/local-operations.md),
+linked from the root/setup/developer/Compose guides, joins the existing setup
+and paired-recovery instructions with routine diagnostics and recovery for
+configuration, readiness, models/media, provider failures, SSE interruption,
+ownership, administrator authorization/versions and evidence-limited results.
+It states synthetic catalog/single-user review limits, unknown nutrition/allergen
+evidence, required provider modes and deferred/unavailable capabilities. CPU
+load/RSS/retrieval measurements, the three live turns' timing/token/search usage
+and setup container ceilings link directly to recorded reports; runtime defaults
+are distinct from measured capacity. Source/report assertions, local Markdown
+links/anchors, fences, Bash syntax, task-ID uniqueness/instruction-size checks,
+configuration CLI help, the redacting source scan and `git diff --check` pass.
+This documentation-only task makes no provider calls or runtime/lock changes;
+owner configuration, datasets/media and all other completion marks are preserved.
+P11-08 onward, complete-release, source/entity-review/publication and optional
+Cloud operational gates remain separate.
 
 ## Deferred — Outside the first release
 

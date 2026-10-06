@@ -6,6 +6,8 @@ model downloads, sequential image builds, migrations, supported checkpoints,
 seed ingestion and indexing before all-service startup. [P11-01 evidence](../evaluation/phase11/README.md)
 records the isolated rehearsal and its limits. For host development and quality
 commands, see the [developer workflow](development.md).
+For routine diagnostics, recovery and evidence-backed limits, see the
+[local operation and troubleshooting guide](local-operations.md).
 For repeatable migration, ingestion, readiness and restart acceptance, use the
 [P11-02 verifier](release-setup.md#migration-ingestion-and-restart-verification-p11-02).
 For paired PostgreSQL/media backups and fresh-volume recovery, use the
