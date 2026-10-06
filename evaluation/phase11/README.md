@@ -1,6 +1,6 @@
 # Phase 11 — Local release verification
 
-Recorded scope is P11-01 through P11-04. Use the
+Recorded scope is P11-01 through P11-05. Use the
 [clean-checkout setup guide](../../infra/release-setup.md) for the executable
 sequence. Other Phase 11 tasks and the complete-release gate remain separate.
 
@@ -362,3 +362,80 @@ scripted demonstration verifies live integration, not representative relevance,
 verified nutrition/allergen safety, browser screenshots or administrator CRUD.
 P11-05 onward, complete-release, publication/entity-review and optional Cloud
 operational gates remain separate.
+
+## P11-05 — Administrator preview, searchable CRUD and recovery
+
+Verified on 2026-10-06 in America/Recife against revision
+`671c8292851da66430c89233d64b00ea84a6e30b` plus the report's hashed verifier,
+fixture, runtime fix and tests. The [sanitized report](admin_demo_report.json)
+records every executed stage, model revisions, versions, individual browser
+outcomes and cleanup. Reproduce with the [administrator guide](../../infra/admin-demo.md).
+
+Four production Chromium journeys pass through Next.js and its same-origin
+proxy to real FastAPI, limited-role PostgreSQL 16.14/pgvector 0.8.6 and HTTP MCP.
+The browser stage takes 67.833 seconds including fixture startup, production
+build and teardown; individual journeys take 4.118–5.594 seconds. The fixture
+seeds one original restaurant and recipe with its actual image, using pretrained
+CPU MiniLM/CLIP. Extraction and structured inference are controlled, live trends
+unavailable and external Python network connections blocked. No owner dotenv,
+application database/media volume or provider credentials are read; no paid provider/Cloud call occurs.
+This is a small-catalog administration demonstration, separate from full-corpus
+and live-provider P11-01–04 evidence.
+
+Both categories demonstrate extracted previews without persistence, explicit
+preview discard, separate create, edit and confirmed deletion. Keep it and Escape
+close named deletion dialogs without sending DELETE or changing rows. Invalid
+recipe duration/oversized restaurant signature input produces a real typed 422
+while preserving drafts and prior catalog/document/vector snapshots. Revoking
+the server session produces authentication failure; sign-in preserves the draft
+and the next explicit save commits version two. A separate authorized browser
+creates a real optimistic version conflict; the original browser keeps its draft,
+reviews version three and explicitly saves version four. Restaurant browsing
+also verifies filters, pagination, details and return URLs.
+
+Edited restaurant and recipe identities appear in validated recommendations
+with both lexical and dense retrieval ranks through the actual API/graph/MCP
+flow. After confirmed deletion, detail returns 404 and recommendations omit
+the deleted identity. SQL inspection finds only the original one restaurant,
+one recipe, two text vectors and one image vector before teardown; zero
+administrator entities remain. Raw provenance is retained according to the
+catalog contract. Temporary conversations created by the new journeys are
+explicitly deleted, and the entire disposable database is removed afterward.
+
+All 21 real database/API contracts pass with zero skips (12.084 seconds for
+the command stage). They cover authorization, origin/CSRF, explicit delete
+confirmation, versions, embedding dependency failure, late SQL uniqueness
+failure/rollback and linked-review retrieval deletion. Five cancellation cases
+cancel real asyncio tasks during preparation or after create/edit/delete SQL
+mutation before commit. Complete row snapshots include timestamps, provenance,
+documents, text/image vector values, media and cleanup jobs. Each cancelled task
+propagates cancellation, restores the snapshot and permits a subsequent write.
+These prove application-task cancellation. The administrator UI provides
+preview discard and delete confirmation cancellation; an already committed
+write is not undone by disconnecting, and there is no admin in-flight Stop UI.
+
+The first browser error demonstration found invalid recipe durations escaping
+as `ValueError` and returning HTTP 500. The application now maps this input
+failure to `invalid_request`/422 before preparation or any write. Six real HTTP
+regressions cover create/edit for preparation, cooking and total-time fields,
+checking redaction and unchanged complete row snapshots. Browser error and
+recovery demonstrations now pass. Earlier failed verifier attempts removed
+their isolated resources and did not change the owner's services.
+
+Additional checks pass: 22 offline preparation/package-boundary/verifier tests
+(3.24 seconds), five verifier/backup-cleanup checks (0.69 seconds), all 25 frontend
+unit/component tests (9.07 seconds), backend Ruff/format (319 files), strict mypy
+(173 runtime files), OpenAPI/generated-contract drift, frontend format/lint/types,
+Markdown links/fences/Bash syntax, task-ID uniqueness, source scan and
+`git diff --check`. These are affected checks, not a new full-release acceptance
+run. Versions include Python 3.12.14, Node 24.19.0, pnpm 12.8.1, Playwright 1.63.0,
+FastAPI 0.142.2, SQLAlchemy 2.1.2 and psycopg 3.3.6; model IDs/revisions are in
+the report. Dependency locks are unchanged.
+
+The verifier removes its container/anonymous volume and private media/work
+directory; original container identities, start times and restart counts match
+the initial inventory. Owner configuration, datasets, recovered media, model
+bundles and course artifacts are preserved. Private failure logs and synthetic
+Playwright failure artifacts remain ignored. Only P11-05's completion mark
+changes. P11-06 onward, portfolio/course screenshots, complete-release review,
+publication/source/entity-review and optional Cloud gates remain separate.

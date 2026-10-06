@@ -37,6 +37,58 @@ class Preview:
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize("field", ["prep_time", "cook_time", "total_time"])
+@pytest.mark.parametrize("operation", ["create", "edit"])
+async def test_invalid_recipe_duration_is_typed_422_without_catalog_changes(
+    api, repositories, field, operation
+):
+    from test_admin_cancellation import snapshot
+
+    client, app, services = api
+    factory, connection = repositories
+
+    def transactions():
+        return PostgresUnitOfWork(factory)
+
+    app.state.services = replace(
+        services,
+        admin=AdminService(transactions, Passwords()),
+        admin_catalog=AdminCatalogService(
+            CatalogService(transactions),
+            BrowseService(transactions),
+            CatalogPreparation(Encoder()),
+            Preview(),
+        ),
+    )
+    origin = {"origin": "http://localhost"}
+    login = await client.post(
+        "/api/v1/admin/session", json={"password": "fixture"}, headers=origin
+    )
+    headers = {**origin, "x-csrf-token": login.json()["csrf_token"]}
+    created = await client.post(
+        "/api/v1/admin/recipes", json={"fields": {"name": "Rice"}}, headers=headers
+    )
+    assert created.status_code == 201
+    before = await snapshot(connection)
+    fields = {"name": "Invalid draft", field: "invalid duration"}
+    response = (
+        await client.post(
+            "/api/v1/admin/recipes", json={"fields": fields}, headers=headers
+        )
+        if operation == "create"
+        else await client.patch(
+            "/api/v1/admin/recipes/" + created.json()["data"]["id"],
+            json={"fields": fields, "expected_version": 1},
+            headers=headers,
+        )
+    )
+    assert response.status_code == 422
+    assert response.json()["error"]["code"] == "invalid_request"
+    assert "invalid duration" not in response.text
+    assert await snapshot(connection) == before
+
+
+@pytest.mark.asyncio
 async def test_preview_crud_expected_version_and_delete_intent(api, repositories):  # noqa: F811
     client, app, services = api
     factory, _ = repositories

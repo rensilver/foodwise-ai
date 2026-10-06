@@ -12,6 +12,8 @@ For paired PostgreSQL/media backups and fresh-volume recovery, use the
 [P11-03 procedure and verifier](backup-restore.md).
 For the real six-agent text/image/trend and persistent allergy follow-up, use the
 [opt-in P11-04 live demonstration](live-demo.md).
+For preview, searchable CRUD, cancellation, conflicts and recovery, use the
+[isolated P11-05 administrator demonstration](admin-demo.md).
 
 [compose.yaml](../compose.yaml) runs four local services:
 

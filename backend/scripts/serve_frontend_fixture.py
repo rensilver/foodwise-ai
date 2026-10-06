@@ -58,7 +58,9 @@ from food_recommender.ingestion.extraction import ExtractionService, atomic_json
 from food_recommender.mcp.server import create_server
 
 ROOT = Path(__file__).resolve().parents[2]
-ARTIFACTS = ROOT / ".local-tmp/phase9/integration"
+ARTIFACTS = Path(
+    os.environ.get("FOODWISE_BROWSER_ARTIFACTS", ROOT / ".local-tmp/phase9/integration")
+)
 
 
 def loopback_network_only() -> None:

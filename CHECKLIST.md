@@ -695,7 +695,7 @@ measurements and explicit gaps do not claim operational readiness.
 - [x] P11-02 Verify database migrations, idempotent seed ingestion, readiness behavior and persistence across service restarts.
 - [x] P11-03 Back up and restore PostgreSQL plus media; verify catalog links, vectors and conversation/checkpoint behavior after restore.
 - [x] P11-04 Demonstrate real text and image retrieval, all six agents, live dated trends, citations and conversational refinements.
-- [ ] P11-05 Demonstrate administrator preview/create/edit/delete with atomic searchable updates and cancellation/conflict/error handling.
+- [x] P11-05 Demonstrate administrator preview/create/edit/delete with atomic searchable updates and cancellation/conflict/error handling.
 - [ ] P11-06 Capture sanitized screenshots/demo steps for the portfolio; map course screenshot requirements separately where still relevant without claiming replacement-stack screenshots meet course grading rules.
 - [ ] P11-07 Publish local setup/troubleshooting instructions and measured limits: synthetic catalog, sparse histories, unknown dietary evidence, provider requirements and unavailable capabilities.
 - [ ] P11-08 Confirm the complete-release gate: validated imagery, real RAG, six-agent graph, live search integration, frontend/admin usability and passing acceptance tests.
@@ -806,6 +806,29 @@ artifacts are preserved. Keys are consumed in place, never copied into rehearsal
 files; Cloud tracing is disabled. This verifies the scripted live integration,
 not representative quality, browser/admin acceptance or full release. P11-05
 onward, source/entity-review/publication and optional Cloud gates remain separate.
+
+P11-05 verified on 2026-10-06 in America/Recife. The
+[administrator demonstration guide](infra/admin-demo.md),
+[sanitized report](evaluation/phase11/admin_demo_report.json) and
+[evidence](evaluation/phase11/README.md#p11-05--administrator-preview-searchable-crud-and-recovery)
+record four production Chromium/Next.js/FastAPI/PostgreSQL/HTTP MCP journeys
+and 21 real database/API contracts with zero failures or skips. Both categories
+demonstrate preview without persistence, explicit create/edit/delete, searchable
+lexical/dense updates, cancelled delete dialogs, preserved drafts on validation
+and revoked-session errors, and version-conflict recovery. Five task-cancellation
+cases preserve complete catalog/provenance/document/vector/media/cleanup snapshots
+during preparation or after SQL mutation before commit. Invalid recipe durations
+now return typed HTTP 422 instead of 500; six create/edit regressions cover all
+three duration fields. Only the original two fixture entities, two text vectors
+and one image vector remain before teardown; no administrator entities remain.
+Backend/frontend quality, offline boundary/verifier checks and source/document
+checks pass. Extraction/inference are controlled, pretrained CPU retrieval is
+real, and no paid provider/Cloud calls occur. Disposable database/media/work
+are removed and existing containers, owner configuration and course artifacts
+are preserved. Admin cancellation means preview discard/delete confirmation and
+application-task cancellation, not rollback of an already committed write on
+browser disconnect. P11-06 onward and complete-release/source-review/publication/
+optional Cloud gates remain separate.
 
 ## Deferred — Outside the first release
 

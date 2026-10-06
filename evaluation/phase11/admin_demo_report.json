@@ -1,0 +1,138 @@
+{
+  "task": "P11-05",
+  "passed": true,
+  "stages": [
+    {
+      "stage": "start-database",
+      "returncode": 0,
+      "seconds": 1.75
+    },
+    {
+      "stage": "database-port",
+      "returncode": 0,
+      "seconds": 0.172
+    },
+    {
+      "stage": "bootstrap-limited-role",
+      "returncode": 0,
+      "seconds": 0.225
+    },
+    {
+      "stage": "versions",
+      "returncode": 0,
+      "seconds": 0.076
+    },
+    {
+      "stage": "transaction-and-api-contracts",
+      "returncode": 0,
+      "seconds": 12.084
+    },
+    {
+      "stage": "administrator-browser-demo",
+      "returncode": 0,
+      "seconds": 67.833
+    },
+    {
+      "stage": "catalog-cleanup-receipt",
+      "returncode": 0,
+      "seconds": 0.441
+    },
+    {
+      "stage": "node-version",
+      "returncode": 0,
+      "seconds": 0.009
+    },
+    {
+      "stage": "pnpm-version",
+      "returncode": 0,
+      "seconds": 0.265
+    },
+    {
+      "stage": "playwright-version",
+      "returncode": 0,
+      "seconds": 0.926
+    }
+  ],
+  "browser_cases": [
+    {
+      "title": "P11-05 administrator restaurant preview, cancelled deletion, validation and session recovery",
+      "passed": true,
+      "status": "expected",
+      "seconds": 5.594
+    },
+    {
+      "title": "P11-05 administrator recipe preview, cancelled deletion, validation and session recovery",
+      "passed": true,
+      "status": "expected",
+      "seconds": 5.047
+    },
+    {
+      "title": "real administrator preview/create/edit/conflict/delete changes become searchable and atomic",
+      "passed": true,
+      "status": "expected",
+      "seconds": 5.087
+    },
+    {
+      "title": "real restaurant administration and catalog filters, pagination and return URLs agree",
+      "passed": true,
+      "status": "expected",
+      "seconds": 4.118
+    }
+  ],
+  "versions": {
+    "python": "3.12.14",
+    "fastapi": "0.142.2",
+    "sqlalchemy": "2.1.2",
+    "psycopg": "3.3.6",
+    "sentence-transformers": "6.1.0",
+    "transformers": "5.18.0",
+    "postgresql": "16.14 (Debian 16.14-1.pgdg12+1)",
+    "pgvector": "0.8.6",
+    "node": "v24.19.0",
+    "pnpm": "12.8.1",
+    "playwright": "Version 1.63.0"
+  },
+  "transaction_contracts": {
+    "tests": 21,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "catalog_after_demo": {
+    "restaurants": 1,
+    "recipes": 1,
+    "admin_entities": 0,
+    "text_vectors": 2,
+    "image_vectors": 1
+  },
+  "models": {
+    "text": {
+      "id": "sentence-transformers/all-MiniLM-L6-v2",
+      "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41"
+    },
+    "image": {
+      "id": "openai/clip-vit-base-patch32",
+      "revision": "3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268"
+    }
+  },
+  "source_revision": "671c8292851da66430c89233d64b00ea84a6e30b",
+  "script_hashes": {
+    "infra/verify_admin_demo.py": "2e145567ed4e573d7357469487f4724a185d0e0a66da9bf861ad1ddd9ae36caf",
+    "backend/scripts/serve_frontend_fixture.py": "dbf503c15a1330dc032a24d32d3c5e1da7b8ee647a53720fa35502546a139c9f",
+    "backend/tests/integration/test_admin_cancellation.py": "fdce5d7489259be9bf0bd90ac4af0be35e7691dbc95ceff603b1850363fdc8c6",
+    "backend/tests/integration/test_api_admin_catalog.py": "1b7f96e5f7173e46b776a22e34207f87d95d047b3f662c22eec60190aee6cb94",
+    "backend/src/food_recommender/application/catalog/admin.py": "5faeb37a559c994c1047ac5764aff63d098f7f89014c02ebeda6c8f8913f9254",
+    "frontend/playwright.integration.config.ts": "3fabfc21320daf7938317f4fbf0c75d51c8795c906c34f620be65f64f041b9c5",
+    "frontend/tests/integration/admin-release.spec.ts": "b93723bd943b8f20e572bd8e711bb62e8efb100155a67e5d0bcfbf725d991607",
+    "frontend/tests/integration/journeys.spec.ts": "e7770f54c70495f6ae751a9526c621304387e624cb30a2c84084192765a8dec7"
+  },
+  "isolation": {
+    "owner_containers_unchanged": true,
+    "disposable_container_removed": true,
+    "private_work_removed": true,
+    "owner_dotenv_read": false,
+    "paid_provider_calls": false,
+    "controlled_inference": true,
+    "pretrained_cpu_embeddings": true
+  }
+}
