@@ -602,6 +602,8 @@ removed. No secrets or course artifacts were published.
 
 **Design and delivery plan:** [frontend/DESIGN_PLAN.md](frontend/DESIGN_PLAN.md) defines the meal-choice workspace, palette/type/layout tokens, responsive wireframes, interaction/state contracts, delivery order and visual review gates. Implement from this plan using the frontend-design skill; preserve `PRODUCT_NAME` branding. Implementation and review evidence are recorded below.
 
+**Subsequent design iteration (planned 2026-10-06):** [frontend/REDESIGN_PLAN.md](frontend/REDESIGN_PLAN.md) records the user-selected hybrid meal-request/discovery home, soft green-and-white palette and contextual left sidebar, with code review findings, supported-feature mapping, responsive wireframes and six implementation/verification steps. This is planning only; existing Phase 9 marks and historical evidence remain intact. The newer P11-08 evidence below governs current local-release status.
+
 **Outputs:** responsive English chat/catalog/admin experience with distinct restaurant/recipe presentation, accessible states, visible retained restrictions and inspectable source-backed recommendations.
 
 **Verification:** component and real API integration tests, browser journeys at desktop/mobile widths, accessibility checks and recorded screenshot critique. Ordinary tests use fake provider boundaries; paid live checks remain opt-in.

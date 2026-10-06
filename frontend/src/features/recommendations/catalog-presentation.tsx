@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { formatDuration } from "../../lib/duration";
 import { api, type Schema } from "../../lib/api/client";
 export function useCatalogDetail(entity: Schema["EntityRef"]) {
   const [detail, setDetail] = useState<Schema["CatalogDetail"]>();
@@ -42,9 +43,9 @@ export function CatalogImage({
   const [failed, setFailed] = useState(false);
   const src = `/api/v1/${entity.category === "recipe" ? "recipes" : "restaurants"}/${encodeURIComponent(entity.id)}/images/${encodeURIComponent(image.id)}`;
   return (
-    <figure style={{ margin: "16px 0" }}>
+    <figure className="catalog-image">
       {failed ? (
-        <p className="note">
+        <p className="image-placeholder note">
           Image unavailable. The linked catalog image could not be loaded.
         </p>
       ) : (
@@ -52,6 +53,8 @@ export function CatalogImage({
           unoptimized
           className="result-image"
           src={src}
+          loading="lazy"
+          sizes="(min-width: 1120px) 33vw, (min-width: 600px) 50vw, 100vw"
           width={image.width}
           height={image.height}
           alt={`Catalog image associated with ${name}`}
@@ -59,7 +62,7 @@ export function CatalogImage({
         />
       )}
       <figcaption className="note">
-        Catalog image linked to {entity.category} {entity.id}.
+        Image from the linked catalog record.
       </figcaption>
     </figure>
   );
@@ -122,28 +125,20 @@ export function CatalogFacts({
         <dt>Cuisine</dt>
         <dd>{item.cuisine || "Unknown"}</dd>
         <dt>Source time</dt>
-        <dd>{item.total_time || "Unknown"}</dd>
+        <dd>{formatDuration(item.total_time)}</dd>
         <dt>Servings</dt>
         <dd>{item.servings ?? "Unknown"}</dd>
       </dl>
-      <h3>Ingredients</h3>
-      {item.ingredients?.length ? (
-        <ul>
-          {item.ingredients.map((ingredient, i) => (
-            <li key={i}>{ingredient}</li>
-          ))}
-        </ul>
-      ) : (
-        <p>Ingredients unknown.</p>
-      )}
       {full && (
         <>
           <dl className="facts">
             <dt>Preparation time</dt>
-            <dd>{item.prep_time || "Unknown"}</dd>
+            <dd>{formatDuration(item.prep_time)}</dd>
             <dt>Cooking time</dt>
-            <dd>{item.cook_time || "Unknown"}</dd>
+            <dd>{formatDuration(item.cook_time)}</dd>
           </dl>
+          <h3>Ingredients</h3>
+          <RecipeIngredients data={item} />
           <h3>Directions</h3>
           {item.directions?.length ? (
             <ol>
@@ -160,5 +155,17 @@ export function CatalogFacts({
         </>
       )}
     </>
+  );
+}
+
+export function RecipeIngredients({ data }: { data: Schema["RecipeData"] }) {
+  return data.ingredients?.length ? (
+    <ul>
+      {data.ingredients.map((ingredient, i) => (
+        <li key={i}>{ingredient}</li>
+      ))}
+    </ul>
+  ) : (
+    <p>Ingredients unknown.</p>
   );
 }

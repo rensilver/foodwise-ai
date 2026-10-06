@@ -1,4 +1,5 @@
 "use client";
+import { PageShell } from "../../components/layout/page-shell";
 import Link from "next/link";
 import type { Schema } from "../../lib/api/client";
 import {
@@ -18,14 +19,27 @@ export function CatalogDetail({
   const fallback = `/catalog/${entity.category === "recipe" ? "recipes" : "restaurants"}`;
   const destination =
     returnTo &&
-    /^\/(?:catalog\/(?:restaurants|recipes)(?:\?[^#]*)?|conversations\/[A-Za-z0-9-]+)$/.test(
+    /^(?:\/|\/(?:catalog\/(?:restaurants|recipes)(?:\?[^#]*)?|conversations\/[A-Za-z0-9-]+))$/.test(
       returnTo,
     ) &&
     !returnTo.includes("\\")
       ? returnTo
       : fallback;
   return (
-    <main id="main" className="workspace">
+    <PageShell
+      className="detail-page"
+      sidebar={
+        <>
+          <h2 className="sidebar-title">From the catalog</h2>
+          <p className="note">
+            Inspect the ingredients, directions and original sources before
+            choosing.
+          </p>
+          <Link href={destination}>Back to browsing</Link>
+        </>
+      }
+      active={entity.category === "recipe" ? "recipes" : "restaurants"}
+    >
       <Link href={destination}>Return to results</Link>
       <h1>{detail?.data.name || "Catalog details"}</h1>
       <p className="note">
@@ -41,15 +55,34 @@ export function CatalogDetail({
       {!detail && !error && <p role="status">Loading source-backed details…</p>}
       {detail && (
         <>
-          {detail.images?.map((image) => (
-            <CatalogImage
-              key={image.id}
-              entity={entity}
-              image={image}
-              name={detail.data.name}
-            />
-          ))}
-          <CatalogFacts category={entity.category} data={detail.data} full />
+          <div
+            className={
+              detail.images?.length ? "detail-layout" : "detail-reading"
+            }
+          >
+            <div className="detail-images">
+              {detail.images?.map((image) => (
+                <CatalogImage
+                  key={image.id}
+                  entity={entity}
+                  image={image}
+                  name={detail.data.name}
+                />
+              ))}
+            </div>
+            <div className="detail-facts">
+              <h2>
+                {entity.category === "recipe"
+                  ? "Recipe details"
+                  : "Restaurant details"}
+              </h2>
+              <CatalogFacts
+                category={entity.category}
+                data={detail.data}
+                full
+              />
+            </div>
+          </div>
           <Sources citations={detail.citations} />
           <p className="note">
             Source record: {detail.data.source_record_id}. Version{" "}
@@ -57,6 +90,6 @@ export function CatalogDetail({
           </p>
         </>
       )}
-    </main>
+    </PageShell>
   );
 }

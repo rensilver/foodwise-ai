@@ -1,13 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
+import { PageShell } from "../../components/layout/page-shell";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { api, type Schema } from "../../lib/api/client";
+import { type Schema } from "../../lib/api/client";
 import { Button } from "../../components/ui/button";
-import {
-  CatalogFacts,
-  CatalogImage,
-} from "../recommendations/catalog-presentation";
+import { CatalogCard, CatalogSkeletons } from "./catalog-card";
+import { useCatalogPage } from "./use-catalog-page";
 export function CatalogBrowser({
   category,
   query,
@@ -16,104 +15,119 @@ export function CatalogBrowser({
   query: string;
 }) {
   const router = useRouter();
-  const [page, setPage] = useState<Schema["CatalogPage"]>();
-  const [error, setError] = useState("");
+  const { page, error } = useCatalogPage(category, query);
   const section = category === "recipe" ? "recipes" : "restaurants";
   const filters = new URLSearchParams(query);
-  useEffect(() => {
-    const abort = new AbortController();
-    const params = new URLSearchParams(query);
-    if (!params.has("limit")) params.set("limit", "12");
-    void api(
-      category === "recipe" ? "/api/v1/recipes" : "/api/v1/restaurants",
-      "get",
-      { query: params, signal: abort.signal },
-    )
-      .then(setPage)
-      .catch((e) => {
-        if (!abort.signal.aborted)
-          setError(e instanceof Error ? e.message : "Catalog unavailable.");
-      });
-    return () => abort.abort();
-  }, [category, query]);
+  const [cuisine, setCuisine] = useState(filters.get("cuisine") ?? "");
   function pageLink(offset: number) {
     const next = new URLSearchParams(query);
     next.set("offset", String(offset));
     return `/catalog/${section}?${next}`;
   }
   return (
-    <main id="main" className="workspace">
+    <PageShell
+      active={category === "recipe" ? "recipes" : "restaurants"}
+      sidebarLabel="Menu and filters"
+      sidebar={
+        <>
+          <h2 className="sidebar-title">Filter {section}</h2>{" "}
+          <form
+            key={query}
+            className="stack catalog-filters"
+            onSubmit={(e) => {
+              e.preventDefault();
+              const form = new FormData(e.currentTarget);
+              const next = new URLSearchParams();
+              for (const [key, value] of form)
+                if (String(value).trim()) next.set(key, String(value).trim());
+              router.push(`/catalog/${section}?${next}`);
+            }}
+          >
+            <label>
+              Search by name
+              <input
+                name="q"
+                maxLength={200}
+                defaultValue={filters.get("q") ?? ""}
+              />
+            </label>
+            <label>
+              Cuisine
+              <input
+                name="cuisine"
+                maxLength={100}
+                value={cuisine}
+                onChange={(e) => setCuisine(e.target.value)}
+              />
+            </label>
+            {category === "restaurant" && (
+              <>
+                <label>
+                  Location
+                  <input
+                    name="location"
+                    maxLength={100}
+                    defaultValue={filters.get("location") ?? ""}
+                  />
+                </label>
+                <label>
+                  Maximum source price band
+                  <select
+                    name="price_band"
+                    defaultValue={filters.get("price_band") ?? ""}
+                  >
+                    <option value="">Any</option>
+                    {[1, 2, 3, 4].map((n) => (
+                      <option key={n} value={n}>
+                        {"$".repeat(n)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </>
+            )}
+            <div
+              className="cuisine-shortcuts"
+              role="group"
+              aria-label="Cuisine shortcuts"
+            >
+              {["Italian", "American", "Indian", "Thai"].map((value) => (
+                <button
+                  key={value}
+                  type="button"
+                  aria-pressed={cuisine === value}
+                  onClick={() => setCuisine(cuisine === value ? "" : value)}
+                >
+                  {value}
+                </button>
+              ))}
+            </div>
+            <Button type="submit">Apply filters</Button>
+            <Link href={`/catalog/${section}`}>Reset filters</Link>
+          </form>
+          <p className="note">
+            Catalog filters do not apply your conversation preferences.
+          </p>
+        </>
+      }
+    >
       <h1>{category === "recipe" ? "Recipes to cook" : "Places to eat"}</h1>
       <p className="note">
         Synthetic teaching catalog, with local administrator entries. Ratings
         and reviews are dataset observations; live availability and verified
         nutrition are unknown.
       </p>
-      <nav aria-label="Catalog categories" className="actions">
-        <Link href="/catalog/restaurants">Restaurants</Link>
-        <Link href="/catalog/recipes">Recipes</Link>
-      </nav>
-      <form
-        className="stack composer"
-        onSubmit={(e) => {
-          e.preventDefault();
-          const form = new FormData(e.currentTarget);
-          const next = new URLSearchParams();
-          for (const [key, value] of form)
-            if (String(value).trim()) next.set(key, String(value).trim());
-          router.push(`/catalog/${section}?${next}`);
-        }}
-      >
-        <label>
-          Search by name
-          <input
-            name="q"
-            maxLength={200}
-            defaultValue={filters.get("q") ?? ""}
-          />
-        </label>
-        <label>
-          Cuisine
-          <input
-            name="cuisine"
-            maxLength={100}
-            defaultValue={filters.get("cuisine") ?? ""}
-          />
-        </label>
-        {category === "restaurant" && (
-          <>
-            <label>
-              Location
-              <input
-                name="location"
-                maxLength={100}
-                defaultValue={filters.get("location") ?? ""}
-              />
-            </label>
-            <label>
-              Maximum source price band
-              <select
-                name="price_band"
-                defaultValue={filters.get("price_band") ?? ""}
-              >
-                <option value="">Any</option>
-                {[1, 2, 3, 4].map((n) => (
-                  <option key={n} value={n}>
-                    {"$".repeat(n)}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </>
-        )}
-        <Button type="submit">Apply filters</Button>
-      </form>
       {error && (
         <p className="notice error" role="alert">
           {error} <Link href={`/catalog/${section}`}>Reset filters</Link>
         </p>
       )}
-      {!page && !error && <p role="status">Loading catalog…</p>}
+      {!page && !error && (
+        <>
+          <p role="status">Loading catalog…</p>
+          <CatalogSkeletons />
+        </>
+      )}
       {page && (
         <>
           <p role="status">
@@ -127,24 +141,20 @@ export function CatalogBrowser({
               No entries match these filters. Edit the search or reset filters.
             </p>
           )}
-          {page.items.map((detail) => (
-            <article key={detail.data.id} className="result-row">
-              <h2>{detail.data.name}</h2>
-              {detail.images?.[0] && (
-                <CatalogImage
-                  entity={{ category, id: detail.data.id }}
-                  image={detail.images[0]}
-                  name={detail.data.name}
-                />
-              )}
-              <CatalogFacts category={category} data={detail.data} />
-              <Link
-                href={`/catalog/${section}/${encodeURIComponent(detail.data.id)}?returnTo=${encodeURIComponent(`/catalog/${section}${query ? `?${query}` : ""}`)}`}
-              >
-                View details for {detail.data.name}
-              </Link>
-            </article>
-          ))}
+          <div
+            className={
+              category === "recipe" ? "recipe-grid" : "restaurant-list"
+            }
+          >
+            {page.items.map((detail) => (
+              <CatalogCard
+                key={detail.data.id}
+                detail={detail}
+                category={category}
+                returnTo={`/catalog/${section}${query ? `?${query}` : ""}`}
+              />
+            ))}
+          </div>
           <nav aria-label="Catalog pages" className="actions">
             {page.offset > 0 && (
               <Link href={pageLink(Math.max(0, page.offset - page.limit))}>
@@ -157,6 +167,6 @@ export function CatalogBrowser({
           </nav>
         </>
       )}
-    </main>
+    </PageShell>
   );
 }

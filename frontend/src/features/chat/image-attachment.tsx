@@ -75,7 +75,7 @@ export function ImageAttachment({
     }
   }
   return (
-    <section className="stack" aria-label="Image attachment">
+    <section className="attachment" aria-label="Image attachment">
       <label htmlFor="image-upload">Add image</label>
       <input
         ref={picker}
@@ -89,8 +89,8 @@ export function ImageAttachment({
         }}
       />
       <p className="note" id="image-guidance">
-        JPEG, PNG or WebP, up to 10 MiB and 20 megapixels. The server checks and
-        strips metadata. Images cannot establish allergen absence.
+        JPEG, PNG or WebP, up to 10 MiB and 20 megapixels. Images cannot
+        establish allergen absence.
       </p>
       {preview && (
         <Image

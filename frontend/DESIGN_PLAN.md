@@ -3,6 +3,9 @@
 Status: implemented and reviewed, 2026-10-05. This document defines the
 [Phase 9](../CHECKLIST.md#phase-9--nextjs-frontend-and-administration) contracts.
 See [recorded evidence](../evaluation/phase9/README.md) for verification and limits.
+The subsequent [frontend redesign plan](REDESIGN_PLAN.md) proposes the
+user-selected hybrid home, green-and-white palette and left sidebar; it retains
+the behavior contracts below and does not replace historical verification.
 The [frontend-design skill](../.agents/skills/frontend-design/SKILL.md)
 informs the visual direction and review process. Existing API contracts and
 [project rules](../AGENTS.md) govern behavior.
