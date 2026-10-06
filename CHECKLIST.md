@@ -698,7 +698,7 @@ measurements and explicit gaps do not claim operational readiness.
 - [x] P11-05 Demonstrate administrator preview/create/edit/delete with atomic searchable updates and cancellation/conflict/error handling.
 - [x] P11-06 Capture sanitized screenshots/demo steps for the portfolio; map course screenshot requirements separately where still relevant without claiming replacement-stack screenshots meet course grading rules.
 - [x] P11-07 Publish local setup/troubleshooting instructions and measured limits: synthetic catalog, sparse histories, unknown dietary evidence, provider requirements and unavailable capabilities.
-- [ ] P11-08 Confirm the complete-release gate: validated imagery, real RAG, six-agent graph, live search integration, frontend/admin usability and passing acceptance tests.
+- [x] P11-08 Confirm the complete-release gate: validated imagery, real RAG, six-agent graph, live search integration, frontend/admin usability and passing acceptance tests.
 - [ ] P11-09 Review all checklist marks and evidence with the user; preserve unresolved/deferred items and document the final tested versions.
 - [ ] P11-10 Rehearse documented module/CLI paths and model registration from a clean checkout; align package guidance, scripts and links with the release structure.
 - [ ] P11-11 Rehearse optional Langfuse Cloud project/region setup, disable/offline operation, credential rotation, quota checks, supported retention/deletion and SDK upgrade/rollback; preserve local evaluation reports and prove the full application works with tracing disabled or Cloud unavailable.
@@ -873,6 +873,34 @@ This documentation-only task makes no provider calls or runtime/lock changes;
 owner configuration, datasets/media and all other completion marks are preserved.
 P11-08 onward, complete-release, source/entity-review/publication and optional
 Cloud operational gates remain separate.
+
+P11-08 verified on 2026-10-06 in America/Recife against revision
+`4744ea51d0ef7440ffbde988feac3f99f8761f74` plus the hashed fixture-helper change
+and regenerated acceptance report. The [complete local release decision](evaluation/phase11/release-gate.md)
+and [sanitized gate receipt](evaluation/phase11/release_gate_report.json) join
+unchanged P11-01–06 receipts with fresh acceptance: 109 decoded recipe images
+and bounded/hash-matched ZIP, 18 pinned model files, seven portfolio PNGs,
+real full-corpus RAG, two successful six-role live turns, dated Tavily evidence,
+persistent restrictions and frontend/admin usability. Required local v1
+capabilities pass; historical degraded smokes do not supply their evidence.
+
+Full backend checks pass 621 tests and 64 subtests without skips, including
+real PostgreSQL/pgvector, pretrained encoders and both MCP transports. The
+refreshed ten-case/twelve-turn persona report matches expected outcomes with
+zero fabricated IDs/citations, hard-constraint violations or duplicates.
+Frontend quality passes 28 unit/component and five configuration tests;
+production UI/accessibility passes ten journeys, and real API/database/MCP/admin
+acceptance passes seven, with no skips. Red/green regressions fix the browser
+counter helper's stale Phase 9 path so cancellation/no-replay checks read the
+current configured artifact directory. The stale Phase 10 implementation-hash
+report is regenerated using its existing evaluator; assertions and labels stay
+intact. Document/source/build checks pass. Disposable test databases/media/work
+are removed; owner services/configuration, locks, original media/datasets and
+course artifacts are preserved. No new provider/Cloud calls or downloads occur.
+P11-09–12, entity review, original-history/publication and course grading remain
+separate; broad live persona/photo quality and physical-device accessibility
+remain unmeasured. This closes P11-08's local capability gate, not the whole
+Phase 11 exit criterion or public-release readiness.
 
 ## Deferred — Outside the first release
 

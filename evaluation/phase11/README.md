@@ -1,8 +1,9 @@
 # Phase 11 — Local release verification
 
-Recorded scope is P11-01 through P11-05. Use the
+Recorded scope is P11-01 through P11-08. Use the
 [clean-checkout setup guide](../../infra/release-setup.md) for the executable
-sequence. Other Phase 11 tasks and the complete-release gate remain separate.
+sequence and the [complete local release gate](release-gate.md) for the capability
+decision, fresh acceptance results and remaining limits. P11-09–12 remain separate.
 
 ## Checkout, credentials and recovery
 
@@ -537,3 +538,37 @@ service is changed and no provider/model-download/Cloud call occurs.
 Only P11-07's completion mark changes. P11-08/09 acceptance/final review,
 P11-10 clean-checkout path rehearsal, optional Cloud tasks and historical
 source/entity-review/publication blockers remain open on their own evidence.
+
+## P11-08 — Complete local release gate
+
+Verified on 2026-10-06 in America/Recife. The
+[release decision and reproduction](release-gate.md) map every required local
+v1 capability to the [sanitized gate receipt](release_gate_report.json) and
+unchanged prior setup/media/recovery/live/admin receipts. Fresh decoding and
+hash checks validate all 109 original recipe images, the bounded recovered ZIP,
+18 pinned model files and seven portfolio PNGs. P11-04's live runtime hashes
+still match; both positive turns independently pass six-role dependency/overlap/
+single-join and catalog-reference checks, with eligible dated trend quotations.
+
+Full backend verification passes 621 tests and 64 subtests with zero skips.
+The existing Phase 10 evaluator refreshes stale pre-P11-04 implementation hashes;
+all ten cases/twelve turns retain their expected outcomes and zero violation
+counters. Frontend contracts/format/lint/types, 28 unit/component and five
+configuration tests pass. Ten production UI/accessibility checks (45.525 s) and
+seven real API/database/checkpoint/HTTP MCP/admin journeys (76.676 s) pass with
+no skips. The first real API run exposed a counter helper that ignored
+`FOODWISE_BROWSER_ARTIFACTS`; three regressions and the corrected helper ensure
+current-run cancellation/no-replay evidence, including missing-file failure and
+relative-directory behavior. Application/runtime rules and assertions are
+unchanged. Document links/fences/Bash syntax, completion-mark preservation,
+instruction budget, source/build secret checks and `git diff --check` pass.
+
+Only P11-08's mark changes. The gate combines recorded successful live
+integration with fresh controlled acceptance; it issues no new paid provider/
+Cloud calls and makes no model downloads. Test databases/volumes, generated
+private media and task work are removed; existing container identities/start
+times/restart counts, owner configuration, locks, datasets and course artifacts
+are preserved. Broader live quality, photo generalization and physical-device
+accessibility remain unmeasured. P11-09–12, entity-review/publication, course
+grading and deferred deployment remain separate; the full Phase 11 exit
+criterion is not marked complete.

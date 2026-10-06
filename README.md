@@ -34,7 +34,9 @@ The [OpenAI migration smoke](evaluation/openai-migration/README.md) returned fiv
 validated recommendations; that historical smoke had unavailable style/trend
 analysis. The [P11-04 live demonstration](infra/live-demo.md) now verifies text
 and image retrieval, all six roles, dated trends, citations and a persistent
-allergy follow-up; broader release acceptance remains separate. [Phase 8](evaluation/phase8/README.md)
+allergy follow-up. The [P11-08 local release gate](evaluation/phase11/release-gate.md)
+joins this live evidence with full offline and browser acceptance; final review,
+optional Cloud operations and publication remain separate. [Phase 8](evaluation/phase8/README.md)
 adds verified FastAPI conversations/SSE, private images, browsing, administrator
 CRUD and generated TypeScript contracts. [Phase 9](evaluation/phase9/README.md)
 adds the responsive meal workspace, preferences/uploads, cited category results,

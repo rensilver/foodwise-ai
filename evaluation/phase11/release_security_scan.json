@@ -1,0 +1,12 @@
+{
+  "source": {
+    "files_scanned": 504,
+    "input_manifest_sha256": "48090938023c4b2d0ab5d5e8f12d3293cf73b4596bccf16215ffe81e46fcbb16",
+    "findings": []
+  },
+  "build": {
+    "files_scanned": 2241,
+    "input_manifest_sha256": "8c4dd9e5303fa6a530501326db5b3d2e474bbbd0bac4ca866a5d25c413c46270",
+    "findings": []
+  }
+}

@@ -1,0 +1,674 @@
+{
+  "task": "P11-08",
+  "verified_at": "2026-10-06T19:50:22.573806+00:00",
+  "timezone": "America/Recife",
+  "passed": true,
+  "source_revision": "4744ea51d0ef7440ffbde988feac3f99f8761f74",
+  "scope": "Local complete-release capability gate; existing live receipts plus fresh offline acceptance",
+  "stages": [
+    {
+      "stage": "start-database",
+      "returncode": 0,
+      "seconds": 0.504
+    },
+    {
+      "stage": "database-port",
+      "returncode": 0,
+      "seconds": 0.144
+    },
+    {
+      "stage": "bootstrap-limited-role",
+      "returncode": 0,
+      "seconds": 0.198
+    },
+    {
+      "stage": "database-versions",
+      "returncode": 0,
+      "seconds": 0.179
+    },
+    {
+      "stage": "backend-lint",
+      "returncode": 0,
+      "seconds": 0.02
+    },
+    {
+      "stage": "backend-format",
+      "returncode": 0,
+      "seconds": 0.009
+    },
+    {
+      "stage": "backend-types",
+      "returncode": 0,
+      "seconds": 1.298
+    },
+    {
+      "stage": "backend-openapi",
+      "returncode": 0,
+      "seconds": 2.846
+    },
+    {
+      "stage": "refresh-four-persona-grounding-acceptance",
+      "returncode": 0,
+      "seconds": 1.128
+    },
+    {
+      "stage": "backend-full-acceptance",
+      "returncode": 0,
+      "seconds": 63.394
+    },
+    {
+      "stage": "frontend-quality",
+      "returncode": 0,
+      "seconds": 25.987
+    },
+    {
+      "stage": "frontend-ui-accessibility",
+      "returncode": 0,
+      "seconds": 46.242
+    },
+    {
+      "stage": "frontend-real-api-acceptance",
+      "returncode": 0,
+      "seconds": 77.49
+    },
+    {
+      "stage": "source-and-browser-secret-scan",
+      "returncode": 0,
+      "seconds": 1.538
+    },
+    {
+      "stage": "backend-versions",
+      "returncode": 0,
+      "seconds": 0.078
+    },
+    {
+      "stage": "node-version",
+      "returncode": 0,
+      "seconds": 0.007
+    },
+    {
+      "stage": "pnpm-version",
+      "returncode": 0,
+      "seconds": 0.105
+    },
+    {
+      "stage": "playwright-version",
+      "returncode": 0,
+      "seconds": 0.606
+    },
+    {
+      "stage": "git-whitespace",
+      "returncode": 0,
+      "seconds": 0.007
+    }
+  ],
+  "database_versions": {
+    "postgresql": "16.14 (Debian 16.14-1.pgdg12+1)",
+    "pgvector": "0.8.6"
+  },
+  "backend_tests": {
+    "tests": 685,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "persona_acceptance": {
+    "cases": 10,
+    "turns": 12,
+    "personas": [
+      "adventurous",
+      "budget-conscious",
+      "family-with-allergies",
+      "health-conscious"
+    ],
+    "expected_outcomes_match": true,
+    "violations": {
+      "fabricated_recommendations": 0,
+      "fabricated_citations": 0,
+      "hard_constraint_violations": 0,
+      "duplicate_recommendations": 0
+    },
+    "mode": "offline fake boundaries, real six-agent graph"
+  },
+  "isolation": {
+    "owner_containers_unchanged": true,
+    "disposable_container_removed": true,
+    "owner_dotenv_read": false,
+    "paid_provider_calls": 0,
+    "cloud_calls": 0,
+    "pretrained_downloads": 0,
+    "controlled_acceptance_inference": true,
+    "pretrained_cpu_embeddings": true,
+    "private_work_removed": true,
+    "failed_attempt_work_removed": true
+  },
+  "ui_browser_cases": [
+    {
+      "title": "actual production browser assets exclude backend credentials and telemetry SDKs",
+      "passed": true,
+      "status": "expected",
+      "seconds": 0.025
+    },
+    {
+      "title": "production workspace serves local fonts, branding and liveness",
+      "passed": true,
+      "status": "expected",
+      "seconds": 0.504
+    },
+    {
+      "title": "accessible first use and meal results at 320px",
+      "passed": true,
+      "status": "expected",
+      "seconds": 2.409
+    },
+    {
+      "title": "accessible first use and meal results at 390px",
+      "passed": true,
+      "status": "expected",
+      "seconds": 2.296
+    },
+    {
+      "title": "accessible first use and meal results at 768px",
+      "passed": true,
+      "status": "expected",
+      "seconds": 2.33
+    },
+    {
+      "title": "accessible first use and meal results at 1440px",
+      "passed": true,
+      "status": "expected",
+      "seconds": 2.368
+    },
+    {
+      "title": "strict empty evidence, error and clarification states remain accessible",
+      "passed": true,
+      "status": "expected",
+      "seconds": 2.203
+    },
+    {
+      "title": "pending activity, interruption, draft retention and 200% equivalent zoom",
+      "passed": true,
+      "status": "expected",
+      "seconds": 1.207
+    },
+    {
+      "title": "administrator conflict and expiry recovery at 390px",
+      "passed": true,
+      "status": "expected",
+      "seconds": 2.038
+    },
+    {
+      "title": "administrator conflict and expiry recovery at 1440px",
+      "passed": true,
+      "status": "expected",
+      "seconds": 2.135
+    }
+  ],
+  "real_api_browser_cases": [
+    {
+      "title": "P11-05 administrator restaurant preview, cancelled deletion, validation and session recovery",
+      "passed": true,
+      "status": "expected",
+      "seconds": 5.559
+    },
+    {
+      "title": "P11-05 administrator recipe preview, cancelled deletion, validation and session recovery",
+      "passed": true,
+      "status": "expected",
+      "seconds": 4.559
+    },
+    {
+      "title": "text results, citations, refresh, retained restrictions and explicit corrections persist",
+      "passed": true,
+      "status": "expected",
+      "seconds": 7.267
+    },
+    {
+      "title": "image recommendations use real CLIP, owned uploads and matching catalog imagery on mobile",
+      "passed": true,
+      "status": "expected",
+      "seconds": 3.872
+    },
+    {
+      "title": "stop and page disconnect cancel upstream work; refresh never replays inference",
+      "passed": true,
+      "status": "expected",
+      "seconds": 1.491
+    },
+    {
+      "title": "real administrator preview/create/edit/conflict/delete changes become searchable and atomic",
+      "passed": true,
+      "status": "expected",
+      "seconds": 3.606
+    },
+    {
+      "title": "real restaurant administration and catalog filters, pagination and return URLs agree",
+      "passed": true,
+      "status": "expected",
+      "seconds": 3.102
+    }
+  ],
+  "real_api_browser_stats": {
+    "startTime": "2026-10-06T19:57:50.069Z",
+    "duration": 76676.07800000001,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "versions": {
+    "python": "3.12.14",
+    "fastapi": "0.142.2",
+    "fastmcp": "4.0.10",
+    "langgraph": "1.2.12",
+    "langgraph-checkpoint-postgres": "3.1.2",
+    "pydantic": "2.13.5",
+    "sqlalchemy": "2.1.2",
+    "psycopg": "3.3.6",
+    "sentence-transformers": "6.1.0",
+    "transformers": "5.18.0",
+    "torch": "2.14.1+cpu",
+    "httpx": "0.28.1",
+    "pytest": "9.1.1",
+    "pytest-asyncio": "1.4.0",
+    "ruff": "0.16.10",
+    "mypy": "2.4.0",
+    "node": "v24.19.0",
+    "pnpm": "12.8.1",
+    "playwright": "Version 1.63.0",
+    "next": "16.3.8",
+    "react": "19.3.0",
+    "@axe-core/playwright": "4.11.0",
+    "vitest": "5.0.3",
+    "typescript": "5.9.3"
+  },
+  "completed_at": "2026-10-06T20:00:15.478426+00:00",
+  "evidence_audit": {
+    "passed": true,
+    "evidence_sha256": {
+      "evaluation/phase11/clean_setup_report.json": "6af9cc1b7c380c3a3986b83b128ae4c08f8f44c5c48a1d91c5cbd67ff117b35f",
+      "evaluation/phase11/persistence_report.json": "70974d17dee59dda1f5752d8117f2c111f3b295c7f246801881959b5283648fa",
+      "evaluation/phase11/backup_restore_report.json": "c2803157c294e5951e4be440ab0cbf3c22b366e395635fee901ca3ca9d36e767",
+      "evaluation/phase11/live_demo_report.json": "54ffea9befcd7f7c155f43af679d48e3ff20605e0451b597c44ed8542e8f9c5d",
+      "evaluation/phase11/admin_demo_report.json": "284e93d11d69c4b3824a3996a753ce6761321ec378122342ce1544c80ac33b8a",
+      "evaluation/phase11/portfolio_report.json": "0fe653352b3549de11cc3c4bdf83745b989cbb6329901bb12348617ca9418f00"
+    },
+    "implementation_hashes": {
+      "infra/verify_persistence.py": "6264b3c9fdce46ee4a02f7b726dbb8520155e8ba55a96851095900d677244e0c",
+      "backend/scripts/probe_phase11_persistence.py": "5ed4d2b6abbdc1659d24f3126c649070194acdc3d3aa6c1037402def49a1eda2",
+      "infra/verify_backup_restore.py": "0a2b38777a393abd29d0a164406010c65281c7d0c5415b1cfe69ba37d6bfc7a9",
+      "backend/scripts/backup_media.py": "1098a0ca3780e0c078948cb3361b65d13f1deb8fa21afe7fd81e6e2a5aa16d5f",
+      "backend/scripts/probe_phase11_restore.py": "ba60024755c550ccaa6187f0bb796555c96fd34826cb2381054db873de43f319",
+      "infra/verify_live_demo.py": "ecd38d7ec71df5b246e87cc16634d4a4904b2e87a77fb097e16b3dd73499848b",
+      "backend/scripts/phase11_live_demo.py": "753b81338dc01d1e94e55af39a5a13a0d03ecf92f213a0e9bdb90f46e5af4aca",
+      "backend/src/food_recommender/agents/prompts.py": "5150373d093103d59a29bd6e7db158ae49de54ff126ae6e0ac9fd7b4300ecf16",
+      "backend/src/food_recommender/agents/nodes/profile.py": "08bc75963ab5e55c626222457a471fc73af350b2387c2f927230494499dce388",
+      "backend/src/food_recommender/application/recommendations/profile_rules.py": "63a8c6711414e9a068f4add3710839e31bab860a169a85879beb11efac4eadd5",
+      "backend/src/food_recommender/agents/structured.py": "f31167d8bf8c3ec03c290228b0e1449d8e0b0604bcc2bae906f514b06ef7c46c",
+      "backend/src/food_recommender/agents/nodes/style.py": "4d06d099223c02e146a8b4a89a430c4292f7ced9efd93f9b1f9d678df2503ba1",
+      "backend/src/food_recommender/agents/nodes/trend.py": "5c004b1df92bcfe92423c76c5f8ac60606926aa1f912a251fa070988fafe9587",
+      "backend/src/food_recommender/agents/nodes/recommendation.py": "c6c81c040750551965cc8c5e17d4839bb32c2a9cee58444576a7bbbd1ee6046d",
+      "backend/src/food_recommender/infrastructure/providers/tavily.py": "e8cb735771a79babedcf6b2b8bec8ea05a1169416feb386e69a106165994f3d0",
+      "infra/verify_admin_demo.py": "f49aa70cd5584cd19bbd46ac81256745b00f857199f9f0fc69ef82e30d640933",
+      "backend/scripts/serve_frontend_fixture.py": "dbf503c15a1330dc032a24d32d3c5e1da7b8ee647a53720fa35502546a139c9f",
+      "backend/tests/integration/test_admin_cancellation.py": "fdce5d7489259be9bf0bd90ac4af0be35e7691dbc95ceff603b1850363fdc8c6",
+      "backend/tests/integration/test_api_admin_catalog.py": "1b7f96e5f7173e46b776a22e34207f87d95d047b3f662c22eec60190aee6cb94",
+      "backend/src/food_recommender/application/catalog/admin.py": "5faeb37a559c994c1047ac5764aff63d098f7f89014c02ebeda6c8f8913f9254",
+      "frontend/playwright.integration.config.ts": "3fabfc21320daf7938317f4fbf0c75d51c8795c906c34f620be65f64f041b9c5",
+      "frontend/tests/integration/admin-release.spec.ts": "b93723bd943b8f20e572bd8e711bb62e8efb100155a67e5d0bcfbf725d991607",
+      "frontend/tests/integration/journeys.spec.ts": "e7770f54c70495f6ae751a9526c621304387e624cb30a2c84084192765a8dec7",
+      "frontend/tests/integration/portfolio.spec.ts": "9d443eec8e482936fbf4374fa344fcc9a3514f93f6f921a3870cd9a2d65d48e9",
+      "backend/uv.lock": "d8781a08db7aab1ddb90cadcfb9698495774a4400078124d0be82bd453c35a19",
+      "frontend/pnpm-lock.yaml": "8f8c50d1ea1513e0b8a3df24c1a1c0eebe490605a44575109bcf89bdf8885bf0",
+      "backend/src/food_recommender/__init__.py": "5ce4f09e88d3619c0e53c26823247d864a8e355daef5a535c0e92974daf56dcf",
+      "backend/src/food_recommender/agents/__init__.py": "b8683da2770666345c203531b57184e57dc750dc01836ed56cfd2878f39600c4",
+      "backend/src/food_recommender/agents/graph.py": "1c37dd9b5457fd3ff7d6cbf416e78941264da9ad1e13e6eac51338a25c72c5e4",
+      "backend/src/food_recommender/agents/nodes/__init__.py": "4273545d6129fcf9918bdc9d713f9c9912741f031ba43d0f9be59bba4c9e75f0",
+      "backend/src/food_recommender/agents/nodes/nutrition.py": "6c71029f2ed400aa1cf1748ddacbd428497f6adc4902f26f13eff38f1916db12",
+      "backend/src/food_recommender/agents/nodes/rag.py": "17b4e4dc3717d0c28417c05f4f1046d2408dc92224972a19747f2dc006d96f7f",
+      "backend/src/food_recommender/agents/runner.py": "6cef6e1f5d2353254e99c3ebfe5db44a247ad21c265106fdb698acf3e5e9f593",
+      "backend/src/food_recommender/agents/state.py": "71354f511b876a2c2400cdde0c4f929e0739ac63bb70c45aa519c81e2aacddfe",
+      "backend/src/food_recommender/agents/telemetry.py": "ad1d3cd448cd4c3b5a683f0387c297d4c682e9ff73c02bd564e56241c7a3a6fe",
+      "backend/src/food_recommender/api/__init__.py": "79d72f2ce74d2707b69a82d7c7bc3bd738af2a7db92658d232aac7ae024a4bfd",
+      "backend/src/food_recommender/api/body_limits.py": "c78800c93cf4fef190913a26f44ab0eaf84365e3bd347054dbd7624ef64ad9a5",
+      "backend/src/food_recommender/api/dependencies.py": "8e453b2e10570d0e02baba43b022f4992f5d610916a8c14696f4a8a8c0c92dc1",
+      "backend/src/food_recommender/api/hosts.py": "b8ad18e058f4f238e444d6fcbc212ab69a6d42dcf0b39538fa7ccb73bc0c55a9",
+      "backend/src/food_recommender/api/main.py": "f57158f2e8d122c14693f664576e7209a86abee9dc2fe82dc6244a37336303ce",
+      "backend/src/food_recommender/api/routers/__init__.py": "95cad725b803fceab9c66a4b0fd2ea1702aab0e0a092a94f8f46cd33383d1764",
+      "backend/src/food_recommender/api/routers/admin_catalog.py": "07354917bddf46ccc49164ef4ffff1fa7eb21b5ae581a28ff1ac59c6f1241f2d",
+      "backend/src/food_recommender/api/routers/admin_session.py": "d70acf1b431845d27c0504a71c3df6621c2e65f7c6b32819f6d7eb0ad81eaf57",
+      "backend/src/food_recommender/api/routers/catalog.py": "d071d13175a04c92a6ea0f47cbcdad63aaf2e7bd830a793f68c394644de99c04",
+      "backend/src/food_recommender/api/routers/conversations.py": "3c61d98458cf33f1de449d778b81cff4c1008ed3963214caf3dfb24bdf7a2f1a",
+      "backend/src/food_recommender/api/routers/media.py": "e597218b497e47913e83b25e7b194eef54b3f021ebd0a22877ae65674a64e94a",
+      "backend/src/food_recommender/api/schemas.py": "4a9566acd357d3771b44231dbdcda2a1a71259c54abc64e0fcd4dbe3ea989714",
+      "backend/src/food_recommender/api/security.py": "491192aff1ec61fc973d7a1ca14344c473fde3d179b8cf1072d809c3f40fb4f4",
+      "backend/src/food_recommender/api/sse.py": "c992088bb996680d5e38cfe0abf1c046892e2032fe831cb60ce659725b03469c",
+      "backend/src/food_recommender/application/__init__.py": "019de3309a800cb2403d44d7f45cae548d4194fbb7a342d031d412bfb7747970",
+      "backend/src/food_recommender/application/auth/__init__.py": "6e9e88be50a36680c5de4cd3c2d9e9c1db9edcb65c496e6014468f5edafb31cc",
+      "backend/src/food_recommender/application/auth/ports.py": "cf3b004692c1100f018a654deea911b07ed4ce96124566690eb75373ef19d6d4",
+      "backend/src/food_recommender/application/auth/service.py": "1ab5f76462151c4bf2f65ceb6df32cbc205956395aad256359696dba3a8bed86",
+      "backend/src/food_recommender/application/catalog/__init__.py": "506207d125e7f8a6389118ed4cbd821e9c34903563dc15ed7ecd799a76ca845b",
+      "backend/src/food_recommender/application/catalog/browse.py": "cd0e83427eec70771428ec667c67d42f96c495d5ea6750adbb4e38d25e5d1fdd",
+      "backend/src/food_recommender/application/catalog/lookups.py": "c50852ee571e8e1c8ef729c7ed6e199b1b25d603200c4bcbb603bbc3b4822975",
+      "backend/src/food_recommender/application/catalog/ports.py": "87eb0da6f4f9f9aef2d194c0666b8136904681f1987a29e53fc0b892f13b18c5",
+      "backend/src/food_recommender/application/catalog/preparation.py": "041e345907d2108cd38b05931d6b9176e459a3b56bdc1fb6a27731bebcf3fd22",
+      "backend/src/food_recommender/application/catalog/resources.py": "f8d12194d47e282ddf4fe3f95dbfaaaf20e4be4ad8e2402f284f13c59fd953e7",
+      "backend/src/food_recommender/application/catalog/service.py": "41750c339a07d7350d6be2b03431f361fe2dc73e26a5154a6b46030a8d478dd4",
+      "backend/src/food_recommender/application/conversations/__init__.py": "cd569d9057342e6ad8d0d25c479000578ac1eea843d0a9dc9616a3838caf8002",
+      "backend/src/food_recommender/application/conversations/cleanup_ports.py": "7bc66c7f45872d81fd2488fd03a0edd54d249f9a222ac7f4fe396f45dec27a21",
+      "backend/src/food_recommender/application/conversations/messages.py": "2bc27cfc0dee09aaec27b50760c41609de8f81a8f88fee8d361e147bedc7df6d",
+      "backend/src/food_recommender/application/conversations/ports.py": "2edfe941131cf7a4c00cff4a778622c05ee1922a6fb12a19698dc96c2746ee61",
+      "backend/src/food_recommender/application/conversations/service.py": "88e934cd2c328d676fa1acd1fd1f1af237daaa101833d3696ee7ee36a945c40c",
+      "backend/src/food_recommender/application/errors.py": "a01bbd51a660e94ff5d0aa2002845b240e9cbbab38ef52f5e98bcd69f745bc0d",
+      "backend/src/food_recommender/application/media/__init__.py": "fa86454df99a25d9a4a0ce55afa5dda9513c74183efbb2d0e8d78618e9037f03",
+      "backend/src/food_recommender/application/media/cleanup.py": "1dde06c6d474b519d88c5fd68ded5b04a14fdff93f7f5f91e752d32ae07939bd",
+      "backend/src/food_recommender/application/media/cleanup_ports.py": "7fa93b418d36f0dee67fac9c665c007cba5702935a4447a77b09b0d0be47eae3",
+      "backend/src/food_recommender/application/media/ports.py": "024728af90f5a730565d045434ac7f17e6e8702659e134f310c7b47b40b4ae6d",
+      "backend/src/food_recommender/application/media/service.py": "40cb82f2d045831353f5a5905400a819d250d13f311b4e8352fbbfc70b79c4bb",
+      "backend/src/food_recommender/application/recommendations/__init__.py": "9ad55f70d6f760b749bc88f5820a43b3a9925700c82ad67eead0eefa5a6b5e50",
+      "backend/src/food_recommender/application/recommendations/activity.py": "ff9e60ce2c0fea6b5ec48804c91e4e9d38656de4bf6bdff80a63ce99ed6468e8",
+      "backend/src/food_recommender/application/recommendations/contracts.py": "4899f4aaa0ea7af48aa8c28d4e405d076c79b0cf3c6877d740f84db0e65947fc",
+      "backend/src/food_recommender/application/recommendations/evidence_rules.py": "5a9bb6485f6695b5573cdcd090a06ae948eeb0076f9dc7b7e8e01d0653976a7f",
+      "backend/src/food_recommender/application/recommendations/inference.py": "30958eb1473a464eaace70297afffe275112ada67f01538a88fb331b5096421a",
+      "backend/src/food_recommender/application/recommendations/nutrition_rules.py": "a2fcb5b332e55ede7a6d76ed8d7c6c335c37ef042df71cf314eed3dd5fe172ba",
+      "backend/src/food_recommender/application/recommendations/reliability.py": "72fe38cf1924d67d506d7fe371e6a6601eb053748b9d0b213d8feb54844d2870",
+      "backend/src/food_recommender/application/recommendations/tracing.py": "7862263b42fb34174b208f60c5499fc82bd321c6f2abb128fcfd3aa344d85eb8",
+      "backend/src/food_recommender/application/recommendations/workflow.py": "a872260b15d2eb780bdfcf0bc1515a29266e5022c784d5e8281f1a118ff42847",
+      "backend/src/food_recommender/application/services.py": "c35775289e8ae810920615a5362e386611b3ba63c4280339ef5baee1dc325e51",
+      "backend/src/food_recommender/application/trends/__init__.py": "bfae3daa882dbfb83161ef37d90a6aa20e8a22c4ca826d2f9ce26c2e40724acf",
+      "backend/src/food_recommender/application/trends/ports.py": "7d3f899b7a26c9603298235d3b3654d2e55f24d9a97101c7965c5d6daae2573a",
+      "backend/src/food_recommender/application/trends/service.py": "bdcb62f9848d10e023d0b47cf54e7a00e0b0b2ebddc0e8cf221780799b409e95",
+      "backend/src/food_recommender/application/unit_of_work.py": "6cfbc0e7f95565de3f5b70480b0aec3b4c9f7165ced6f28060809fe9f54344de",
+      "backend/src/food_recommender/cli/__init__.py": "c5c5b2d679db3d46a948da9304d275605c668be49671327a5b210b405d4d630b",
+      "backend/src/food_recommender/cli/image.py": "f2e65867baaa16f216fa2607d80aa2c50c96cc73993e8d2cfe8e96588f770632",
+      "backend/src/food_recommender/cli/ingestion.py": "1a0f0f25f52e954956010640be9037bbdfd5ecc01c7351d21492a59febb19c47",
+      "backend/src/food_recommender/cli/multimodal.py": "6eef346bb954950a796b8592950e957951439273b607b036a13ac53b904d2060",
+      "backend/src/food_recommender/cli/text.py": "e7897488983d381a3d951570ea05e7e44b829bb14e9be25b0aa81f2a6c19b9dc",
+      "backend/src/food_recommender/composition.py": "0a25cfcd7eba4eb81b385019ba2ee7fc73ffeb134f4cbe225e48dc523a1ea4e8",
+      "backend/src/food_recommender/domain/__init__.py": "fd552764c0c632f7676949c6a80f264cb9249d286bc56a2d778712a9d5a76927",
+      "backend/src/food_recommender/domain/catalog.py": "b7e01a0e9e5c44128784671f02e2dd7b04e24252d07d1652dd95093461fc9fee",
+      "backend/src/food_recommender/domain/events.py": "e4d71955169cb434d6f8ffcb686fd0d49d226a151bf220ccaaff93c473718c41",
+      "backend/src/food_recommender/domain/evidence.py": "4c2f2b6328fa6acd04ea2ffc88cce0008681907113230310cc8f9c42cf2a9913",
+      "backend/src/food_recommender/domain/experts.py": "3e82db5010d956b04cd71f0a28e419720099f0a5237ef1da3131fbe2e21150bb",
+      "backend/src/food_recommender/domain/preferences.py": "377d9ea6f61c9e73597395d8977f275ab05354f837334a52a7c89eb205957a29",
+      "backend/src/food_recommender/domain/recommendations.py": "dc91af64561a225a009f48186e9061d9f113b4de0fca805de3ad3b2e43485b77",
+      "backend/src/food_recommender/domain/values.py": "a85f3453e44a63c1baef3cb6d5cfb59b5efab7d5d34735fb6b151b4ee519839d",
+      "backend/src/food_recommender/infrastructure/__init__.py": "21af39cfe71f3dd291f68eac62d2eb0bed0ce79b7f86cb214956be0cadece45b",
+      "backend/src/food_recommender/infrastructure/auth.py": "4de551052b5df92674ba6e9ef792c2ce2a7e839dd8ff629c574a2fe1a255af2d",
+      "backend/src/food_recommender/infrastructure/config.py": "8708e5e910831e36557861e695110e87a667657117f0881bd03d42b61f34dcdd",
+      "backend/src/food_recommender/infrastructure/embeddings/__init__.py": "3b870afe443fda7483804042662bf10fd6db3236e26d6eb472c3d9f6919ac721",
+      "backend/src/food_recommender/infrastructure/embeddings/clip.py": "17054d38433a294158f972afd358c6daf57b9a8de7d1ecce3fe856f5028e9d86",
+      "backend/src/food_recommender/infrastructure/embeddings/lazy.py": "718c380ce30d30b592a12044516475cedb31b65f2e9a540dccaac1ebbeed6a93",
+      "backend/src/food_recommender/infrastructure/embeddings/minilm.py": "3ffb4dcb54ec67c3583a626315917f214979e268a2376af8f9fe77cc9eda55aa",
+      "backend/src/food_recommender/infrastructure/health.py": "75325a0ff43a5aa8e86d5dbf8c2f7a2f1306e444c521eda60723a2eb9ab8c87c",
+      "backend/src/food_recommender/infrastructure/mcp_config.py": "3e4fb069dc6aec4d0df03de723fa4f9c4af7b2fefd56e926bade30e941713f72",
+      "backend/src/food_recommender/infrastructure/media/__init__.py": "a82a71fab12671c55c4ab7e6ec79b070b9c6f1beefe2e0e968f43c8aa016846b",
+      "backend/src/food_recommender/infrastructure/media/downloads.py": "ed52ed0b08db671b32ae3890aebf23e455121c2b6aaece9be3ae249581401d6c",
+      "backend/src/food_recommender/infrastructure/media/files.py": "391d8a7269aaacf6673c9bbbf7b28fba28940864b19ae1a3c4169c712c25b4fc",
+      "backend/src/food_recommender/infrastructure/media/images.py": "eaf50ef8849dd3d5a30a8a6ab492074bec1adec5ef229cbcaccffbde7155a0cd",
+      "backend/src/food_recommender/infrastructure/media/uploads.py": "854eb588421cea4a919245aae202598732bde4b4ef7962630014cce66927d7a0",
+      "backend/src/food_recommender/infrastructure/observability.py": "c33ae421f156a42a0f35f9d701db579892ca09fa7e12daaf439810e4b078255b",
+      "backend/src/food_recommender/infrastructure/persistence/__init__.py": "1e5a169e5e5f45656de0d494f09b7ebf740a14d35467b25119dee2234af411dd",
+      "backend/src/food_recommender/infrastructure/persistence/checkpoints.py": "6e9cd98fbe1cdf9c378a8009e8b5736161738d275185edd92f842fbc1651a485",
+      "backend/src/food_recommender/infrastructure/persistence/engine.py": "2e6c1deaf90d167c6704d24cdf552574b8dd65bd9ff7b0ccb6fbdede8d7cc0f1",
+      "backend/src/food_recommender/infrastructure/persistence/indexing/__init__.py": "ce829e32304336d0fa8050979eb8c804204f739549e904b521520e15c63a17ad",
+      "backend/src/food_recommender/infrastructure/persistence/indexing/image.py": "6d951ad119a2ed77441406bcffe6cab120d89ab0a7ce41abedc9f39251a53af1",
+      "backend/src/food_recommender/infrastructure/persistence/indexing/text.py": "f1920b498d507392ee5b9a6b4a5b184a203fa1e73b5e017cf538ab23a74e113f",
+      "backend/src/food_recommender/infrastructure/persistence/ingestion.py": "feb02f89373dbff0276f00ff4b820b75a9a126ab907356e224547e12ffdcbd76",
+      "backend/src/food_recommender/infrastructure/persistence/models/__init__.py": "4909698da8bf1fac50db380fc2a71b01aa143f298e93a7671303f505d8495d4d",
+      "backend/src/food_recommender/infrastructure/persistence/models/admin.py": "3bae5bb0fbb696b84bfce419c613143ee4dd5969d4da3c82ae85a5f5de8f0275",
+      "backend/src/food_recommender/infrastructure/persistence/models/base.py": "ce9e49e8dfc5b1ba3e8b46046afdec3fead7f403b4c123c619056b7dbb63e74f",
+      "backend/src/food_recommender/infrastructure/persistence/models/catalog.py": "abf631615d8b2bc3974add3f9e8cb54330ae4ef00d79dcbe2da2994690b3394a",
+      "backend/src/food_recommender/infrastructure/persistence/models/cleanup.py": "0dedc534c8d933b334424fbd5e5dbe008ee46ae4e2f8700958a19ce4d6dc9771",
+      "backend/src/food_recommender/infrastructure/persistence/models/context.py": "67583a6d8a348d71eb4518c045731b80a6c09e8fdb77c689a1d838d2a3e5aaa3",
+      "backend/src/food_recommender/infrastructure/persistence/models/embeddings.py": "47122be6c8bc3df6dc48dff42b0197ea634af85ca845805a3031aba12a4437ce",
+      "backend/src/food_recommender/infrastructure/persistence/models/ingestion.py": "6a75101ff350a518b80ef95d24babe6dfe879bb536551ab06c9b5270f2048a4c",
+      "backend/src/food_recommender/infrastructure/persistence/models/mixins.py": "968d09c5f0ebed8536b98031cc32b4bb9f59b7bc25d95f5d6b91771213a700b4",
+      "backend/src/food_recommender/infrastructure/persistence/models/provenance.py": "6ada08b65f61c04cb7b172572a49748764fa012b1fa53dd35394c5737802cb12",
+      "backend/src/food_recommender/infrastructure/persistence/models/trends.py": "9fdb4ede00c1e1cf486bef830c668a0909e4e7dab88f40c9e7cba257a8e0d370",
+      "backend/src/food_recommender/infrastructure/persistence/query_media.py": "1fc70475f6d41b55a90ed8d71ec7c1a4488225e7c577d1c8cae82af446e1744b",
+      "backend/src/food_recommender/infrastructure/persistence/repositories/__init__.py": "8205133eb9516aaf863b978acef4d6433549c644570f69b33e949236f6d8ad2f",
+      "backend/src/food_recommender/infrastructure/persistence/repositories/admin.py": "5db6bedc1c0499f8434a0ced0d91893d15861864abbb75c7f5c15b78b76ae5fa",
+      "backend/src/food_recommender/infrastructure/persistence/repositories/catalog.py": "2ff7846eaf5fa6eefed3afc633ac7da20ddfbd60cde026009da48fb058cbc0d7",
+      "backend/src/food_recommender/infrastructure/persistence/repositories/conversations.py": "0cd646e8a60a53606585d15771900073176fa5b21b5b9ac22c5cbfeccaf73d20",
+      "backend/src/food_recommender/infrastructure/persistence/repositories/lookups.py": "90515f6eb4832de7858ef4900101e27b2ab3e2994b9d3036d36ec45c898d7a96",
+      "backend/src/food_recommender/infrastructure/persistence/repositories/media.py": "7f3ae1f9b8bebac371b7ae7ae567557d82ef6dcd6ebfb488c730780bee11229b",
+      "backend/src/food_recommender/infrastructure/persistence/repositories/media_cleanup.py": "a81a9a0933edbb8237159de62e6ee5fea170da92bb94f63c25bc4fe8a0c1bab4",
+      "backend/src/food_recommender/infrastructure/persistence/repositories/resources.py": "5a758a1e4831fc476805bde4fd706f149a5a876abc24d6b8c6743af00dd9a3f6",
+      "backend/src/food_recommender/infrastructure/persistence/repositories/trends.py": "7057b363617941478eeb9bd1539752adb50f97790fc5c110a26f7df19ed9969a",
+      "backend/src/food_recommender/infrastructure/persistence/runs.py": "736ad9f660cba598d7d33253ac9772e32b22d559e1e25b9cab1e3fa469306a7f",
+      "backend/src/food_recommender/infrastructure/persistence/search/__init__.py": "7e97c869b1d76ba09ad197c1d645385c602804e987acdc00bb07337c4a7d1970",
+      "backend/src/food_recommender/infrastructure/persistence/search/filters.py": "780e0812ee9ddc28444cfae95798a7382be08d124710a768ca51ea876a3c340c",
+      "backend/src/food_recommender/infrastructure/persistence/search/image.py": "3db571bbc0659d822e3a44541f2f34589f08d109f33aecd5801daea8ce0dd967",
+      "backend/src/food_recommender/infrastructure/persistence/search/text.py": "9ab0fe1148b70c3fcd5c1125a1036e8291b3790132253254420d6b3cd0dd705d",
+      "backend/src/food_recommender/infrastructure/persistence/unit_of_work.py": "0322185d33015117579849fa8bf45c8e49ec2308f1f2f279987fb9d4bb2fc9d4",
+      "backend/src/food_recommender/infrastructure/providers/__init__.py": "307e441d525a4a1ddd5416a42df5d396cf44f590e7d2d83b21bdacbc8765deef",
+      "backend/src/food_recommender/infrastructure/providers/openai.py": "4b4608af41b6bd25656f383759a8453f6d91f8cfaf4521587c8a8040004a6f69",
+      "backend/src/food_recommender/infrastructure/telemetry/__init__.py": "57cc35d14e706b30d4e62f549571be7b45d8801af082aa7fcf421b89a7adb6e6",
+      "backend/src/food_recommender/infrastructure/telemetry/audit.py": "83e68944a11c48e2025b67c515891b3afe2891720a0deb55e3aee0fe0b7447c0",
+      "backend/src/food_recommender/infrastructure/telemetry/config.py": "1a4426fb8840ebfddd5b9e256e9f6b3434e8235a8b064aa114d2475fb036adca",
+      "backend/src/food_recommender/infrastructure/telemetry/langfuse.py": "90ad7969f2be08320deb4810125c046545bc35c240363696d8c15e69fab165c3",
+      "backend/src/food_recommender/infrastructure/telemetry/ledger.py": "ee5c9401803abe15196f44c0ac28c29861027cf19776910c285a8e7be5dd7a4c",
+      "backend/src/food_recommender/infrastructure/telemetry/redaction.py": "c307edc953a16dea2aa58349e39d8b28325a8e8ceb88b8b8985b694f352a639d",
+      "backend/src/food_recommender/infrastructure/telemetry/scores.py": "3708a001a0083b5fc25807362ad03eeba0f3fd5350c99f184fdfea70565e08e9",
+      "backend/src/food_recommender/ingestion/__init__.py": "d38a49d3755d89923105bcd357de198a59dab1bb7d3a0f466c4a13c49a6c6ac6",
+      "backend/src/food_recommender/ingestion/adapters.py": "e1283cd78c06e94f6ce43adf4ab14332e3e0b4b652c9f06713d6429251624d50",
+      "backend/src/food_recommender/ingestion/captions.py": "05c0f13ec905781fc0d8177d6e261b06817603ee5c9593ab3541e0c2536afbc3",
+      "backend/src/food_recommender/ingestion/extraction.py": "191b6ea258c31667a86e65d52b501b409722194ab83ffbd1af3868805ca7a890",
+      "backend/src/food_recommender/ingestion/image_lists.py": "61ced52d2410a3446271128493301e3b96ed37a0cf6fc0b3b96cf49380d7dc10",
+      "backend/src/food_recommender/ingestion/images.py": "c69900d51ed2657de332d96b4dfdaa4a0eb8a5b09039d4e652ea95d2573f6303",
+      "backend/src/food_recommender/ingestion/merge.py": "0402acfb80b3b369ad806c67e8dcb0f81039dfe1c934d9026624123c88b3026b",
+      "backend/src/food_recommender/ingestion/models.py": "2d986f9f664e80ddd8822a9b27aba8b56da97e4980cbffa93d37c4c446478d4e",
+      "backend/src/food_recommender/ingestion/reconciliation.py": "b733eaa8afa573bc4ae6f154e425cfbbc505143413c65018a773bcc881da1310",
+      "backend/src/food_recommender/ingestion/runner.py": "a290657c42e117589e188407ddd379b300cf55ff3ce76a070a46e0204a2befc7",
+      "backend/src/food_recommender/ingestion/seed.py": "b3ab61b22aa153b892a910bdf2895ed7a4f33c0f9f3c0738339d77d91972b4e0",
+      "backend/src/food_recommender/mcp/__init__.py": "5662cc44260bf2ba246d6b4138dfeddb0e904bae507c95d6b873451881229be7",
+      "backend/src/food_recommender/mcp/client.py": "1c732159b334a4930ded7dd802b52d27aba967e2372826a8787a2a530a5672e6",
+      "backend/src/food_recommender/mcp/resources.py": "06c7b8771645e65dd6e38f1b1c602bcc576919eb8c8791117700ee999adae08f",
+      "backend/src/food_recommender/mcp/schemas.py": "836ad193a61866a69a67038fdfdf196735fc30c43385b8016b03a9b324c9c872",
+      "backend/src/food_recommender/mcp/server.py": "52235a84a7d5669d91315e5b57ed924bc2d974ec2b93c0429acb460f100ec9dc",
+      "backend/src/food_recommender/mcp/tools.py": "f6d8f802bd4c92dd83e70e50da3eff6d9641fff2be8ae828f936a243f567f759",
+      "backend/src/food_recommender/retrieval/__init__.py": "3d801d4760348936292bc025a167a2b0205669ef8699d7d902c3ec6637651810",
+      "backend/src/food_recommender/retrieval/chunking.py": "f153b10c1687d745a55af557f074d74a66e37d3e51952d5c617f056f378bac9a",
+      "backend/src/food_recommender/retrieval/dietary.py": "6b29e7b183591f43ffd5ab8bf8bbf10ac83355b31714ae27b21d01138a3c191b",
+      "backend/src/food_recommender/retrieval/documents.py": "2c77f1aab9cebc4563a9f8d3f3015ba5dec4e5ad975914aeb81b60db40f05c56",
+      "backend/src/food_recommender/retrieval/embedding_contracts.py": "5b089e766e95f3d071c5046a5d0fbab31f7f9dd068ac80b5bd888803b131a0ed",
+      "backend/src/food_recommender/retrieval/fusion.py": "d6c4afe1c48a94449f28768198b12fdb02ad200d2e43b65e14a213580f8151fa",
+      "backend/src/food_recommender/retrieval/image_service.py": "a573c6395d48686bfd0bb4923aafa7d61565171dd5aa79ffd3b0e2aa4efa0cc2",
+      "backend/src/food_recommender/retrieval/late_fusion.py": "ac2c586bf2bdd280b6174b81c04ba069196f34cc17e774257d9bb340e0204a11",
+      "backend/src/food_recommender/retrieval/metrics.py": "bde98fdd031d76585c50dc89d661f63edd928ceb680508970d370ef5b0ace690",
+      "backend/src/food_recommender/retrieval/models.py": "87692da1c697876d55bd710da1d0433e7f59358b775c1fa752afab061b1d480d",
+      "backend/src/food_recommender/retrieval/multimodal.py": "5e77c17e2bec85eac0192b5f4a4091ea91cd37dec79d5054079bd65ab905da25",
+      "backend/src/food_recommender/retrieval/outcomes.py": "7a94ccc89732b37f44d1492898b19baa77fae357af68545f35a76ddbebd29df0",
+      "backend/src/food_recommender/retrieval/ports.py": "8241317ee516e714a527a64e89c14b8926a90c80e6e889ae530604decce8dad3",
+      "backend/src/food_recommender/retrieval/service.py": "be10ec25491178211df5103b809a7002f06667676b2a0b9cb5e2642c6ca72775",
+      "backend/src/food_recommender/transport/__init__.py": "25b75c8b84dfa8d9b64df0cfcb81a1b8546a4e652bad957491dce578cef7e205",
+      "backend/src/food_recommender/transport/http.py": "f264196c472bb86b1ca5f2680d10b6ea35b62bae2d669b59a98ab4f87d113ec7",
+      "frontend/src/app/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "frontend/src/app/admin/page.tsx": "87743c03d8cbdb2608ba01222c2e179db4dd20c2a64470062ca6e89eb6ae345b",
+      "frontend/src/app/api/v1/[...path]/route.ts": "27a61657133fcd3d9ab5f182c290b8766d5e1489835a643a735291294228990e",
+      "frontend/src/app/api/v1/proxy.ts": "f4ed706d8389652718e24e162bd06dda2b4f5c8d66b275201fc48f035cc367f7",
+      "frontend/src/app/catalog/[category]/[id]/page.tsx": "0ec7b25f75c8d7c209a350dd71578534b629433f96c0b499300dd2cb29b49ce2",
+      "frontend/src/app/catalog/[category]/page.tsx": "10e0fab35b842080cc4d3f7a98bc5ba57ba7f4c998bd11a44165eca400a743c1",
+      "frontend/src/app/conversations/[id]/page.tsx": "636e75e8e75aebc65266ae48655886c2e5307d41aa8a2b59259b1860cd8f5741",
+      "frontend/src/app/globals.css": "89d9aef6d348b51334066053cc96436fab96bcfab39eda57edc63236c33a164e",
+      "frontend/src/app/health/live/route.ts": "f9a267d0b7df6d2d4058ae1a664b5ce2bd8d1088cd71228fa0d917908f3ceb3a",
+      "frontend/src/app/layout.tsx": "a31afc971129bd7a5c164902f77f948b1262f4df1408b898986da0edecaca745",
+      "frontend/src/app/page.tsx": "0ac8f2b764939dc590b9830245fab3b824e45e096acf2c0dde5e84f5cfb4b99b",
+      "frontend/src/components/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "frontend/src/components/ui/button.tsx": "0e5371878f20df5d2122882429fe95bcd396c014735b228fd3036e9028cca40e",
+      "frontend/src/components/ui/confirm-dialog.tsx": "fa24078d6e6bffc6f61bbd0e7f18ad2ad03012a44c91752e146b1052a6f8addd",
+      "frontend/src/features/catalog/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "frontend/src/features/catalog/admin-workspace.tsx": "453b553804dcde558441d83831f7728828f4910e0a2ba472dcb8338b001651df",
+      "frontend/src/features/catalog/catalog-browser.tsx": "81f1490b67a6c15cf1282f9ebd3d307272a5848b4e1d39474ded7b85847bc023",
+      "frontend/src/features/catalog/catalog-detail.tsx": "f418f41a7bc8a9e04a075046fc3302e807a2d89c401d8b603bf53a4004bc64a4",
+      "frontend/src/features/catalog/catalog-editor.tsx": "1d96ffdfacfd5e16e34d7e7e4b8e7b7870ea77c30810098bd70b10893099f8df",
+      "frontend/src/features/catalog/use-admin-catalog.ts": "57634968c0b2bdb39308fe7fb1b154945af65da8cb6bb6fc16009ba911455b92",
+      "frontend/src/features/chat/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "frontend/src/features/chat/conversation-history.tsx": "91f5b7abc471e5e7eb31290b147b0134db3378f674d14c60dc01e7f99508bfae",
+      "frontend/src/features/chat/image-attachment.tsx": "c6ec098d778077bfd7cf66e2fc8cab90ccba5de494cd3b93fab7a375e8455e4b",
+      "frontend/src/features/chat/meal-workspace.tsx": "7d47234d26617be6a0fa1deb70bb0eacc16312fa64401f8d820fa8005f4f193b",
+      "frontend/src/features/chat/stage-progress.tsx": "177f16ec17322d894c9bcd61c6705449ef3105922c7d6e14936724bb3ecd4f13",
+      "frontend/src/features/chat/use-conversation.ts": "4da960d70e2f754feed5b3a6339415ddd4f634324e1db283c550fa56898caa05",
+      "frontend/src/features/preferences/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "frontend/src/features/preferences/preferences-panel.tsx": "8a73502b62adea37b0ba40425525a7f0ec52bab51bf0f3d695bc9a2605d535f8",
+      "frontend/src/features/recommendations/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "frontend/src/features/recommendations/catalog-presentation.tsx": "00c990bc571197a7c798d6e462bf91da68f58145c46c0737b938ae1136ea3acd",
+      "frontend/src/features/recommendations/recommendations.tsx": "a32b40df3728e3c87bb9d606d0a8bd1fe86fd678e470e8949b9bb8ab1babbbde",
+      "frontend/src/features/recommendations/sources.tsx": "4f8b0c489403b21422db2ec86d02ce4ce7bc9ad456561b5ad7bec744a0b8e729",
+      "frontend/src/lib/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "frontend/src/lib/api/client.ts": "94d64fe7571f4b4a5f4c704ea6981bd4c3e8909ba93e547036f38f59d12a5f31",
+      "frontend/src/lib/api/generated.ts": "fd2e43880596bd6e7f916c3cd04c82c9943ad8dc880f2de703f037bcfcdf1e40",
+      "frontend/src/lib/api/openapi.json": "798f524ee5b38edc56abb8ef40b494772c3d8546efd66dc950c3a9af5f8ec80c",
+      "frontend/src/lib/api/sse.ts": "96fd93c0d114cf2426a1d3146eb304e1bf83dbc8d617da6a70e5e2edfe61bf63",
+      "frontend/src/lib/product.ts": "2c7654a3c91d15ff3b18f3f5d3e72eaa98b0b16b91ca8c05db3198305dc28213",
+      "frontend/tests/integration/database.ts": "309d2b5f777479ab18b2e41ffedd5983ad301901ff0bd92aa716673b843fa1be",
+      "frontend/tests/unit/browser-fixture-counts.test.ts": "006bc906e41d515a413e27a4b1b65c156ce314552b2ed8fe942f41dcab271fcb",
+      "backend/scripts/evaluate_phase10_acceptance.py": "c172f0cbda05f8bbc096d9cf6c8888fffa8215023b9e6300f6fb62f0a286187b",
+      "evaluation/phase10/acceptance_report.json": "6649f53be4f3936a9c77f7f5c00a196285f70f457d833b528c6849eabcf942c8"
+    },
+    "models": {
+      "minilm": {
+        "model": "sentence-transformers/all-MiniLM-L6-v2",
+        "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+        "files_verified": 10,
+        "all_hashes_match": true
+      },
+      "clip": {
+        "model": "openai/clip-vit-base-patch32",
+        "revision": "3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268",
+        "files_verified": 8,
+        "all_hashes_match": true
+      }
+    },
+    "imagery": {
+      "decoded_recipe_images": 109,
+      "missing_extra_or_duplicate_images": 0,
+      "original_media_hashes_match": true,
+      "recipe_archive": {
+        "status": "validated",
+        "filename": "synthetic-recipe-images.zip",
+        "bytes": 215139852,
+        "sha256": "2dbc15a307070267c0eea1e45642f53a2e13182a9b797e1f6a027d5c3a5cb68b",
+        "image_members": 109,
+        "uncompressed_bytes": 215942257,
+        "checks": [
+          "ZIP structure",
+          "bounded members and expansion",
+          "safe paths",
+          "regular files",
+          "CRC",
+          "byte-for-byte SHA-256 match to decoded PNGs"
+        ]
+      },
+      "review_images": 9,
+      "review_image_validation": "P11-02/03 decoded hash-bound media and restored entity links",
+      "portfolio_images_revalidated": 7,
+      "placeholder_used": false
+    },
+    "prior_live_evidence": {
+      "task": "P11-04",
+      "verified_at": "2026-10-06T16:47:36.336983+00:00",
+      "model": "gpt-4o-mini",
+      "source_commit": "671c8292851da66430c89233d64b00ea84a6e30b",
+      "runtime_changes_since_live_demo": [
+        "backend/src/food_recommender/application/catalog/admin.py"
+      ],
+      "live_runtime_hashes_match": true,
+      "all_reported_turn_checks_pass": true,
+      "two_positive_turns_have_six_successful_roles": true,
+      "order_overlap_single_join_independently_checked": true,
+      "catalog_ids_and_citations_independently_checked": true,
+      "hard_soy_followup_abstains": true,
+      "fresh_tavily_searches": 1,
+      "dated_grounded_citations": [
+        {
+          "url": "https://nypost.com/2026/08/25/lifestyle/viral-korean-convenience-store-culture-comes-to-la",
+          "published_on": "2026-08-25",
+          "retrieved_at": "2026-10-06T16:47:50.654361Z",
+          "grounded": true
+        },
+        {
+          "url": "https://nypost.com/2026/08/25/lifestyle/viral-korean-convenience-store-culture-comes-to-la",
+          "published_on": "2026-08-25",
+          "retrieved_at": "2026-10-06T16:47:50.654361Z",
+          "grounded": true
+        }
+      ],
+      "new_live_calls_for_gate": 0
+    },
+    "historical_admin_verifier_change": {
+      "path": "infra/verify_admin_demo.py",
+      "reason": "P11-06 portfolio capture extension; all P11-05 application and test hashes still match",
+      "current_hash_checked_against": "evaluation/phase11/portfolio_report.json"
+    },
+    "remaining_scope": [
+      "P11-09 user evidence review, P11-10 clean-checkout module/path rehearsal, P11-11/12 optional Cloud operations",
+      "16 explicitly reported same-name/location entity-review pairs; original IDs preserved",
+      "Original repository credential-history/publication review; public deployment deferred",
+      "Course grading screenshots remain separate from replacement-stack portfolio",
+      "Broad live persona/recommendation quality, user-photo generalization and physical assistive-device coverage unmeasured",
+      "Owner-issued credentials and ignored local media must be supplied on a clean checkout",
+      "Normal Cloud export disabled pending operational gates; local acceptance does not require Cloud"
+    ]
+  },
+  "backend_summary": {
+    "pytest_tests": 621,
+    "subtests": 64,
+    "junit_records": 685,
+    "failures": 0,
+    "skipped": 0,
+    "pytest_seconds": 59.82
+  },
+  "frontend_summary": {
+    "unit_component_tests": 28,
+    "configuration_tests": 5,
+    "regression_tests": 3,
+    "failures": 0,
+    "skipped": 0
+  },
+  "ui_browser_stats": {
+    "startTime": "2026-10-06T19:53:17.877Z",
+    "duration": 45524.606,
+    "expected": 10,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "corrected_failures": [
+    {
+      "stage": "backend-full-acceptance",
+      "initial_result": "620 tests and 64 subtests pass; one implementation-hash contract fails",
+      "cause": "Eight Phase 10 acceptance bindings predate P11-04 changes",
+      "resolution": "Regenerated the report with the existing evaluator; labels/outcomes/invariants unchanged"
+    },
+    {
+      "stage": "frontend-real-api-acceptance",
+      "initial_result": "Six pass; cancellation receipt check fails",
+      "cause": "Counter helper ignored FOODWISE_BROWSER_ARTIFACTS and read a stale Phase 9 file",
+      "resolution": "Two failing regressions precede helper fix; three regressions and all seven journeys pass with current-run receipts"
+    }
+  ],
+  "required_capabilities": {
+    "validated_imagery": "passed",
+    "real_rag": "passed",
+    "six_agent_graph": "passed",
+    "live_dated_search": "passed",
+    "frontend_admin_usability": "passed",
+    "acceptance_tests": "passed"
+  },
+  "security_scan_artifact": "evaluation/phase11/release_security_scan.json",
+  "document_checks": {
+    "passed": true,
+    "markdown_files": 8,
+    "relative_links": 222,
+    "bash_blocks": 19,
+    "unique_task_ids": 154,
+    "completion_marks_changed": [
+      "P11-08"
+    ],
+    "instruction_bytes": 32759,
+    "gate_receipt_hashes_match": true,
+    "acceptance_labels_preserved": true
+  }
+}
