@@ -539,3 +539,137 @@ textarea {
     padding: 24px 16px 40px;
   }
 }
+
+.sidebar-title {
+  font-size: 20px;
+}
+.catalog-filters {
+  gap: 16px;
+}
+.catalog-filters + .note {
+  margin-top: 16px;
+}
+.cuisine-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.cuisine-shortcuts button {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--color-text-muted);
+  border-radius: 24px;
+  background: var(--color-surface);
+  font-size: 14px;
+}
+.cuisine-shortcuts [aria-pressed="true"] {
+  background: var(--color-selection);
+  border-color: var(--color-action);
+  color: var(--color-action);
+}
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 24px;
+  align-items: start;
+  margin: 24px 0;
+}
+.recipe-card {
+  min-width: 0;
+  border: 1px solid #cddbd2;
+  border-radius: 12px;
+  background: var(--color-surface);
+  overflow: hidden;
+}
+.card-content {
+  padding: 20px;
+}
+.card-content h2 {
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+.card-link {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 16px;
+  border-top: 1px solid #cddbd2;
+  padding-top: 12px;
+  font-weight: 600;
+}
+.catalog-image {
+  margin: 0;
+}
+.catalog-image .result-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  height: auto;
+  max-height: none;
+  object-fit: cover;
+  border-radius: 0;
+}
+.catalog-image figcaption {
+  padding: 8px 16px 0;
+  font-size: 14px;
+}
+.image-placeholder {
+  aspect-ratio: 4 / 3;
+  margin: 0;
+  background: var(--color-selection);
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+}
+.recipe-card .facts {
+  font-size: 14px;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+}
+.recipe-card .facts dt {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+.recipe-card .facts dd {
+  margin: 0;
+}
+.restaurant-list {
+  margin: 24px 0;
+}
+.restaurant-row {
+  border-top: 1px solid #cddbd2;
+  padding: 24px 0;
+}
+.restaurant-row .card-content {
+  padding: 0;
+}
+.restaurant-row h2 {
+  font-size: 25px;
+}
+.restaurant-row .catalog-image {
+  max-width: 320px;
+  margin-bottom: 20px;
+}
+.catalog-skeleton {
+  border: 1px solid #cddbd2;
+  border-radius: 12px;
+  overflow: hidden;
+  padding-bottom: 24px;
+  background: var(--color-surface);
+}
+.catalog-skeleton div {
+  aspect-ratio: 4 / 3;
+  background: var(--color-selection);
+}
+.catalog-skeleton span {
+  display: block;
+  width: 70%;
+  height: 16px;
+  margin: 20px;
+  background: var(--color-selection);
+  border-radius: 4px;
+}
