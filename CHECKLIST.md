@@ -693,7 +693,7 @@ measurements and explicit gaps do not claim operational readiness.
 
 - [x] P11-01 Rehearse setup from a clean checkout with documented fresh credentials, pinned dependencies, model downloads, media recovery and Compose startup.
 - [x] P11-02 Verify database migrations, idempotent seed ingestion, readiness behavior and persistence across service restarts.
-- [ ] P11-03 Back up and restore PostgreSQL plus media; verify catalog links, vectors and conversation/checkpoint behavior after restore.
+- [x] P11-03 Back up and restore PostgreSQL plus media; verify catalog links, vectors and conversation/checkpoint behavior after restore.
 - [ ] P11-04 Demonstrate real text and image retrieval, all six agents, live dated trends, citations and conversational refinements.
 - [ ] P11-05 Demonstrate administrator preview/create/edit/delete with atomic searchable updates and cancellation/conflict/error handling.
 - [ ] P11-06 Capture sanitized screenshots/demo steps for the portfolio; map course screenshot requirements separately where still relevant without claiming replacement-stack screenshots meet course grading rules.
@@ -752,6 +752,28 @@ checks and the redacting source scan passed. Disposable resources/credentials
 were removed; existing containers' identities/start times/restart counts were
 unchanged. Provider settings were synthetic and tracing disabled. Backup/restore,
 live six-agent demonstrations and the complete-release gate remain separate.
+
+P11-03 verified on 2026-10-05 (America/Recife) against revision
+`c84c1d7268fb1ec28939bad1cd528efe1359ef41` plus the report's hashed scripts.
+The [46-stage sanitized report](evaluation/phase11/backup_restore_report.json),
+[evidence](evaluation/phase11/README.md#p11-03--postgresql-and-media-backuprestore)
+and [recovery procedure](infra/backup-restore.md) record paired, quiesced
+PostgreSQL/media backups and restoration into a separate fresh Compose project
+with new credentials after removing the disposable source volumes. All 25 table
+hashes, 770 text/118 image vectors, 119 registered media files and the complete
+129-file volume match. All 155 constraints, limited-role ownership, 109 recipe
+image links and nine scoped review/restaurant image links survive. Real lexical
+and stored-vector search results match; recipe image routes, citations, retained
+history/upload ownership, profile/checkpoint advancement, deletion cleanup,
+readiness and frontend proxy checks pass. Corrupted backup pairs are rejected
+before restore. Twenty-nine targeted offline tests, Ruff/document checks and
+the redacting source scan pass. Disposable resources, raw backups and temporary
+credentials were removed; existing container identities/start times/restart
+counts, owner configuration and course artifacts were preserved. Provider
+settings were synthetic, tracing disabled and no paid calls occurred. This is
+offline same-version recovery, not online/PITR/Cloud recovery or a retained
+backup of the owner's stack. P11-04 onward and existing release/publication/
+source-review blockers remain separate.
 
 ## Deferred — Outside the first release
 

@@ -1,6 +1,6 @@
 # Phase 11 — Local release verification
 
-Recorded scope is P11-01 and P11-02. Use the
+Recorded scope is P11-01 through P11-03. Use the
 [clean-checkout setup guide](../../infra/release-setup.md) for the executable
 sequence. Other Phase 11 tasks and the complete-release gate remain separate.
 
@@ -162,3 +162,98 @@ tags and temporary credentials. Existing containers retain their identities,
 start times and restart counts. Owner configuration, datasets and course
 artifacts are preserved. P11-03 onward, live/full-release acceptance, optional
 Cloud operational gates and publication/source-review blockers remain separate.
+
+## P11-03 — PostgreSQL and media backup/restore
+
+Verified on 2026-10-05 in America/Recife. The
+[sanitized report](backup_restore_report.json) records 46 successful command
+stages against revision `c84c1d7268fb1ec28939bad1cd528efe1359ef41` plus the
+SHA-256 identities of the verifier, media archive helper and container probes.
+Those recorded script hashes match the final source files. Docker Engine
+29.8.0/Compose 5.5.1 run PostgreSQL 16.14/pgvector 0.8.6. The
+[backup/recovery guide](../../infra/backup-restore.md) contains executable
+maintenance-window commands and the isolated reproduction command. Application
+behavior, dependency locks and course artifacts are unchanged.
+
+The verifier builds production images with separate source/target Compose
+projects, localhost ports and independent randomly generated database/admin
+credentials. It never reads the owner's dotenv. A fresh source imports 329
+entities with zero rejects and the same 16 entity-review issues, then indexes
+770 MiniLM text and 118 CLIP image vectors using the normal adapters. Pinned
+model bundles, the recovered recipe ZIP and nine original review download
+cache files are reused. OpenAI settings are synthetic, Tavily absent and
+Langfuse disabled; no paid calls or model/media downloads occur.
+
+An HTTP-owned synthetic conversation/upload is linked through the application
+repository. One message, an explicit hard preference and a synthetic control
+graph checkpoint are persisted through the real PostgreSQL saver. After
+quiescing frontend/API/MCP and completing all one-off writers, the verifier
+creates a 2,412,263-byte custom PostgreSQL dump and a 254,269,440-byte media tar.
+The complete media volume contains 129 files/254,035,105 bytes: 118 catalog
+images, one upload, the import manifest and nine original download files.
+Backup hashes are recorded and checked; changing one archive byte is rejected
+before target mutation. Raw archives are kept private and never committed.
+
+The disposable source volumes are removed before the target starts. Target
+bootstrap creates pgvector and the same limited `foodwise` role with new
+passwords; its application/checkpoint table count is zero. `pg_restore` runs
+with `--clean --if-exists --single-transaction --exit-on-error`. The complete
+media archive restores into the empty new media volume. No migrations, seed
+import, re-embedding or checkpoint setup is needed to rebuild recovered data.
+`alembic check` then verifies model/migration parity.
+
+All 25 table snapshots match exactly, including IDs, raw/provenance records,
+timestamps, versions, full vector values, sessions, profiles, messages and
+checkpoint blobs/writes. All 119 registered media hashes, byte sizes and image
+decoding checks match, and the complete volume digest matches independently.
+All 155 constraints remain validated; all application tables/sequences retain
+`foodwise` ownership. The 109 recipe-image associations and nine review-image
+associations with actual restaurants remain intact.
+
+Real PostgreSQL search adapters return identical lexical/dense restaurant and
+recipe results, scores and citation identities. Queries use stored compatible
+vectors to exercise exact cosine retrieval without re-embedding; this is not
+a new model-quality measurement. CLIP self-queries recover the actual recipe
+and scoped review/restaurant image; another demo profile receives no review
+image hits. All 109 browse recipe images serve and decode through their actual
+entity routes before and after recovery, with catalog citations present. Review
+imagery remains scoped retrieval evidence rather than browse thumbnails.
+
+The retained browser cookie reads identical history and upload bytes after
+restore; strangers receive 404 for both. A new probe process reads the saved
+checkpoint and advances from turn one to turn two while preserving the hard
+preference. Deleting that restored conversation through HTTP removes messages,
+profile, media links, the unshared upload/file and all thread checkpoint rows;
+catalog media and search results remain intact. Readiness and the Next.js
+restaurant/recipe proxy return 200. This control graph verifies persistence;
+live six-agent refinement remains P11-04.
+
+Two earlier harness runs exposed verification assumptions: only 109 recipe
+images are browse thumbnails, while nine review images use scoped retrieval;
+Snap Docker requires pipe-backed stdin/stdout instead of regular redirected
+descriptors. Both failed projects were cleaned up. The corrected runner pumps
+binary archives through bounded subprocess pipes without retaining the entire
+media archive in memory. A red/green regression verifies exact binary transfer,
+pipe descriptors, private destination permissions and absence of archive bytes
+in logs. The final committed report is the successful rerun.
+
+The final targeted suite passes 29 tests in 6.34 seconds: archive round trips,
+hidden files, traversal/link/special-file/duplicate/truncation/expansion rejection,
+nonempty-target preservation, pair corruption/missing-file rejection, failure
+cleanup, Docker binary transfer, package boundaries and health behavior. The
+initial sandboxed health test stalled and was stopped; the bounded final run
+used automatically approved local process access. Ruff lint/format checks pass.
+Five Markdown files pass 134 local link/anchor checks and 16 Bash syntax blocks;
+all 152 task IDs stay unique and `AGENTS.md` stays at 32,759 bytes. The redacting
+source scan finds zero findings across 483 source/build files, and
+`git diff --check` passes. Only P11-03's completion mark changes; all later tasks
+and existing blockers are preserved.
+
+Cleanup removes both projects' containers/networks/volumes, dedicated image
+tags, raw backup pair/manifest and temporary credentials. Existing containers
+retain their identities, start times and restart counts. Private redacted
+rehearsal logs remain ignored locally. This task rehearses offline same-version
+recovery, not online/PITR/cross-version or Cloud recovery; it creates no retained
+backup of the owner's stack. P11-04 onward, complete-release/live acceptance,
+optional Cloud operational gates and publication/source-review blockers remain
+separate.

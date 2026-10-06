@@ -1,0 +1,495 @@
+{
+  "task": "P11-03",
+  "date": "2026-10-05",
+  "recorded_at_utc": "2026-10-06T01:33:37.591197+00:00",
+  "timezone": "America/Recife",
+  "status": "passed",
+  "steps": [
+    {
+      "label": "container-inventory",
+      "returncode": 0,
+      "seconds": 0.216
+    },
+    {
+      "label": "source-revision",
+      "returncode": 0,
+      "seconds": 0.005
+    },
+    {
+      "label": "docker-version",
+      "returncode": 0,
+      "seconds": 0.165
+    },
+    {
+      "label": "compose-version",
+      "returncode": 0,
+      "seconds": 0.165
+    },
+    {
+      "label": "compose-config-0",
+      "returncode": 0,
+      "seconds": 0.216
+    },
+    {
+      "label": "compose-config-1",
+      "returncode": 0,
+      "seconds": 0.215
+    },
+    {
+      "label": "build-backend",
+      "returncode": 0,
+      "seconds": 26.533
+    },
+    {
+      "label": "build-frontend",
+      "returncode": 0,
+      "seconds": 3.525
+    },
+    {
+      "label": "source-db-start",
+      "returncode": 0,
+      "seconds": 8.64
+    },
+    {
+      "label": "source-migrations",
+      "returncode": 0,
+      "seconds": 2.422
+    },
+    {
+      "label": "source-checkpoints",
+      "returncode": 0,
+      "seconds": 2.12
+    },
+    {
+      "label": "source-review-cache",
+      "returncode": 0,
+      "seconds": 1.068
+    },
+    {
+      "label": "source-import",
+      "returncode": 0,
+      "seconds": 46.825
+    },
+    {
+      "label": "source-index-text",
+      "returncode": 0,
+      "seconds": 61.671
+    },
+    {
+      "label": "source-index-image",
+      "returncode": 0,
+      "seconds": 39.215
+    },
+    {
+      "label": "stack-start-0",
+      "returncode": 0,
+      "seconds": 19.072
+    },
+    {
+      "label": "address-0-backend",
+      "returncode": 0,
+      "seconds": 0.216
+    },
+    {
+      "label": "context-seed",
+      "returncode": 0,
+      "seconds": 3.022
+    },
+    {
+      "label": "link-upload",
+      "returncode": 0,
+      "seconds": 2.922
+    },
+    {
+      "label": "quiesce-source-writers",
+      "returncode": 0,
+      "seconds": 1.469
+    },
+    {
+      "label": "source-snapshot",
+      "returncode": 0,
+      "seconds": 3.223
+    },
+    {
+      "label": "source-integrity",
+      "returncode": 0,
+      "seconds": 2.872
+    },
+    {
+      "label": "source-retrieval",
+      "returncode": 0,
+      "seconds": 3.223
+    },
+    {
+      "label": "source-volume-snapshot",
+      "returncode": 0,
+      "seconds": 1.168
+    },
+    {
+      "label": "backup-database",
+      "returncode": 0,
+      "seconds": 0.666
+    },
+    {
+      "label": "backup-media",
+      "returncode": 0,
+      "seconds": 9.185
+    },
+    {
+      "label": "remove-source-volumes",
+      "returncode": 0,
+      "seconds": 1.268
+    },
+    {
+      "label": "fresh-target-db",
+      "returncode": 0,
+      "seconds": 6.488
+    },
+    {
+      "label": "target-is-empty",
+      "returncode": 0,
+      "seconds": 0.266
+    },
+    {
+      "label": "restore-database",
+      "returncode": 0,
+      "seconds": 0.567
+    },
+    {
+      "label": "restore-media",
+      "returncode": 0,
+      "seconds": 2.02
+    },
+    {
+      "label": "target-snapshot",
+      "returncode": 0,
+      "seconds": 3.574
+    },
+    {
+      "label": "target-integrity",
+      "returncode": 0,
+      "seconds": 2.822
+    },
+    {
+      "label": "target-retrieval",
+      "returncode": 0,
+      "seconds": 3.173
+    },
+    {
+      "label": "target-migration-parity",
+      "returncode": 0,
+      "seconds": 2.12
+    },
+    {
+      "label": "stack-start-1",
+      "returncode": 0,
+      "seconds": 18.719
+    },
+    {
+      "label": "address-1-backend",
+      "returncode": 0,
+      "seconds": 0.216
+    },
+    {
+      "label": "advance-restored-context",
+      "returncode": 0,
+      "seconds": 2.972
+    },
+    {
+      "label": "deleted-context",
+      "returncode": 0,
+      "seconds": 2.924
+    },
+    {
+      "label": "snapshot-after-deletion",
+      "returncode": 0,
+      "seconds": 3.273
+    },
+    {
+      "label": "retrieval-after-deletion",
+      "returncode": 0,
+      "seconds": 3.223
+    },
+    {
+      "label": "address-1-frontend",
+      "returncode": 0,
+      "seconds": 0.216
+    },
+    {
+      "label": "cleanup-project-0",
+      "returncode": 0,
+      "seconds": 0.215
+    },
+    {
+      "label": "cleanup-project-1",
+      "returncode": 0,
+      "seconds": 2.12
+    },
+    {
+      "label": "cleanup-images",
+      "returncode": 0,
+      "seconds": 1.67
+    },
+    {
+      "label": "container-inventory",
+      "returncode": 0,
+      "seconds": 0.166
+    }
+  ],
+  "checks": {
+    "source-import": {
+      "status": "completed",
+      "totals": {
+        "imported": 329,
+        "unchanged": 0,
+        "rejected": 0,
+        "unresolved": 16,
+        "pending": 0
+      }
+    },
+    "source-index-text": {
+      "documents": 770,
+      "embedded": 770,
+      "unchanged": 0
+    },
+    "source-index-image": {
+      "embedded": 118,
+      "media": 118,
+      "unchanged": 0
+    },
+    "context-seed": {
+      "checkpoint_turns": 1,
+      "messages": 1,
+      "profile_preserved": true
+    },
+    "catalog-images-before-backup": {
+      "served_images": 109,
+      "sha256": "51872d2e6c0a5b3ac7690b9283f3c3c84b605234c3c59a36e70e7425c8d632ec",
+      "citations_present": true,
+      "decoding_valid": true
+    },
+    "integrity-before": {
+      "all_application_tables_and_sequences_owned_by_foodwise": true,
+      "all_constraints_validated": true,
+      "constraints": 155,
+      "constraints_sha256": "db3eb6f2bb761d11dc59aed2ea5cff8668ae0a7ce284f62052172a25205e04a4",
+      "links_sha256": "641b5d2aaf3cbaa7abe62a060f78c29b3b2587fd7d938ed7056d9fbe5abb68a7",
+      "owners_sha256": "fae8abc360e2257eb0caf53097e5e5fce0b44dc7563c2072f22bcdb3c9a39a8a",
+      "recipe_image_links": 109,
+      "review_restaurant_image_links": 9
+    },
+    "retrieval-before": {
+      "clip-recipe-self-query": {
+        "correct_entity_and_media": true,
+        "hits": 1,
+        "sha256": "2664e1bbdbbc221630ed4bd979b10f26542adb2be41b38a8a370f138a801112a"
+      },
+      "clip-review-self-query": {
+        "correct_entity_and_media": true,
+        "hits": 2,
+        "other_profile_excluded": true,
+        "sha256": "d5b1ae3be46fec3fed94c13a43299274cd6adaaba4cf85af899194b580aedd45"
+      },
+      "recipe-dense": {
+        "hits": 327,
+        "sha256": "72a2b4bad59d8570d97724fc81646073f43644abf4e123d397a3efa8ffb6f5ce"
+      },
+      "recipe-lexical": {
+        "hits": 3,
+        "sha256": "8eb4f786ea76a29e53f2480b779a939edaf5a4b7e340fd27dfe7ca2e0c2802e9"
+      },
+      "restaurant-dense": {
+        "hits": 414,
+        "sha256": "43395b183f6ae299a2c88547dd24bb59c4ed30a46d9d75e8499bbed627834801"
+      },
+      "restaurant-lexical": {
+        "hits": 4,
+        "sha256": "de5474e0067b4b39c35770b7e1c45a411adb89ac5c1dbb27a1ec52a7670c5ba9"
+      }
+    },
+    "corrupt-backup-rejected-before-restore": true,
+    "target-fresh-with-new-credentials": true,
+    "every-row-vector-checkpoint-and-media-hash-identical": true,
+    "entire-media-volume-identical": true,
+    "constraints-owners-links-and-search-results-identical": true,
+    "restored-readiness": {
+      "status": "ready",
+      "dependencies": {
+        "database": "ready",
+        "media": "ready",
+        "mcp": "ready",
+        "schema": "ready",
+        "catalog_encoder": "ready"
+      }
+    },
+    "all-catalog-image-routes-preserved": true,
+    "history-upload-and-session-ownership-preserved": true,
+    "checkpoint-after-restore": {
+      "checkpoint_turns": 2,
+      "messages": 1,
+      "profile_preserved": true
+    },
+    "deletion-after-restore": {
+      "context_and_checkpoint_rows_removed": true,
+      "owned_upload_removed": true
+    },
+    "deletion-preserves-catalog-and-vectors": true,
+    "frontend-proxy-after-restore": true
+  },
+  "isolation": {
+    "provider_calls": 0,
+    "owner_dotenv_read": false,
+    "langfuse_enabled": false,
+    "db_and_mcp_ports": "private",
+    "separate_source_target_volumes": true
+  },
+  "limitations": [
+    "Cached pinned models and original review downloads reused; no paid provider calls",
+    "Stored-vector queries verify search adapters; live six-agent follow-ups remain P11-04",
+    "Offline quiesced backup only; no online/PITR/cross-version recovery claim",
+    "Tracing disabled; optional Cloud retention/deletion operations remain P11-11/12"
+  ],
+  "source_revision": "c84c1d7268fb1ec28939bad1cd528efe1359ef41",
+  "script_hashes": {
+    "infra/verify_backup_restore.py": "0a2b38777a393abd29d0a164406010c65281c7d0c5415b1cfe69ba37d6bfc7a9",
+    "backend/scripts/backup_media.py": "1098a0ca3780e0c078948cb3361b65d13f1deb8fa21afe7fd81e6e2a5aa16d5f",
+    "backend/scripts/probe_phase11_restore.py": "ba60024755c550ccaa6187f0bb796555c96fd34826cb2381054db873de43f319",
+    "backend/scripts/probe_phase11_persistence.py": "5ed4d2b6abbdc1659d24f3126c649070194acdc3d3aa6c1037402def49a1eda2"
+  },
+  "docker_version": "29.8.0",
+  "compose_version": "5.5.1",
+  "baseline": {
+    "application_role_limited": true,
+    "media": {
+      "all_hashes_sizes_and_decoding_valid": true,
+      "files": 119,
+      "sha256": "5a434a7546d8aa38d4e1f0a0b85c766c83926d73577756dcd74b53dfc8383ef1"
+    },
+    "migration": "0009_admin",
+    "pgvector": "0.8.6",
+    "postgres": "16.14 (Debian 16.14-1.pgdg12+1)",
+    "tables": {
+      "foodwise_checkpoints.checkpoint_blobs": {
+        "rows": 1,
+        "sha256": "fe9241df99e74244b5e59e013ede3cd0ed7e3c836d41218c4e900c21ab5922c6"
+      },
+      "foodwise_checkpoints.checkpoint_migrations": {
+        "rows": 10,
+        "sha256": "090fc34f74ecd9965edb799755b32ebdece665d6717adf48a0ad2fa8f3c39efd"
+      },
+      "foodwise_checkpoints.checkpoint_writes": {
+        "rows": 4,
+        "sha256": "dd23ecc317efe36f0cc8c4716594e27fcc2592f6d08add776ed58c50758b8211"
+      },
+      "foodwise_checkpoints.checkpoints": {
+        "rows": 3,
+        "sha256": "4c0924eeff2deffbffa3665343784accd1b23f82831354d3896bc2ceabad69de"
+      },
+      "public.admin_sessions": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "public.alembic_version": {
+        "rows": 1,
+        "sha256": "55f3eca8d6b9ef9d64645f15e2335eb8e98fc5a2394e144318d15a5e80ca43b7"
+      },
+      "public.browser_sessions": {
+        "rows": 1,
+        "sha256": "cc2909c9a47021a068529bd72817fa1f5740dc9e7ea95823f017f8f13250d5a6"
+      },
+      "public.conversation_media": {
+        "rows": 1,
+        "sha256": "3d3281746bc7ce8545452b9dbad5ea6585caf2ed05be291b1fdc190ce05ffc7d"
+      },
+      "public.conversations": {
+        "rows": 1,
+        "sha256": "ff4f653b09266a3e2ae97abd182719e4d140471d53c58b6314c99d85f47628ee"
+      },
+      "public.demo_profiles": {
+        "rows": 1,
+        "sha256": "c158029f9b638f97c1a8e108d11f71260b3520d0cdbf1a6fb797847e3ea6b2ec"
+      },
+      "public.documents": {
+        "rows": 1006,
+        "sha256": "2d01ef079d584a334e47320d92f4b65d9d5a1822a4c177a1f94480860a1b8a14"
+      },
+      "public.image_embeddings": {
+        "rows": 118,
+        "sha256": "2898f866dcff740deaf4bf2b0679d55608edbc0fa7e2bc2d27690912a37038ad"
+      },
+      "public.ingestion_checkpoints": {
+        "rows": 329,
+        "sha256": "4ec68cfd2890d6f9716824059f3b1a94228461fa69ecf46cbf81a8e604f882fb"
+      },
+      "public.media": {
+        "rows": 119,
+        "sha256": "2893dfaa75a5fc3ecbaac9de027f9af88ef226d35069816136aeb79ef2e04762"
+      },
+      "public.media_cleanup_jobs": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "public.messages": {
+        "rows": 1,
+        "sha256": "ef5b6e1834688c0c87d2bff449cebc41e64290fba2ed38eb2549aa0616573015"
+      },
+      "public.profiles": {
+        "rows": 1,
+        "sha256": "4da71f30914d691b8380c7ca3298a1683ad5ce7537b0b08bb29d5aae9e755977"
+      },
+      "public.recipes": {
+        "rows": 109,
+        "sha256": "b8c4fb856c097d28594e0118440222f7f0f2642b0790b7a97d4f8bdb05366ae7"
+      },
+      "public.restaurants": {
+        "rows": 210,
+        "sha256": "6e8e67247073e684a3ded044f778e789b5bfc064cf0d9fb4bfbc1e55ecf9ee94"
+      },
+      "public.reviews": {
+        "rows": 10,
+        "sha256": "2041aa2e297eddc906e5f81b90e3bfd691ace1755024619bf4847e6a0d26f29a"
+      },
+      "public.source_records": {
+        "rows": 777,
+        "sha256": "3aa87f7da02146fb35137835dd41d89778e85fc58a160d851eed0af00c7535e1"
+      },
+      "public.sources": {
+        "rows": 18,
+        "sha256": "cf9df284c664ab78d07f7ef39fd2137d4a990c6c78e9bf89c77aeb18a7d86316"
+      },
+      "public.text_embeddings": {
+        "rows": 770,
+        "sha256": "f6b451d9a6baa12200bb2b852f534fa28bdee31e2e094b3ad6983f517b8ed8f6"
+      },
+      "public.trend_cache": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "public.trend_evidence": {
+        "rows": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    }
+  },
+  "media_volume": {
+    "files": 129,
+    "bytes": 254035105,
+    "sha256": "9c06898f27bb92fe91921e7096ce2e94cb2f7d4b09727345baab5c4287c8752b"
+  },
+  "backup_pair": {
+    "database.dump": {
+      "bytes": 2412263,
+      "sha256": "35f4283c5ccfa5f4344a9b9ec2a8bdc540980a0c9cef7154ac9ab137c4ac2b4b"
+    },
+    "media.tar": {
+      "bytes": 254269440,
+      "sha256": "83563501c97adec3d51db6d57163d8eed6bf5816cca920da1f5de314a5ed09ee"
+    }
+  },
+  "cleanup": {
+    "projects_removed": true,
+    "owner_containers_unchanged": true,
+    "temporary_credentials_removed": true,
+    "raw_backups_removed": true
+  }
+}

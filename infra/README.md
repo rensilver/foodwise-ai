@@ -8,6 +8,8 @@ records the isolated rehearsal and its limits. For host development and quality
 commands, see the [developer workflow](development.md).
 For repeatable migration, ingestion, readiness and restart acceptance, use the
 [P11-02 verifier](release-setup.md#migration-ingestion-and-restart-verification-p11-02).
+For paired PostgreSQL/media backups and fresh-volume recovery, use the
+[P11-03 procedure and verifier](backup-restore.md).
 
 [compose.yaml](../compose.yaml) runs four local services:
 

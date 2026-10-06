@@ -173,7 +173,7 @@ to a private `.setup/` directory in that volume, outside generated media keys.
 
 ```bash
 setup() {
-  compose run --rm --no-deps --workdir /setup \
+  compose run --rm --no-deps -T --workdir /setup \
     --volume "$PWD/backend:/setup:ro" \
     --volume "$PWD/data:/seed:ro" \
     --volume "$PWD/evaluation:/evidence:ro" \
@@ -223,9 +223,9 @@ Open the frontend address printed by `compose port frontend 3000` to browse the
 synthetic catalog (normally `http://127.0.0.1:3000`). Logs use redacted
 application fields. Stop this stack with `docker compose down`, which preserves
 data. Use `compose down` when the helper selects an isolated project.
-Migration/idempotency/restart acceptance is documented below. Backup/restore,
-paid live recommendations and administrator demonstrations remain P11-03
-through P11-05.
+Migration/idempotency/restart acceptance is documented below. Paired backups
+and fresh-volume restore are covered by the [P11-03 recovery guide](backup-restore.md).
+Paid live recommendations and administrator demonstrations remain P11-04/05.
 Delete volumes only for an explicitly disposable rehearsal project after its
 results have been recorded; preserve the developer's real stack and settings.
 
@@ -293,4 +293,5 @@ temporary credentials, then checks existing containers' identities, start times
 and restart counts. A failure exits nonzero and writes a sanitized report;
 inspect its private logs before retrying. Do not substitute an owner's project
 or delete existing volumes. The committed [P11-02 evidence](../evaluation/phase11/README.md#p11-02--migrations-idempotency-readiness-and-restarts)
-records the actual tested result; backup/restore remains P11-03.
+records the actual tested result; see the [P11-03 recovery guide](backup-restore.md)
+for the separate backup/restore rehearsal.
