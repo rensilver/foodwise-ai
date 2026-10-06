@@ -2,7 +2,7 @@
 
 import ipaddress
 from collections.abc import Callable
-from datetime import UTC, date, datetime
+from datetime import UTC, date, datetime, timedelta
 from email.utils import parsedate_to_datetime
 from uuid import uuid4
 
@@ -84,7 +84,12 @@ class TavilySearch:
                     "topic": "news",
                     "search_depth": "basic",
                     "max_results": max_results,
-                    "days": days,
+                    "start_date": (
+                        self.clock().date() - timedelta(days=days)
+                    ).isoformat(),
+                    "end_date": self.clock().date().isoformat(),
+                    "include_published_date": True,
+                    "filter_by_published_date": True,
                     "include_answer": False,
                     "include_raw_content": False,
                     "include_usage": True,

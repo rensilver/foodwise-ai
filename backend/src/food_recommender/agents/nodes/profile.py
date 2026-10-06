@@ -11,6 +11,7 @@ from food_recommender.application.recommendations.profile_rules import (
     constraint_key,
     explicit_removal,
     merge_constraints,
+    supported_addition,
 )
 from food_recommender.application.recommendations.reliability import inference_failure
 from food_recommender.application.recommendations.workflow import TurnRequest
@@ -56,6 +57,10 @@ class UserProfileGenerator:
         reviews: tuple[str, ...] = (),
     ) -> ExpertOutcome[ProfileResult]:
         try:
+
+            def validate(patch: ProfilePatch) -> None:
+                self.merge(request, patch, prior)
+
             patch = await structured(
                 self.inference,
                 PROFILE,
@@ -68,6 +73,7 @@ class UserProfileGenerator:
                     else (),
                 },
                 TypeAdapter(ProfilePatch),
+                validate=validate,
             )
             return AgentSuccess(self.merge(request, patch, prior))
         except Exception as error:
@@ -97,6 +103,12 @@ class UserProfileGenerator:
                         "Please clarify which restriction you want to change."
                     )
             else:
+                if not supported_addition(
+                    change.evidence, change.constraint, request.message
+                ):
+                    raise ValueError(
+                        "Restriction addition lacks explicit supporting evidence"
+                    )
                 additions.append(change.constraint)
         if any(constraint_key(c) in removals for c in additions) or any(
             constraint_key(c) in removals for c in explicit.constraints

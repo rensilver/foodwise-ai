@@ -104,14 +104,14 @@ class FixtureInference:
         if "candidates" in context:
             return json.dumps(
                 {
-                    "assessments": [
+                    "selections": [
                         {
-                            "entity": c["evidence"]["entity"],
-                            "state": "supported",
-                            "citation_ids": [c["evidence"]["citations"][0]["id"]],
-                            "observations": [c["evidence"]["citations"][0]["excerpt"]],
+                            "candidate_index": index,
+                            "option_index": 0
+                            if context["grounded_options"][index]
+                            else None,
                         }
-                        for c in context["candidates"]
+                        for index, _ in enumerate(context["candidates"])
                     ]
                 }
             )

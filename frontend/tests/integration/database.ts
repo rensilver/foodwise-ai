@@ -1,5 +1,6 @@
 import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 export function database(query: string, values: unknown[] = []): unknown[] {
   const code =
     'import json,os,sys,psycopg\nwith psycopg.connect(os.environ["TEST_DATABASE_URL"]) as connection:\n rows=connection.execute(sys.argv[1],json.loads(sys.argv[2])).fetchall()\n print(json.dumps(rows,default=str))';
@@ -17,7 +18,13 @@ export function providerCounts(): {
 } {
   return JSON.parse(
     readFileSync(
-      "../.local-tmp/phase9/integration/provider-counts.json",
+      // Relative artifact roots use the fixture server's backend working directory.
+      resolve(
+        "../backend",
+        process.env.FOODWISE_BROWSER_ARTIFACTS ??
+          "../.local-tmp/phase9/integration",
+        "provider-counts.json",
+      ),
       "utf8",
     ),
   );

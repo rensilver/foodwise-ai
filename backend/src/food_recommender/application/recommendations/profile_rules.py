@@ -1,5 +1,6 @@
 """Explicit corrections and monotonic restriction merging, outside inference."""
 
+import re
 from collections.abc import Iterable
 from dataclasses import replace
 
@@ -49,4 +50,37 @@ def explicit_removal(evidence: str, constraint: Constraint, message: str) -> boo
                 "not strict",
             )
         )
+    )
+
+
+def supported_addition(evidence: str, constraint: Constraint, message: str) -> bool:
+    text = evidence.casefold()
+    value = constraint_key(constraint)[1]
+    names = {
+        value,
+        constraint.value.casefold(),
+        *(alias for alias, canonical in ALIASES.items() if canonical == value),
+    }
+    if (
+        value in {"none", "unknown", "null", "no allergies", "no restrictions"}
+        or text not in message.casefold()
+    ):
+        return False
+    if not any(
+        re.search(r"(?<!\w)" + re.escape(name) + r"(?!\w)", text) for name in names
+    ):
+        return False
+    if constraint.strength != Strength.HARD:
+        return True
+    if explicit_removal(evidence, constraint, message):
+        return False
+    if re.search(r"\b(?:not|no)\b.{0,20}\ballerg(?:y|ies|ic)\b", text):
+        return False
+    if re.search(
+        r"\b(?:allerg(?:y|ies|ic)|avoid|exclude|strict(?:ly)?|never|no|without|free|intoleran(?:t|ce)|must|only)\b",
+        text,
+    ):
+        return True
+    return constraint.kind == ConstraintKind.DIETARY and bool(
+        re.search(r"\bi(?: am|'m|’m)\b", text)
     )

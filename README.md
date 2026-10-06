@@ -4,6 +4,15 @@ An English-language, local restaurant and recipe recommender based on the IBM
 capstone. The planned application combines six LangGraph agents, cited text and
 image retrieval, PostgreSQL/pgvector, OpenAI API (`gpt-4o-mini`), MCP, and live food trend search.
 
+For a new local installation, follow the [clean-checkout setup guide](infra/release-setup.md)
+and its [P11-01 rehearsal evidence](evaluation/phase11/README.md). It covers
+pinned tools/models, private credentials, media recovery and initialized Compose startup.
+Use the [local troubleshooting and measured limits](infra/local-operations.md)
+for dependency/provider failures, recovery, dietary evidence and unavailable capabilities.
+The [portfolio gallery](evaluation/phase11/portfolio.md) provides sanitized UI
+captures with [presenter steps](infra/portfolio-demo.md) and a separate
+[original course screenshot map](evaluation/phase11/course-screenshots.md).
+
 Phase 0 is verified, the P01-01 project layout is scaffolded, and P01-02 pins
 the runtimes and backend/frontend dependency graphs. P01-03 adds validated
 backend configuration; P01-04 adds safe examples, setup diagnostics and a
@@ -22,8 +31,12 @@ verified. Phase 3 ingestion/media and [Phase 4 text retrieval](evaluation/phase4
 and [Phase 5 multimodal retrieval/fusion](evaluation/phase5/README.md) are verified.
 Phase 6 MCP/live trends and Phase 7 graph implementations are present.
 The [OpenAI migration smoke](evaluation/openai-migration/README.md) returned five
-validated recommendations; style/trend analysis was unavailable, so full live
-acceptance remains open. [Phase 8](evaluation/phase8/README.md)
+validated recommendations; that historical smoke had unavailable style/trend
+analysis. The [P11-04 live demonstration](infra/live-demo.md) now verifies text
+and image retrieval, all six roles, dated trends, citations and a persistent
+allergy follow-up. The [P11-08 local release gate](evaluation/phase11/release-gate.md)
+joins this live evidence with full offline and browser acceptance; final review,
+optional Cloud operations and publication remain separate. [Phase 8](evaluation/phase8/README.md)
 adds verified FastAPI conversations/SSE, private images, browsing, administrator
 CRUD and generated TypeScript contracts. [Phase 9](evaluation/phase9/README.md)
 adds the responsive meal workspace, preferences/uploads, cited category results,

@@ -71,8 +71,11 @@ class AdminCatalogService:
         )
         validated = schema.model_validate(fields).model_dump()
         if category == Category.RECIPE:
-            for key in ("prep_time", "cook_time", "total_time"):
-                duration(validated.get(key))
+            try:
+                for key in ("prep_time", "cook_time", "total_time"):
+                    duration(validated.get(key))
+            except ValueError:
+                raise ApplicationError(ErrorCode.INVALID_REQUEST) from None
         for key in ("signatures", "shortcomings", "ingredients", "directions"):
             if validated.get(key) is not None:
                 values = validated[key]

@@ -25,6 +25,7 @@ from food_recommender.domain.experts import (
     TrendAnalysis,
 )
 from food_recommender.domain.recommendations import (
+    Recommendation,
     RecommendationResult,
     validate_recommendations,
 )
@@ -35,6 +36,30 @@ type RecommendationContract = RecommendationResult
 RESULT_ADAPTER: TypeAdapter[RecommendationResult] = TypeAdapter(
     RecommendationContract, config=ConfigDict(extra="forbid", strict=True)
 )
+
+
+def quoted_recommendations(
+    candidates: tuple[FusedCandidate, ...], style: ExpertOutcome[StyleAnalysis]
+) -> tuple[Recommendation, ...]:
+    if not isinstance(style, AgentSuccess):
+        return ()
+    by_entity = {c.evidence.entity: c for c in candidates}
+    options = []
+    for assessment in style.result.assessments:
+        candidate = by_entity.get(assessment.entity)
+        if candidate is None:
+            continue
+        for observation in assessment.observations:
+            if publishable_catalog_span(observation) and supported_span(
+                observation, candidate.evidence.citations, assessment.citation_ids
+            ):
+                options.append(
+                    Recommendation(
+                        assessment.entity, observation, assessment.citation_ids
+                    )
+                )
+                break
+    return tuple(options)
 
 
 class RecommendationExpert:
@@ -100,6 +125,9 @@ class RecommendationExpert:
                     {
                         "profile": profile,
                         "eligible_candidates": eligible,
+                        "grounded_recommendations": quoted_recommendations(
+                            eligible, style
+                        ),
                         "trend": trend,
                         "style": style,
                         "nutrition": nutrition,

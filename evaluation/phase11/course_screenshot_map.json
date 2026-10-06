@@ -1,0 +1,105 @@
+{
+  "task": "P11-06",
+  "reviewed_date": "2026-10-06",
+  "timezone": "America/Recife",
+  "method": "Local PDF text extraction with pdftotext -layout",
+  "course_submission_equivalence_claimed": false,
+  "sources": [
+    {
+      "source": "docs/01_Assignment Overview: Structure Unstructured Restaurant Data with an LLM.pdf",
+      "sha256": "5bd4a0f355137b6f1d627f1ecd9cc86a6ba6ef5c8322bbc1b73fc6d42e88311a",
+      "requirement_page": 1,
+      "required_filename": "M1L1_structure_for_loop.jpg",
+      "required_view": "Python implementation and task output",
+      "course_capture_status": "not claimed; separate original-lab capture"
+    },
+    {
+      "source": "docs/02_Assignment Overview_ Process Multimodal Data with LLMs.pdf",
+      "sha256": "c7c4d03017259293aa2f52fb845d8516564732196cde11272f4a26f23e760648",
+      "requirement_page": 1,
+      "required_filename": "M1L2_caption_all_recipes.jpg",
+      "required_view": "Python implementation and task output",
+      "course_capture_status": "not claimed; separate original-lab capture"
+    },
+    {
+      "source": "docs/03_Assignment Overview_ Build a Command-Line Data Management UI for Restaurant Data.pdf",
+      "sha256": "40d7487d0aeb0ca122ac922c0793ed0fcaf2b2d5c0c9f59cdaeaf97f0fe80444",
+      "requirement_page": 1,
+      "required_filename": "M1L3_new_data_entry_process.jpg",
+      "required_view": "Function implementation",
+      "course_capture_status": "not claimed; separate original-lab capture"
+    },
+    {
+      "source": "docs/04_Assignment Overview_ Construct a Multimodal Vector Index.pdf",
+      "sha256": "2a966a440ac70ea4ae4c3886bdf7ffb561a7d2878150c30ad2bd7ca1ffb8d2ab",
+      "requirement_page": 1,
+      "required_filename": "M2L1_multimodal_vector_index.jpg",
+      "required_view": "Final code cell and output",
+      "course_capture_status": "not claimed; separate original-lab capture"
+    },
+    {
+      "source": "docs/05_Assignment Overview_ Similarity Retrieval with Metadata Filtering.pdf",
+      "sha256": "1c1e3734436bc8c235271dd933f980d1b61578e5ec91118aeddf00f243cf8410",
+      "requirement_page": 1,
+      "required_filename": "M2L2_similarity_retrieval.jpg",
+      "required_view": "Final code cell and output",
+      "course_capture_status": "not claimed; separate original-lab capture"
+    },
+    {
+      "source": "docs/06_Assignment Overview_ Multimodal Similarity Fusion and Retrieval Ranking.pdf",
+      "sha256": "c3900cc534d6add2046128f257262b1f0468c883a0bc50a48e7e678b8ab1c12f",
+      "requirement_page": 1,
+      "required_filename": "M2L3_multimodal_fusion_results.jpg",
+      "required_view": "Final code cell and output",
+      "course_capture_status": "not claimed; separate original-lab capture"
+    },
+    {
+      "source": "docs/07_Assignment Overview_ Design Specialized Agents for a Recommendation System.pdf",
+      "sha256": "63a4dc0d754da12509b26ca8ab953e7538a4420a14b7c20fe1d4bf9f8a144bf6",
+      "requirement_page": 1,
+      "required_filename": "M3L1_food_style_expert_goal.jpg",
+      "required_view": "Python task implementation",
+      "course_capture_status": "not claimed; separate original-lab capture"
+    },
+    {
+      "source": "docs/08_Assignment Overview_ Implement and Test a Multi-Agent Recommendation System.pdf",
+      "sha256": "25c04a4392358893ee6e1dfbe0a97db27c47c94fe6401b7bdb96239096f28778",
+      "requirement_page": 1,
+      "required_filename": "M3L2_node_analyze_styles.jpg",
+      "required_view": "Python task implementation",
+      "course_capture_status": "not claimed; separate original-lab capture"
+    },
+    {
+      "source": "docs/09_Reading_ Assignment Overview_ Build a Chatbot Interface for the Recommendation System.pdf",
+      "sha256": "57de552f04d12ad134851b1f43b852ea347fa547bfaf3aa0c53a3f29308eb4d5",
+      "requirement_page": 1,
+      "required_filename": "M3L3_preference_extraction_test.jpg",
+      "required_view": "Final code cell and output",
+      "course_capture_status": "not claimed; separate original-lab capture"
+    },
+    {
+      "source": "docs/10_Assignment Overview_ Build an MCP Server.pdf",
+      "sha256": "8635efdecd6d85e01aee88b17f35ad0821fec18f79a996142db9aea43e0f01e3",
+      "requirement_page": 1,
+      "required_filename": "M4L1_Configure_Tools_Data_MCP_Server.jpg",
+      "required_view": "Successful search execution returning JSON",
+      "course_capture_status": "not claimed; separate original-lab capture"
+    },
+    {
+      "source": "docs/11_Assignment Overview_ Build an MCP Client.pdf",
+      "sha256": "173b4951c3d38b8895ab865696a54ba19c353f57b75a6feb7e80fcef8bff39ef",
+      "requirement_page": 1,
+      "required_filename": "M4L2_Build_Test_MCP_Client.jpg",
+      "required_view": "Terminal discovery of tools, resources and project roots",
+      "course_capture_status": "not claimed; separate original-lab capture"
+    },
+    {
+      "source": "docs/12_Assignment Overview_ Build a Full MCP Application.pdf",
+      "sha256": "3c72e95f9161f9843014cbee9ae7e483284d93bed9ea942a5627ec2d1a6454f8",
+      "requirement_page": null,
+      "required_filename": null,
+      "required_view": null,
+      "course_capture_status": "no screenshot requirement specified in supplied overview"
+    }
+  ]
+}

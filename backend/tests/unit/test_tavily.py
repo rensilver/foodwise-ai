@@ -17,7 +17,9 @@ async def test_public_query_and_provenance_only():
     def respond(request):
         body = json.loads(request.content)
         assert body["query"] == "food trends fermentation California"
-        assert body["max_results"] == 5 and body["days"] == 90
+        assert body["max_results"] == 5 and body["start_date"] == "2026-07-05"
+        assert body["end_date"] == "2026-10-03"
+        assert body["filter_by_published_date"] is True
         assert body["topic"] == "news" and body["include_raw_content"] is False
         return httpx.Response(
             200,

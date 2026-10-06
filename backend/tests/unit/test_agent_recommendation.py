@@ -81,3 +81,50 @@ async def test_unknown_allergen_compliance_withholds_without_unsafe_fallback():
     )
     assert result.result.recommendations == ()
     assert provider.calls == []
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "observation", ["tomato rice simmered with basil", "invented spicy flavor"]
+)
+async def test_style_guidance_is_rechecked_against_the_candidate_before_synthesis(
+    observation,
+):
+    import json
+
+    from food_recommender.domain.experts import StyleAnalysis, StyleAssessment
+    from food_recommender.domain.values import EvidenceState
+
+    food = candidate()
+    style = AgentSuccess(
+        StyleAnalysis(
+            (
+                StyleAssessment(
+                    food.evidence.entity,
+                    EvidenceState.SUPPORTED,
+                    (food.evidence.citations[0].id,),
+                    (observation,),
+                ),
+            )
+        )
+    )
+    seen = []
+
+    class GuidedReply:
+        async def generate(self, messages, schema, *, image=None):
+            context = json.loads(messages[1]["content"])
+            seen.append(context["grounded_recommendations"])
+            return json.dumps({"recommendations": context["grounded_recommendations"]})
+
+    result = await RecommendationExpert(GuidedReply()).run(
+        PROFILE, (food,), BRANCHES[0], style, BRANCHES[2]
+    )
+    assert result.status == "success"
+    if observation.startswith("invented"):
+        assert seen == [[]]
+        assert not result.result.recommendations
+    else:
+        assert result.result.recommendations[0].explanation == observation
+        assert result.result.recommendations[0].citation_ids == (
+            food.evidence.citations[0].id,
+        )

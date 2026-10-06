@@ -109,3 +109,86 @@ async def test_inference_cannot_downgrade_known_hard_constraint():
         TurnRequest(message="peanut"), PRIOR
     )
     assert result.result.preferences.constraints == (HARD,)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "value,message",
+    [
+        ("none", "Now recommend a Korean recipe like this image."),
+        ("soy", "Soy tastes good."),
+    ],
+)
+async def test_model_cannot_invent_hard_restrictions_from_an_unrelated_quote(
+    value, message
+):
+    provider = Reply(
+        {
+            "changes": [
+                {
+                    "operation": "add",
+                    "constraint": {
+                        "kind": "allergen",
+                        "value": value,
+                        "strength": "hard",
+                        "origin": "explicit",
+                    },
+                    "evidence": message,
+                }
+            ]
+        }
+    )
+    result = await UserProfileGenerator(provider).run(
+        TurnRequest(message=message), PRIOR
+    )
+    assert result.status == "failure"
+    assert PRIOR.preferences.constraints == (HARD,)
+
+
+@pytest.mark.asyncio
+async def test_named_allergy_is_added_without_erasing_a_prior_restriction():
+    provider = Reply(
+        {
+            "changes": [
+                {
+                    "operation": "add",
+                    "constraint": {
+                        "kind": "allergen",
+                        "value": "soy",
+                        "strength": "hard",
+                        "origin": "explicit",
+                    },
+                    "evidence": "I have a soy allergy",
+                }
+            ]
+        }
+    )
+    result = await UserProfileGenerator(provider).run(
+        TurnRequest(message="I have a soy allergy"), PRIOR
+    )
+    assert result.status == "success"
+    assert {c.value for c in result.result.preferences.constraints} == {"peanut", "soy"}
+
+
+@pytest.mark.asyncio
+async def test_negated_allergy_cannot_become_an_added_hard_restriction():
+    provider = Reply(
+        {
+            "changes": [
+                {
+                    "operation": "add",
+                    "constraint": {
+                        "kind": "allergen",
+                        "value": "soy",
+                        "strength": "hard",
+                        "origin": "explicit",
+                    },
+                    "evidence": "I am not allergic to soy",
+                }
+            ]
+        }
+    )
+    result = await UserProfileGenerator(provider).run(
+        TurnRequest(message="I am not allergic to soy"), PRIOR
+    )
+    assert result.status == "failure"

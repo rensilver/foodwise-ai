@@ -5,6 +5,13 @@ Separate opt-in live smoke and synthetic Cloud audits are recorded below.
 Normal conversation telemetry remains disabled pending operational gates;
 full-release work and existing blockers are preserved.
 
+The [acceptance report](acceptance_report.json) was regenerated on 2026-10-06
+during the [P11-08 local release review](../phase11/release-gate.md). It now binds
+the current Phase 11 prompts/rules and fixture adapter after the P11-04 changes.
+The ten cases, twelve turns, label/source hashes and expected outcomes are
+unchanged; all grounding/constraint counters remain zero. Historical Phase 10
+measurements below retain their original scope.
+
 The four personas come from the local Module 3 multi-agent assignment PDF.
 [Acceptance labels](acceptance.json) retain catalog IDs, exact source excerpts,
 source hashes, explicit restrictions and expected outcomes. Health-conscious

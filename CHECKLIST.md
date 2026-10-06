@@ -691,14 +691,14 @@ measurements and explicit gaps do not claim operational readiness.
 
 **Verification:** clean-checkout rehearsal, restore test and complete user/admin demonstrations.
 
-- [ ] P11-01 Rehearse setup from a clean checkout with documented fresh credentials, pinned dependencies, model downloads, media recovery and Compose startup.
-- [ ] P11-02 Verify database migrations, idempotent seed ingestion, readiness behavior and persistence across service restarts.
-- [ ] P11-03 Back up and restore PostgreSQL plus media; verify catalog links, vectors and conversation/checkpoint behavior after restore.
-- [ ] P11-04 Demonstrate real text and image retrieval, all six agents, live dated trends, citations and conversational refinements.
-- [ ] P11-05 Demonstrate administrator preview/create/edit/delete with atomic searchable updates and cancellation/conflict/error handling.
-- [ ] P11-06 Capture sanitized screenshots/demo steps for the portfolio; map course screenshot requirements separately where still relevant without claiming replacement-stack screenshots meet course grading rules.
-- [ ] P11-07 Publish local setup/troubleshooting instructions and measured limits: synthetic catalog, sparse histories, unknown dietary evidence, provider requirements and unavailable capabilities.
-- [ ] P11-08 Confirm the complete-release gate: validated imagery, real RAG, six-agent graph, live search integration, frontend/admin usability and passing acceptance tests.
+- [x] P11-01 Rehearse setup from a clean checkout with documented fresh credentials, pinned dependencies, model downloads, media recovery and Compose startup.
+- [x] P11-02 Verify database migrations, idempotent seed ingestion, readiness behavior and persistence across service restarts.
+- [x] P11-03 Back up and restore PostgreSQL plus media; verify catalog links, vectors and conversation/checkpoint behavior after restore.
+- [x] P11-04 Demonstrate real text and image retrieval, all six agents, live dated trends, citations and conversational refinements.
+- [x] P11-05 Demonstrate administrator preview/create/edit/delete with atomic searchable updates and cancellation/conflict/error handling.
+- [x] P11-06 Capture sanitized screenshots/demo steps for the portfolio; map course screenshot requirements separately where still relevant without claiming replacement-stack screenshots meet course grading rules.
+- [x] P11-07 Publish local setup/troubleshooting instructions and measured limits: synthetic catalog, sparse histories, unknown dietary evidence, provider requirements and unavailable capabilities.
+- [x] P11-08 Confirm the complete-release gate: validated imagery, real RAG, six-agent graph, live search integration, frontend/admin usability and passing acceptance tests.
 - [ ] P11-09 Review all checklist marks and evidence with the user; preserve unresolved/deferred items and document the final tested versions.
 - [ ] P11-10 Rehearse documented module/CLI paths and model registration from a clean checkout; align package guidance, scripts and links with the release structure.
 - [ ] P11-11 Rehearse optional Langfuse Cloud project/region setup, disable/offline operation, credential rotation, quota checks, supported retention/deletion and SDK upgrade/rollback; preserve local evaluation reports and prove the full application works with tracing disabled or Cloud unavailable.
@@ -706,7 +706,201 @@ measurements and explicit gaps do not claim operational readiness.
 
 **Exit criterion:** another developer can reproduce the full local application and its demonstrated behavior; degraded modes are documented, not used to conceal missing release requirements.
 
-**Evidence / blockers:** _Pending._
+**Evidence / blockers:** P11-01 verified on 2026-10-05 against archived revision
+`2cf7116dc0625ece90c17b7f16876f558e94bb91`: all 490 tracked files matched the
+commit, and locked fresh backend/frontend installs preserved both lockfiles.
+The [clean-checkout guide](infra/release-setup.md) documents fresh owner-issued
+provider credentials, administrator hashing, media recovery, pinned model
+provisioning and the required initialization order. The
+[rehearsal evidence](evaluation/phase11/README.md) and
+[sanitized report](evaluation/phase11/clean_setup_report.json) record fresh
+MiniLM/CLIP downloads with verified file hashes, the separately recovered
+109-image recipe archive, nine fresh approved-host review downloads, sequential
+production builds, fresh database/migrations/checkpoints, 329 imported entities
+with zero rejects and the 16 preserved entity-review issues, 770 text and 118
+image vectors. All four services became healthy without OOM kills/restarts;
+API/catalog/frontend proxy and decoded-image probes passed, as did HTTP MCP
+discovery of seven tools and three resources. Disposable containers/volumes,
+image tags and temporary credentials were removed; the owner's existing stack,
+configuration and course artifacts were preserved.
+
+The accepted startup rehearsal used synthetic provider settings and new local
+DB/admin credentials; it did not read/copy owner provider keys, issue/rotate
+account credentials or invoke paid OpenAI/Tavily/Cloud checks. Automatic approval
+review rejected the proposed owner-key copy before execution; synthetic settings
+provided the safe startup alternative. Existing live evidence remains separate,
+as do P11-03 onward and the complete-release gate. Shared dependency/build caches
+were permitted; this is not a cold-cache or peak-memory measurement. Historical
+publication/source-review and full-release/live-acceptance blockers remain visible.
+
+P11-02 verified on 2026-10-05 against revision
+`ec932fed6169a7713484f6c3ecb8746331596cf6` plus the report's hashed verifier/probe
+scripts. The [49-stage sanitized report](evaluation/phase11/persistence_report.json)
+and [evidence](evaluation/phase11/README.md#p11-02--migrations-idempotency-readiness-and-restarts)
+record fresh nine-revision migrations, empty-database downgrade/re-upgrade,
+model/migration parity and repeatable supported checkpoint setup. Seed import
+created 329 entities; repeat import left all 329 unchanged with zero rejects
+and the same 16 entity-review issues. Repeat indexing embedded nothing and
+preserved 770 text/118 image vectors. All 25 table snapshots and 119 registered
+media files (118 catalog images plus one synthetic upload) survived service
+restart and container recreation using retained volumes. Readiness returned
+503 for missing schema/checkpoints and DB/MCP outages, then recovered to 200;
+liveness stayed 200. Missing media/encoder adapter probes, owned history/image
+reads, stranger denial, retained profile/checkpoint advancement and frontend
+catalog proxy checks passed. Nineteen targeted offline tests, Ruff/document
+checks and the redacting source scan passed. Disposable resources/credentials
+were removed; existing containers' identities/start times/restart counts were
+unchanged. Provider settings were synthetic and tracing disabled. Backup/restore,
+live six-agent demonstrations and the complete-release gate remain separate.
+
+P11-03 verified on 2026-10-05 (America/Recife) against revision
+`c84c1d7268fb1ec28939bad1cd528efe1359ef41` plus the report's hashed scripts.
+The [46-stage sanitized report](evaluation/phase11/backup_restore_report.json),
+[evidence](evaluation/phase11/README.md#p11-03--postgresql-and-media-backuprestore)
+and [recovery procedure](infra/backup-restore.md) record paired, quiesced
+PostgreSQL/media backups and restoration into a separate fresh Compose project
+with new credentials after removing the disposable source volumes. All 25 table
+hashes, 770 text/118 image vectors, 119 registered media files and the complete
+129-file volume match. All 155 constraints, limited-role ownership, 109 recipe
+image links and nine scoped review/restaurant image links survive. Real lexical
+and stored-vector search results match; recipe image routes, citations, retained
+history/upload ownership, profile/checkpoint advancement, deletion cleanup,
+readiness and frontend proxy checks pass. Corrupted backup pairs are rejected
+before restore. Twenty-nine targeted offline tests, Ruff/document checks and
+the redacting source scan pass. Disposable resources, raw backups and temporary
+credentials were removed; existing container identities/start times/restart
+counts, owner configuration and course artifacts were preserved. Provider
+settings were synthetic, tracing disabled and no paid calls occurred. This is
+offline same-version recovery, not online/PITR/Cloud recovery or a retained
+backup of the owner's stack. P11-04 onward and existing release/publication/
+source-review blockers remain separate.
+
+P11-04 verified on 2026-10-06 in America/Recife. The
+[live demonstration guide](infra/live-demo.md),
+[sanitized report](evaluation/phase11/live_demo_report.json) and
+[evidence](evaluation/phase11/README.md#p11-04--live-text-image-six-agent-and-follow-up-demonstration)
+record a fresh isolated PostgreSQL/pgvector catalog with 329 entities, 770 text
+and 118 image vectors. Real stdio MCP/MiniLM restaurant retrieval recommends
+The Iron Kettle (`1000088`); a session-owned upload of the actual Beef Bulgogi
+image retrieves and recommends recipe `20` through CLIP/MiniLM fusion. Both
+positive turns have all six roles succeed, overlapping expert execution and one
+joined synthesis, valid catalog citations, and source-grounded live trend claims
+dated 2026-08-25. A newly constructed graph/runner reads the PostgreSQL checkpoint
+on each turn, retaining Korean cuisine and correctly ignoring the restaurant
+location for recipes. The explicit hard soy-allergy follow-up retains its
+restriction and returns zero suggestions after bounded retrieval refinements.
+
+The final three turns take 15.176/8.555/3.911 seconds, with 17 OpenAI attempts,
+20,458 reported tokens and one fresh Tavily search; the image turn uses eligible
+cached evidence. Earlier failed rehearsals exposed quotation/schema failures,
+the obsolete Tavily `days` request field, an invented `none` allergen, and a
+verifier missing-outcome error. Scoped fixes add publication-window filtering,
+validated source-option selection for style/trends, rechecked synthesis guidance,
+current-message restriction validation and shared bounded repairs. They preserve
+hard-constraint and citation gates. All final script/runtime hashes match the
+report. All 184 affected offline tests, Ruff lint/format, strict mypy (173 modules),
+OpenAPI consistency, documentation checks, source scanning and `git diff --check`
+pass. Disposable database/media and synthetic conversation/checkpoints/upload
+are removed; original containers, owner configuration, datasets and course
+artifacts are preserved. Keys are consumed in place, never copied into rehearsal
+files; Cloud tracing is disabled. This verifies the scripted live integration,
+not representative quality, browser/admin acceptance or full release. P11-05
+onward, source/entity-review/publication and optional Cloud gates remain separate.
+
+P11-05 verified on 2026-10-06 in America/Recife. The
+[administrator demonstration guide](infra/admin-demo.md),
+[sanitized report](evaluation/phase11/admin_demo_report.json) and
+[evidence](evaluation/phase11/README.md#p11-05--administrator-preview-searchable-crud-and-recovery)
+record four production Chromium/Next.js/FastAPI/PostgreSQL/HTTP MCP journeys
+and 21 real database/API contracts with zero failures or skips. Both categories
+demonstrate preview without persistence, explicit create/edit/delete, searchable
+lexical/dense updates, cancelled delete dialogs, preserved drafts on validation
+and revoked-session errors, and version-conflict recovery. Five task-cancellation
+cases preserve complete catalog/provenance/document/vector/media/cleanup snapshots
+during preparation or after SQL mutation before commit. Invalid recipe durations
+now return typed HTTP 422 instead of 500; six create/edit regressions cover all
+three duration fields. Only the original two fixture entities, two text vectors
+and one image vector remain before teardown; no administrator entities remain.
+Backend/frontend quality, offline boundary/verifier checks and source/document
+checks pass. Extraction/inference are controlled, pretrained CPU retrieval is
+real, and no paid provider/Cloud calls occur. Disposable database/media/work
+are removed and existing containers, owner configuration and course artifacts
+are preserved. Admin cancellation means preview discard/delete confirmation and
+application-task cancellation, not rollback of an already committed write on
+browser disconnect. P11-06 onward and complete-release/source-review/publication/
+optional Cloud gates remain separate.
+
+P11-06 verified on 2026-10-06 in America/Recife. The
+[seven-image portfolio gallery](evaluation/phase11/portfolio.md),
+[presenter/reproduction guide](infra/portfolio-demo.md) and
+[sanitized capture report](evaluation/phase11/portfolio_report.json) record
+desktop text citations, retained hard restrictions/empty results, mobile image
+retrieval and administrator preview/create/edit/delete confirmation. Production
+Next.js/FastAPI/PostgreSQL/HTTP MCP and pretrained CPU MiniLM/CLIP retrieval are
+real; inference/extraction are controlled, and unavailable style/trends remain
+visible. Each capture includes an explicit rehearsal annotation. All seven PNGs
+are decoded, metadata-free, hash-bound and visually reviewed; no credentials,
+personal content, local paths or browser chrome appear. The isolated browser
+journey and all 21 database/API contracts pass with no failures/skips. Twenty
+offline verifier/package tests, Python/frontend lint/format/types, source scan,
+document/asset checks and `git diff --check` pass. Disposable database/media/work
+are removed and original container identities/start times/restart counts match.
+No paid provider/Cloud calls or owner configuration reads occur.
+
+The [separate course requirement map](evaluation/phase11/course-screenshots.md)
+and [PDF identity manifest](evaluation/phase11/course_screenshot_map.json)
+preserve 11 exact screenshot filenames and subjects from page one of the supplied
+PDFs; PDF 12 specifies deliverables without a screenshot filename. Original-lab
+captures and replacement-stack grading equivalence are not claimed. Original
+course artifacts/media stay local and ignored; only sanitized portfolio captures
+are added. P11-07 onward, complete-release, source/entity-review/publication and
+optional Cloud gates remain separate.
+
+P11-07 verified on 2026-10-06 in America/Recife. The
+[local operation, troubleshooting and limits guide](infra/local-operations.md),
+linked from the root/setup/developer/Compose guides, joins the existing setup
+and paired-recovery instructions with routine diagnostics and recovery for
+configuration, readiness, models/media, provider failures, SSE interruption,
+ownership, administrator authorization/versions and evidence-limited results.
+It states synthetic catalog/single-user review limits, unknown nutrition/allergen
+evidence, required provider modes and deferred/unavailable capabilities. CPU
+load/RSS/retrieval measurements, the three live turns' timing/token/search usage
+and setup container ceilings link directly to recorded reports; runtime defaults
+are distinct from measured capacity. Source/report assertions, local Markdown
+links/anchors, fences, Bash syntax, task-ID uniqueness/instruction-size checks,
+configuration CLI help, the redacting source scan and `git diff --check` pass.
+This documentation-only task makes no provider calls or runtime/lock changes;
+owner configuration, datasets/media and all other completion marks are preserved.
+P11-08 onward, complete-release, source/entity-review/publication and optional
+Cloud operational gates remain separate.
+
+P11-08 verified on 2026-10-06 in America/Recife against revision
+`4744ea51d0ef7440ffbde988feac3f99f8761f74` plus the hashed fixture-helper change
+and regenerated acceptance report. The [complete local release decision](evaluation/phase11/release-gate.md)
+and [sanitized gate receipt](evaluation/phase11/release_gate_report.json) join
+unchanged P11-01–06 receipts with fresh acceptance: 109 decoded recipe images
+and bounded/hash-matched ZIP, 18 pinned model files, seven portfolio PNGs,
+real full-corpus RAG, two successful six-role live turns, dated Tavily evidence,
+persistent restrictions and frontend/admin usability. Required local v1
+capabilities pass; historical degraded smokes do not supply their evidence.
+
+Full backend checks pass 621 tests and 64 subtests without skips, including
+real PostgreSQL/pgvector, pretrained encoders and both MCP transports. The
+refreshed ten-case/twelve-turn persona report matches expected outcomes with
+zero fabricated IDs/citations, hard-constraint violations or duplicates.
+Frontend quality passes 28 unit/component and five configuration tests;
+production UI/accessibility passes ten journeys, and real API/database/MCP/admin
+acceptance passes seven, with no skips. Red/green regressions fix the browser
+counter helper's stale Phase 9 path so cancellation/no-replay checks read the
+current configured artifact directory. The stale Phase 10 implementation-hash
+report is regenerated using its existing evaluator; assertions and labels stay
+intact. Document/source/build checks pass. Disposable test databases/media/work
+are removed; owner services/configuration, locks, original media/datasets and
+course artifacts are preserved. No new provider/Cloud calls or downloads occur.
+P11-09–12, entity review, original-history/publication and course grading remain
+separate; broad live persona/photo quality and physical-device accessibility
+remain unmeasured. This closes P11-08's local capability gate, not the whole
+Phase 11 exit criterion or public-release readiness.
 
 ## Deferred — Outside the first release
 
