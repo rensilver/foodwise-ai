@@ -1,4 +1,5 @@
 "use client";
+import { PageShell } from "../../components/layout/page-shell";
 import { useRef, useState } from "react";
 import { Button } from "../../components/ui/button";
 import { ConfirmDialog } from "../../components/ui/confirm-dialog";
@@ -47,7 +48,7 @@ export function MealWorkspace({ conversationId }: { conversationId?: string }) {
     setAttachmentKey((key) => key + 1);
   }
   return (
-    <main id="main" className="workspace">
+    <PageShell active="meal">
       <h1>What sounds good?</h1>
       <p className="note">Synthetic teaching catalog</p>
       <p>
@@ -213,6 +214,6 @@ export function MealWorkspace({ conversationId }: { conversationId?: string }) {
           </form>
         </div>
       </div>
-    </main>
+    </PageShell>
   );
 }

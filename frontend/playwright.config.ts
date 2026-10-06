@@ -14,7 +14,7 @@ export default defineConfig({
     command: "pnpm build && node scripts/start-e2e.mjs",
     url: `${baseURL}/health/live`,
     reuseExistingServer: false,
-    timeout: 120_000,
+    timeout: 300_000,
     env: { NEXT_TELEMETRY_DISABLED: "1" },
   },
 });

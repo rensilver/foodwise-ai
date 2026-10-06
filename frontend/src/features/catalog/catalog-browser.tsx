@@ -1,4 +1,5 @@
 "use client";
+import { PageShell } from "../../components/layout/page-shell";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -42,7 +43,7 @@ export function CatalogBrowser({
     return `/catalog/${section}?${next}`;
   }
   return (
-    <main id="main" className="workspace">
+    <PageShell active={category === "recipe" ? "recipes" : "restaurants"}>
       <h1>{category === "recipe" ? "Recipes to cook" : "Places to eat"}</h1>
       <p className="note">
         Synthetic teaching catalog, with local administrator entries. Ratings
@@ -157,6 +158,6 @@ export function CatalogBrowser({
           </nav>
         </>
       )}
-    </main>
+    </PageShell>
   );
 }

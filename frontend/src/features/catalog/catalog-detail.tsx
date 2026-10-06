@@ -1,4 +1,5 @@
 "use client";
+import { PageShell } from "../../components/layout/page-shell";
 import Link from "next/link";
 import type { Schema } from "../../lib/api/client";
 import {
@@ -25,7 +26,9 @@ export function CatalogDetail({
       ? returnTo
       : fallback;
   return (
-    <main id="main" className="workspace">
+    <PageShell
+      active={entity.category === "recipe" ? "recipes" : "restaurants"}
+    >
       <Link href={destination}>Return to results</Link>
       <h1>{detail?.data.name || "Catalog details"}</h1>
       <p className="note">
@@ -57,6 +60,6 @@ export function CatalogDetail({
           </p>
         </>
       )}
-    </main>
+    </PageShell>
   );
 }

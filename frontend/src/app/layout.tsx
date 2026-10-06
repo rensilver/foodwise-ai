@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import Link from "next/link";
+import { SiteHeader } from "../components/layout/site-header";
 import { PRODUCT_NAME } from "../lib/product";
 import "./globals.css";
 export const metadata: Metadata = {
@@ -15,16 +15,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        <header className="site-header">
-          <nav aria-label="Main navigation" className="site-nav">
-            <Link href="/" className="brand">
-              {PRODUCT_NAME}
-            </Link>
-            <Link href="/">Find a meal</Link>
-            <Link href="/catalog/restaurants">Catalog</Link>
-            <Link href="/admin">Administration</Link>
-          </nav>
-        </header>
+        <SiteHeader />
         {children}
       </body>
     </html>

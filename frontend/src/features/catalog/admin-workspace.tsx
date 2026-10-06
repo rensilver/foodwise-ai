@@ -1,4 +1,5 @@
 "use client";
+import { PageShell } from "../../components/layout/page-shell";
 import type { Schema } from "../../lib/api/client";
 import { Button } from "../../components/ui/button";
 import { ConfirmDialog } from "../../components/ui/confirm-dialog";
@@ -36,7 +37,7 @@ export function AdminWorkspace() {
     adoptLatest,
   } = useAdminCatalog();
   return (
-    <main id="main" className="workspace">
+    <PageShell active="admin">
       <h1>Catalog administration</h1>
       <p>
         Maintain the local teaching catalog. Administrator access is separate
@@ -251,6 +252,6 @@ export function AdminWorkspace() {
           </ConfirmDialog>
         )}
       </section>
-    </main>
+    </PageShell>
   );
 }
