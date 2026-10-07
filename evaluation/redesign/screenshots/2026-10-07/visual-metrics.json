@@ -1,0 +1,111 @@
+[
+  {
+    "width": 1440,
+    "imageRequests": 6,
+    "imageBytes": 14106719,
+    "shifts": [
+      {
+        "value": 0.004671604938271605,
+        "start": 149.19999999925494
+      },
+      {
+        "value": 0.7943935185185186,
+        "start": 208.09999999962747
+      }
+    ],
+    "firstImageY": 741.5,
+    "checks": {
+      "title": "FoodWiseAI",
+      "brand": "FoodWiseAI",
+      "arrow": "calc(100% - 12px) 50%",
+      "overflow": false,
+      "radios": [
+        {
+          "label": "Eat out",
+          "margin": "0px",
+          "centerDifference": 0
+        },
+        {
+          "label": "Cook",
+          "margin": "0px",
+          "centerDifference": 0
+        },
+        {
+          "label": "Both",
+          "margin": "0px",
+          "centerDifference": 0
+        }
+      ]
+    }
+  },
+  {
+    "width": 390,
+    "imageRequests": 6,
+    "imageBytes": 14106719,
+    "shifts": [
+      {
+        "value": 0.10695853751187084,
+        "start": 110.90000000037253
+      }
+    ],
+    "firstImageY": 1023.890625,
+    "checks": {
+      "title": "FoodWiseAI",
+      "brand": "FoodWiseAI",
+      "arrow": "calc(100% - 12px) 50%",
+      "overflow": false,
+      "radios": [
+        {
+          "label": "Eat out",
+          "margin": "0px",
+          "centerDifference": 0
+        },
+        {
+          "label": "Cook",
+          "margin": "0px",
+          "centerDifference": 0
+        },
+        {
+          "label": "Both",
+          "margin": "0px",
+          "centerDifference": 0
+        }
+      ]
+    }
+  },
+  {
+    "width": 320,
+    "imageRequests": 6,
+    "imageBytes": 14106719,
+    "shifts": [
+      {
+        "value": 0.0024233955439814815,
+        "start": 119.20000000111759
+      }
+    ],
+    "firstImageY": 1194.28125,
+    "checks": {
+      "title": "FoodWiseAI",
+      "brand": "FoodWiseAI",
+      "arrow": "calc(100% - 12px) 50%",
+      "overflow": false,
+      "radios": [
+        {
+          "label": "Eat out",
+          "margin": "0px",
+          "centerDifference": 0
+        },
+        {
+          "label": "Cook",
+          "margin": "0px",
+          "centerDifference": 0
+        },
+        {
+          "label": "Both",
+          "margin": "0px",
+          "centerDifference": 0
+        }
+      ]
+    }
+  }
+]
