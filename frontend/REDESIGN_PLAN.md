@@ -1,8 +1,8 @@
-# foodwise-ai frontend redesign plan
+# FoodWiseAI frontend redesign plan
 
-Status: planned, 2026-10-06 (America/Recife). No implementation is completed by
-this document. User-selected direction: **hybrid meal request and recipe
-discovery**, with **soft green and white adapted to foodwise-ai** and a left
+Status: R01–R06 complete and verified on 2026-10-07
+(America/Recife). See the [redesign evidence](../evaluation/redesign/README.md). User-selected direction: **hybrid meal request and recipe
+discovery**, with **soft green and white adapted to FoodWiseAI** and a left
 sidebar inspired by the supplied Cookmate reference.
 
 This is a focused design iteration on the verified application. Preserve the
@@ -93,7 +93,7 @@ images, dashboard metrics and extra card wrappers around every section.
 
 ```text
 +-----------------------------------------------------------------------+
-| foodwise-ai           [Recipes v] [Search by name                 ]    |
+| FoodWiseAI            [Recipes v] [Search by name                 ]    |
 +------------------+----------------------------------------------------+
 | Find a meal      | What sounds good?                                  |
 | Recipes          | [Eat out] [Cook] [Both]                            |
@@ -140,7 +140,7 @@ Use available content width, not the device label, to decide the column count.
 
 ```text
 +----------------------------------+
-| Menu   foodwise-ai       Search   |
+| Menu   FoodWiseAI        Search   |
 | What sounds good?                |
 | [Eat out] [Cook] [Both]           |
 | Must avoid: milk   [Preferences] |
@@ -210,9 +210,9 @@ results. This plan requires no API schema change or frontend dietary rules.
 
 ## Implementation sequence
 
-Every item below is planned. These are new redesign tasks, not reopened Phase 9
-completion marks. Keep each delivery slice reviewable and passing its affected
-tests. Use red/green tests for new interactions and observable behavior fixes.
+R01–R05 were delivered in dedicated commits; the table retains their original
+scope and verification requirements. R06 acceptance and evidence are complete. These
+are redesign tasks, not reopened Phase 9 completion marks.
 
 | Order                                  | Files and work                                                                                                                                                                                          | Completion evidence                                                                                                                                                                     |
 | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -231,7 +231,7 @@ same-origin cookies, media ownership, SSE run IDs, aborts and no-replay behavior
 
 ## Validation and completion criteria
 
-Planned commands from `frontend/`, after implementation:
+Verification commands from `frontend/`:
 
 ```bash
 pnpm check
@@ -259,5 +259,5 @@ baseline rather than claiming an unmeasured performance improvement.
 
 Preserve historical portfolio captures and release receipts; save new screenshots
 separately and document their revision. Add new completion evidence to
-[CHECKLIST.md](../CHECKLIST.md) after verification. This planning document alone
-does not close any implementation task or change prior release evidence.
+[CHECKLIST.md](../CHECKLIST.md) after verification. Completion is supported by the linked acceptance evidence; historical release
+evidence remains unchanged.

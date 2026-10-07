@@ -4,7 +4,7 @@
 
 Build a local English-language IBM capstone restaurant/recipe recommender: six LangGraph agents, multi-source RAG, PostgreSQL/pgvector, OpenAI, MCP, live trends, FastAPI and Next.js.
 
-**Product name:** use `foodwise-ai` with this exact spelling and casing in frontend branding and page metadata. Import `PRODUCT_NAME` from `frontend/src/lib/product.ts` for product labels and titles.
+**Product name:** use exactly `FoodWiseAI` for frontend branding and metadata. Import `PRODUCT_NAME` from `frontend/src/lib/product.ts`. Repository/package identifiers remain `foodwise-ai`.
 
 V1 includes follow-ups, preferences, image upload/search, cited recommendations and local CRUD. Defer public hosting, multi-user accounts, social-media connectors, verified nutrition and large-scale indexing.
 

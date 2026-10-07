@@ -1,0 +1,41 @@
+{
+  "verified_on": "2026-10-07",
+  "timezone": "America/Recife",
+  "base_revision": "db2318a489491f770e8239962180bc1b72de6211",
+  "scope": "R01\u2013R06 redesign acceptance and requested branding/control alignment",
+  "quality": {
+    "contracts": "passed",
+    "format": "passed",
+    "lint": "passed",
+    "typescript": "passed",
+    "unit_component_tests": 42,
+    "configuration_tests": 5
+  },
+  "production_browser": {
+    "passed": 17,
+    "duration_reported": "1.1m",
+    "workers": 1
+  },
+  "real_api": {
+    "passed": 8,
+    "duration_seconds": 50.1,
+    "providers": "controlled",
+    "embeddings": "offline pretrained MiniLM/CLIP",
+    "database": "disposable PostgreSQL/pgvector",
+    "build": "reused production build from passing browser suite"
+  },
+  "memory_limits_mib": {
+    "quality": 1600,
+    "production_browser": 1800,
+    "integration": 2300,
+    "disposable_database": 256
+  },
+  "cleanup": "Temporary frontend/API services stopped and disposable database removed",
+  "remaining_required_redesign_tasks": [],
+  "limitations": [
+    "No physical-device or spoken screen-reader verification",
+    "No paid live-provider calls",
+    "No claim of improved image payload or layout shift",
+    "Original out-of-memory cause unconfirmed"
+  ]
+}
