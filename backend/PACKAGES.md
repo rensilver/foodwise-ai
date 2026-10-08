@@ -42,6 +42,7 @@ food_recommender/
     conversations/              # browser-owned history and message lifecycle
       ports.py                  # snapshots, repository and active-run lease ports
       service.py, messages.py    # ownership/deletion and validated streamed turns
+      cleanup_ports.py          # optional trace-erasure requests
     media/                      # private uploads, reads and file cleanup
       ports.py, service.py       # media values, storage/decoding ports and use cases
       cleanup_ports.py, cleanup.py # transactional cleanup queue and processing
@@ -49,6 +50,7 @@ food_recommender/
       workflow.py, contracts.py  # turn inputs, tool gateway and boundary validation
       profile_rules.py, nutrition_rules.py, evidence_rules.py
       inference.py, reliability.py, activity.py # inference port, budgets and progress
+      tracing.py                # SDK-free metadata observation port and context
     trends/                     # bounded public trend search and dated evidence
       ports.py, service.py       # cache contract/values and search/freshness rules
     unit_of_work.py              # shared transaction over feature-owned repositories
@@ -75,11 +77,14 @@ food_recommender/
       engine.py                 # explicit engine factory
       unit_of_work.py            # one transaction shared by repositories
       checkpoints.py            # supported LangGraph saver lifecycle/setup
+      runs.py                   # PostgreSQL active-run leases and cancellation
       ingestion.py              # atomic seed store
       query_media.py            # ownership checks using persisted media references
     embeddings/                 # local model execution: minilm.py, clip.py, lazy.py
     providers/                  # external inference/search: openai.py, tavily.py
-    media/                      # files.py, images.py and approved-host downloads.py
+    media/                      # files.py, images.py, uploads.py and downloads.py
+    telemetry/                  # optional config, export, audit, scores and journal
+    auth.py                     # Argon2id password verification
     config.py, mcp_config.py     # explicit process settings
     health.py, observability.py  # cross-cutting operational adapters
   composition.py                # shared service construction and dependency injection
@@ -139,6 +144,13 @@ instructions use these paths.
 | `food_recommender.retrieval.cli` | `food_recommender.cli.text` |
 | `food_recommender.retrieval.image_cli` | `food_recommender.cli.image` |
 | `food_recommender.retrieval.multimodal_cli` | `food_recommender.cli.multimodal` |
+
+The previous paths are historical references, not compatibility entrypoints.
+The [release path rehearsal](../infra/release-paths.md) lists current CLI,
+ASGI, stdio and setup-script commands, their working directories and the
+metadata registry used by Alembic. Production wheels contain
+`food_recommender`; migrations, seeds, evidence and developer scripts stay in
+the checkout and require the documented read-only setup mounts in containers.
 
 ## Application responsibilities
 

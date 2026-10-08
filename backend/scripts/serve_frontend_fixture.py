@@ -53,6 +53,8 @@ from food_recommender.infrastructure.persistence.engine import create_database_e
 from food_recommender.infrastructure.persistence.indexing.image import ImageIndexer
 from food_recommender.infrastructure.persistence.runs import PostgresConversationRuns
 from food_recommender.infrastructure.persistence.unit_of_work import PostgresUnitOfWork
+from food_recommender.infrastructure.telemetry.config import TelemetrySettings
+from food_recommender.infrastructure.telemetry.langfuse import LazyTracing, sdk_factory
 from food_recommender.ingestion.adapters import adapt_recipe, adapt_restaurant
 from food_recommender.ingestion.extraction import ExtractionService, atomic_json
 from food_recommender.mcp.server import create_server
@@ -176,6 +178,43 @@ class Ready:
         return {"database": True, "media": True, "mcp": True}
 
 
+def fixture_tracing():
+    """Explicit offline SDK outage injection for release browser acceptance."""
+    from uuid import uuid4
+
+    mode = os.environ.get("FOODWISE_TEST_TELEMETRY", "disabled")
+    if mode == "disabled":
+        return LazyTracing(TelemetrySettings(LANGFUSE_ENABLED=False))
+    if mode != "unavailable":
+        raise ValueError("Unknown browser telemetry fixture mode")
+    from opentelemetry.sdk.trace.export import SpanExportResult
+
+    class UnavailableExporter:
+        def __init__(self):
+            self.calls = 0
+
+        def export(self, spans):
+            self.calls += 1
+            atomic_json(
+                ARTIFACTS / "telemetry-counts.json", {"failed_exports": self.calls}
+            )
+            return SpanExportResult.FAILURE
+
+        def shutdown(self):
+            pass
+
+    exporter = UnavailableExporter()
+    settings = TelemetrySettings(
+        LANGFUSE_ENABLED=True,
+        LANGFUSE_CONVERSATION_EXPORT_VERIFIED=True,
+        LANGFUSE_BASE_URL="https://us.cloud.langfuse.com",
+        LANGFUSE_PUBLIC_KEY=uuid4().hex,
+        LANGFUSE_SECRET_KEY="synthetic-unavailable",
+        LANGFUSE_CORRELATION_KEY="synthetic-browser-correlation",
+    )
+    return LazyTracing(settings, factory=lambda s: sdk_factory(s, exporter))
+
+
 async def main():
     dsn = os.environ["TEST_DATABASE_URL"]
     details = conninfo_to_dict(dsn)
@@ -273,7 +312,8 @@ async def main():
         ADMIN_PASSWORD_HASH=password_hash,
         ALLOWED_ORIGINS=("http://127.0.0.1:3100",),
     )
-    workflow = PersistedWorkflow(configuration, provider, runs)
+    tracing = fixture_tracing()
+    workflow = PersistedWorkflow(configuration, provider, runs, tracing=tracing)
     cleanup = MediaCleanupService(transactions, files)
     services = Services(
         Ready(),
@@ -307,6 +347,7 @@ async def main():
             try:
                 yield
             finally:
+                await tracing.close()
                 await engine.dispose()
 
     combined = Starlette(

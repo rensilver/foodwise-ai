@@ -1,0 +1,388 @@
+{
+  "task": "P11-11",
+  "verified_at": "2026-10-08T18:05:16.680455+00:00",
+  "timezone": "America/Recife",
+  "source_revision": "4a64fa59bf173fc4a4c70e498b08442bdf2738b1",
+  "scope": "offline full application disabled/unavailable tracing; real database/checkpoints/MCP/pretrained encoders; SDK upgrade/rollback in disposable installation",
+  "stages": [
+    {
+      "stage": "start-database",
+      "returncode": 0,
+      "seconds": 0.998
+    },
+    {
+      "stage": "database-port",
+      "returncode": 0,
+      "seconds": 0.162
+    },
+    {
+      "stage": "bootstrap-limited-role",
+      "returncode": 0,
+      "seconds": 0.224
+    },
+    {
+      "stage": "backend-lint",
+      "returncode": 0,
+      "seconds": 0.034
+    },
+    {
+      "stage": "backend-format",
+      "returncode": 0,
+      "seconds": 0.011
+    },
+    {
+      "stage": "backend-types",
+      "returncode": 0,
+      "seconds": 2.592
+    },
+    {
+      "stage": "backend-openapi",
+      "returncode": 0,
+      "seconds": 3.261
+    },
+    {
+      "stage": "backend-full",
+      "returncode": 0,
+      "seconds": 70.746
+    },
+    {
+      "stage": "browser-unavailable",
+      "returncode": 0,
+      "seconds": 76.501
+    },
+    {
+      "stage": "overhead-disabled",
+      "returncode": 0,
+      "seconds": 3.461
+    },
+    {
+      "stage": "overhead-enabled",
+      "returncode": 0,
+      "seconds": 4.787
+    },
+    {
+      "stage": "sdk-fresh-locked-install",
+      "returncode": 0,
+      "seconds": 1.119
+    },
+    {
+      "stage": "sdk-upgrade-candidate",
+      "returncode": 0,
+      "seconds": 1.559
+    },
+    {
+      "stage": "sdk-upgrade-contracts",
+      "returncode": 0,
+      "seconds": 15.327
+    },
+    {
+      "stage": "sdk-restore-lock",
+      "returncode": 0,
+      "seconds": 0.098
+    },
+    {
+      "stage": "sdk-rollback-contracts",
+      "returncode": 0,
+      "seconds": 10.178
+    }
+  ],
+  "browser_modes": {
+    "disabled": {
+      "cases": [
+        {
+          "title": "P11-05 administrator restaurant preview, cancelled deletion, validation and session recovery",
+          "passed": true,
+          "status": "expected",
+          "seconds": 6.529
+        },
+        {
+          "title": "P11-05 administrator recipe preview, cancelled deletion, validation and session recovery",
+          "passed": true,
+          "status": "expected",
+          "seconds": 5.018
+        },
+        {
+          "title": "text results, citations, refresh, retained restrictions and explicit corrections persist",
+          "passed": true,
+          "status": "expected",
+          "seconds": 7.287
+        },
+        {
+          "title": "image recommendations use real CLIP, owned uploads and matching catalog imagery on mobile",
+          "passed": true,
+          "status": "expected",
+          "seconds": 4.387
+        },
+        {
+          "title": "stop and page disconnect cancel upstream work; refresh never replays inference",
+          "passed": true,
+          "status": "expected",
+          "seconds": 2.211
+        },
+        {
+          "title": "real administrator preview/create/edit/conflict/delete changes become searchable and atomic",
+          "passed": true,
+          "status": "expected",
+          "seconds": 4.433
+        },
+        {
+          "title": "real restaurant administration and catalog filters, pagination and return URLs agree",
+          "passed": true,
+          "status": "expected",
+          "seconds": 3.437
+        }
+      ],
+      "stats": {
+        "startTime": "2026-10-08T18:01:16.260Z",
+        "duration": 84858.113,
+        "expected": 7,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "failed_sdk_exports": 0,
+      "remote_telemetry_requests": 0
+    },
+    "unavailable": {
+      "cases": [
+        {
+          "title": "P11-05 administrator restaurant preview, cancelled deletion, validation and session recovery",
+          "passed": true,
+          "status": "expected",
+          "seconds": 6.576
+        },
+        {
+          "title": "P11-05 administrator recipe preview, cancelled deletion, validation and session recovery",
+          "passed": true,
+          "status": "expected",
+          "seconds": 7.27
+        },
+        {
+          "title": "text results, citations, refresh, retained restrictions and explicit corrections persist",
+          "passed": true,
+          "status": "expected",
+          "seconds": 5.805
+        },
+        {
+          "title": "image recommendations use real CLIP, owned uploads and matching catalog imagery on mobile",
+          "passed": true,
+          "status": "expected",
+          "seconds": 4.129
+        },
+        {
+          "title": "stop and page disconnect cancel upstream work; refresh never replays inference",
+          "passed": true,
+          "status": "expected",
+          "seconds": 1.792
+        },
+        {
+          "title": "real administrator preview/create/edit/conflict/delete changes become searchable and atomic",
+          "passed": true,
+          "status": "expected",
+          "seconds": 3.884
+        },
+        {
+          "title": "real restaurant administration and catalog filters, pagination and return URLs agree",
+          "passed": true,
+          "status": "expected",
+          "seconds": 3.288
+        }
+      ],
+      "stats": {
+        "startTime": "2026-10-08T18:06:39.014Z",
+        "duration": 75486.622,
+        "expected": 7,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "failed_sdk_exports": 17,
+      "remote_telemetry_requests": 0
+    }
+  },
+  "previous_attempt": {
+    "backend_tests": {
+      "tests": 706,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "failure": "unavailable browser server startup"
+  },
+  "backend_tests": {
+    "tests": 708,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "pytest_tests": 644,
+    "pytest_subtests": 64,
+    "pytest_seconds": 67.12
+  },
+  "overhead": {
+    "processes": [
+      {
+        "enabled": false,
+        "first_turn_ms": 27.783727000496583,
+        "warm": {
+          "samples": 100,
+          "p50_ms": 21.850461002031807,
+          "p95_ms": 25.562437996995868,
+          "minimum_ms": 19.62212899888982,
+          "maximum_ms": 76.46137400297448
+        },
+        "peak_rss_mib": 79.6875,
+        "cpu_seconds": 2.339141,
+        "export_calls": 0,
+        "serialized_bytes": 0,
+        "observations": 0,
+        "max_batch_observations": 0,
+        "max_batch_bytes": 0,
+        "runs": 101,
+        "boundary": "graph/checkpoint/fake HTTP/fake MCP/OTLP encode; no remote latency"
+      },
+      {
+        "enabled": true,
+        "first_turn_ms": 304.4595440005651,
+        "warm": {
+          "samples": 100,
+          "p50_ms": 29.1890959997545,
+          "p95_ms": 42.00996399958967,
+          "minimum_ms": 24.38446800078964,
+          "maximum_ms": 99.80146099769627
+        },
+        "peak_rss_mib": 105.703125,
+        "cpu_seconds": 3.434684,
+        "export_calls": 45,
+        "serialized_bytes": 912065,
+        "observations": 1414,
+        "max_batch_observations": 32,
+        "max_batch_bytes": 20882,
+        "runs": 101,
+        "boundary": "graph/checkpoint/fake HTTP/fake MCP/OTLP encode; no remote latency"
+      }
+    ],
+    "warm_p95_ms": 16.447526002593804,
+    "warm_p95_fraction": 0.6434255607593743,
+    "peak_rss_increase_mib": 26.015625,
+    "predeclared_limits": {
+      "declared_before_measurement": "2026-10-05",
+      "mode": "synthetic CPU graph with fake providers/exporter",
+      "warm_p95_relative_overhead_max": 0.25,
+      "warm_p95_absolute_overhead_ms_max": 10,
+      "sdk_peak_rss_increase_mib_max": 96,
+      "sdk_queue_observations_max": 2048,
+      "export_batch_observations_max": 32,
+      "export_request_bytes_max": 262144,
+      "application_shutdown_wait_seconds_max": 3,
+      "hobby_monthly_unit_budget_fraction": 0.8,
+      "forecast_runs_per_day": 100,
+      "forecast_days": 30,
+      "sampling_policy": "whole trace plus associated scores; full offline acceptance labels always evaluated",
+      "operational_readiness": "not established; normal conversation export stays disabled"
+    },
+    "limits_passed": false,
+    "not_remote_network_latency": true,
+    "host_load_and_page_cache_uncontrolled": true
+  },
+  "sdk_rehearsal": {
+    "baseline": "4.16.0",
+    "candidate": "4.17.0",
+    "candidate_contracts": "passed",
+    "rollback": "4.16.0",
+    "rollback_contracts": "passed",
+    "application_lockfile_changed": false,
+    "actual_candidate_cloud_delivery": false,
+    "candidate_selected_tests": 61,
+    "candidate_test_seconds": 12.76,
+    "rollback_selected_tests": 61,
+    "rollback_test_seconds": 8.3
+  },
+  "phase10_artifacts_preserved": true,
+  "owner_configuration_preserved": true,
+  "isolation": {
+    "owner_containers_unchanged": true,
+    "disposable_container_removed": true,
+    "paid_provider_calls": 0,
+    "cloud_calls": 0,
+    "pretrained_downloads": 0
+  },
+  "functional_rehearsal_passed": true,
+  "status": "partial",
+  "task_complete": false,
+  "normal_conversation_export": false,
+  "operational_readiness": false,
+  "owner_confirmation": {
+    "date": "2026-10-08",
+    "plan": "basic Hobby",
+    "keys": "present in ignored .env; project authentication verified",
+    "current_monthly_consumption": null,
+    "actual_issue_revocation_or_rotation_date": null
+  },
+  "quota": {
+    "published_monthly_units": 50000,
+    "observations_general_reads_per_minute": 30,
+    "data_access_days": 30,
+    "automatic_retention": false,
+    "remaining_allowance_verified": false,
+    "source": "https://langfuse.com/pricing"
+  },
+  "open_gates": [
+    "Owner-console evidence of current consumption/remaining quota and actual replacement-key issuance/revocation.",
+    "Automatic retention/purge scheduling, corrupt-journal recovery, inaccessible old history and provider backup/extended-ingestion deletion verification.",
+    "Fresh overhead measurement exceeds the unchanged 10 ms and 25% warm-p95 limits.",
+    "Live journal network-export contention can drop tracing; the successful synthetic pilot uses deferred bounded delivery."
+  ],
+  "preserved_artifacts": {
+    "phase10": "all existing files hash-verified unchanged",
+    "owner_dotenv": "hash-verified unchanged; no hash or contents committed",
+    "application_dependency_locks": "unchanged",
+    "isolated_sdk_checkout": "removed"
+  },
+  "versions": {
+    "python": "3.12.14",
+    "baseline_langfuse": "4.16.0",
+    "candidate_langfuse": "4.17.0",
+    "node": "24.19.0",
+    "pnpm": "12.8.1",
+    "playwright": "1.63.0"
+  },
+  "code_sha256": {
+    "backend/scripts/phase11_langfuse_demo.py": "9779618300bfbfae6b470199941bf19df82780a3f5d5fa6f801bff10352a55cb",
+    "backend/scripts/serve_frontend_fixture.py": "f12549745416c777e0c4c146f6825eafa987a39707a3a29ca3659233f53db12e",
+    "backend/tests/unit/test_phase11_langfuse_demo.py": "a3880bb8bba2b9ff837f1901e4f56a7683a25c934757d9adc0aca6d5a8111557",
+    "backend/tests/unit/test_phase11_langfuse_operations.py": "1b8957bba42d925014f53965f19d4ae11ae2ecebe987d3585565c7fb2c34fbfd"
+  },
+  "final_checks": {
+    "ruff": "passed; 322 files formatted",
+    "mypy": "passed",
+    "openapi_drift": "passed",
+    "uv_pip_check": "157 compatible packages",
+    "uv_lock_check": "passed",
+    "documents": {
+      "files": 11,
+      "relative_links_and_anchors": 342,
+      "bash_blocks": 58,
+      "unique_task_ids": 154,
+      "instruction_bytes": 32749
+    },
+    "secret_scan": {
+      "source": {
+        "files_scanned": 528,
+        "input_manifest_sha256": "fd6bf5bce86327a17fb3db18fc7a8a424c95f8a57994d2dea19d34ef9759ba3e",
+        "findings": []
+      },
+      "build": {
+        "files_scanned": 2270,
+        "input_manifest_sha256": "220325a1aa2563524779faf9f89fc8a12a9e571967a0e8ee6f4ec9cffeec5061",
+        "findings": []
+      }
+    },
+    "git_diff_check": "passed",
+    "other_checklist_marks_preserved": 153
+  },
+  "host": {
+    "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+    "architecture": "x86_64",
+    "cpu_count": 8
+  }
+}

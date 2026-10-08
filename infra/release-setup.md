@@ -39,6 +39,11 @@ Container builds independently install production dependencies from the same
 lockfiles, with digest-pinned Python/Node/uv base images. Host development
 dependencies are not copied into images.
 
+Before configuring services, the credential-free
+[release path rehearsal](release-paths.md) checks installed module/CLI paths,
+complete ORM registration and migration parity. It requires no course media
+or pretrained-model downloads.
+
 ## Fresh local credentials
 
 ```bash

@@ -1,9 +1,14 @@
 # Phase 11 — Local release verification
 
-Recorded scope is P11-01 through P11-08. Use the
+Recorded scope is P11-01 through P11-08, P11-10 and P11-12, with a partial
+P11-11 operational rehearsal. Use the
 [clean-checkout setup guide](../../infra/release-setup.md) for the executable
 sequence and the [complete local release gate](release-gate.md) for the capability
-decision, fresh acceptance results and remaining limits. P11-09–12 remain separate.
+decision, fresh acceptance results and remaining limits. The
+[release path rehearsal](../../infra/release-paths.md) covers package entrypoints
+and metadata registration. The [Cloud operations guide](../../infra/langfuse-operations.md)
+records synthetic tracing and the open operational gates. P11-09 and P11-11
+remain separate.
 
 ## Checkout, credentials and recovery
 
@@ -572,3 +577,189 @@ are preserved. Broader live quality, photo generalization and physical-device
 accessibility remain unmeasured. P11-09–12, entity-review/publication, course
 grading and deferred deployment remain separate; the full Phase 11 exit
 criterion is not marked complete.
+
+## P11-10 — Clean-checkout paths and model registration
+
+Verified on 2026-10-08 in America/Recife against revision
+`8bf932e374bf62a71142c9bb161a59f5e20ca1d5`. The
+[release path guide](../../infra/release-paths.md) records entrypoints, working
+directories, setup mounts and reproduction commands; the
+[sanitized receipt](package_paths_report.json) records versions and check results.
+
+A new `git archive HEAD` checkout matches all 570 tracked files byte-for-byte.
+It receives no owner dotenv, virtual environment, frontend installation, model
+bundle, media or generated index. `uv sync --locked --offline --no-editable`
+installs 157 packages in a fresh Python 3.12.14 environment using the shared uv
+cache. Imports explicitly resolve inside its `site-packages`, independently of
+source-tree fallback. `uv pip check` and the offline lock check pass.
+
+| Check | Result |
+| --- | --- |
+| Runtime modules in separate forward/reverse processes | All 172 import in each order; API/MCP factories resolve |
+| Isolated complete metadata registry | 20 tables, 21 resolved foreign keys; no repositories, engines, encoders, providers, composition or LangGraph imported |
+| CLI help and subparser help | 12 checks across ingestion/text/image/multimodal/MCP/config; no credentials, models or database needed |
+| Developer script imports using their documented invocation style | All 27 pass; 23 file invocations and four module invocations; operational mains remain unexecuted |
+| Package-boundary contracts | 14 passed, zero skips, 2.83 seconds |
+| Catalog, provenance, embeddings, context and search-schema integration | 97 passed, zero skips, 25.78 seconds |
+| Alembic offline SQL and current head | Passed; nine revisions through `0009_admin` |
+| Explicit real upgrade/parity/downgrade/re-upgrade/parity | Passed on limited role; no model differences |
+| Supported checkpoint setup invoked twice | Passed; four tables separate from the 20 application ORM tables |
+| OpenAPI drift | Passed |
+
+Cold runtime probes reject DNS/socket connections, SQLAlchemy engine and HTTP
+client construction, plus imports of Torch, Transformers, Sentence Transformers
+and Langfuse. A preliminary probe also rejected OpenTelemetry SDK definitions;
+inspection identified their transitive import through the locked
+LangChain/LangSmith dependencies. Narrowing that import guard preserves the
+network/client guards and all runtime modules pass. Developer-script probes
+allow SDK definitions for the tiny fixture provisioner without building models.
+Another preliminary probe treated every script as a namespace module; the
+acceptance evaluator's sibling helper requires its documented file invocation.
+The final file/module probes all pass; no runtime or script changes are needed.
+
+Real database checks use only a disposable localhost PostgreSQL 16.14/pgvector
+0.8.6 container, synthetic credentials, and the limited `foodwise_test_app` role.
+Tests cover exact migration/model parity, reversibility, canonical identities,
+foreign keys, vector constraints and index/schema registration. Separate direct
+Alembic commands and two calls to `scripts/setup_checkpoints.py` verify the host
+setup paths in addition to test fixtures. No owner database/volume is opened.
+
+The package map now includes run leases, upload decoding, password verification,
+SDK-free trace ports and the optional telemetry adapters. Root/backend/infra
+navigation links to the path guide; setup documents distinguish the installed
+wheel from checkout migrations/scripts/provenance mounts. The developer guide's
+stale future-ingestion and pre-P11-08 release wording is aligned with existing
+receipts. Historical evaluation commands and all other completion marks remain
+unchanged. Document checks cover links/anchors, fences, Bash syntax, task IDs,
+command paths and the instruction-size limit; the redacting source scan and
+`git diff --check` pass.
+
+The disposable database and archived checkout environment are removed; ignored
+local check logs remain available. Owner services/configuration, course artifacts,
+media, runtime code and dependencies/locks are unchanged. No provider/Cloud calls,
+pretrained downloads, frontend/browser acceptance or hosted CI run is performed.
+Only P11-10's mark changes. P11-09 final user review, P11-11/12 optional Cloud
+operations, entity review, original-history/publication, course grading and
+deferred tasks remain separate. Representative live quality and physical-device
+accessibility remain unmeasured; the whole Phase 11 exit criterion stays open.
+
+## P11-11/12 — Optional Cloud operations and demonstration
+
+Recorded on 2026-10-08 in America/Recife. P11-12's synthetic demonstration and
+recording scope passes; **P11-11 remains open**. The
+[operations runbook](../../infra/langfuse-operations.md),
+[functional/operational receipt](langfuse_operations_report.json) and
+[Cloud demonstration audit](langfuse_demo_report.json) distinguish application
+correctness from optional observability readiness. The owner confirmed the basic
+Hobby plan and keys in ignored `.env`; authenticated project access returns 200
+for one dedicated US project. Current consumption and key-rotation/revocation
+history are not inferred from usable project keys.
+
+The new `python -m scripts.phase11_langfuse_demo` explicitly opts into synthetic
+Cloud export and creates separate Phase 11 outputs. It reuses existing labeled
+fixtures and real graph/OpenAI HTTP adapter behavior with controlled inference
+and MCP boundaries. Twelve labeled turns plus eight full/follow-up/clarification/
+retry/repair/cancellation scenario turns create 20 demonstration traces. A
+separate two-observation trace exercises deletion. No paid inference/search,
+hosted datasets/experiments/prompts/judges, raw fixture input/output, reasoning,
+images or normal conversation exports occur.
+
+| Cloud read-back | Result |
+| --- | --- |
+| Observations v2, scoped IDs and fixed windows, bounded cursor paging | 252 observations across 21 traces, including the deletion test |
+| Names, observation types, complete parentage, opaque sessions, revisions and durations | All 21 per-trace audits pass |
+| Input/output/user fields, exception text and private canary | No disallowed captured content |
+| Generation model and reported usage | 80 successful attempts match `gpt-4o-mini` and synthetic 10/2/12 usage; two failed/cancelled attempts remain unknown |
+| Scores v3 after two same-ID exports | Exactly 22 unique scores; correct values, observation/trace associations and allowlisted metadata; no comments |
+| Pinned CLI read-back | CLI 1.2.4/Node 24.19.0 reads and audits one full 14-observation trace through the current endpoint |
+| Trace transport | Eight export calls, 198,974 serialized protobuf bytes; maximum 32 observations/25,844 bytes per batch |
+| Scoped live deletion | One new deletion-test trace absent after two polls and a 15-second quiet-period read; journal restart blocks late/new exports for its tombstoned session |
+
+Trace/project/score references, links and raw read-back rows remain ignored in
+`.local-tmp/p11-langfuse/demo-05/`, with directory `0700` and file `0600`
+permissions. The `trace-links.json` file supplies private links for the signed-in
+owner; public sharing is not enabled. Twenty successful demonstration traces
+remain for inspection and later scoped cleanup. The unique stored-unit forecast
+for the initial read is 21 traces + 252 observations + 22 scores = 295 units;
+this is not an account usage/billing reading, and transport bytes exclude wire
+headers/compression.
+
+Initial pilots encountered trace-registration contention while the journal
+writer lock covered live network delivery. A no-op outcome caused the score
+harness to miss an expected captured root. The final pilot buffers sanitized
+observations, drains the SDK, then sends bounded batches after generating the
+fixtures; application behavior under live contention remains fail-closed for
+tracing and is not changed. The partial references from all four failed pilots
+remain locally scoped. Automatic approval review initially rejected deleting
+their broader batch; the owner explicitly approved exactly those 12 synthetic
+trace IDs, after which DELETE and two read-back polls show zero matching
+observations. Older owner/Phase 10 traces and the 20 successful demos are preserved.
+CLI output parsing is also verified against its actual `status/headers/body`
+JSON envelope. These adjustments do not change culinary runtime logic.
+
+Red/green tests cover scoped/fixed-window read-back, pagination bounds, rejected
+out-of-scope rows, score duplicates/associations/content, private permissions,
+bounded delivery, usage unknowns, corrupt-journal fail-closed behavior, fresh
+key lifecycles and browser outage injection. The full backend passes
+**644 tests plus 64 subtests with zero skips in 67.12 seconds**, along with
+Ruff lint/format, strict mypy and OpenAPI drift. All ten labeled fixture cases
+retain their final results under a failed exporter. Two complete production
+browser/real API/database/checkpoint/HTTP MCP/pretrained MiniLM/CLIP runs pass
+seven journeys each: disabled mode records zero exports (84.86 seconds), and
+unavailable mode records 17 failed SDK export batches (75.49 seconds).
+Both include text/image, restrictions, citations, cancellation/no replay and
+administrator preview/searchable CRUD/conflict recovery. No Cloud credentials
+or requests enter these browser fixtures. The first sequential outage-mode
+startup failed against the previous fixture database; its independent fresh
+database rerun passes. Restricted-sandbox SDK tests were stopped after stalling;
+the complete process/loopback-capable rerun passes without skips.
+
+The measured SDK resource probe preserves earlier Phase 10 reports and limits:
+
+| Measurement | Disabled | Enabled |
+| --- | --- | --- |
+| First synthetic turn | 27.78 ms | 304.46 ms |
+| Warm p50, 100 samples | 21.85 ms | 29.19 ms |
+| Warm p95, 100 samples | 25.56 ms | 42.01 ms |
+| Peak RSS | 79.69 MiB | 105.70 MiB |
+| Serialized export | 0 | 45 calls / 912,065 bytes / 1,414 observations |
+
+The +16.45 ms/+64.3% warm-p95 latency exceeds both unchanged limits (10 ms/25%).
+The +26.02 MiB RSS increase and maximum 32-observation/20,882-byte probe batch
+stay within their limits. This single-host fresh-process run has uncontrolled
+load/page cache and fake export, without remote latency; it neither replaces
+the earlier passing Phase 10 run nor establishes general performance.
+
+The Cloud demo uses Python SDK 4.16.0 and OpenTelemetry API/SDK/exporter 1.45.0.
+The official PyPI candidate is SDK 4.17.0. A fresh non-editable installation in
+an archived checkout, with only the four current verification files overlaid,
+passes **61 selected tracing/scoring/deletion/boundary contracts** on 4.17.0
+(12.76 seconds). Restoring the unchanged lock reinstalls 4.16.0 and passes the
+same 61 contracts (8.30 seconds). Candidate Cloud delivery is not claimed, and
+application dependencies/locks remain unchanged. CLI 1.2.4 is isolated in the
+ignored npm cache; no application CLI dependency is added.
+
+The upstream Langfuse skill and instrumentation, v4, evaluation and CLI
+references were reviewed at revision
+`104acd9aa7b1f431066cd9fe4b0b431a0188e642` on 2026-10-08, with per-file hashes in
+the demo receipt. Current official pricing, retention, deletion, SDK upgrade,
+best-practice and compatibility pages were rechecked; the legacy cutoff remains
+2026-11-16. The repository's privacy policy overrides upstream suggestions to
+capture content or reasoning. Hosted evaluators, datasets and user IDs are excluded.
+
+**Operational gates:** owner-console evidence of current quota and actual
+replacement-key issuance/revocation; enforced purge scheduling/retention;
+lost/corrupt-journal recovery; inaccessible older history, provider backups and
+extended delayed ingestion; and the observed latency/journal-contention limits.
+Hobby has no automatic retention, and the verified recent deletion is bounded.
+`LANGFUSE_ENABLED` and `LANGFUSE_CONVERSATION_EXPORT_VERIFIED` remain false for
+ordinary use. The new runbook explains disable/recreate, owner-led rotation,
+quota monitoring, scoped cleanup and SDK rollback without claiming those gates
+are satisfied.
+
+All earlier Phase 10 files are hash-verified unchanged, as are owner `.env`,
+application locks and existing container identities. Disposable databases and
+the SDK checkout are removed; private logs/trace references remain local. Final
+document/source/build checks record no known secret findings. Only P11-12's
+mark changes. P11-11 and P11-09, original-history/publication, entity review,
+course grading, public deployment and the whole Phase 11 exit gate remain open.

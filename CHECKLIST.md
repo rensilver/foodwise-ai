@@ -702,9 +702,9 @@ measurements and explicit gaps do not claim operational readiness.
 - [x] P11-07 Publish local setup/troubleshooting instructions and measured limits: synthetic catalog, sparse histories, unknown dietary evidence, provider requirements and unavailable capabilities.
 - [x] P11-08 Confirm the complete-release gate: validated imagery, real RAG, six-agent graph, live search integration, frontend/admin usability and passing acceptance tests.
 - [ ] P11-09 Review all checklist marks and evidence with the user; preserve unresolved/deferred items and document the final tested versions.
-- [ ] P11-10 Rehearse documented module/CLI paths and model registration from a clean checkout; align package guidance, scripts and links with the release structure.
+- [x] P11-10 Rehearse documented module/CLI paths and model registration from a clean checkout; align package guidance, scripts and links with the release structure.
 - [ ] P11-11 Rehearse optional Langfuse Cloud project/region setup, disable/offline operation, credential rotation, quota checks, supported retention/deletion and SDK upgrade/rollback; preserve local evaluation reports and prove the full application works with tracing disabled or Cloud unavailable.
-- [ ] P11-12 Record a sanitized Cloud trace/evaluation demonstration, private trace links and read-back audit evidence, measured SDK resource/latency overhead, export volume and exact tested client/CLI versions plus reviewed skill revision/date; leave Langfuse integration unchecked if access or verification is blocked and document that limitation separately from application acceptance.
+- [x] P11-12 Record a sanitized Cloud trace/evaluation demonstration, private trace links and read-back audit evidence, measured SDK resource/latency overhead, export volume and exact tested client/CLI versions plus reviewed skill revision/date; leave Langfuse integration unchecked if access or verification is blocked and document that limitation separately from application acceptance.
 
 **Exit criterion:** another developer can reproduce the full local application and its demonstrated behavior; degraded modes are documented, not used to conceal missing release requirements.
 
@@ -903,6 +903,64 @@ P11-09–12, entity review, original-history/publication and course grading rema
 separate; broad live persona/photo quality and physical-device accessibility
 remain unmeasured. This closes P11-08's local capability gate, not the whole
 Phase 11 exit criterion or public-release readiness.
+
+P11-10 verified on 2026-10-08 in America/Recife against archived revision
+`8bf932e374bf62a71142c9bb161a59f5e20ca1d5`: all 570 tracked files match,
+and a fresh offline, non-editable installation contains 157 compatible packages.
+The [release path guide](infra/release-paths.md) and
+[sanitized report](evaluation/phase11/package_paths_report.json) align current
+entrypoints, setup mounts, script invocation styles and package guidance.
+All 172 runtime modules import in both orders under network/engine/client and
+model/Langfuse SDK guards; the isolated registry registers 20 tables and resolves
+21 foreign keys. Twelve CLI/parser help checks and 27 developer-script imports
+pass without executing their operational mains. Locked LangChain/LangSmith
+transitively imports OpenTelemetry definitions; no export/client construction
+occurs. Fourteen boundary contracts and 97 real PostgreSQL 16.14/pgvector 0.8.6
+model/migration tests pass with zero skips. Explicit Alembic parity, reversible
+upgrade/downgrade/re-upgrade and repeated supported checkpoint setup pass on the
+limited disposable role; the checkpoint schema has four separate tables.
+OpenAPI drift, locked dependency checks and document/source checks pass.
+The disposable database and checkout environment are removed; owner services,
+configuration, media/course artifacts, runtime code and locks are preserved.
+No paid provider/Cloud calls or model downloads occur. Only P11-10's mark changes;
+P11-09/11/12, entity review, original-history/publication and deferred items remain
+open. This package rehearsal does not close the whole Phase 11 exit criterion.
+
+P11-11 operational rehearsal and P11-12 demonstration recorded on 2026-10-08
+in America/Recife. The [Cloud operations guide](infra/langfuse-operations.md),
+[functional/operational receipt](evaluation/phase11/langfuse_operations_report.json)
+and [sanitized Cloud audit](evaluation/phase11/langfuse_demo_report.json) preserve
+all Phase 10 artifacts, owner configuration, dependency locks and earlier marks.
+P11-12's recording requirements pass: 20 synthetic traces, 252 observations
+(including the separate two-observation deletion trace), 22 unique locally
+computed scores after same-ID retry, and current API/CLI read-back. Eighty
+successful generations have the expected model/usage; two failed/cancelled
+attempts keep unknown usage. Private links/IDs stay ignored with owner-only
+permissions. The deletion trace disappears and reopened tombstones suppress late
+exports; after explicit user approval, the 12 failed-pilot traces are also purged
+with zero matching observations. The final pilot defers bounded transport until
+fixture generation ends because live network delivery can contend with journal
+registration. That distinction and privacy/retention limits remain explicit.
+
+The full backend passes **644 tests plus 64 subtests**, zero skips (67.12 s);
+14 real API/database/MCP/pretrained-encoder browser journeys pass, seven with
+tracing disabled and seven with 17 recorded failed SDK exports. SDK 4.17.0
+upgrade and locked 4.16.0 rollback pass 61 selected contracts each in a disposable
+installation. The Cloud demo uses SDK 4.16.0, OTel 1.45.0 and CLI 1.2.4/Node
+24.19.0; skill revision `104acd9aa7b1f431066cd9fe4b0b431a0188e642` is reviewed
+on 2026-10-08. Fresh 100-sample/mode SDK measurements record warm p95
+25.56/42.01 ms, +16.45 ms/+64.3%, +26.02 MiB peak RSS and bounded batches;
+**the unchanged 10 ms/25% latency limits fail**. Cloud trace export records eight
+calls/198,974 serialized bytes, with a 32-observation maximum batch. No paid
+OpenAI/Tavily calls, normal conversation exports or pretrained downloads occur.
+
+**P11-11 stays unchecked:** current organization consumption and actual key
+issuance/revocation need owner-console evidence; automatic purge/retention,
+corrupt-journal recovery, inaccessible history/provider backups and extended
+ingestion remain unverified, alongside the observed latency and journal-contention
+limits. Hobby and usable `.env` keys are confirmed, but not those controls.
+Normal tracing flags remain false. P11-12 completes the recording/demo scope,
+not operational Langfuse readiness, P11-11, P11-09 or the whole Phase 11 exit gate.
 
 ## Deferred — Outside the first release
 
