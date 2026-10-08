@@ -20,6 +20,8 @@ For sanitized portfolio screenshots, presenter steps and the separate original
 course screenshot map, use the [P11-06 capture guide](portfolio-demo.md).
 For installed module/CLI paths, checkout scripts and complete ORM registration,
 use the [P11-10 package rehearsal](release-paths.md).
+For optional Cloud tracing, private demonstration links, SDK rollback and open
+retention/quota/rotation gates, use the [P11-11/12 operations guide](langfuse-operations.md).
 
 [compose.yaml](../compose.yaml) runs four local services:
 

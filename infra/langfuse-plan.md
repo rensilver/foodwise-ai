@@ -1,6 +1,8 @@
 # Langfuse adoption plan
 
-Assessment: 2026-10-05. Status: scoped implementation and synthetic audits verified; normal conversation export disabled.
+Assessment: 2026-10-05; operational rehearsal updated 2026-10-08. Status: scoped
+implementation and P11-12 synthetic demonstration verified; P11-11 remains open
+and normal conversation export disabled.
 The owner selected Langfuse Cloud with sanitized operational metadata, replacing
 the initial self-hosting preference after reviewing local RAM constraints.
 Work is tracked in [Phases 9–11](../CHECKLIST.md#phase-9--nextjs-frontend-and-administration).
@@ -344,3 +346,21 @@ inaccessible-history deletion, failed-journal persistence recovery, provider
 backup behavior or long delayed-ingestion completion. Phase 11 operational
 rehearsal remains open. Application correctness and local reports are independent
 of these observability gaps.
+
+## P11-11/12 rehearsal — 2026-10-08
+
+The [operations guide](langfuse-operations.md) and
+[Phase 11 evidence](../evaluation/phase11/README.md#p11-1112--optional-cloud-operations-and-demonstration)
+record fresh US-project access, 20 private synthetic demonstration traces,
+current API/CLI observation and score audits, scoped deletion and application
+acceptance with disabled/unavailable export. Python SDK 4.16.0 is the unchanged
+application pin; 4.17.0 upgrade and 4.16.0 rollback are tested in isolation.
+CLI 1.2.4 and upstream skill revision
+`104acd9aa7b1f431066cd9fe4b0b431a0188e642` are reviewed/tested on 2026-10-08.
+P11-12's recording scope passes. The new 100-sample SDK latency measurement
+misses the unchanged 10 ms/25% overhead limits; account quota/key revocation,
+retention/purge scheduling, journal recovery and extended deletion controls
+remain unverified. Live journal/export contention can drop tracing, so the
+synthetic audit explicitly uses deferred bounded delivery. P11-11 and normal
+conversation export remain open/off; existing local application acceptance
+and historical Phase 10 evidence are preserved.

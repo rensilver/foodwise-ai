@@ -1,0 +1,591 @@
+{
+  "tasks": [
+    "P11-11",
+    "P11-12"
+  ],
+  "verified_at": "2026-10-08T17:55:43.508487+00:00",
+  "mode": "real Cloud; real graph/OpenAI HTTP adapter with controlled provider/tools",
+  "normal_conversation_export": false,
+  "paid_provider_calls": 0,
+  "fixture_content_uploaded": false,
+  "project_access": {
+    "status": 200,
+    "region": "US",
+    "projects": 1
+  },
+  "traces": 20,
+  "scenario_turns": 8,
+  "fixture_turns": 12,
+  "observations": 252,
+  "audits": [
+    {
+      "observations": 14,
+      "names": {
+        "request-structured-response": 5,
+        "synthesize-recommendations": 1,
+        "search_food_trends": 1,
+        "analyze-trends": 1,
+        "analyze-style": 1,
+        "assess-nutrition": 1,
+        "search_recipes": 1,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 14,
+      "names": {
+        "request-structured-response": 5,
+        "synthesize-recommendations": 1,
+        "search_food_trends": 1,
+        "analyze-trends": 1,
+        "analyze-style": 1,
+        "assess-nutrition": 1,
+        "search_restaurants": 1,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 14,
+      "names": {
+        "request-structured-response": 5,
+        "synthesize-recommendations": 1,
+        "search_food_trends": 1,
+        "analyze-trends": 1,
+        "analyze-style": 1,
+        "assess-nutrition": 1,
+        "search_restaurants": 1,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 14,
+      "names": {
+        "synthesize-recommendations": 1,
+        "analyze-trends": 1,
+        "analyze-style": 1,
+        "assess-nutrition": 1,
+        "search_recipes": 3,
+        "request-structured-response": 4,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 15,
+      "names": {
+        "request-structured-response": 5,
+        "synthesize-recommendations": 1,
+        "search_food_trends": 1,
+        "analyze-trends": 1,
+        "analyze-style": 1,
+        "assess-nutrition": 1,
+        "search_images": 1,
+        "search_recipes": 1,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 14,
+      "names": {
+        "synthesize-recommendations": 1,
+        "analyze-style": 1,
+        "analyze-trends": 1,
+        "assess-nutrition": 1,
+        "search_recipes": 3,
+        "request-structured-response": 4,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 14,
+      "names": {
+        "synthesize-recommendations": 1,
+        "analyze-trends": 1,
+        "analyze-style": 1,
+        "assess-nutrition": 1,
+        "search_recipes": 3,
+        "request-structured-response": 4,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 14,
+      "names": {
+        "request-structured-response": 5,
+        "synthesize-recommendations": 1,
+        "analyze-trends": 1,
+        "search_food_trends": 1,
+        "analyze-style": 1,
+        "assess-nutrition": 1,
+        "search_recipes": 1,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 14,
+      "names": {
+        "synthesize-recommendations": 1,
+        "analyze-style": 1,
+        "analyze-trends": 1,
+        "assess-nutrition": 1,
+        "search_recipes": 3,
+        "request-structured-response": 4,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 14,
+      "names": {
+        "synthesize-recommendations": 1,
+        "analyze-trends": 1,
+        "analyze-style": 1,
+        "assess-nutrition": 1,
+        "search_restaurants": 3,
+        "request-structured-response": 4,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 14,
+      "names": {
+        "synthesize-recommendations": 1,
+        "analyze-trends": 1,
+        "analyze-style": 1,
+        "assess-nutrition": 1,
+        "search_restaurants": 3,
+        "request-structured-response": 4,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 3,
+      "names": {
+        "request-structured-response": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 14,
+      "names": {
+        "request-structured-response": 5,
+        "synthesize-recommendations": 1,
+        "analyze-trends": 1,
+        "search_food_trends": 1,
+        "analyze-style": 1,
+        "assess-nutrition": 1,
+        "search_recipes": 1,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 14,
+      "names": {
+        "synthesize-recommendations": 1,
+        "analyze-style": 1,
+        "analyze-trends": 1,
+        "assess-nutrition": 1,
+        "search_recipes": 3,
+        "request-structured-response": 4,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 14,
+      "names": {
+        "synthesize-recommendations": 1,
+        "analyze-style": 1,
+        "analyze-trends": 1,
+        "assess-nutrition": 1,
+        "search_recipes": 3,
+        "request-structured-response": 4,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 14,
+      "names": {
+        "request-structured-response": 5,
+        "synthesize-recommendations": 1,
+        "analyze-trends": 1,
+        "search_food_trends": 1,
+        "analyze-style": 1,
+        "assess-nutrition": 1,
+        "search_recipes": 1,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 3,
+      "names": {
+        "request-structured-response": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 15,
+      "names": {
+        "request-structured-response": 6,
+        "synthesize-recommendations": 1,
+        "search_food_trends": 1,
+        "analyze-trends": 1,
+        "analyze-style": 1,
+        "assess-nutrition": 1,
+        "search_recipes": 1,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 15,
+      "names": {
+        "request-structured-response": 6,
+        "synthesize-recommendations": 1,
+        "search_food_trends": 1,
+        "analyze-trends": 1,
+        "analyze-style": 1,
+        "assess-nutrition": 1,
+        "search_recipes": 1,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 3,
+      "names": {
+        "request-structured-response": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    {
+      "observations": 2,
+      "names": {
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    }
+  ],
+  "score_audit": {
+    "stored_unique": 22,
+    "expected_unique": 22,
+    "failures": [],
+    "passed": true
+  },
+  "deletion": {
+    "submitted": 1,
+    "polls": 2,
+    "remaining": 0,
+    "late_export_suppressed_after_restart": true,
+    "quiet_period_seconds": 15,
+    "passed": true
+  },
+  "export": {
+    "calls": 8,
+    "serialized_protobuf_bytes": 198974,
+    "observations_sent": 252,
+    "maximum_batch_observations": 32,
+    "maximum_batch_bytes": 25844,
+    "read_delete_calls": 10,
+    "wire_headers_and_compression_measured": false,
+    "synthetic_delivery": "bounded batches after fixture generation"
+  },
+  "local_results": [
+    {
+      "fixture": "P10-H",
+      "turn": 0,
+      "actual": "recommendations",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-A",
+      "turn": 0,
+      "actual": "recommendations",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-B",
+      "turn": 0,
+      "actual": "recommendations",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-F",
+      "turn": 0,
+      "actual": "abstention",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-IMAGE",
+      "turn": 0,
+      "actual": "recommendations",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-FOLLOW",
+      "turn": 0,
+      "actual": "abstention",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-FOLLOW",
+      "turn": 1,
+      "actual": "abstention",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-FOLLOW",
+      "turn": 2,
+      "actual": "recommendations",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-STRICT",
+      "turn": 0,
+      "actual": "abstention",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-EMPTY",
+      "turn": 0,
+      "actual": "abstention",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-UNKNOWN",
+      "turn": 0,
+      "actual": "abstention",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    },
+    {
+      "fixture": "P10-CLARIFY",
+      "turn": 0,
+      "actual": "clarification",
+      "violations": {
+        "fabricated_recommendations": 0,
+        "fabricated_citations": 0,
+        "hard_constraint_violations": 0,
+        "duplicate_recommendations": 0
+      }
+    }
+  ],
+  "passed": true,
+  "versions": {
+    "langfuse": "4.16.0",
+    "opentelemetry-api": "1.45.0",
+    "opentelemetry-sdk": "1.45.0",
+    "opentelemetry-exporter-otlp-proto-http": "1.45.0",
+    "httpx": "0.28.1",
+    "langgraph": "1.2.12",
+    "langchain-core": "1.6.6"
+  },
+  "limitations": [
+    "Current organization usage and actual key issuance/revocation require owner console evidence.",
+    "Retained synthetic demo traces require manual cleanup; Hobby has no automatic retention.",
+    "Normal conversation export remains disabled; automatic purge scheduling, inaccessible old history, provider backups and unbounded late ingestion are not verified."
+  ],
+  "usage_audit": {
+    "generations": 82,
+    "successful_with_expected_model_and_usage": 80,
+    "failed_or_cancelled_usage_not_inferred": 2,
+    "passed": true
+  },
+  "upstream_skill": {
+    "reviewed_date": "2026-10-08",
+    "revision": "104acd9aa7b1f431066cd9fe4b0b431a0188e642",
+    "last_skill_commit": "2026-09-24T23:43:33Z",
+    "sha256": {
+      "SKILL.md": "0150dd43bd64a8e4680ad4c6c6dbb7d65d7103b3f1cb0662bd6b2eae32d84547",
+      "references/instrumentation.md": "668440ae785f67a2d01872eaea780ba2e237e0653894b55c74a9dd93fda647c7",
+      "references/v4-project-migration.md": "912d8639e9a60c5e138c42832bc2374e5622916fcc0cfe8814a0420ab06b587e",
+      "references/setting-up-evals.md": "7a1249ec6851d887b5607e68af647f4aa40f17bbefb95a330d164b14fa067487",
+      "references/cli.md": "eeb58ce7557978169fb207f53bda866d85bc3d13330019546ac5695c6941ba8c"
+    },
+    "url": "https://github.com/langfuse/skills/blob/104acd9aa7b1f431066cd9fe4b0b431a0188e642/skills/langfuse/SKILL.md"
+  },
+  "cli_audit": {
+    "version": "1.2.4",
+    "node": "24.19.0",
+    "api": "Observations v2",
+    "schema_sha256": "e8f88c1054399fbeb51d3e4ef7bb6d686382101dbe1616e49b28813e458b7197",
+    "scoped_trace_count": 1,
+    "observations": 14,
+    "audit": {
+      "observations": 14,
+      "names": {
+        "request-structured-response": 5,
+        "synthesize-recommendations": 1,
+        "search_food_trends": 1,
+        "analyze-trends": 1,
+        "analyze-style": 1,
+        "assess-nutrition": 1,
+        "search_recipes": 1,
+        "retrieve-candidates": 1,
+        "build-profile": 1,
+        "recommend-food": 1
+      },
+      "failures": [],
+      "passed": true
+    },
+    "http_status": 200,
+    "envelope": "status/headers/body",
+    "raw_output": "ignored/private; not committed"
+  },
+  "preliminary_pilot_cleanup": {
+    "scope": "exactly the 12 failed-pilot synthetic traces explicitly approved by the user",
+    "submitted": 12,
+    "remaining_observations": 0,
+    "polls": 2,
+    "passed": true,
+    "owner_or_phase10_traces_deleted": false,
+    "retained_successful_demo_traces": 20,
+    "approval": "explicit user reply after initial automatic-approval rejection"
+  },
+  "pilot_adjustments": [
+    "Initial pilots encountered trace-registration contention while the journal lock covered live network export. Their local references are retained for scoped cleanup.",
+    "The final synthetic pilot delivers bounded batches after fixture generation; normal application export remains disabled.",
+    "The tested CLI JSON envelope is status/headers/body."
+  ],
+  "operational_readiness": false,
+  "measured_overhead_limits_passed": false,
+  "scope_complete": "P11-12 demonstration and recording; P11-11 operational controls remain unverified",
+  "source_revision": "4a64fa59bf173fc4a4c70e498b08442bdf2738b1",
+  "code_sha256": {
+    "backend/scripts/phase11_langfuse_demo.py": "9779618300bfbfae6b470199941bf19df82780a3f5d5fa6f801bff10352a55cb",
+    "backend/scripts/serve_frontend_fixture.py": "f12549745416c777e0c4c146f6825eafa987a39707a3a29ca3659233f53db12e",
+    "backend/tests/unit/test_phase11_langfuse_demo.py": "a3880bb8bba2b9ff837f1901e4f56a7683a25c934757d9adc0aca6d5a8111557",
+    "backend/tests/unit/test_phase11_langfuse_operations.py": "1b8957bba42d925014f53965f19d4ae11ae2ecebe987d3585565c7fb2c34fbfd"
+  },
+  "overhead_report": "evaluation/phase11/langfuse_operations_report.json",
+  "recorded_at_timezone": "America/Recife",
+  "incremental_stored_units_at_initial_read": 295
+}

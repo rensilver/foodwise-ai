@@ -1009,6 +1009,10 @@ Tracing defaults off and is server-side only. Cloud keys alone do not enable
 exports. The verified pilot uses a dedicated US Hobby project; there is no
 local Langfuse service. [Evidence and limits](../evaluation/phase10/README.md)
 record offline parity, synthetic stored observations/scores, overhead and purge.
+The [Phase 11 operations guide](../infra/langfuse-operations.md) records fresh
+real API/browser outage checks, current CLI read-back and isolated SDK
+upgrade/rollback. Its new latency measurement misses the predeclared limits;
+P11-11 remains open and normal export stays disabled.
 
 Keep `LANGFUSE_ENABLED=false` and
 `LANGFUSE_CONVERSATION_EXPORT_VERIFIED=false` for normal application use.
@@ -1022,6 +1026,11 @@ For deliberately enabled synthetic tooling, use `make measure-telemetry`,
 in ignored `.env`; scripts never print them. Native Experiment helpers and
 hosted datasets/prompts/judges remain excluded. Trace/score references stay
 private under `.local-tmp`, while sanitized reports remain in `evaluation/`.
+Use `python -m scripts.phase11_langfuse_demo --enable-cloud --private-dir
+../.local-tmp/new-cloud-demo --output ../evaluation/phase11/langfuse_demo_report.json`
+from `backend/` for the current synthetic demonstration with separate Phase 11
+outputs. Its pilot-only bounded delivery preserves earlier Phase 10 reports;
+follow the operations guide for private inspection and scoped cleanup.
 
 The optional runtime journal stores only opaque trace IDs and keyed conversation
 references at `MEDIA_ROOT/.telemetry/traces.sqlite`. Tombstones survive restart
