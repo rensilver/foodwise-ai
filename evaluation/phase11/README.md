@@ -1,9 +1,11 @@
 # Phase 11 — Local release verification
 
-Recorded scope is P11-01 through P11-08. Use the
+Recorded scope is P11-01 through P11-08 and P11-10. Use the
 [clean-checkout setup guide](../../infra/release-setup.md) for the executable
 sequence and the [complete local release gate](release-gate.md) for the capability
-decision, fresh acceptance results and remaining limits. P11-09–12 remain separate.
+decision, fresh acceptance results and remaining limits. The
+[release path rehearsal](../../infra/release-paths.md) covers package entrypoints
+and metadata registration. P11-09 and P11-11/12 remain separate.
 
 ## Checkout, credentials and recovery
 
@@ -572,3 +574,68 @@ are preserved. Broader live quality, photo generalization and physical-device
 accessibility remain unmeasured. P11-09–12, entity-review/publication, course
 grading and deferred deployment remain separate; the full Phase 11 exit
 criterion is not marked complete.
+
+## P11-10 — Clean-checkout paths and model registration
+
+Verified on 2026-10-08 in America/Recife against revision
+`8bf932e374bf62a71142c9bb161a59f5e20ca1d5`. The
+[release path guide](../../infra/release-paths.md) records entrypoints, working
+directories, setup mounts and reproduction commands; the
+[sanitized receipt](package_paths_report.json) records versions and check results.
+
+A new `git archive HEAD` checkout matches all 570 tracked files byte-for-byte.
+It receives no owner dotenv, virtual environment, frontend installation, model
+bundle, media or generated index. `uv sync --locked --offline --no-editable`
+installs 157 packages in a fresh Python 3.12.14 environment using the shared uv
+cache. Imports explicitly resolve inside its `site-packages`, independently of
+source-tree fallback. `uv pip check` and the offline lock check pass.
+
+| Check | Result |
+| --- | --- |
+| Runtime modules in separate forward/reverse processes | All 172 import in each order; API/MCP factories resolve |
+| Isolated complete metadata registry | 20 tables, 21 resolved foreign keys; no repositories, engines, encoders, providers, composition or LangGraph imported |
+| CLI help and subparser help | 12 checks across ingestion/text/image/multimodal/MCP/config; no credentials, models or database needed |
+| Developer script imports using their documented invocation style | All 27 pass; 23 file invocations and four module invocations; operational mains remain unexecuted |
+| Package-boundary contracts | 14 passed, zero skips, 2.83 seconds |
+| Catalog, provenance, embeddings, context and search-schema integration | 97 passed, zero skips, 25.78 seconds |
+| Alembic offline SQL and current head | Passed; nine revisions through `0009_admin` |
+| Explicit real upgrade/parity/downgrade/re-upgrade/parity | Passed on limited role; no model differences |
+| Supported checkpoint setup invoked twice | Passed; four tables separate from the 20 application ORM tables |
+| OpenAPI drift | Passed |
+
+Cold runtime probes reject DNS/socket connections, SQLAlchemy engine and HTTP
+client construction, plus imports of Torch, Transformers, Sentence Transformers
+and Langfuse. A preliminary probe also rejected OpenTelemetry SDK definitions;
+inspection identified their transitive import through the locked
+LangChain/LangSmith dependencies. Narrowing that import guard preserves the
+network/client guards and all runtime modules pass. Developer-script probes
+allow SDK definitions for the tiny fixture provisioner without building models.
+Another preliminary probe treated every script as a namespace module; the
+acceptance evaluator's sibling helper requires its documented file invocation.
+The final file/module probes all pass; no runtime or script changes are needed.
+
+Real database checks use only a disposable localhost PostgreSQL 16.14/pgvector
+0.8.6 container, synthetic credentials, and the limited `foodwise_test_app` role.
+Tests cover exact migration/model parity, reversibility, canonical identities,
+foreign keys, vector constraints and index/schema registration. Separate direct
+Alembic commands and two calls to `scripts/setup_checkpoints.py` verify the host
+setup paths in addition to test fixtures. No owner database/volume is opened.
+
+The package map now includes run leases, upload decoding, password verification,
+SDK-free trace ports and the optional telemetry adapters. Root/backend/infra
+navigation links to the path guide; setup documents distinguish the installed
+wheel from checkout migrations/scripts/provenance mounts. The developer guide's
+stale future-ingestion and pre-P11-08 release wording is aligned with existing
+receipts. Historical evaluation commands and all other completion marks remain
+unchanged. Document checks cover links/anchors, fences, Bash syntax, task IDs,
+command paths and the instruction-size limit; the redacting source scan and
+`git diff --check` pass.
+
+The disposable database and archived checkout environment are removed; ignored
+local check logs remain available. Owner services/configuration, course artifacts,
+media, runtime code and dependencies/locks are unchanged. No provider/Cloud calls,
+pretrained downloads, frontend/browser acceptance or hosted CI run is performed.
+Only P11-10's mark changes. P11-09 final user review, P11-11/12 optional Cloud
+operations, entity review, original-history/publication, course grading and
+deferred tasks remain separate. Representative live quality and physical-device
+accessibility remain unmeasured; the whole Phase 11 exit criterion stays open.

@@ -1,0 +1,522 @@
+{
+  "task": "P11-10",
+  "date": "2026-10-08",
+  "timezone": "America/Recife",
+  "source_revision": "8bf932e374bf62a71142c9bb161a59f5e20ca1d5",
+  "archived_tracked_files": 570,
+  "tracked_file_mismatches": [],
+  "clean_checkout": "git archive HEAD; no owner dotenv, media, model bundles, venv or node_modules copied",
+  "lockfiles": {
+    "backend/uv.lock": "d8781a08db7aab1ddb90cadcfb9698495774a4400078124d0be82bd453c35a19",
+    "frontend/pnpm-lock.yaml": "8f8c50d1ea1513e0b8a3df24c1a1c0eebe490605a44575109bcf89bdf8885bf0"
+  },
+  "checks": [
+    {
+      "label": "cold-import-models",
+      "returncode": 0,
+      "duration_seconds": 0.589
+    },
+    {
+      "label": "cold-import-forward",
+      "returncode": 0,
+      "duration_seconds": 4.088
+    },
+    {
+      "label": "cold-import-reverse",
+      "returncode": 0,
+      "duration_seconds": 3.747
+    },
+    {
+      "label": "cli-ingestion-0",
+      "returncode": 0,
+      "duration_seconds": 0.841
+    },
+    {
+      "label": "cli-ingestion-1",
+      "returncode": 0,
+      "duration_seconds": 0.819
+    },
+    {
+      "label": "cli-ingestion-2",
+      "returncode": 0,
+      "duration_seconds": 0.807
+    },
+    {
+      "label": "cli-text-3",
+      "returncode": 0,
+      "duration_seconds": 0.684
+    },
+    {
+      "label": "cli-text-4",
+      "returncode": 0,
+      "duration_seconds": 0.667
+    },
+    {
+      "label": "cli-text-5",
+      "returncode": 0,
+      "duration_seconds": 0.703
+    },
+    {
+      "label": "cli-image-6",
+      "returncode": 0,
+      "duration_seconds": 0.665
+    },
+    {
+      "label": "cli-image-7",
+      "returncode": 0,
+      "duration_seconds": 0.63
+    },
+    {
+      "label": "cli-image-8",
+      "returncode": 0,
+      "duration_seconds": 0.653
+    },
+    {
+      "label": "cli-multimodal-9",
+      "returncode": 0,
+      "duration_seconds": 3.472
+    },
+    {
+      "label": "server-help",
+      "returncode": 0,
+      "duration_seconds": 3.373
+    },
+    {
+      "label": "config-help",
+      "returncode": 0,
+      "duration_seconds": 0.553
+    },
+    {
+      "label": "script-module-import-audit_langfuse_cloud",
+      "returncode": 0,
+      "duration_seconds": 1.743
+    },
+    {
+      "label": "script-file-import-backup_media",
+      "returncode": 0,
+      "duration_seconds": 0.449
+    },
+    {
+      "label": "script-file-import-bootstrap_test_database",
+      "returncode": 0,
+      "duration_seconds": 0.588
+    },
+    {
+      "label": "script-file-import-check_openai_capabilities",
+      "returncode": 0,
+      "duration_seconds": 0.66
+    },
+    {
+      "label": "script-file-import-cleanup_media",
+      "returncode": 0,
+      "duration_seconds": 1.039
+    },
+    {
+      "label": "script-file-import-compare_phase10_retrieval",
+      "returncode": 0,
+      "duration_seconds": 0.462
+    },
+    {
+      "label": "script-file-import-evaluate_multimodal_retrieval",
+      "returncode": 0,
+      "duration_seconds": 3.43
+    },
+    {
+      "label": "script-file-import-evaluate_phase10_acceptance",
+      "returncode": 0,
+      "duration_seconds": 1.553
+    },
+    {
+      "label": "script-file-import-evaluate_text_retrieval",
+      "returncode": 0,
+      "duration_seconds": 0.571
+    },
+    {
+      "label": "script-file-import-export_openapi",
+      "returncode": 0,
+      "duration_seconds": 4.191
+    },
+    {
+      "label": "script-module-import-export_phase10_scores",
+      "returncode": 0,
+      "duration_seconds": 1.818
+    },
+    {
+      "label": "script-file-import-measure_phase10_performance",
+      "returncode": 0,
+      "duration_seconds": 0.542
+    },
+    {
+      "label": "script-module-import-measure_telemetry_overhead",
+      "returncode": 0,
+      "duration_seconds": 1.818
+    },
+    {
+      "label": "script-file-import-phase10_acceptance",
+      "returncode": 0,
+      "duration_seconds": 1.759
+    },
+    {
+      "label": "script-file-import-phase10_tracing",
+      "returncode": 0,
+      "duration_seconds": 1.865
+    },
+    {
+      "label": "script-file-import-phase11_live_demo",
+      "returncode": 0,
+      "duration_seconds": 0.505
+    },
+    {
+      "label": "script-file-import-probe_phase11_persistence",
+      "returncode": 0,
+      "duration_seconds": 2.112
+    },
+    {
+      "label": "script-file-import-probe_phase11_restore",
+      "returncode": 0,
+      "duration_seconds": 2.116
+    },
+    {
+      "label": "script-file-import-provision_clip",
+      "returncode": 0,
+      "duration_seconds": 0.567
+    },
+    {
+      "label": "script-file-import-provision_minilm",
+      "returncode": 0,
+      "duration_seconds": 0.535
+    },
+    {
+      "label": "script-file-import-provision_test_models",
+      "returncode": 0,
+      "duration_seconds": 15.123
+    },
+    {
+      "label": "script-module-import-purge_langfuse_traces",
+      "returncode": 0,
+      "duration_seconds": 0.526
+    },
+    {
+      "label": "script-file-import-serve_frontend_fixture",
+      "returncode": 0,
+      "duration_seconds": 4.669
+    },
+    {
+      "label": "script-file-import-setup_checkpoints",
+      "returncode": 0,
+      "duration_seconds": 0.882
+    },
+    {
+      "label": "script-file-import-smoke_agent_graph",
+      "returncode": 0,
+      "duration_seconds": 3.201
+    },
+    {
+      "label": "script-file-import-smoke_food_trends",
+      "returncode": 0,
+      "duration_seconds": 3.582
+    },
+    {
+      "label": "script-file-import-verify_mcp_catalog",
+      "returncode": 0,
+      "duration_seconds": 3.559
+    },
+    {
+      "label": "package-boundaries",
+      "returncode": 0,
+      "duration_seconds": 3.638
+    },
+    {
+      "label": "alembic-heads",
+      "returncode": 0,
+      "duration_seconds": 0.618
+    },
+    {
+      "label": "alembic-offline-sql",
+      "returncode": 0,
+      "duration_seconds": 0.789
+    },
+    {
+      "label": "openapi-drift",
+      "returncode": 0,
+      "duration_seconds": 3.988
+    },
+    {
+      "label": "pip-check",
+      "returncode": 0,
+      "duration_seconds": 0.094
+    },
+    {
+      "label": "lock-check",
+      "returncode": 0,
+      "duration_seconds": 0.032
+    },
+    {
+      "label": "versions",
+      "returncode": 0,
+      "duration_seconds": 0.083
+    }
+  ],
+  "models": {
+    "tables": [
+      "admin_sessions",
+      "browser_sessions",
+      "conversation_media",
+      "conversations",
+      "demo_profiles",
+      "documents",
+      "image_embeddings",
+      "ingestion_checkpoints",
+      "media",
+      "media_cleanup_jobs",
+      "messages",
+      "profiles",
+      "recipes",
+      "restaurants",
+      "reviews",
+      "source_records",
+      "sources",
+      "text_embeddings",
+      "trend_cache",
+      "trend_evidence"
+    ],
+    "resolved_foreign_keys": 21
+  },
+  "forward": {
+    "imported_modules": 172,
+    "order": "forward",
+    "installed_wheel": true,
+    "guarded_network_engines_clients_and_model_langfuse_sdks": true
+  },
+  "reverse": {
+    "imported_modules": 172,
+    "order": "reverse",
+    "installed_wheel": true,
+    "guarded_network_engines_clients_and_model_langfuse_sdks": true
+  },
+  "package_versions": {
+    "python": "3.12.14",
+    "foodwise-ai-backend": "0.1.0",
+    "alembic": "1.20.0",
+    "sqlalchemy": "2.1.2",
+    "psycopg": "3.3.6",
+    "pgvector": "0.5.0",
+    "fastapi": "0.142.2",
+    "fastmcp": "4.0.10",
+    "langgraph": "1.2.12",
+    "langgraph-checkpoint-postgres": "3.1.2",
+    "langfuse": "4.16.0",
+    "torch": "2.14.1+cpu",
+    "transformers": "5.18.0",
+    "sentence-transformers": "6.1.0"
+  },
+  "database_checks": [
+    {
+      "label": "bootstrap-disposable-db",
+      "returncode": 0,
+      "duration_seconds": 0.381
+    },
+    {
+      "label": "migration-model-tests",
+      "returncode": 0,
+      "duration_seconds": 28.251
+    },
+    {
+      "label": "migrate-fresh",
+      "returncode": 0,
+      "duration_seconds": 1.266
+    },
+    {
+      "label": "migration-check",
+      "returncode": 0,
+      "duration_seconds": 1.169
+    },
+    {
+      "label": "migration-current",
+      "returncode": 0,
+      "duration_seconds": 1.084
+    },
+    {
+      "label": "checkpoint-setup",
+      "returncode": 0,
+      "duration_seconds": 0.79
+    },
+    {
+      "label": "checkpoint-setup-repeat",
+      "returncode": 0,
+      "duration_seconds": 0.802
+    },
+    {
+      "label": "downgrade-base",
+      "returncode": 0,
+      "duration_seconds": 1.104
+    },
+    {
+      "label": "upgrade-again",
+      "returncode": 0,
+      "duration_seconds": 1.188
+    },
+    {
+      "label": "migration-check-again",
+      "returncode": 0,
+      "duration_seconds": 1.142
+    },
+    {
+      "label": "inspect-disposable-db",
+      "returncode": 0,
+      "duration_seconds": 0.303
+    }
+  ],
+  "database": {
+    "postgresql": "16.14 (Debian 16.14-1.pgdg12+1)",
+    "pgvector": "0.8.6",
+    "application_tables": 20,
+    "checkpoint_tables": 4,
+    "isolation": "disposable localhost-only container; limited foodwise_test_app role; synthetic credentials; no owner volumes",
+    "image": "pgvector/pgvector:pg16@sha256:a36250871de0833b8757561c72f2477ef1ddd1101afa4e617fb552e0de514c6b",
+    "alembic_head": "0009_admin",
+    "model_diff": [],
+    "checkpoint_setup": "passed twice",
+    "upgrade_downgrade_upgrade": "passed",
+    "container_removed": true
+  },
+  "status": "passed",
+  "scope": "installed release modules, CLI parsers, documented script invocation styles, ORM registration and real migration parity; documentation alignment only",
+  "installation": {
+    "command": "uv sync --locked --offline --no-editable",
+    "uv": "0.12.5",
+    "installed_packages": 157,
+    "fresh_virtual_environment": true,
+    "non_editable_wheel": true,
+    "shared_package_cache": true,
+    "pip_check": "passed",
+    "lock_check": "passed"
+  },
+  "tests": {
+    "package_boundaries": {
+      "passed": 14,
+      "skipped": 0,
+      "seconds": 2.83
+    },
+    "migration_models": {
+      "passed": 97,
+      "skipped": 0,
+      "seconds": 25.78,
+      "files": [
+        "tests/integration/test_catalog_models.py",
+        "tests/integration/test_embedding_models.py",
+        "tests/integration/test_context_models.py",
+        "tests/integration/test_provenance_models.py",
+        "tests/integration/test_search_schema.py"
+      ]
+    }
+  },
+  "script_imports": {
+    "count": 27,
+    "file_mode": 23,
+    "module_mode": 4,
+    "main_functions_executed": false,
+    "network_engine_http_client_construction_blocked": true,
+    "fixture_provisioner_imports_model_sdk_definitions": true
+  },
+  "cli_help": {
+    "count": 12,
+    "database_or_model_roots_available": false,
+    "modules": [
+      "food_recommender.cli.ingestion",
+      "food_recommender.cli.text",
+      "food_recommender.cli.image",
+      "food_recommender.cli.multimodal",
+      "food_recommender.mcp.server",
+      "food_recommender.infrastructure.config"
+    ],
+    "subcommands": [
+      "ingestion import",
+      "ingestion preview",
+      "text index",
+      "text search",
+      "image index",
+      "image search"
+    ]
+  },
+  "probe_adjustments": [
+    "A preliminary guard also rejected opentelemetry.sdk imports; the guard was narrowed after confirming locked LangChain/LangSmith imports SDK definitions transitively. Network, engine/client construction and model/Langfuse SDK guards remained active for runtime modules. No application source change was needed.",
+    "A preliminary developer-script probe used namespace-module imports for every file; evaluate_phase10_acceptance resolves a sibling helper through file execution. Final probes use the documented file or module mode and all 27 pass. No script changes were required."
+  ],
+  "preserved": {
+    "paid_provider_cloud_calls": 0,
+    "model_downloads": 0,
+    "owner_configuration_services_media": "untouched",
+    "runtime_code_dependencies_locks": "unchanged",
+    "open_tasks": [
+      "P11-09",
+      "P11-11",
+      "P11-12"
+    ],
+    "other_limits": "entity review, original-history/publication, course grading, representative live quality and physical-device accessibility remain separate"
+  },
+  "documents": {
+    "guide": "infra/release-paths.md",
+    "changes": [
+      "Complete current package map with run leases, media uploads, password verification, tracing and telemetry.",
+      "Document wheel versus checkout/setup mounts and file versus module script invocations.",
+      "Replace stale future-ingestion/release/scaffold claims with current evidence.",
+      "Add setup, developer, root/backend/infrastructure and evaluation cross-links."
+    ],
+    "verification": {
+      "markdown_files": 9,
+      "relative_links_and_anchors": 320,
+      "bash_blocks": 55,
+      "unique_task_ids": 154,
+      "instruction_bytes": 32749,
+      "clean_archive_final_document_overlay": "passed",
+      "preserved_other_completion_marks": 153,
+      "runtime_python_files_unchanged": 173,
+      "module_command_paths": [
+        "food_recommender.cli.image",
+        "food_recommender.cli.ingestion",
+        "food_recommender.cli.multimodal",
+        "food_recommender.cli.text",
+        "food_recommender.infrastructure.config",
+        "food_recommender.mcp.server",
+        "pytest",
+        "scripts.audit_langfuse_cloud",
+        "scripts.export_phase10_scores",
+        "scripts.measure_telemetry_overhead",
+        "scripts.purge_langfuse_traces",
+        "unittest"
+      ],
+      "script_command_paths": [
+        "scripts/check_openai_capabilities.py",
+        "scripts/cleanup_media.py",
+        "scripts/compare_phase10_retrieval.py",
+        "scripts/evaluate_multimodal_retrieval.py",
+        "scripts/evaluate_phase10_acceptance.py",
+        "scripts/evaluate_text_retrieval.py",
+        "scripts/export_openapi.py",
+        "scripts/measure_phase10_performance.py",
+        "scripts/phase0_audit.py",
+        "scripts/provision_clip.py",
+        "scripts/provision_minilm.py",
+        "scripts/provision_test_models.py",
+        "scripts/scan_secrets.py",
+        "scripts/setup_checkpoints.py",
+        "scripts/smoke_agent_graph.py",
+        "scripts/smoke_food_trends.py",
+        "scripts/verify_mcp_catalog.py"
+      ],
+      "module_and_script_path_checks": "passed",
+      "source_secret_scan": {
+        "files": 522,
+        "findings": 0
+      },
+      "git_diff_check": "passed"
+    }
+  },
+  "cleanup": {
+    "disposable_database_container": "removed",
+    "archived_checkout_and_fresh_virtual_environment": "removed",
+    "ignored_check_logs": "retained locally",
+    "owner_services_configuration_media": "untouched"
+  }
+}

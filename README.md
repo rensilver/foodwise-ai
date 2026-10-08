@@ -410,6 +410,7 @@ retrieval.
 | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | [Backend](backend/README.md)                                         | Configuration, persistence, ingestion, retrieval, agents, and HTTP contracts.      |
 | [Package organization](backend/PACKAGES.md)                          | Layer responsibilities, dependency rules, and adapter wiring.                      |
+| [Release paths](infra/release-paths.md)                              | Clean-checkout module/CLI checks, setup-script paths, and ORM registration.          |
 | [Frontend](frontend/README.md)                                       | Feature boundaries, generated types, streaming, and browser checks.                |
 | [Installation](infra/release-setup.md)                               | Clean-checkout setup, models, media, initialization, and persistence verification. |
 | [Developer workflow](infra/development.md)                           | Locked dependencies, host servers, migrations, and quality commands.               |

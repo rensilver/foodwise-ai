@@ -221,13 +221,13 @@ and loopback permissions; resolve sandbox denials before assessing results.
 
 | Operation | Current status | Planned checklist task |
 | --- | --- | --- |
-| Application migrations | Phase 2 adds catalog/provenance, separate vectors, lexical/filter indexes, session/conversation/trends, optimistic versions and cleanup jobs. Explicit host-run commands are below; supported checkpoint setup and cleanup retry are documented in the backend guide. | P02-01 through P02-09 verified; ingestion remains Phase 3. |
+| Application migrations | Phase 2 adds catalog/provenance, separate vectors, lexical/filter indexes, session/conversation/trends, optimistic versions and cleanup jobs. Explicit host-run commands are below; supported checkpoint setup and cleanup retry are documented in the backend guide. | P02-01 through P02-09 verified; full-corpus ingestion is verified separately in Phase 3. |
 | Culinary ingestion | The [Phase 3 seed CLI](../backend/README.md#seed-ingestion-phase-3) is validated, resumable and verified on the full local corpus. | Phase 3, P03-01 through P03-10 verified. |
 | Text retrieval | [Phase 4 indexing/search/evaluation](../backend/README.md#multi-source-text-retrieval-phase-4) uses pinned CPU MiniLM and real PostgreSQL. | Phase 4, P04-01 through P04-09 verified. |
 | Source audit | `python scripts/phase0_audit.py` from the root is implemented. It requires local course/data/media artifacts and writes Phase 0 reports. It does not populate PostgreSQL. | Phase 0 evidence. |
-| Provider capability smoke tests | Explicit opt-in Tavily/OpenAI probes and the [P11-04 live text/image/trend demonstration](live-demo.md) are verified separately from historical provider failures. Health/offline tests make no paid calls. | Scripted live integration verified; representative quality and complete-release acceptance remain separate. |
+| Provider capability smoke tests | Explicit opt-in Tavily/OpenAI probes and the [P11-04 live text/image/trend demonstration](live-demo.md) are verified separately from historical provider failures. Health/offline tests make no paid calls. | Scripted live integration and P11-08 local capability acceptance verified; representative quality remains unmeasured. |
 | Recommendation/admin API | [Phase 8 API contract](../backend/README.md#phase-8-http-contract) covers browser ownership, SSE, uploads, admin origin/CSRF and atomic CRUD. Backend `MINILM_ROOT`, application migrations and supported checkpoint setup are required for full readiness. | P08-01 through P08-12 verified; Phase 9 browser/proxy evidence is tracked separately. |
-| Local release evidence | [P11-01 setup](release-setup.md), [restart/idempotency checks](release-setup.md#migration-ingestion-and-restart-verification-p11-02), [paired restore](backup-restore.md), live/admin demos and portfolio captures have their own evidence. [Operational limits](local-operations.md) distinguish those measurements from unverified capacity. | P11-01–07 documented; complete-release and final review remain P11-08/09. |
+| Local release evidence | [P11-01 setup](release-setup.md), [restart/idempotency checks](release-setup.md#migration-ingestion-and-restart-verification-p11-02), [paired restore](backup-restore.md), live/admin demos and portfolio captures have their own evidence. [Operational limits](local-operations.md) distinguish those measurements from unverified capacity. | P11-01–08 verified; [P11-10 paths and registration](release-paths.md) rehearsed separately. Final review and optional Cloud operations remain P11-09/11/12. |
 
 From `backend/`, preview the implemented application migrations without connecting:
 
@@ -254,11 +254,12 @@ create the application persistence schema; initialize library checkpoints separa
 using the [checkpoint setup guide](../backend/README.md#conversations-profiles-trends-and-checkpoints-p02-06). Test-database bootstrap and source auditing do not
 perform culinary ingestion; use the explicit Phase 3 seed CLI after migrations.
 
-A clean checkout includes scaffold source and seed JSON/text. The four course
+A clean checkout includes application source and seed JSON/text. The four course
 folders, assignment PDFs and recovered recipe ZIP/109 PNGs are Git-ignored;
-they require separate restoration for source auditing and later full ingestion.
+they require separate restoration for source auditing and full ingestion.
 See the [Phase 0 report](../evaluation/phase0/README.md) for inventory and
-unresolved records. Their absence does not block scaffold installation or
+unresolved records. Their absence does not block package installation or
 offline unit/provider checks. Keep original-history publication review and
-unresolved mappings visible in [CHECKLIST.md](../CHECKLIST.md); Phase 1
-completion does not satisfy the later application release gate.
+unresolved entity review visible in [CHECKLIST.md](../CHECKLIST.md). The
+[P11-08 gate](../evaluation/phase11/release-gate.md) records local capability
+acceptance; final user review and optional Cloud operations remain separate.

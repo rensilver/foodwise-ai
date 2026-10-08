@@ -702,7 +702,7 @@ measurements and explicit gaps do not claim operational readiness.
 - [x] P11-07 Publish local setup/troubleshooting instructions and measured limits: synthetic catalog, sparse histories, unknown dietary evidence, provider requirements and unavailable capabilities.
 - [x] P11-08 Confirm the complete-release gate: validated imagery, real RAG, six-agent graph, live search integration, frontend/admin usability and passing acceptance tests.
 - [ ] P11-09 Review all checklist marks and evidence with the user; preserve unresolved/deferred items and document the final tested versions.
-- [ ] P11-10 Rehearse documented module/CLI paths and model registration from a clean checkout; align package guidance, scripts and links with the release structure.
+- [x] P11-10 Rehearse documented module/CLI paths and model registration from a clean checkout; align package guidance, scripts and links with the release structure.
 - [ ] P11-11 Rehearse optional Langfuse Cloud project/region setup, disable/offline operation, credential rotation, quota checks, supported retention/deletion and SDK upgrade/rollback; preserve local evaluation reports and prove the full application works with tracing disabled or Cloud unavailable.
 - [ ] P11-12 Record a sanitized Cloud trace/evaluation demonstration, private trace links and read-back audit evidence, measured SDK resource/latency overhead, export volume and exact tested client/CLI versions plus reviewed skill revision/date; leave Langfuse integration unchecked if access or verification is blocked and document that limitation separately from application acceptance.
 
@@ -903,6 +903,28 @@ P11-09–12, entity review, original-history/publication and course grading rema
 separate; broad live persona/photo quality and physical-device accessibility
 remain unmeasured. This closes P11-08's local capability gate, not the whole
 Phase 11 exit criterion or public-release readiness.
+
+P11-10 verified on 2026-10-08 in America/Recife against archived revision
+`8bf932e374bf62a71142c9bb161a59f5e20ca1d5`: all 570 tracked files match,
+and a fresh offline, non-editable installation contains 157 compatible packages.
+The [release path guide](infra/release-paths.md) and
+[sanitized report](evaluation/phase11/package_paths_report.json) align current
+entrypoints, setup mounts, script invocation styles and package guidance.
+All 172 runtime modules import in both orders under network/engine/client and
+model/Langfuse SDK guards; the isolated registry registers 20 tables and resolves
+21 foreign keys. Twelve CLI/parser help checks and 27 developer-script imports
+pass without executing their operational mains. Locked LangChain/LangSmith
+transitively imports OpenTelemetry definitions; no export/client construction
+occurs. Fourteen boundary contracts and 97 real PostgreSQL 16.14/pgvector 0.8.6
+model/migration tests pass with zero skips. Explicit Alembic parity, reversible
+upgrade/downgrade/re-upgrade and repeated supported checkpoint setup pass on the
+limited disposable role; the checkpoint schema has four separate tables.
+OpenAPI drift, locked dependency checks and document/source checks pass.
+The disposable database and checkout environment are removed; owner services,
+configuration, media/course artifacts, runtime code and locks are preserved.
+No paid provider/Cloud calls or model downloads occur. Only P11-10's mark changes;
+P11-09/11/12, entity review, original-history/publication and deferred items remain
+open. This package rehearsal does not close the whole Phase 11 exit criterion.
 
 ## Deferred — Outside the first release
 

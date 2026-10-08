@@ -136,11 +136,13 @@ FastAPI) MCP availability with bounded calls; failures return names/statuses
 without exception details. No provider calls or model downloads occur.
 Run all current offline backend contracts with `make test` from `backend/`.
 
-The scaffold factories are `food_recommender.api.main:create_app` and
+The application factories are `food_recommender.api.main:create_app` and
 `food_recommender.mcp.server:create_app`. Compose runs them with Uvicorn
 `--factory` on ports 8000/8001. The API requires the validated backend settings;
-MCP validates only `DATABASE_URL` and `MEDIA_ROOT` and receives no provider/admin
-secrets. Tools/resources and recommendation endpoints remain later phases.
+MCP uses database, media, model and trend settings and receives no OpenAI/admin
+secrets. Current MCP tools/resources and recommendation endpoints are documented
+below; see the [release path rehearsal](../infra/release-paths.md) for verified
+entrypoints and model registration.
 
 | Package | Responsibility |
 | --- | --- |
