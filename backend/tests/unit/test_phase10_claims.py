@@ -8,7 +8,7 @@ from tests.unit.agent_fixtures import Reply
 
 from food_recommender.agents.nodes.recommendation import RecommendationExpert
 from food_recommender.domain.experts import (
-    AgentFailure,
+    AgentSuccess,
     AgentUnavailable,
     ProfileResult,
 )
@@ -55,30 +55,18 @@ async def test_untrusted_excerpt_cannot_be_published_as_verified_claim(claim):
     outcome = await RecommendationExpert(provider).run(
         ProfileResult((Category.RESTAURANT,), Preferences()), (food,), *BRANCHES
     )
-    assert isinstance(outcome, AgentFailure)
-    assert len(provider.calls) == 2
+    assert isinstance(outcome, AgentSuccess)
+    assert outcome.result.recommendations == ()
+    assert provider.calls == []
 
 
 @pytest.mark.asyncio
-async def test_unsafe_provider_and_tool_limitations_are_not_published():
+async def test_unsafe_tool_limitations_are_not_published():
     food = source_candidate("recipe", "3")
     food = replace(
         food, evidence=replace(food.evidence, limitations=("Guaranteed allergen-free",))
     )
-    citation = food.evidence.citations[0]
-    provider = Reply(
-        {
-            "recommendations": [
-                {
-                    "entity": {"category": "recipe", "id": "3"},
-                    "explanation": citation.excerpt,
-                    "citation_ids": [citation.id],
-                    "limitations": ["Guaranteed safe for allergies."],
-                }
-            ],
-            "limitations": ["Contains 200 calories."],
-        }
-    )
+    provider = Reply({"recommendation_indices": [0]})
     outcome = await RecommendationExpert(provider).run(
         ProfileResult((Category.RECIPE,), Preferences()), (food,), *BRANCHES
     )

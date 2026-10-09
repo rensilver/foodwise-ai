@@ -66,7 +66,9 @@ async def test_forged_provider_references_fail_before_publishing(attack):
             context = json.loads(messages[1]["content"])
             if "eligible_candidates" in context:
                 response = json.loads(payload)
-                item = response["recommendations"][0]
+                item = dict(context["grounded_recommendations"][0])
+                item.pop("recommendation_index")
+                response["recommendations"] = [item]
                 if attack == "unknown-entity":
                     item["entity"]["id"] = "fabricated"
                 elif attack == "unknown-citation":

@@ -1,8 +1,8 @@
 {
-  "recorded_at": "2026-10-06T19:50:30.403648+00:00",
+  "recorded_at": "2026-10-09T17:45:52.859458+00:00",
   "mode": "offline fake boundaries, real six-agent graph",
   "revisions": {
-    "git_head": "4744ea51d0ef7440ffbde988feac3f99f8761f74",
+    "git_head": "abd5713b9aed55271c211114c85eabd9d02432c7",
     "labels_sha256": "74550b5bc121c88ec443ee2d5f4b1103c073b1bf4a79173a8264d093aee28a55",
     "source_hashes": {
       "data/structured_restaurant_data.json": "6d48ecf65b000cb99a6500286adaf9ba84e4e506266f8a58ac52cc6e3d696051",
@@ -10,18 +10,19 @@
     },
     "implementation_hashes": {
       "backend/src/food_recommender/agents/__init__.py": "b8683da2770666345c203531b57184e57dc750dc01836ed56cfd2878f39600c4",
+      "backend/src/food_recommender/agents/catalog_quotes.py": "c501cd53717ed92bf5c5077d0d9516e59f7a80675961490125ff76193c2f0f08",
       "backend/src/food_recommender/agents/graph.py": "1c37dd9b5457fd3ff7d6cbf416e78941264da9ad1e13e6eac51338a25c72c5e4",
       "backend/src/food_recommender/agents/nodes/__init__.py": "4273545d6129fcf9918bdc9d713f9c9912741f031ba43d0f9be59bba4c9e75f0",
       "backend/src/food_recommender/agents/nodes/nutrition.py": "6c71029f2ed400aa1cf1748ddacbd428497f6adc4902f26f13eff38f1916db12",
       "backend/src/food_recommender/agents/nodes/profile.py": "08bc75963ab5e55c626222457a471fc73af350b2387c2f927230494499dce388",
       "backend/src/food_recommender/agents/nodes/rag.py": "17b4e4dc3717d0c28417c05f4f1046d2408dc92224972a19747f2dc006d96f7f",
-      "backend/src/food_recommender/agents/nodes/recommendation.py": "c6c81c040750551965cc8c5e17d4839bb32c2a9cee58444576a7bbbd1ee6046d",
-      "backend/src/food_recommender/agents/nodes/style.py": "4d06d099223c02e146a8b4a89a430c4292f7ced9efd93f9b1f9d678df2503ba1",
+      "backend/src/food_recommender/agents/nodes/recommendation.py": "846783f3b3e5456e327546530a777473be0aa7abb9e85652ae9a05f3a9a9d35d",
+      "backend/src/food_recommender/agents/nodes/style.py": "5b47e4b74dea126b27f4cb67aabdf5638d548d30d0c5ef38e706da066565eda0",
       "backend/src/food_recommender/agents/nodes/trend.py": "5c004b1df92bcfe92423c76c5f8ac60606926aa1f912a251fa070988fafe9587",
-      "backend/src/food_recommender/agents/prompts.py": "5150373d093103d59a29bd6e7db158ae49de54ff126ae6e0ac9fd7b4300ecf16",
+      "backend/src/food_recommender/agents/prompts.py": "2b4841ebac73e3b5692accc3d34aa7763fabf09c208bd350e7d3fead15cf3a45",
       "backend/src/food_recommender/agents/runner.py": "6cef6e1f5d2353254e99c3ebfe5db44a247ad21c265106fdb698acf3e5e9f593",
       "backend/src/food_recommender/agents/state.py": "71354f511b876a2c2400cdde0c4f929e0739ac63bb70c45aa519c81e2aacddfe",
-      "backend/src/food_recommender/agents/structured.py": "f31167d8bf8c3ec03c290228b0e1449d8e0b0604bcc2bae906f514b06ef7c46c",
+      "backend/src/food_recommender/agents/structured.py": "30f1ff49f46f15de7be12414b2e6576515fed16b95cddbafc9584ba89c97fd00",
       "backend/src/food_recommender/agents/telemetry.py": "ad1d3cd448cd4c3b5a683f0387c297d4c682e9ff73c02bd564e56241c7a3a6fe",
       "backend/src/food_recommender/application/recommendations/__init__.py": "9ad55f70d6f760b749bc88f5820a43b3a9925700c82ad67eead0eefa5a6b5e50",
       "backend/src/food_recommender/application/recommendations/activity.py": "ff9e60ce2c0fea6b5ec48804c91e4e9d38656de4bf6bdff80a63ce99ed6468e8",
@@ -33,9 +34,9 @@
       "backend/src/food_recommender/application/recommendations/reliability.py": "72fe38cf1924d67d506d7fe371e6a6601eb053748b9d0b213d8feb54844d2870",
       "backend/src/food_recommender/application/recommendations/tracing.py": "7862263b42fb34174b208f60c5499fc82bd321c6f2abb128fcfd3aa344d85eb8",
       "backend/src/food_recommender/application/recommendations/workflow.py": "a872260b15d2eb780bdfcf0bc1515a29266e5022c784d5e8281f1a118ff42847",
-      "backend/scripts/phase10_acceptance.py": "8afcdfd0b2cf8b877981e5f95f8be099d8d41a3b89f9b36a046f6d3599aa2503"
+      "backend/scripts/phase10_acceptance.py": "83c8acd990e9ed638342faea1f4ae5eaa19a1a2c50062a3e5dd6172500fc1c67"
     },
-    "prompt_version": "phase11-v1",
+    "prompt_version": "phase11-v3",
     "inference": {
       "implementation": "FixtureInference",
       "remote_model": null
@@ -90,7 +91,7 @@
             "No verified nutrient quantities or cross-contact safety evidence"
           ],
           "metrics": {
-            "duration_ms": 14.995873001680593,
+            "duration_ms": 16.312731997459196,
             "openai_calls": 5,
             "tool_calls": 2,
             "search_calls": 0,
@@ -99,32 +100,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 2.0349919996078825,
+                "duration_ms": 2.1417300013126805,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 1.4737450001121033,
+                "duration_ms": 1.7163630000140984,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 1.0192739991907729,
+                "duration_ms": 1.1139900016132742,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.6715409999742405,
+                "duration_ms": 0.7540540027548559,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.21950600057607517,
+                "duration_ms": 0.2366070002608467,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 1.120350998462527,
+                "duration_ms": 0.7537839992437512,
                 "status": "success"
               }
             ]
@@ -170,7 +171,7 @@
             "No verified nutrient quantities or cross-contact safety evidence"
           ],
           "metrics": {
-            "duration_ms": 13.60428000043612,
+            "duration_ms": 14.795838000281947,
             "openai_calls": 5,
             "tool_calls": 2,
             "search_calls": 0,
@@ -179,32 +180,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.5463190011359984,
+                "duration_ms": 1.7857519997050986,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 2.8615800001716707,
+                "duration_ms": 3.07478499962599,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 0.9368619994347682,
+                "duration_ms": 1.0915579987340607,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.7504370005335659,
+                "duration_ms": 0.8984509986476041,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.12578299902088474,
+                "duration_ms": 0.1690419994702097,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 1.1219839998375392,
+                "duration_ms": 0.6660520011791959,
                 "status": "success"
               }
             ]
@@ -250,7 +251,7 @@
             "No verified nutrient quantities or cross-contact safety evidence"
           ],
           "metrics": {
-            "duration_ms": 12.501971999881789,
+            "duration_ms": 14.43590199778555,
             "openai_calls": 5,
             "tool_calls": 2,
             "search_calls": 0,
@@ -259,32 +260,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.4426469988393364,
+                "duration_ms": 1.5984650017344393,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 1.7873640008474467,
+                "duration_ms": 2.003845998842735,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 0.9160239987977548,
+                "duration_ms": 1.0392920012236573,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.7635109996044775,
+                "duration_ms": 0.9490240008744877,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.1407409999956144,
+                "duration_ms": 0.23539500034530647,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 1.1879360008606454,
+                "duration_ms": 0.9741209978528786,
                 "status": "success"
               }
             ]
@@ -312,10 +313,10 @@
             "Trend analysis unavailable",
             "Synthetic course catalog; relevance is not dietary certification",
             "No verified nutrient quantities or cross-contact safety evidence",
-            "Insufficient eligible catalog evidence under unchanged constraints"
+            "Insufficient eligible, publishable catalog evidence under unchanged constraints"
           ],
           "metrics": {
-            "duration_ms": 10.953770000924123,
+            "duration_ms": 13.399165000009816,
             "openai_calls": 4,
             "tool_calls": 3,
             "search_calls": 0,
@@ -324,32 +325,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.4783630012971116,
+                "duration_ms": 1.6029639991756994,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 2.831223999237409,
+                "duration_ms": 3.994055001385277,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 0.11163700037286617,
+                "duration_ms": 0.1178679995064158,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.029394999728538096,
+                "duration_ms": 0.029564998840214685,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.024124999981722794,
+                "duration_ms": 0.024324999685632065,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 0.14312399980553892,
+                "duration_ms": 0.177799000084633,
                 "status": "success"
               }
             ]
@@ -395,7 +396,7 @@
             "No verified nutrient quantities or cross-contact safety evidence"
           ],
           "metrics": {
-            "duration_ms": 12.140853999881074,
+            "duration_ms": 13.430773000436602,
             "openai_calls": 5,
             "tool_calls": 3,
             "search_calls": 0,
@@ -404,32 +405,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.4355639996210812,
+                "duration_ms": 1.6167389985639602,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 1.6373669986933237,
+                "duration_ms": 2.006129001529189,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 0.9051730012288317,
+                "duration_ms": 0.9892889975162689,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.7532830004493007,
+                "duration_ms": 0.9037710005941335,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.17080600082408637,
+                "duration_ms": 0.16169899754459038,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 1.1520899988681776,
+                "duration_ms": 0.6956159995752387,
                 "status": "success"
               }
             ]
@@ -457,10 +458,10 @@
             "Trend analysis unavailable",
             "Synthetic course catalog; relevance is not dietary certification",
             "No verified nutrient quantities or cross-contact safety evidence",
-            "Insufficient eligible catalog evidence under unchanged constraints"
+            "Insufficient eligible, publishable catalog evidence under unchanged constraints"
           ],
           "metrics": {
-            "duration_ms": 11.045440000089002,
+            "duration_ms": 12.79043999966234,
             "openai_calls": 4,
             "tool_calls": 3,
             "search_calls": 0,
@@ -469,32 +470,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.4509929987980286,
+                "duration_ms": 1.825125000323169,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 2.8367549984977813,
+                "duration_ms": 3.7431010023283307,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 0.11064499994972721,
+                "duration_ms": 0.09133900312008336,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.03121800000371877,
+                "duration_ms": 0.028673002816503868,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.02376300108153373,
+                "duration_ms": 0.023524000425823033,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 0.15382399942609482,
+                "duration_ms": 0.11218699728487991,
                 "status": "success"
               }
             ]
@@ -514,10 +515,10 @@
             "Trend analysis unavailable",
             "Synthetic course catalog; relevance is not dietary certification",
             "No verified nutrient quantities or cross-contact safety evidence",
-            "Insufficient eligible catalog evidence under unchanged constraints"
+            "Insufficient eligible, publishable catalog evidence under unchanged constraints"
           ],
           "metrics": {
-            "duration_ms": 10.441573000207427,
+            "duration_ms": 12.69242799753556,
             "openai_calls": 4,
             "tool_calls": 3,
             "search_calls": 0,
@@ -526,32 +527,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.5524999998888234,
+                "duration_ms": 1.5616069977113511,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 3.248585999244824,
+                "duration_ms": 4.808060999494046,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 0.08998700104712043,
+                "duration_ms": 0.10828100130311213,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.029113998607499525,
+                "duration_ms": 0.030416002118727192,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.022652000552625395,
+                "duration_ms": 0.02454500281601213,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 0.08634999903733842,
+                "duration_ms": 0.1497269986430183,
                 "status": "success"
               }
             ]
@@ -589,7 +590,7 @@
             "No verified nutrient quantities or cross-contact safety evidence"
           ],
           "metrics": {
-            "duration_ms": 11.26570599990373,
+            "duration_ms": 13.421405998087721,
             "openai_calls": 5,
             "tool_calls": 2,
             "search_calls": 0,
@@ -598,32 +599,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.5481219998036977,
+                "duration_ms": 1.5919440011202823,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 1.3440749989968026,
+                "duration_ms": 1.5173650026554242,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 0.9309410015703179,
+                "duration_ms": 1.0587680008029565,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.7379340004263213,
+                "duration_ms": 1.2752080001519062,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.12539199997263495,
+                "duration_ms": 0.2458950002619531,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 1.0608009997667978,
+                "duration_ms": 0.9472019992244896,
                 "status": "success"
               }
             ]
@@ -651,10 +652,10 @@
             "Trend analysis unavailable",
             "Synthetic course catalog; relevance is not dietary certification",
             "No verified nutrient quantities or cross-contact safety evidence",
-            "Insufficient eligible catalog evidence under unchanged constraints"
+            "Insufficient eligible, publishable catalog evidence under unchanged constraints"
           ],
           "metrics": {
-            "duration_ms": 12.461247000828735,
+            "duration_ms": 13.377045001107035,
             "openai_calls": 4,
             "tool_calls": 3,
             "search_calls": 0,
@@ -663,32 +664,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.6911269995034672,
+                "duration_ms": 1.7526410010759719,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 4.365150000012363,
+                "duration_ms": 5.015754002670292,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 0.09480500011704862,
+                "duration_ms": 0.10830999963218346,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.030516001061187126,
+                "duration_ms": 0.02988599953823723,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.022510999770020135,
+                "duration_ms": 0.02305300222360529,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 0.08119999984046444,
+                "duration_ms": 0.1055350003298372,
                 "status": "success"
               }
             ]
@@ -716,10 +717,10 @@
             "Trend analysis unavailable",
             "Synthetic course catalog; relevance is not dietary certification",
             "No verified nutrient quantities or cross-contact safety evidence",
-            "Insufficient eligible catalog evidence under unchanged constraints"
+            "Insufficient eligible, publishable catalog evidence under unchanged constraints"
           ],
           "metrics": {
-            "duration_ms": 8.691879000252811,
+            "duration_ms": 13.269564999063732,
             "openai_calls": 4,
             "tool_calls": 3,
             "search_calls": 0,
@@ -728,32 +729,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.507827999375877,
+                "duration_ms": 1.5529420015809592,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 1.0770409990072949,
+                "duration_ms": 1.840683999034809,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 0.07081100011419039,
+                "duration_ms": 0.1473419979447499,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.02439600029902067,
+                "duration_ms": 0.04196800000499934,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.029234000976430252,
+                "duration_ms": 0.031577998015563935,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 0.08240200077125337,
+                "duration_ms": 0.2145669968740549,
                 "status": "success"
               }
             ]
@@ -781,10 +782,10 @@
             "Trend analysis unavailable",
             "Synthetic course catalog; relevance is not dietary certification",
             "No verified nutrient quantities or cross-contact safety evidence",
-            "Insufficient eligible catalog evidence under unchanged constraints"
+            "Insufficient eligible, publishable catalog evidence under unchanged constraints"
           ],
           "metrics": {
-            "duration_ms": 12.899858000309905,
+            "duration_ms": 27.375265999580733,
             "openai_calls": 4,
             "tool_calls": 3,
             "search_calls": 0,
@@ -793,32 +794,32 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.5241370001604082,
+                "duration_ms": 2.600869000161765,
                 "status": "success"
               },
               {
                 "stage": "retrieval",
-                "duration_ms": 5.047912000009092,
+                "duration_ms": 9.47942799757584,
                 "status": "success"
               },
               {
                 "stage": "nutrition",
-                "duration_ms": 0.10630600081640296,
+                "duration_ms": 0.16299099661409855,
                 "status": "success"
               },
               {
                 "stage": "style",
-                "duration_ms": 0.028283000574447215,
+                "duration_ms": 0.045153999963076785,
                 "status": "success"
               },
               {
                 "stage": "trend",
-                "duration_ms": 0.022853000700706616,
+                "duration_ms": 0.03686800118885003,
                 "status": "unavailable"
               },
               {
                 "stage": "recommendation",
-                "duration_ms": 0.08211199929064605,
+                "duration_ms": 0.23026599956210703,
                 "status": "success"
               }
             ]
@@ -844,7 +845,7 @@
           "recommendations": [],
           "limitations": [],
           "metrics": {
-            "duration_ms": 4.598581001118873,
+            "duration_ms": 5.306302002281882,
             "openai_calls": 1,
             "tool_calls": 0,
             "search_calls": 0,
@@ -853,7 +854,7 @@
             "stages": [
               {
                 "stage": "profile",
-                "duration_ms": 1.6121400003612507,
+                "duration_ms": 1.704361002339283,
                 "status": "success"
               }
             ]

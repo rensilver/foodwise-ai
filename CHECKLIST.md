@@ -571,6 +571,17 @@ integration with degraded experts; **full live acceptance remains open**. The
 ignored `.env` keeps the supplied OpenAI key; obsolete provider assignments were
 removed. No secrets or course artifacts were published.
 
+
+### Recommendation validation repair — 2026-10-09
+
+The [fix report](evaluation/validation-repair/README.md) records reproduced
+recommendation schema/grounding and style-index failures, precise bounded repair
+feedback, explicit style indices, and recommendation selection from verified
+catalog quotations even when style is unavailable. Red/green regression tests,
+offline graph acceptance, Ruff/format, strict mypy and OpenAPI drift passed.
+Final offline/runtime verification is recorded in the report.
+Historical phase completion marks and full live acceptance limits are preserved.
+
 ## Phase 8 — FastAPI contracts and application behavior
 
 **Prerequisites:** Phase 7 plus repository/media services.

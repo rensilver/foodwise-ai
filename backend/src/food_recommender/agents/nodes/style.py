@@ -4,10 +4,10 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
 
+from food_recommender.agents.catalog_quotes import source_options
 from food_recommender.agents.prompts import STYLE
-from food_recommender.agents.structured import structured
+from food_recommender.agents.structured import GroundingError, structured
 from food_recommender.application.recommendations.evidence_rules import (
-    instruction_span,
     publishable_catalog_span,
     supported_span,
 )
@@ -24,11 +24,6 @@ from food_recommender.domain.values import EvidenceState
 from food_recommender.retrieval.late_fusion import FusedCandidate
 
 
-class StyleOption(BaseModel):
-    observation: str
-    citation_ids: tuple[str, ...]
-
-
 class StyleSelection(BaseModel):
     model_config = ConfigDict(extra="forbid")
     candidate_index: int = Field(ge=0, le=19)
@@ -38,31 +33,6 @@ class StyleSelection(BaseModel):
 class StyleSelections(BaseModel):
     model_config = ConfigDict(extra="forbid")
     selections: tuple[StyleSelection, ...] = Field(max_length=20)
-
-
-def source_options(candidate: FusedCandidate) -> tuple[StyleOption, ...]:
-    options = []
-    for citation in candidate.evidence.citations:
-        if instruction_span(citation.excerpt):
-            continue
-        lines = citation.excerpt.splitlines()
-        observations = [
-            line
-            for line in lines
-            if line.startswith(
-                ("cuisine:", "food_style:", "signatures:", "directions:")
-            )
-        ]
-        if not observations:
-            observations = [citation.excerpt[:2000]]
-        for observation in observations:
-            if publishable_catalog_span(observation) and supported_span(
-                observation, (citation,), (citation.id,)
-            ):
-                options.append(
-                    StyleOption(observation=observation, citation_ids=(citation.id,))
-                )
-    return tuple(options[:12])
 
 
 class FoodStyleExpert:
@@ -87,8 +57,14 @@ class FoodStyleExpert:
                     if len(indices) != len(batch) or set(indices) != set(
                         range(len(batch))
                     ):
-                        raise ValueError(
-                            "Analysis must cover every batch candidate exactly once"
+                        expected = set(range(len(batch)))
+                        raise GroundingError(
+                            "Return every batch candidate_index exactly once. "
+                            f"Expected indices={sorted(expected)}; "
+                            f"missing={sorted(expected - set(indices))}; "
+                            f"unexpected={sorted(set(indices) - expected)}; "
+                            f"duplicates={sorted(i for i in set(indices) if indices.count(i) > 1)}. "
+                            "Copy the explicit indices from grounded_options; indices reset each batch."
                         )
                     for selection in result.selections:
                         if (
@@ -96,7 +72,12 @@ class FoodStyleExpert:
                             and selection.option_index
                             >= len(options[selection.candidate_index])
                         ):
-                            raise ValueError("Unknown source option")
+                            raise GroundingError(
+                                f"candidate_index={selection.candidate_index}: "
+                                "option_index must be null or one of "
+                                f"{list(range(len(options[selection.candidate_index])))}. "
+                                "Copy an explicit option_index from grounded_options."
+                            )
 
                 result = await structured(
                     self.inference,
@@ -104,7 +85,21 @@ class FoodStyleExpert:
                     {
                         "profile": profile,
                         "candidates": batch,
-                        "grounded_options": options,
+                        "grounded_options": tuple(
+                            {
+                                "candidate_index": index,
+                                "options": tuple(
+                                    {
+                                        "option_index": option_index,
+                                        **option.model_dump(),
+                                    }
+                                    for option_index, option in enumerate(
+                                        candidate_options
+                                    )
+                                ),
+                            }
+                            for index, candidate_options in enumerate(options)
+                        ),
                     },
                     TypeAdapter(StyleSelections),
                     validate=validate,
