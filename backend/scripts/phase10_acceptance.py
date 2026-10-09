@@ -89,18 +89,13 @@ class FixtureInference:
         if "deterministic_assessments" in context:
             return json.dumps({"assessments": context["deterministic_assessments"]})
         if "eligible_candidates" in context:
-            return json.dumps(
-                {
-                    "recommendations": [
-                        {
-                            "entity": c["evidence"]["entity"],
-                            "explanation": c["evidence"]["citations"][0]["excerpt"],
-                            "citation_ids": [c["evidence"]["citations"][0]["id"]],
-                        }
-                        for c in context["eligible_candidates"][:5]
-                    ]
-                }
-            )
+            indices, counts = [], {}
+            for option in context["grounded_recommendations"]:
+                category = option["entity"]["category"]
+                counts[category] = counts.get(category, 0) + 1
+                if counts[category] <= 5:
+                    indices.append(option["recommendation_index"])
+            return json.dumps({"recommendation_indices": indices})
         if "candidates" in context:
             return json.dumps(
                 {
@@ -108,7 +103,7 @@ class FixtureInference:
                         {
                             "candidate_index": index,
                             "option_index": 0
-                            if context["grounded_options"][index]
+                            if context["grounded_options"][index]["options"]
                             else None,
                         }
                         for index, _ in enumerate(context["candidates"])

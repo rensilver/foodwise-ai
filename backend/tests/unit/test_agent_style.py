@@ -138,3 +138,50 @@ async def test_repeated_ungrounded_style_exhausts_repairs_without_publishing():
         current_budget.reset(token)
     assert result.status == "unavailable"
     assert len(calls) == 2
+
+
+@pytest.mark.asyncio
+async def test_missing_and_out_of_range_indices_receive_exact_repair_feedback():
+    from food_recommender.application.recommendations.reliability import (
+        RunBudget,
+        RunLimits,
+        current_budget,
+    )
+
+    candidates = tuple(candidate(f"recipe:{i}") for i in range(10))
+    calls = []
+
+    class RepairReply:
+        async def generate(self, messages, schema, *, image=None):
+            calls.append(messages.copy())
+            context = json.loads(messages[1]["content"])
+            options = context["grounded_options"]
+            assert [item["candidate_index"] for item in options] == list(range(10))
+            assert options[0]["options"][0]["option_index"] == 0
+            if len(calls) == 1:
+                indices = [0, 1, 2, 3, 5, 6, 7, 8, 9, 10]
+            else:
+                feedback = messages[-1]["content"]
+                assert "missing=[4]" in feedback
+                assert "unexpected=[10]" in feedback
+                assert "exactly once" in feedback
+                indices = list(range(10))
+            return json.dumps(
+                {
+                    "selections": [
+                        {"candidate_index": index, "option_index": 0}
+                        for index in indices
+                    ]
+                }
+            )
+
+    token = current_budget.set(RunBudget(RunLimits(schema_repairs=1)))
+    try:
+        result = await FoodStyleExpert(RepairReply()).run(
+            ProfileResult((Category.RECIPE,), Preferences()), candidates
+        )
+    finally:
+        current_budget.reset(token)
+    assert isinstance(result, AgentSuccess)
+    assert len(result.result.assessments) == 10
+    assert len(calls) == 2

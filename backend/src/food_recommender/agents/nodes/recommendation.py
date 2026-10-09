@@ -1,11 +1,18 @@
 """Bounded synthesis; canonical constraints and citation grounding before publishing."""
 
-from dataclasses import replace
+from collections import Counter
+from dataclasses import asdict, replace
+from typing import Annotated
 
-from pydantic import ConfigDict, TypeAdapter
+from pydantic import BaseModel, ConfigDict, Field, TypeAdapter, ValidationError
 
+from food_recommender.agents.catalog_quotes import source_options
 from food_recommender.agents.prompts import RECOMMENDATION
-from food_recommender.agents.structured import structured
+from food_recommender.agents.structured import (
+    GroundingError,
+    schema_feedback,
+    structured,
+)
 from food_recommender.application.recommendations.evidence_rules import (
     publishable_catalog_span,
     supported_span,
@@ -32,20 +39,26 @@ from food_recommender.domain.recommendations import (
 from food_recommender.domain.values import EvidenceState, Strength
 from food_recommender.retrieval.late_fusion import FusedCandidate
 
-type RecommendationContract = RecommendationResult
-RESULT_ADAPTER: TypeAdapter[RecommendationResult] = TypeAdapter(
-    RecommendationContract, config=ConfigDict(extra="forbid", strict=True)
-)
+
+class RecommendationSelection(BaseModel):
+    """Internal generation contract; public recommendations remain domain objects."""
+
+    model_config = ConfigDict(extra="forbid", strict=True)
+    recommendation_indices: tuple[Annotated[int, Field(ge=0)], ...] = Field(
+        max_length=10
+    )
+
+
+SELECTION_ADAPTER = TypeAdapter(RecommendationSelection)
 
 
 def quoted_recommendations(
     candidates: tuple[FusedCandidate, ...], style: ExpertOutcome[StyleAnalysis]
 ) -> tuple[Recommendation, ...]:
-    if not isinstance(style, AgentSuccess):
-        return ()
     by_entity = {c.evidence.entity: c for c in candidates}
     options = []
-    for assessment in style.result.assessments:
+    assessments = style.result.assessments if isinstance(style, AgentSuccess) else ()
+    for assessment in assessments:
         candidate = by_entity.get(assessment.entity)
         if candidate is None:
             continue
@@ -59,6 +72,20 @@ def quoted_recommendations(
                     )
                 )
                 break
+    # Style may be unavailable or lack a grounded observation for some candidates.
+    # Supply only validated catalog facts; synthesis still selects and is revalidated.
+    covered = {option.entity for option in options}
+    for candidate in candidates:
+        if candidate.evidence.entity in covered:
+            continue
+        quotations = source_options(candidate)
+        if quotations:
+            quote = quotations[0]
+            options.append(
+                Recommendation(
+                    candidate.evidence.entity, quote.observation, quote.citation_ids
+                )
+            )
     return tuple(options)
 
 
@@ -106,27 +133,29 @@ class RecommendationExpert:
                 )
             )
         )
-        if not eligible:
+        grounded = quoted_recommendations(eligible, style)
+        if not grounded:
             return AgentSuccess(
                 RecommendationResult(
                     (),
                     (
                         *limitations,
-                        "Insufficient eligible catalog evidence under unchanged constraints",
+                        "Insufficient eligible, publishable catalog evidence under unchanged constraints",
                     ),
                 )
             )
         repair = None
         for attempt in range(2):
             try:
-                result = await structured(
+                selection = await structured(
                     self.inference,
                     RECOMMENDATION,
                     {
                         "profile": profile,
                         "eligible_candidates": eligible,
-                        "grounded_recommendations": quoted_recommendations(
-                            eligible, style
+                        "grounded_recommendations": tuple(
+                            {"recommendation_index": index, **asdict(option)}
+                            for index, option in enumerate(grounded)
                         ),
                         "trend": trend,
                         "style": style,
@@ -134,16 +163,44 @@ class RecommendationExpert:
                         "authoritative_nutrition": authoritative,
                         "repair": repair,
                     },
-                    RESULT_ADAPTER,
+                    SELECTION_ADAPTER,
                     repairs=0,
                 )
+                indices = selection.recommendation_indices
+                if len(set(indices)) != len(indices) or any(
+                    index >= len(grounded) for index in indices
+                ):
+                    raise GroundingError(
+                        "recommendation_indices must contain distinct indices from "
+                        f"{list(range(len(grounded)))}. Copy the supplied "
+                        "recommendation_index values; use [] if none qualify."
+                    )
+                selected = tuple(grounded[index] for index in indices)
+                if any(
+                    count > 5
+                    for count in Counter(
+                        item.entity.category for item in selected
+                    ).values()
+                ):
+                    raise GroundingError(
+                        "recommendation_indices selects more than five items in a "
+                        "category. Select at most five per category."
+                    )
+                result = RecommendationResult(selected)
                 evidence = tuple(c.evidence for c in eligible)
-                validate_recommendations(
-                    result, evidence, nutrition=authoritative, hard_constraints=hard
-                )
+                try:
+                    validate_recommendations(
+                        result, evidence, nutrition=authoritative, hard_constraints=hard
+                    )
+                except ValueError:
+                    raise GroundingError(
+                        "recommendations contains an ineligible entity or unsupported "
+                        "citation. Select only supplied recommendation_index values "
+                        "from grounded_recommendations."
+                    ) from None
                 by_entity = {c.evidence.entity: c for c in eligible}
                 items = []
-                for item in result.recommendations:
+                for index, item in enumerate(result.recommendations):
                     candidate = by_entity[item.entity]
                     if not publishable_catalog_span(
                         item.explanation
@@ -152,7 +209,12 @@ class RecommendationExpert:
                         candidate.evidence.citations,
                         item.citation_ids,
                     ):
-                        raise ValueError("Unsupported explanation")
+                        raise GroundingError(
+                            f"recommendations[{index}].explanation is not a publishable "
+                            "verbatim excerpt supported by its citation_ids. Copy the "
+                            "matching recommendation_index from grounded_recommendations; "
+                            "do not generate explanation text or add facts."
+                        )
                     known = next(
                         a for a in authoritative.assessments if a.entity == item.entity
                     )
@@ -173,6 +235,10 @@ class RecommendationExpert:
                 return AgentSuccess(RecommendationResult(tuple(items), limitations))
             except RunExhausted:
                 return AgentFailure("budget_exhausted")
+            except ValidationError as error:
+                repair = schema_feedback(error)
+            except GroundingError as error:
+                repair = str(error)
             except Exception:
-                repair = "Previous output failed validation. Use only eligible IDs, their citation IDs and verbatim supported excerpts; at most five unique items per category."
+                repair = "Previous output failed validation. Return recommendation_indices as an array of distinct supplied indices; at most five items per category. Do not generate recommendation objects or text."
         return AgentFailure("validation_failed")

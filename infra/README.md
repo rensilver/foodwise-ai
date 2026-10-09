@@ -29,7 +29,7 @@ retention/quota/rotation gates, use the [P11-11/12 operations guide](langfuse-op
 | --- | --- | --- |
 | `db` | Digest-pinned PostgreSQL 16.14/pgvector; extension and server health. | Internal `db:5432` only. |
 | `mcp` | FastMCP culinary retrieval/trend tools and resources; database/readable media readiness. | Internal `mcp:8001` only. |
-| `backend` | FastAPI recommendations/SSE, catalog, private images and local administration; readiness also requires MCP, schema/checkpoints and a provisioned MiniLM bundle. | `127.0.0.1:8000`. |
+| `backend` | FastAPI recommendations/SSE, catalog, private images and local administration; readiness also requires MCP, schema/checkpoints and a provisioned MiniLM bundle. | `127.0.0.1:8000` by default; host port configurable with `FOODWISE_BACKEND_PORT`. |
 | `frontend` | Next.js standalone meal workspace and same-origin API proxy; HTTP liveness. | `127.0.0.1:3000`. |
 
 Python, Node and uv base images have exact version tags and immutable digests.
@@ -61,7 +61,8 @@ same Compose files/project and credentials selected during setup:
 ```bash
 docker compose up -d --no-build --wait --wait-timeout 180
 docker compose ps
-curl --fail http://127.0.0.1:8000/api/v1/health/ready
+INFRA_BACKEND_ADDRESS="$(docker compose port backend 8000)"
+curl --fail "http://$INFRA_BACKEND_ADDRESS/api/v1/health/ready"
 curl --fail http://127.0.0.1:3000/health/live
 docker compose logs --tail 100 backend mcp db frontend
 docker compose restart backend

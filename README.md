@@ -211,6 +211,12 @@ chmod 600 .env
 
 Edit `.env` using the [configuration template](.env.example):
 
+If `.env` already exists, the copy command leaves it unchanged. Add any missing
+settings from `.env.example` to the root `.env`, preserving your existing keys.
+Compose reads `.env`, not `.env.example`, and requires nonempty
+`POSTGRES_PASSWORD`, `FOODWISE_DB_PASSWORD`, `ADMIN_PASSWORD_HASH`, and
+`OPENAI_API_KEY` before it can build or start any service.
+
 | Setting                               | Value to supply                                                                      |
 | ------------------------------------- | ------------------------------------------------------------------------------------ |
 | `OPENAI_API_KEY`                      | Your OpenAI API key with access to the configured models.                            |
@@ -225,8 +231,16 @@ Generate each database password independently with `openssl rand -hex 32`.
 Generate the administrator hash interactively from `backend/`:
 
 ```bash
+cd backend
 uv run --locked python -c 'from getpass import getpass; from argon2 import PasswordHasher; print(PasswordHasher(memory_cost=65536, time_cost=3, parallelism=1).hash(getpass("New local administrator password: ")))'
+cd ..
 ```
+
+Copy the complete generated hash into `.env` as `ADMIN_PASSWORD_HASH='...'`,
+replacing `...` with the hash; the single quotes preserve its dollar signs.
+After filling the required values, run `docker compose config --quiet` from
+the repository root. If it reports a missing variable, add or fill that setting
+before continuing. This check starts no services and makes no provider calls.
 
 Compose supplies internal database/MCP URLs and the mounted media path.
 `DATABASE_URL`, `MCP_SERVER_URL`, and `MEDIA_ROOT` in `.env` are used when running
@@ -296,7 +310,8 @@ setup python -m food_recommender.cli.image \
 
 docker compose up -d --no-build --wait --wait-timeout 180
 docker compose ps
-curl --fail http://127.0.0.1:8000/api/v1/health/ready
+SETUP_BACKEND_ADDRESS="$(docker compose port backend 8000)"
+curl --fail "http://$SETUP_BACKEND_ADDRESS/api/v1/health/ready"
 curl --fail http://127.0.0.1:3000/health/live
 ```
 
@@ -304,6 +319,14 @@ Open **[FoodWiseAI at http://127.0.0.1:3000](http://127.0.0.1:3000)**.
 The API is available at `http://127.0.0.1:8000/api/v1`; database and MCP services
 stay on the private Compose network. Ingestion and indexing are resumable and
 skip unchanged inputs.
+
+If startup reports `Bind for 127.0.0.1:8000 failed: port is already allocated`,
+set `FOODWISE_BACKEND_PORT=8002` in the root `.env` (or choose another free port)
+and rerun `docker compose up -d --no-build --wait --wait-timeout 180`.
+The API then uses `http://127.0.0.1:8002/api/v1`; the frontend remains on port
+3000 and its internal API connection is configured by Compose. Existing
+database/media volumes and indexes are retained; no rebuild or repeated setup
+is needed. Use `docker compose port backend 8000` to find the current address.
 
 Use `docker compose logs -f backend mcp frontend` for application logs and
 `docker compose down` to stop the stack while preserving database/media volumes.

@@ -46,23 +46,13 @@ class CulinaryReply:
         if "deterministic_assessments" in context:
             return json.dumps({"assessments": context["deterministic_assessments"]})
         if "eligible_candidates" in context:
-            items = []
-            counts = {}
-            for c in context["eligible_candidates"]:
-                entity = c["evidence"]["entity"]
-                category = entity["category"]
+            indices, counts = [], {}
+            for option in context["grounded_recommendations"]:
+                category = option["entity"]["category"]
                 counts[category] = counts.get(category, 0) + 1
-                if counts[category] > 5:
-                    continue
-                citation = c["evidence"]["citations"][0]
-                items.append(
-                    {
-                        "entity": entity,
-                        "explanation": citation["excerpt"],
-                        "citation_ids": [citation["id"]],
-                    }
-                )
-            return json.dumps({"recommendations": items})
+                if counts[category] <= 5:
+                    indices.append(option["recommendation_index"])
+            return json.dumps({"recommendation_indices": indices})
         if "candidates" in context:
             if self.broken_style:
                 raise RuntimeError("private provider response")
@@ -72,7 +62,7 @@ class CulinaryReply:
                         {
                             "candidate_index": index,
                             "option_index": 0
-                            if context["grounded_options"][index]
+                            if context["grounded_options"][index]["options"]
                             else None,
                         }
                         for index, _ in enumerate(context["candidates"])

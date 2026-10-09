@@ -76,7 +76,7 @@ services:
     volumes:
       - media_data:/var/lib/foodwise/media
       - ${MINILM_ROOT:-./.local-tmp/minilm}:/var/lib/foodwise/models/minilm:ro
-    ports: ["127.0.0.1:8000:8000"]
+    ports: ["127.0.0.1:${FOODWISE_BACKEND_PORT:-8000}:8000"]
     depends_on:
       db: {condition: service_healthy}
       mcp: {condition: service_healthy}
